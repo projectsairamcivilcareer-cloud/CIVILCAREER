@@ -2,163 +2,70 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>About | Civil Career</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-
-    <!-- NAVIGATION -->
-
     <nav class="navbar">
-
-        <div class="logo">
-            🏗️ CIVIL CAREER
-        </div>
-
+        <div class="logo">🏗️ CIVIL CAREER</div>
         <div class="nav-links">
-
-            <a href="/">Home</a>
-
-            <a href="/about">About</a>
-
-            <a href="#">Login</a>
-
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('login') }}">Login</a>
         </div>
-
     </nav>
 
-
-    <!-- ABOUT HERO -->
-
     <section class="hero">
-
         <div class="hero-content">
-
             <h1>ABOUT CIVIL CAREER</h1>
-
-            <h2>
-                Your Journey. Your Preparation. Your Career.
-            </h2>
-
+            <h2>Your Journey. Your Preparation. Your Career.</h2>
             <p>
                 CIVIL CAREER is a platform designed for Civil Engineering
                 students and aspirants who want to build a successful
                 academic and professional career.
             </p>
-
         </div>
-
     </section>
 
-
-    <!-- ABOUT CONTENT -->
-
     <section class="features">
-
         <h2>Why CIVIL CAREER?</h2>
-
         <div class="feature-container">
-
             <div class="feature-card">
-
                 <div class="icon">🎓</div>
-
                 <h3>For Students</h3>
-
-                <p>
-                    Useful resources for Diploma and B.Tech Civil
-                    Engineering students throughout their academic journey.
-                </p>
-
+                <p>Useful resources for Diploma and B.Tech Civil Engineering students throughout their academic journey.</p>
             </div>
-
-
             <div class="feature-card">
-
                 <div class="icon">🏆</div>
-
                 <h3>For GATE Aspirants</h3>
-
-                <p>
-                    Organize your GATE preparation with syllabus,
-                    study materials, previous papers and practice.
-                </p>
-
+                <p>Organize your GATE preparation with syllabus, study materials, previous papers and practice.</p>
             </div>
-
-
             <div class="feature-card">
-
                 <div class="icon">🏛️</div>
-
                 <h3>For Government Job Aspirants</h3>
-
-                <p>
-                    Prepare for SSC JE, JE, AE and State Government
-                    engineering examinations.
-                </p>
-
+                <p>Prepare for SSC JE, JE, AE and State Government engineering examinations.</p>
             </div>
-
-
             <div class="feature-card">
-
                 <div class="icon">📈</div>
-
                 <h3>Track Your Progress</h3>
-
-                <p>
-                    Keep track of practice, mock tests, scores and
-                    your overall preparation progress.
-                </p>
-
+                <p>Keep track of practice, mock tests, scores and your overall preparation progress.</p>
             </div>
-
         </div>
-
     </section>
-
-
-    <!-- MISSION -->
 
     <section class="features">
-
         <h2>Our Mission</h2>
-
         <p style="max-width: 800px; margin: auto; line-height: 1.8; color: #64748b;">
-
-            Our goal is to bring Civil Engineering education,
-            competitive examination preparation and career
-            opportunities together in one organized platform.
-
-            CIVIL CAREER is designed to help students understand
-            what to study, where to study, how to practice and
-            how to move towards their career goals.
-
+            Our goal is to bring Civil Engineering education, competitive examination preparation and career opportunities together in one organized platform.
+            CIVIL CAREER is designed to help students understand what to study, where to study, how to practice and how to move towards their career goals.
         </p>
-
     </section>
-
-
-    <!-- FOOTER -->
 
     <footer class="footer">
-
-        <p>
-            © 2026 CIVIL CAREER | Civil Engineering Career Platform
-        </p>
-
+        <p>© 2026 CIVIL CAREER | Civil Engineering Career Platform</p>
     </footer>
-
 </body>
-
 </html>

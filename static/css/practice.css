@@ -1,0 +1,285 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1e293b;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #111827;
+    padding: 22px 15px;
+}
+
+.logo {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.sidebar a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2563eb;
+    color: white;
+}
+
+.bottom-menu {
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 30px;
+    max-width: 1500px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin: 0 0 6px;
+    font-size: 30px;
+}
+
+.header p {
+    margin: 0;
+    color: #64748b;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dbeafe;
+    border-radius: 50%;
+}
+
+.user strong,
+.user small {
+    display: block;
+}
+
+.user small {
+    color: #64748b;
+    margin-top: 3px;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.hero-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ede9fe;
+    border-radius: 15px;
+    font-size: 38px;
+}
+
+.hero span {
+    font-size: 11px;
+    font-weight: bold;
+    color: #6d28d9;
+}
+
+.hero h2 {
+    margin: 7px 0;
+}
+
+.hero p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.section-title {
+    margin-bottom: 18px;
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.practice-card {
+    background: white;
+    padding: 24px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #1e293b;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.practice-card:hover {
+    transform: translateY(-4px);
+}
+
+.practice-card > div {
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+.practice-card span {
+    font-size: 10px;
+    font-weight: bold;
+    color: #64748b;
+}
+
+.practice-card h3 {
+    margin: 10px 0;
+}
+
+.practice-card p {
+    color: #64748b;
+    line-height: 1.6;
+    min-height: 70px;
+}
+
+.practice-card strong {
+    color: #2563eb;
+    font-size: 13px;
+}
+
+.content-box {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stats > div {
+    background: #f8fafc;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.stats span {
+    display: block;
+    font-size: 28px;
+}
+
+.stats strong {
+    display: block;
+    font-size: 25px;
+    margin: 8px 0;
+}
+
+.stats small {
+    color: #64748b;
+}
+
+.subjects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.subjects span {
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+    .practice-grid,
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .bottom-menu {
+        position: static;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .practice-grid,
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}

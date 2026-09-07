@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/login.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🏗️ CIVIL CAREER
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/about">About</a>
+
+            <a href="/login">Login</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- REGISTER -->
+
+    <main class="login-page">
+
+        <div class="login-container">
+
+            <div class="login-header">
+
+                <div class="login-icon">
+                    🎓
+                </div>
+
+                <h1>Create Account</h1>
+
+                <p>
+                    Join CIVIL CAREER and start your journey
+                </p>
+
+            </div>
+
+
+            <form method="POST" action="/register">
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EDUCATION -->
+
+                <div class="form-group">
+
+                    <label for="education">
+                        Education
+                    </label>
+
+                    <select
+                        id="education"
+                        name="education"
+                        required
+                    >
+
+                        <option value="">
+                            Select your qualification
+                        </option>
+
+                        <option value="Diploma">
+                            Diploma Civil Engineering
+                        </option>
+
+                        <option value="B.Tech">
+                            B.Tech Civil Engineering
+                        </option>
+
+                        <option value="GATE">
+                            GATE Aspirant
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="confirm_password">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    CREATE ACCOUNT
+
+                </button>
+
+            </form>
+
+
+            <div class="register-section">
+
+                <p>
+                    Already have an account?
+                </p>
+
+                <a href="/login">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <p>
+            © 2026 CIVIL CAREER | Civil Engineering Career Platform
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Previous Year Questions | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pyqs.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">📊 Dashboard</a>
+
+        <a href="/exams">📚 Exams</a>
+
+        <a href="/government-jobs">🏛️ Government Jobs</a>
+
+        <a href="/syllabus">📖 Syllabus</a>
+
+        <a href="/materials">📚 Materials</a>
+
+        <a href="/notifications">🔔 Notifications</a>
+
+        <a href="/practice" class="active">🎯 Practice</a>
+
+        <a href="/profile">👤 Profile</a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">🏠 Home</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <div class="back-link">
+                <a href="/practice">
+                    ← Back to Practice
+                </a>
+            </div>
+
+            <h1>Previous Year Questions</h1>
+
+            <p>
+                Practice previous year questions for
+                Civil Engineering examinations.
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong>{{ student_name }}</strong>
+
+                <small>{{ student_education }}</small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            📄
+        </div>
+
+        <div>
+
+            <span>PYQ PRACTICE</span>
+
+            <h2>
+                Previous Year Questions
+            </h2>
+
+            <p>
+                Select an examination to practice
+                previous year Civil Engineering questions.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h2 class="section-title">
+            🎯 Select Examination
+        </h2>
+
+
+        <div class="exam-grid">
+
+
+            <a href="/pyqs/gate"
+               class="exam-card">
+
+                <div class="exam-icon">
+                    🎓
+                </div>
+
+                <div class="exam-number">
+                    01
+                </div>
+
+                <h3>
+                    GATE
+                </h3>
+
+                <p>
+                    Graduate Aptitude Test in Engineering
+                    Civil Engineering PYQs.
+                </p>
+
+                <span class="start">
+                    Practice GATE PYQs →
+                </span>
+
+            </a>
+
+
+            <a href="/pyqs/ssc-je"
+               class="exam-card">
+
+                <div class="exam-icon">
+                    🏛️
+                </div>
+
+                <div class="exam-number">
+                    02
+                </div>
+
+                <h3>
+                    SSC JE
+                </h3>
+
+                <p>
+                    Previous year questions for
+                    SSC Junior Engineer.
+                </p>
+
+                <span class="start">
+                    Practice SSC JE PYQs →
+                </span>
+
+            </a>
+
+
+            <a href="/pyqs/je-ae"
+               class="exam-card">
+
+                <div class="exam-icon">
+                    🔧
+                </div>
+
+                <div class="exam-number">
+                    03
+                </div>
+
+                <h3>
+                    JE / AE
+                </h3>
+
+                <p>
+                    Junior Engineer and Assistant Engineer
+                    practice questions.
+                </p>
+
+                <span class="start">
+                    Practice JE / AE PYQs →
+                </span>
+
+            </a>
+
+
+            <a href="/pyqs/diploma"
+               class="exam-card">
+
+                <div class="exam-icon">
+                    🏫
+                </div>
+
+                <div class="exam-number">
+                    04
+                </div>
+
+                <h3>
+                    Diploma
+                </h3>
+
+                <p>
+                    Diploma Civil Engineering
+                    previous year questions.
+                </p>
+
+                <span class="start">
+                    Practice Diploma PYQs →
+                </span>
+
+            </a>
+
+
+            <a href="/pyqs/btech"
+               class="exam-card">
+
+                <div class="exam-icon">
+                    🎓
+                </div>
+
+                <div class="exam-number">
+                    05
+                </div>
+
+                <h3>
+                    B.Tech Civil
+                </h3>
+
+                <p>
+                    B.Tech Civil Engineering university
+                    and competitive questions.
+                </p>
+
+                <span class="start">
+                    Practice B.Tech PYQs →
+                </span>
+
+            </a>
+
+
+            <a href="/pyqs/government"
+               class="exam-card">
+
+                <div class="exam-icon">
+                    🇮🇳
+                </div>
+
+                <div class="exam-number">
+                    06
+                </div>
+
+                <h3>
+                    Government Exams
+                </h3>
+
+                <p>
+                    Civil Engineering questions from
+                    government recruitment examinations.
+                </p>
+
+                <span class="start">
+                    Practice Government PYQs →
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <section class="info-box">
+
+        <div class="info-icon">
+            💡
+        </div>
+
+        <div>
+
+            <h3>
+                How PYQ Practice Works
+            </h3>
+
+            <p>
+                Choose an examination above. We will
+                organize questions by year, subject and
+                topic so you can practice systematically.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

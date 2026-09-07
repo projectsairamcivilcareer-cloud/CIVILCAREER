@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+                <h2>📖 GATE {{ syllabus_year }} Civil Engineering Syllabus</h2>
+                <div class="syllabus-year-links">
+                    {% for year in gate_syllabi %}
+                    <a href="{{ url_for('gate', year=year) }}#gate-syllabus" class="{% if year == syllabus_year %}selected{% endif %}">GATE {{ year }}</a>
+                    {% endfor %}
+                </div>
+                <p>Use this year's subjects and topics as the boundary for GATE preparation and mock tests.</p>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/exams.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/gate.css') }}">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+            🏗️
+            <span>CIVIL CAREER</span>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams" class="active">
+                📚 Exams
+            </a>
+
+            <a href="#">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="#gate-syllabus">
+                📖 Syllabus
+            </a>
+
+            <a href="#">
+                📚 Materials
+            </a>
+
+            <a href="#">
+                🔔 Notifications
+            </a>
+
+            <a href="#">
+                🎯 Practice
+            </a>
+
+            <a href="#">
+                👤 Profile
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="dashboard-main">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    GATE Civil Engineering
+                </h1>
+
+                <p>
+                    Prepare systematically for GATE Civil Engineering.
+                </p>
+
+            </div>
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="gate-hero">
+
+            <div class="gate-icon">
+                🏆
+            </div>
+
+            <div>
+
+                <span class="gate-badge">
+                    COMPETITIVE EXAM
+                </span>
+
+                <h2>
+                    GATE Civil Engineering
+                </h2>
+
+                <p>
+                    Build your preparation through
+                    Engineering Mathematics, General Aptitude
+                    and Civil Engineering subjects.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- PREPARATION AREAS -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                📚 GATE Preparation Areas
+            </h2>
+
+            <div class="gate-grid">
+
+                <a href="#" class="gate-card">
+
+                    <div class="gate-card-icon">
+                        🧠
+                    </div>
+
+                    <h3>
+                        General Aptitude
+                    </h3>
+
+                    <p>
+                        Verbal and quantitative aptitude
+                        preparation.
+                    </p>
+
+                </a>
+
+
+                <a href="#" class="gate-card">
+
+                    <div class="gate-card-icon">
+                        📐
+                    </div>
+
+                    <h3>
+                        Engineering Mathematics
+                    </h3>
+
+                    <p>
+                        Mathematics concepts and
+                        problem-solving practice.
+                    </p>
+
+                </a>
+
+
+                <a href="#" class="gate-card">
+
+                    <div class="gate-card-icon">
+                        🏗️
+                    </div>
+
+                    <h3>
+                        Civil Engineering
+                    </h3>
+
+                    <p>
+                        Core Civil Engineering subjects
+                        for GATE preparation.
+                    </p>
+
+                </a>
+
+
+                <a href="#" class="gate-card">
+
+                    <div class="gate-card-icon">
+                        📄
+                    </div>
+
+                    <h3>
+                        Previous Year Papers
+                    </h3>
+
+                    <p>
+                        Organize and practice previous
+                        examination papers.
+                    </p>
+
+                </a>
+
+
+                <a href="#" class="gate-card">
+
+                    <div class="gate-card-icon">
+                        🎯
+                    </div>
+
+                    <h3>
+                        Practice
+                    </h3>
+
+                    <p>
+                        Topic-wise questions and
+                        subject practice.
+                    </p>
+
+                </a>
+
+
+                <a href="#" class="gate-card">
+
+                    <div class="gate-card-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        Mock Tests
+                    </h3>
+
+                    <p>
+                        Full-length and subject-wise
+                        mock test preparation.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- CORE SUBJECTS -->
+
+        <section class="dashboard-section">
+
+            <div class="gate-subject-box">
+
+                <h2>
+                    🏗️ Core Civil Engineering Subjects
+                </h2>
+
+                <p>
+                    These are the major areas that will form
+                    the Civil Engineering preparation section.
+                </p>
+
+                <div class="gate-subject-list">
+
+                    <span>📏 Engineering Mechanics</span>
+
+                    <span>⚙️ Strength of Materials</span>
+
+                    <span>🏢 Structural Analysis</span>
+
+                    <span>🧱 Concrete Structures</span>
+
+                    <span>🔩 Steel Structures</span>
+
+                    <span>🌍 Geotechnical Engineering</span>
+
+                    <span>💧 Fluid Mechanics</span>
+
+                    <span>💦 Hydrology & Water Resources</span>
+
+                    <span>🚧 Transportation Engineering</span>
+
+                    <span>🌱 Environmental Engineering</span>
+
+                    <span>📐 Geomatics / Surveying</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="dashboard-section" id="gate-syllabus">
+            <div class="gate-subject-box">
+                <h2>📖 GATE {{ syllabus_year }} Civil Engineering Syllabus</h2>
+                <div class="syllabus-year-links">
+                    {% for year in gate_syllabi %}
+                    <a href="{{ url_for('gate', year=year) }}#gate-syllabus" class="{% if year == syllabus_year %}selected{% endif %}">GATE {{ year }}</a>
+                    {% endfor %}
+                    <a href="{{ url_for('download_gate_syllabus', year=syllabus_year) }}" class="download-link">Download GATE {{ syllabus_year }} PDF</a>
+                </div>
+                <p>Use these subjects and topics as the boundary for GATE preparation and mock-test generation.</p>
+                <div class="gate-syllabus-list">
+                    {% for area in gate_syllabus %}
+                    <article class="gate-syllabus-item">
+                        <h3>{{ area.subject }}</h3>
+                        <ul>
+                            {% for topic in area.topics %}
+                            <li>{{ topic }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+
+        <!-- STUDY PLAN -->
+
+        <section class="dashboard-section">
+
+            <div class="gate-plan">
+
+                <h2>
+                    🎯 Preparation Workflow
+                </h2>
+
+                <div class="gate-plan-grid">
+
+                    <div>
+
+                        <span>01</span>
+
+                        <h3>
+                            Learn
+                        </h3>
+
+                        <p>
+                            Study concepts and fundamentals.
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <span>02</span>
+
+                        <h3>
+                            Practice
+                        </h3>
+
+                        <p>
+                            Solve topic-wise questions.
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <span>03</span>
+
+                        <h3>
+                            PYQs
+                        </h3>
+
+                        <p>
+                            Practice previous year questions.
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <span>04</span>
+
+                        <h3>
+                            Mock Test
+                        </h3>
+
+                        <p>
+                            Test speed, accuracy and preparation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- QUICK ACCESS -->
+
+        <section class="dashboard-section">
+
+            <div class="gate-tools">
+
+                <h2>
+                    🚀 GATE Quick Access
+                </h2>
+
+                <div class="gate-tool-list">
+
+                    <div>
+                        📖
+                        <strong>Notes</strong>
+                    </div>
+
+                    <div>
+                        🧮
+                        <strong>Formula Sheet</strong>
+                    </div>
+
+                    <div>
+                        📄
+                        <strong>PYQs</strong>
+                    </div>
+
+                    <div>
+                        🎯
+                        <strong>Practice</strong>
+                    </div>
+
+                    <div>
+                        📝
+                        <strong>Mock Tests</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

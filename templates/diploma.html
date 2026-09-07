@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Diploma Civil Engineering | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/exams.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/diploma.css') }}">
+
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+
+            🏗️
+
+            <span>CIVIL CAREER</span>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams" class="active">
+                📚 Exams
+            </a>
+
+            <a href="/government-jobs">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="/syllabus">
+                📖 Syllabus
+            </a>
+
+            <a href="/materials">
+                📚 Materials
+            </a>
+
+            <a href="/notifications">
+                🔔 Notifications
+            </a>
+
+            <a href="/practice">
+                🎯 Practice
+            </a>
+
+            <a href="/profile">
+                👤 Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Diploma Civil Engineering
+                </h1>
+
+                <p>
+                    Build your Civil Engineering fundamentals.
+                </p>
+
+            </div>
+
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE INTRO -->
+
+        <section class="diploma-hero">
+
+            <div class="diploma-hero-icon">
+                🎓
+            </div>
+
+            <div>
+
+                <h2>
+                    Diploma Civil Engineering
+                </h2>
+
+                <p>
+                    Explore Civil Engineering subjects,
+                    study resources and examination preparation.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- SUBJECTS -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Civil Engineering Subjects
+            </h2>
+
+            <div class="subject-grid">
+
+
+                <!-- 01 -->
+
+                <a href="/engineering-mathematics" class="subject-card">
+
+                    <div class="subject-number">
+                        01
+                    </div>
+
+                    <div class="subject-icon">
+                        📐
+                    </div>
+
+                    <h3>
+                        Engineering Mathematics
+                    </h3>
+
+                    <p>
+                        Mathematics concepts useful for
+                        engineering studies and problem solving.
+                    </p>
+
+                </a>
+
+
+                <!-- 02 -->
+
+                <a href="/building-materials" class="subject-card">
+
+                    <div class="subject-number">
+                        02
+                    </div>
+
+                    <div class="subject-icon">
+                        🧱
+                    </div>
+
+                    <h3>
+                        Building Materials
+                    </h3>
+
+                    <p>
+                        Study cement, concrete, bricks,
+                        timber, steel and other construction materials.
+                    </p>
+
+                </a>
+
+
+                <!-- 03 -->
+
+                <a href="/surveying" class="subject-card">
+
+                    <div class="subject-number">
+                        03
+                    </div>
+
+                    <div class="subject-icon">
+                        📏
+                    </div>
+
+                    <h3>
+                        Surveying
+                    </h3>
+
+                    <p>
+                        Learn surveying principles, instruments,
+                        measurements and field techniques.
+                    </p>
+
+                </a>
+
+
+                <!-- 04 -->
+
+                <a href="/building-construction" class="subject-card">
+
+                    <div class="subject-number">
+                        04
+                    </div>
+
+                    <div class="subject-icon">
+                        🏠
+                    </div>
+
+                    <h3>
+                        Building Construction
+                    </h3>
+
+                    <p>
+                        Understand construction methods,
+                        foundations, walls, roofs and finishes.
+                    </p>
+
+                </a>
+
+
+                <!-- 05 -->
+
+                <a href="/strength-of-materials" class="subject-card">
+
+                    <div class="subject-number">
+                        05
+                    </div>
+
+                    <div class="subject-icon">
+                        ⚙️
+                    </div>
+
+                    <h3>
+                        Strength of Materials
+                    </h3>
+
+                    <p>
+                        Study stress, strain, bending,
+                        shear force, torsion and structural behaviour.
+                    </p>
+
+                </a>
+
+
+                <!-- 06 -->
+
+                <a href="/fluid-mechanics" class="subject-card">
+
+                    <div class="subject-number">
+                        06
+                    </div>
+
+                    <div class="subject-icon">
+                        💧
+                    </div>
+
+                    <h3>
+                        Fluid Mechanics
+                    </h3>
+
+                    <p>
+                        Learn fluid properties, pressure,
+                        flow, pipes and hydraulic principles.
+                    </p>
+
+                </a>
+
+
+                <!-- 07 -->
+
+                <a href="/transportation-engineering" class="subject-card">
+
+                    <div class="subject-number">
+                        07
+                    </div>
+
+                    <div class="subject-icon">
+                        🚧
+                    </div>
+
+                    <h3>
+                        Transportation Engineering
+                    </h3>
+
+                    <p>
+                        Study highways, traffic engineering,
+                        railways and transportation systems.
+                    </p>
+
+                </a>
+
+
+                <!-- 08 -->
+
+                <a href="/environmental-engineering" class="subject-card">
+
+                    <div class="subject-number">
+                        08
+                    </div>
+
+                    <div class="subject-icon">
+                        🌱
+                    </div>
+
+                    <h3>
+                        Environmental Engineering
+                    </h3>
+
+                    <p>
+                        Explore water supply, wastewater,
+                        solid waste and environmental protection.
+                    </p>
+
+                </a>
+
+
+                <!-- 09 -->
+
+                <a href="/structural-engineering" class="subject-card">
+
+                    <div class="subject-number">
+                        09
+                    </div>
+
+                    <div class="subject-icon">
+                        🏢
+                    </div>
+
+                    <h3>
+                        Structural Engineering
+                    </h3>
+
+                    <p>
+                        Learn structural concepts related to
+                        concrete and engineering structures.
+                    </p>
+
+                </a>
+
+
+                <!-- 10 -->
+
+                <a href="/geotechnical-engineering" class="subject-card">
+
+                    <div class="subject-number">
+                        10
+                    </div>
+
+                    <div class="subject-icon">
+                        🌍
+                    </div>
+
+                    <h3>
+                        Geotechnical Engineering
+                    </h3>
+
+                    <p>
+                        Study soil properties, foundations,
+                        bearing capacity and soil mechanics.
+                    </p>
+
+                </a>
+
+
+                <!-- 11 -->
+
+                <a href="/irrigation-engineering" class="subject-card">
+
+                    <div class="subject-number">
+                        11
+                    </div>
+
+                    <div class="subject-icon">
+                        💦
+                    </div>
+
+                    <h3>
+                        Irrigation Engineering
+                    </h3>
+
+                    <p>
+                        Understand irrigation systems,
+                        canals, dams and water resources.
+                    </p>
+
+                </a>
+
+
+                <!-- 12 -->
+
+                <a href="/estimation-and-costing" class="subject-card">
+
+                    <div class="subject-number">
+                        12
+                    </div>
+
+                    <div class="subject-icon">
+                        🏗️
+                    </div>
+
+                    <h3>
+                        Estimation & Costing
+                    </h3>
+
+                    <p>
+                        Learn quantity estimation, costing,
+                        specifications and construction planning.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- PREPARATION -->
+
+        <section class="dashboard-section">
+
+            <div class="preparation-box">
+
+                <h2>
+                    🎯 Diploma Preparation
+                </h2>
+
+                <p>
+                    Select a subject to study concepts,
+                    notes, formulas, previous papers and
+                    practice questions.
+                </p>
+
+                <div class="preparation-items">
+
+                    <div>
+                        📖
+                        <strong>Notes</strong>
+                    </div>
+
+                    <div>
+                        🧮
+                        <strong>Formulas</strong>
+                    </div>
+
+                    <div>
+                        📝
+                        <strong>Practice</strong>
+                    </div>
+
+                    <div>
+                        📄
+                        <strong>Previous Papers</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</body>
+
+</html>

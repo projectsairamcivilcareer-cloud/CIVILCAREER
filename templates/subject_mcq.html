@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ subject_name }} | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/subject_mcq.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">📊 Dashboard</a>
+
+        <a href="/exams">📚 Exams</a>
+
+        <a href="/government-jobs">🏛️ Government Jobs</a>
+
+        <a href="/syllabus">📖 Syllabus</a>
+
+        <a href="/materials">📚 Materials</a>
+
+        <a href="/notifications">🔔 Notifications</a>
+
+        <a href="/practice" class="active">🎯 Practice</a>
+
+        <a href="/profile">👤 Profile</a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">🏠 Home</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <div class="back-link">
+                <a href="/subject-practice">
+                    ← All Subjects
+                </a>
+            </div>
+
+            <h1>{{ subject_name }}</h1>
+
+            <p>
+                Subject-wise Civil Engineering practice
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong>{{ student_name }}</strong>
+
+                <small>{{ student_education }}</small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <div class="info-grid">
+
+        <div class="info-card">
+
+            <span>📚</span>
+
+            <div>
+                <small>SUBJECT</small>
+                <strong>{{ subject_name }}</strong>
+            </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <span>❓</span>
+
+            <div>
+                <small>QUESTION</small>
+                <strong>
+                    {{ question_number }} / {{ total_questions }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <span>🏆</span>
+
+            <div>
+                <small>SCORE</small>
+                <strong>{{ score }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <section class="question-card">
+
+        <div class="question-label">
+            QUESTION {{ question_number }}
+        </div>
+
+
+        <h2>
+            {{ question.question }}
+        </h2>
+
+
+        <form method="POST"
+              action="{{ url_for('subject_mcq', subject_slug=subject_slug) }}">
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="A"
+                       required>
+
+                <span class="letter">A</span>
+
+                <span>
+                    {{ question.option_a }}
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="B">
+
+                <span class="letter">B</span>
+
+                <span>
+                    {{ question.option_b }}
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="C">
+
+                <span class="letter">C</span>
+
+                <span>
+                    {{ question.option_c }}
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="D">
+
+                <span class="letter">D</span>
+
+                <span>
+                    {{ question.option_d }}
+                </span>
+
+            </label>
+
+
+            <button type="submit">
+                Submit Answer →
+            </button>
+
+        </form>
+
+
+        {% if result %}
+
+        <div class="result
+            {% if result == 'Correct' %}
+                correct
+            {% else %}
+                wrong
+            {% endif %}">
+
+            {% if result == "Correct" %}
+
+                ✅ Correct Answer!
+
+            {% else %}
+
+                ❌ Wrong Answer!
+
+                <br>
+
+                Correct Answer:
+                <strong>{{ question.correct_answer }}</strong>
+
+            {% endif %}
+
+        </div>
+
+
+        <a href="{{ url_for(
+                'subject_mcq_next',
+                subject_slug=subject_slug
+            ) }}"
+           class="next-button">
+
+            Next Question →
+
+        </a>
+
+        {% endif %}
+
+    </section>
+
+
+    <div class="tip">
+
+        💡
+
+        <strong>Tip:</strong>
+
+        Understand the concept behind the answer,
+        not just the correct option.
+
+    </div>
+
+</main>
+
+</body>
+
+</html>

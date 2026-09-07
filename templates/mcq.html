@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MCQ Practice | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/mcq.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">📊 Dashboard</a>
+
+        <a href="/exams">📚 Exams</a>
+
+        <a href="/government-jobs">🏛️ Government Jobs</a>
+
+        <a href="/syllabus">📖 Syllabus</a>
+
+        <a href="/materials">📚 Materials</a>
+
+        <a href="/notifications">🔔 Notifications</a>
+
+        <a href="/practice" class="active">🎯 Practice</a>
+
+        <a href="/profile">👤 Profile</a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">🏠 Home</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <h1>MCQ Practice</h1>
+
+            <p>
+                Test your Civil Engineering knowledge.
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">👤</div>
+
+            <div>
+
+                <strong>{{ student_name }}</strong>
+
+                <small>{{ student_education }}</small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <div class="practice-info">
+
+        <div>
+            <span>📚</span>
+            <strong>Civil Engineering</strong>
+        </div>
+
+        <div>
+            <span>❓</span>
+            <strong>Question {{ question_number }}</strong>
+        </div>
+
+        <div>
+            <span>🏆</span>
+            <strong>Score: {{ score }}</strong>
+        </div>
+
+    </div>
+
+
+    <section class="question-card">
+
+        <div class="question-number">
+            QUESTION {{ question_number }}
+        </div>
+
+        <h2>
+            {{ question.question }}
+        </h2>
+
+
+        <form method="POST"
+              action="/mcq">
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="A"
+                       required>
+
+                <span class="letter">A</span>
+
+                <span>
+                    {{ question.option_a }}
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="B">
+
+                <span class="letter">B</span>
+
+                <span>
+                    {{ question.option_b }}
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="C">
+
+                <span class="letter">C</span>
+
+                <span>
+                    {{ question.option_c }}
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="D">
+
+                <span class="letter">D</span>
+
+                <span>
+                    {{ question.option_d }}
+                </span>
+
+            </label>
+
+
+            <button type="submit">
+                Submit Answer →
+            </button>
+
+        </form>
+
+
+        {% if result %}
+
+        <div class="result
+            {% if result == 'Correct' %}
+                correct
+            {% else %}
+                wrong
+            {% endif %}">
+
+            {% if result == 'Correct' %}
+
+                ✅ Correct Answer!
+
+            {% else %}
+
+                ❌ Wrong Answer!
+
+                <br>
+
+                Correct Answer:
+                <strong>{{ question.correct_answer }}</strong>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+        {% if result %}
+
+        <a href="/mcq/next"
+           class="next-button">
+
+            Next Question →
+
+        </a>
+
+        {% endif %}
+
+    </section>
+
+
+    <div class="tip">
+
+        💡 <strong>Tip:</strong>
+
+        Try to solve the question yourself before
+        checking the answer.
+
+    </div>
+
+</main>
+
+</body>
+
+</html>

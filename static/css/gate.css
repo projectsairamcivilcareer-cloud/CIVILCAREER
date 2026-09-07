@@ -1,0 +1,375 @@
+/* =================================
+   GATE HERO
+================================= */
+
+.gate-hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background: white;
+
+    padding: 28px;
+
+    border-radius: 15px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.gate-icon {
+    width: 75px;
+    height: 75px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fef3c7;
+
+    border-radius: 16px;
+
+    font-size: 40px;
+}
+
+.gate-badge {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    background: #fef3c7;
+
+    color: #92400e;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+.gate-hero h2 {
+    margin-bottom: 8px;
+}
+
+.gate-hero p {
+    color: #64748b;
+
+    line-height: 1.6;
+}
+
+
+/* =================================
+   GATE CARDS
+================================= */
+
+.gate-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.gate-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 13px;
+
+    text-decoration: none;
+
+    color: #1e293b;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s;
+}
+
+.gate-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 9px 22px rgba(0, 0, 0, 0.10);
+}
+
+.gate-card-icon {
+    font-size: 34px;
+
+    margin-bottom: 14px;
+}
+
+.gate-card h3 {
+    margin-bottom: 9px;
+}
+
+.gate-card p {
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =================================
+   SUBJECTS
+================================= */
+
+.gate-subject-box {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.gate-subject-box > p {
+    color: #64748b;
+
+    line-height: 1.6;
+
+    margin-bottom: 20px;
+}
+
+.gate-subject-list {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.gate-subject-list span {
+    background: #f1f5f9;
+
+    padding: 10px 14px;
+
+    border-radius: 20px;
+
+    color: #334155;
+
+    font-size: 13px;
+}
+
+
+/* =================================
+   PREPARATION WORKFLOW
+================================= */
+
+.gate-plan {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.gate-plan-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.gate-plan-grid > div {
+    text-align: center;
+
+    background: #f8fafc;
+
+    padding: 20px;
+
+    border-radius: 10px;
+}
+
+.gate-plan-grid span {
+    display: inline-flex;
+
+    width: 40px;
+    height: 40px;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #2563eb;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+.gate-plan-grid h3 {
+    margin-bottom: 7px;
+}
+
+.gate-plan-grid p {
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =================================
+   QUICK ACCESS
+================================= */
+
+.gate-tools {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.gate-tool-list {
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.gate-tool-list div {
+    background: #f8fafc;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.gate-tool-list strong {
+    display: block;
+
+    margin-top: 8px;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 1000px) {
+
+    .gate-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gate-plan-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gate-tool-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .gate-hero {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .gate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gate-plan-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gate-tool-list {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+.gate-syllabus-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.gate-syllabus-item {
+    padding: 18px;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.gate-syllabus-item h3 {
+    margin: 0 0 10px;
+    color: #1d4ed8;
+    font-size: 17px;
+}
+
+.gate-syllabus-item ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.gate-syllabus-item li + li {
+    margin-top: 8px;
+}
+
+@media (max-width: 800px) {
+    .gate-syllabus-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.syllabus-year-links {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 16px;
+}
+
+.syllabus-year-links a {
+    padding: 7px 12px;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    color: #1d4ed8;
+    text-decoration: none;
+    font-size: 13px;
+    background: #eff6ff;
+}
+
+.syllabus-year-links a.selected {
+    background: #2563eb;
+    color: white;
+}
+
+.syllabus-year-links a.download-link {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: white;
+}

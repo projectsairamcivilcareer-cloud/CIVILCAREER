@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Government Exams | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/exams.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/government_exams.css') }}">
+
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+
+            🏗️
+
+            <span>CIVIL CAREER</span>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams" class="active">
+                📚 Exams
+            </a>
+
+            <a href="#">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="#">
+                📖 Syllabus
+            </a>
+
+            <a href="#">
+                📚 Materials
+            </a>
+
+            <a href="#">
+                🔔 Notifications
+            </a>
+
+            <a href="#">
+                🎯 Practice
+            </a>
+
+            <a href="#">
+                👤 Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Government Exams
+                </h1>
+
+                <p>
+                    Prepare for Civil Engineering government examinations.
+                </p>
+
+            </div>
+
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="govt-hero">
+
+            <div class="govt-hero-icon">
+                🏛️
+            </div>
+
+            <div>
+
+                <span class="govt-badge">
+                    GOVERNMENT CAREER
+                </span>
+
+                <h2>
+                    Civil Engineering Government Exams
+                </h2>
+
+                <p>
+                    Explore examination categories commonly
+                    relevant to Civil Engineering aspirants.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- EXAM CATEGORIES -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                🏛️ Exam Categories
+            </h2>
+
+            <div class="govt-exam-grid">
+
+
+                <!-- SSC JE -->
+
+                <a href="#" class="govt-exam-card">
+
+                    <div class="govt-exam-icon">
+                        🏢
+                    </div>
+
+                    <span class="exam-tag">
+                        CENTRAL
+                    </span>
+
+                    <h3>
+                        SSC JE
+                    </h3>
+
+                    <p>
+                        Junior Engineer examination
+                        preparation for Civil Engineering.
+                    </p>
+
+                    <span class="exam-link">
+                        Explore Preparation →
+                    </span>
+
+                </a>
+
+
+                <!-- STATE JE -->
+
+                <a href="#" class="govt-exam-card">
+
+                    <div class="govt-exam-icon">
+                        🏛️
+                    </div>
+
+                    <span class="exam-tag">
+                        STATE
+                    </span>
+
+                    <h3>
+                        State JE
+                    </h3>
+
+                    <p>
+                        Junior Engineer opportunities
+                        conducted by state departments and boards.
+                    </p>
+
+                    <span class="exam-link">
+                        Explore Preparation →
+                    </span>
+
+                </a>
+
+
+                <!-- AE -->
+
+                <a href="#" class="govt-exam-card">
+
+                    <div class="govt-exam-icon">
+                        👷
+                    </div>
+
+                    <span class="exam-tag">
+                        ENGINEERING
+                    </span>
+
+                    <h3>
+                        Assistant Engineer
+                    </h3>
+
+                    <p>
+                        Preparation structure for
+                        Assistant Engineer examinations.
+                    </p>
+
+                    <span class="exam-link">
+                        Explore Preparation →
+                    </span>
+
+                </a>
+
+
+                <!-- STATE AE -->
+
+                <a href="#" class="govt-exam-card">
+
+                    <div class="govt-exam-icon">
+                        🏗️
+                    </div>
+
+                    <span class="exam-tag">
+                        STATE
+                    </span>
+
+                    <h3>
+                        State AE
+                    </h3>
+
+                    <p>
+                        State-level Assistant Engineer
+                        examination preparation.
+                    </p>
+
+                    <span class="exam-link">
+                        Explore Preparation →
+                    </span>
+
+                </a>
+
+
+                <!-- PSU -->
+
+                <a href="#" class="govt-exam-card">
+
+                    <div class="govt-exam-icon">
+                        ⚙️
+                    </div>
+
+                    <span class="exam-tag">
+                        ENGINEERING
+                    </span>
+
+                    <h3>
+                        PSU / Engineering Recruitment
+                    </h3>
+
+                    <p>
+                        Explore engineering recruitment
+                        preparation and technical subjects.
+                    </p>
+
+                    <span class="exam-link">
+                        Explore Preparation →
+                    </span>
+
+                </a>
+
+
+                <!-- OTHER -->
+
+                <a href="#" class="govt-exam-card">
+
+                    <div class="govt-exam-icon">
+                        📋
+                    </div>
+
+                    <span class="exam-tag">
+                        OTHER
+                    </span>
+
+                    <h3>
+                        Other Government Exams
+                    </h3>
+
+                    <p>
+                        Additional government examinations
+                        useful for Civil Engineering aspirants.
+                    </p>
+
+                    <span class="exam-link">
+                        Explore Preparation →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- PREPARATION -->
+
+        <section class="dashboard-section">
+
+            <div class="govt-preparation">
+
+                <h2>
+                    🎯 Common Preparation Areas
+                </h2>
+
+                <p>
+                    Build your preparation around technical
+                    Civil Engineering subjects, aptitude and
+                    examination-specific requirements.
+                </p>
+
+
+                <div class="preparation-grid">
+
+                    <div>
+
+                        <span>🏗️</span>
+
+                        <strong>
+                            Technical Subjects
+                        </strong>
+
+                        <small>
+                            Core Civil Engineering concepts.
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>🧠</span>
+
+                        <strong>
+                            General Aptitude
+                        </strong>
+
+                        <small>
+                            Reasoning and quantitative preparation.
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>📄</span>
+
+                        <strong>
+                            Previous Papers
+                        </strong>
+
+                        <small>
+                            Practice previous examination questions.
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>📝</span>
+
+                        <strong>
+                            Mock Tests
+                        </strong>
+
+                        <small>
+                            Test preparation and time management.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTE -->
+
+        <section class="dashboard-section">
+
+            <div class="govt-note">
+
+                <span>
+                    ℹ️
+                </span>
+
+                <div>
+
+                    <strong>
+                        Important
+                    </strong>
+
+                    <p>
+                        Government examination eligibility,
+                        syllabus, vacancies, dates and selection
+                        processes can differ by recruiting organization.
+                        We will add verified examination-specific
+                        information in the relevant sections later.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</body>
+
+</html>

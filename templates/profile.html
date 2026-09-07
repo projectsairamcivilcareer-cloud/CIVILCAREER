@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Profile | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/profile.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+
+    <nav>
+
+        <a href="/dashboard">
+            📊 Dashboard
+        </a>
+
+        <a href="/exams">
+            📚 Exams
+        </a>
+
+        <a href="/government-jobs">
+            🏛️ Government Jobs
+        </a>
+
+        <a href="/syllabus">
+            📖 Syllabus
+        </a>
+
+        <a href="/materials">
+            📚 Materials
+        </a>
+
+        <a href="/notifications">
+            🔔 Notifications
+        </a>
+
+        <a href="/practice">
+            🎯 Practice
+        </a>
+
+        <a href="/profile" class="active">
+            👤 Profile
+        </a>
+
+    </nav>
+
+
+    <div class="bottom-menu">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+        <a href="/logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div>
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p>
+                Manage your Civil Career student profile.
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         PROFILE HEADER
+    ================================================== -->
+
+    <section class="profile-header">
+
+
+        <div class="profile-avatar">
+
+            {% if profile_photo %}
+
+                <img
+                    src="{{ url_for('static', filename='images/profile_uploads/' + profile_photo) }}"
+                    alt="Profile photo">
+
+            {% else %}
+
+                👤
+
+            {% endif %}
+
+        </div>
+
+
+        <div>
+
+            <h2>
+                {{ student_name }}
+            </h2>
+
+            <p>
+                {{ student_education }}
+            </p>
+
+            <span>
+                CIVIL ENGINEERING STUDENT
+            </span>
+
+        </div>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="photo-form">
+
+            <input
+                type="hidden"
+                name="action"
+                value="photo">
+
+            <label for="profile-photo">
+                Profile photo
+            </label>
+
+            <input
+                id="profile-photo"
+                type="file"
+                name="profile_photo"
+                accept="image/jpeg,image/png,image/webp"
+                required>
+
+            <button type="submit">
+                Update Photo
+            </button>
+
+        </form>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PERSONAL DETAILS
+    ================================================== -->
+
+    <section class="content-box">
+
+
+        <h2>
+            👤 Personal Details
+        </h2>
+
+
+        <div class="details-grid">
+
+
+            <div>
+
+                <label>
+                    Name
+                </label>
+
+                <strong>
+                    {{ student_name }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Education
+                </label>
+
+                <strong>
+                    {{ student_education }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Account
+                </label>
+
+                <strong>
+                    Student
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Status
+                </label>
+
+                <strong class="active-status">
+                    Active
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <form
+            method="POST"
+            class="personal-edit-form">
+
+
+            <input
+                type="hidden"
+                name="action"
+                value="personal">
+
+
+            <label for="profile-name">
+                Name
+            </label>
+
+            <input
+                id="profile-name"
+                name="name"
+                value="{{ student_name }}"
+                required>
+
+
+            <label for="profile-email">
+                Email
+            </label>
+
+            <input
+                id="profile-email"
+                type="email"
+                name="email"
+                value="{{ student_email }}"
+                required>
+
+
+            <label for="profile-education">
+                Education
+            </label>
+
+            <input
+                id="profile-education"
+                name="education"
+                value="{{ student_education }}"
+                required>
+
+
+            <button type="submit">
+                Save Personal Details
+            </button>
+
+
+        </form>
+
+
+        {% if profile_error %}
+
+            <p class="profile-error">
+                {{ profile_error }}
+            </p>
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         EDUCATION
+    ================================================== -->
+
+    <section class="content-box">
+
+
+        <h2>
+            🎓 Education
+        </h2>
+
+
+        <div class="education-box">
+
+
+            <div class="education-icon">
+                🎓
+            </div>
+
+
+            <div>
+
+                <strong>
+                    {{ student_education }}
+                </strong>
+
+                <p>
+                    Civil Engineering
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         TARGET EXAM
+    ================================================== -->
+
+    <section class="content-box">
+
+
+        <h2>
+            🎯 Target Exam
+        </h2>
+
+
+        <form
+            method="POST"
+            class="target-grid profile-preference-form">
+
+
+            <input
+                type="hidden"
+                name="action"
+                value="target">
+
+
+            <div>
+
+                <span>
+                    🏆
+                </span>
+
+                <strong>
+                    Target Examination
+                </strong>
+
+                <label for="target-exam">
+                    Target Examination
+                </label>
+
+
+                <select
+                    id="target-exam"
+                    name="target_exam">
+
+
+                    {% for exam in [
+                        "GATE Civil Engineering",
+                        "SSC JE",
+                        "JE / AE",
+                        "Diploma Civil",
+                        "B.Tech Civil",
+                        "Government Exams"
+                    ] %}
+
+
+                        <option
+                            value="{{ exam }}"
+                            {% if target_exam == exam %}selected{% endif %}>
+
+                            {{ exam }}
+
+                        </option>
+
+
+                    {% endfor %}
+
+
+                </select>
+
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    🏛️
+                </span>
+
+                <strong>
+                    Career Goal
+                </strong>
+
+                <p>
+                    Government / Civil Engineering Career
+                </p>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-preference">
+
+                Save Target Exam
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROGRESS
+    ================================================== -->
+
+    <section class="content-box">
+
+
+        <h2>
+            📊 Progress
+        </h2>
+
+
+        <div class="progress-box">
+
+
+            <div class="progress-item">
+
+                <div>
+
+                    <span>
+                        Exam Preparation
+                    </span>
+
+                    <strong>
+                        {{ exam_progress }}%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        style="width: {{ exam_progress }}%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="progress-item">
+
+                <div>
+
+                    <span>
+                        Practice
+                    </span>
+
+                    <strong>
+                        {{ practice_progress }}%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        style="width: {{ practice_progress }}%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="progress-item">
+
+                <div>
+
+                    <span>
+                        Study Materials
+                    </span>
+
+                    <strong>
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div style="width: 0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         SCORES
+    ================================================== -->
+
+    <section class="content-box">
+
+
+        <h2>
+            🏆 Scores
+        </h2>
+
+
+        <div class="score-grid">
+
+
+            <div>
+
+                <span>
+                    📝
+                </span>
+
+                <strong>
+                    {{ tests_taken }}
+                </strong>
+
+                <small>
+                    Tests Taken
+                </small>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    🎯
+                </span>
+
+                <strong>
+                    {{ average_score }}%
+                </strong>
+
+                <small>
+                    Average Score
+                </small>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    🏆
+                </span>
+
+                <strong>
+                    {{ best_score }}%
+                </strong>
+
+                <small>
+                    Best Score
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROFESSIONAL RECENT MOCK TESTS
+    ================================================== -->
+
+    <section class="content-box recent-results">
+
+
+        <div class="recent-results-header">
+
+
+            <div class="recent-results-heading">
+
+                <div class="recent-results-icon">
+                    📝
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Recent Mock Tests
+                    </h2>
+
+                    <p>
+                        Track your latest mock-test performance
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('mock_tests') }}"
+                class="recent-view-all">
+
+                View All →
+
+            </a>
+
+
+        </div>
+
+
+
+        {% if recent_results %}
+
+
+            <div class="recent-results-list">
+
+
+                {% for result in recent_results %}
+
+
+                    <div class="recent-result-row">
+
+
+                        <!-- TEST ICON -->
+
+                        <div class="recent-result-icon">
+                            🎯
+                        </div>
+
+
+
+                        <!-- TEST INFORMATION -->
+
+                        <div class="recent-result-info">
+
+                            <strong>
+                                {{ result.exam_name }}
+                            </strong>
+
+                            <span>
+                                Civil Engineering Mock Test
+                            </span>
+
+                            <small>
+                                {{ result.created_at }}
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- SCORE -->
+
+                        <div class="recent-result-score">
+
+                            <strong>
+                                {{ result.percentage }}%
+                            </strong>
+
+                            <span>
+                                {{ result.score }} marks
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STATUS -->
+
+                        <div class="recent-result-status">
+
+                            <span class="status-dot">
+                            </span>
+
+                            Completed
+
+                        </div>
+
+
+
+                        <!-- DETAILS BUTTON -->
+
+                        <div class="recent-result-action">
+
+                            <a
+                                href="{{ url_for('mock_test_history', result_id=result['id']) }}"
+                                class="recent-details-btn">
+
+                                View Details
+                                →
+
+                            </a>
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-results">
+
+
+                <div class="empty-results-icon">
+                    📝
+                </div>
+
+
+                <h3>
+                    No Mock Tests Yet
+                </h3>
+
+
+                <p>
+                    Complete your first mock test to see your performance here.
+                </p>
+
+
+                <a
+                    href="{{ url_for('mock_tests') }}"
+                    class="start-mock-btn">
+
+                    Start Mock Test →
+
+                </a>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROFILE NOTE
+    ================================================== -->
+
+    <div class="profile-note">
+
+
+        <span>
+            ℹ️
+        </span>
+
+
+        <div>
+
+            <strong>
+                Profile Development
+            </strong>
+
+            <p>
+                Your personal details, target exam, progress,
+                and mock-test scores are saved to your profile.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

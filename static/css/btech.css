@@ -1,0 +1,300 @@
+/* =================================
+   B.TECH HERO
+================================= */
+
+.btech-hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btech-hero-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dbeafe;
+
+    border-radius: 15px;
+
+    font-size: 38px;
+}
+
+.btech-hero h2 {
+    margin-bottom: 7px;
+}
+
+.btech-hero p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+
+/* =================================
+   SECTION DESCRIPTION
+================================= */
+
+.section-description {
+    color: #64748b;
+    margin-top: -12px;
+    margin-bottom: 20px;
+}
+
+
+/* =================================
+   SEMESTER GRID
+================================= */
+
+.semester-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+
+.semester-card {
+    position: relative;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s;
+}
+
+.semester-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 9px 22px rgba(0, 0, 0, 0.10);
+}
+
+
+.semester-number {
+    position: absolute;
+
+    right: 20px;
+    top: 18px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #2563eb;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.semester-card h3 {
+    font-size: 19px;
+
+    margin-bottom: 15px;
+}
+
+
+.semester-card ul {
+    padding-left: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+.semester-card li {
+    color: #64748b;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+}
+
+
+.semester-button {
+    display: inline-block;
+
+    padding: 9px 15px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    text-decoration: none;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.semester-button:hover {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+/* =================================
+   CORE SUBJECTS
+================================= */
+
+.core-subject-box {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.core-subject-box > p {
+    color: #64748b;
+
+    line-height: 1.6;
+
+    margin-bottom: 20px;
+}
+
+
+.core-subject-list {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+
+.core-subject-list span {
+    background: #f1f5f9;
+
+    padding: 10px 14px;
+
+    border-radius: 20px;
+
+    color: #334155;
+
+    font-size: 13px;
+}
+
+
+/* =================================
+   STUDY TOOLS
+================================= */
+
+.study-tools {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+
+.study-tool-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+
+.study-tool-grid > div {
+    background: #f8fafc;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+
+.study-tool-grid span {
+    display: block;
+
+    font-size: 30px;
+
+    margin-bottom: 10px;
+}
+
+
+.study-tool-grid strong {
+    display: block;
+
+    margin-bottom: 7px;
+}
+
+
+.study-tool-grid p {
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 950px) {
+
+    .semester-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .study-tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .btech-hero {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .study-tool-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

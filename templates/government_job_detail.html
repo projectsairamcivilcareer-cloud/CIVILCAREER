@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job.organization }} | Government Jobs | Civil Career</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/government_jobs.css') }}">
+</head>
+<body>
+<aside class="sidebar">
+    <div class="dashboard-logo">🏗️ <span>CIVIL CAREER</span></div>
+    <nav class="sidebar-menu">
+        <a href="/dashboard">📊 Dashboard</a>
+        <a href="/exams">📚 Exams</a>
+        <a href="/government-jobs" class="active">🏛️ Government Jobs</a>
+        <a href="/syllabus">📖 Syllabus</a>
+        <a href="/materials">📚 Materials</a>
+        <a href="/notifications">🔔 Notifications</a>
+        <a href="/practice">🎯 Practice</a>
+        <a href="/profile">👤 Profile</a>
+    </nav>
+    <div class="sidebar-bottom"><a href="/">🏠 Home</a><a href="/logout">🚪 Logout</a></div>
+</aside>
+<main class="dashboard-main">
+    <header class="topbar">
+        <div><a class="back-link" href="{{ url_for('government_jobs') }}">← Government Jobs</a><h1>{{ job.organization }}</h1><p>{{ job.post_name }}</p></div>
+        <div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div>
+    </header>
+    <section class="job-detail-card">
+        <div class="job-card-heading"><div><span class="job-tag">{{ job.job_type }}</span><h2>{{ job.post_name }}</h2><p>{{ job.department }}</p></div><span class="job-status status-{{ job.display_status|lower|replace(' ', '-') }}">{{ job.display_status }}</span></div>
+        <div class="detail-grid">
+            <div><b>Organization</b><span>{{ job.organization }}</span></div><div><b>Vacancies</b><span>{{ job.vacancies or 'See notification' }}</span></div>
+            <div><b>Qualification</b><span>{{ job.qualification or 'See notification' }}</span></div><div><b>Branch</b><span>{{ job.branch or 'See notification' }}</span></div>
+            <div><b>Age Limit</b><span>{{ job.age_limit or 'See notification' }}</span></div><div><b>Age Relaxation</b><span>{{ job.age_relaxation or 'See notification' }}</span></div>
+            <div><b>Salary / Pay Level</b><span>{{ job.salary or job.pay_level or 'See notification' }}</span></div><div><b>Job Location</b><span>{{ job.job_location or 'See notification' }}</span></div>
+            <div><b>Application Start</b><span>{{ job.application_start or 'Not specified' }}</span></div><div><b>Application Last Date</b><span>{{ job.application_last_date or 'Not specified' }}</span></div>
+            <div><b>Exam Date</b><span>{{ job.exam_date or 'Not announced' }}</span></div><div><b>Application Fee</b><span>{{ job.application_fee or 'See notification' }}</span></div>
+            <div><b>Selection Process</b><span>{{ job.selection_process or 'See notification' }}</span></div><div><b>Notification Number</b><span>{{ job.notification_number or 'Not specified' }}</span></div>
+        </div>
+        <div class="official-source"><b>Official source:</b> {{ job.source }}<br><small>Last verified: {{ job.last_verified }}. Please verify details in the official notification.</small></div>
+        <div class="job-card-actions"><a href="{{ job.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notification</a><a href="{{ job.apply_url }}" target="_blank" rel="noopener noreferrer">Official Apply Link</a></div>
+    </section>
+</main>
+</body>
+</html>

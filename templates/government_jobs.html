@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Government Jobs | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/government_jobs.css') }}">
+
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+
+            🏗️
+
+            <span>CIVIL CAREER</span>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams">
+                📚 Exams
+            </a>
+
+            <a href="/government-jobs" class="active">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="#">
+                📖 Syllabus
+            </a>
+
+            <a href="#">
+                📚 Materials
+            </a>
+
+            <a href="#">
+                🔔 Notifications
+            </a>
+
+            <a href="#">
+                🎯 Practice
+            </a>
+
+            <a href="#">
+                👤 Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Government Jobs
+                </h1>
+
+                <p>
+                    Explore Civil Engineering government career opportunities.
+                </p>
+
+            </div>
+
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="jobs-hero">
+
+            <div class="jobs-hero-icon">
+                🏛️
+            </div>
+
+            <div>
+
+                <span class="jobs-badge">
+                    CIVIL ENGINEERING CAREERS
+                </span>
+
+                <h2>
+                    Government Jobs for Civil Engineers
+                </h2>
+
+                <p>
+                    Explore Junior Engineer, Assistant Engineer
+                    and state-level government career opportunities.
+                </p>
+
+            </div>
+
+        </section>
+
+        <section class="job-status-grid" aria-label="Government job status summary">
+            <div><strong>{{ counts.NEW }}</strong><span>New</span></div>
+            <div><strong>{{ counts.OPEN }}</strong><span>Open</span></div>
+            <div><strong>{{ counts['CLOSING SOON'] }}</strong><span>Closing Soon</span></div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="job-search-box">
+                <h2>🔎 Find Verified Civil Engineering Jobs</h2>
+                <p>Only opportunities with an official notification, official apply link, and source are shown.</p>
+                <form class="search-row" method="GET">
+                    <input name="search" value="{{ filters.search }}" placeholder="Search organization or post...">
+                    <select name="qualification">
+                        <option value="">All Qualifications</option>
+                        {% for value in ['Diploma', 'B.E.', 'B.Tech', 'M.E.', 'M.Tech'] %}
+                        <option value="{{ value }}" {% if filters.qualification == value %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="job_type">
+                        <option value="">All Job Types</option>
+                        {% for value in ['Central Government', 'State Government', 'PSU', 'Railway', 'Defence', 'SSC', 'UPSC', 'State PSC'] %}
+                        <option value="{{ value }}" {% if filters.job_type == value %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="status">
+                        <option value="">All Statuses</option>
+                        {% for value in ['NEW', 'OPEN', 'CLOSING SOON', 'EXAM DATE ANNOUNCED', 'CLOSED'] %}
+                        <option value="{{ value }}" {% if filters.status == value %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="dashboard-section verified-jobs-section">
+            <div class="section-heading-row">
+                <div>
+                    <h2>📋 Verified Government Jobs</h2>
+                    <p>Review the official notification before applying.</p>
+                </div>
+                <span class="verified-badge">OFFICIAL SOURCES ONLY</span>
+            </div>
+            {% if jobs %}
+            <div class="verified-job-list">
+                {% for job in jobs %}
+                <article class="verified-job-card">
+                    <div class="job-card-heading">
+                        <div>
+                            <span class="job-tag">{{ job.job_type }}</span>
+                            <h3>{{ job.organization }}</h3>
+                            <p>{{ job.post_name }}</p>
+                        </div>
+                        <span class="job-status status-{{ job.display_status|lower|replace(' ', '-') }}">{{ job.display_status }}</span>
+                    </div>
+                    <div class="job-facts">
+                        <span><b>Vacancies</b> {{ job.vacancies or 'As per notification' }}</span>
+                        <span><b>Qualification</b> {{ job.qualification or 'See official notification' }}</span>
+                        <span><b>Last Date</b> {{ job.application_last_date or 'Not specified' }}</span>
+                        <span><b>Salary</b> {{ job.salary or job.pay_level or 'See official notification' }}</span>
+                    </div>
+                    <div class="job-card-actions">
+                        <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>
+                        <a href="{{ job.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notification</a>
+                        <a href="{{ job.apply_url }}" target="_blank" rel="noopener noreferrer">Apply Officially</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="verified-empty-state">
+                <strong>No verified government job notifications are available yet.</strong>
+                <p>Notifications will appear only after an official recruitment source is verified. Please verify details in the official notification.</p>
+            </div>
+            {% endif %}
+        </section>
+
+
+    </main>
+
+</body>
+
+</html>

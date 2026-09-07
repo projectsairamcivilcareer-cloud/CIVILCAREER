@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>B.Tech Civil Engineering | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/exams.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/btech.css') }}">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+            🏗️
+            <span>CIVIL CAREER</span>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams" class="active">
+                📚 Exams
+            </a>
+
+            <a href="#">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="#">
+                📖 Syllabus
+            </a>
+
+            <a href="#">
+                📚 Materials
+            </a>
+
+            <a href="#">
+                🔔 Notifications
+            </a>
+
+            <a href="#">
+                🎯 Practice
+            </a>
+
+            <a href="#">
+                👤 Profile
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    B.Tech Civil Engineering
+                </h1>
+
+                <p>
+                    Explore Civil Engineering subjects
+                    and academic preparation.
+                </p>
+
+            </div>
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="btech-hero">
+
+            <div class="btech-hero-icon">
+                🏗️
+            </div>
+
+            <div>
+
+                <h1>
+                    B.Tech Civil Engineering
+                </h1>
+
+                <p>
+                    Build strong fundamentals across core
+                    Civil Engineering subjects and prepare
+                    for academic and competitive examinations.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- SEMESTERS -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                📚 Semester Structure
+            </h2>
+
+            <p class="section-description">
+                A common Civil Engineering learning structure.
+                Exact subjects may vary by university and regulation.
+            </p>
+
+
+            <div class="semester-grid">
+
+
+                <!-- SEMESTER 1 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Semester 1
+                    </h3>
+
+                    <ul>
+
+                        <li>Engineering Mathematics</li>
+
+                        <li>Engineering Physics</li>
+
+                        <li>Engineering Chemistry</li>
+
+                        <li>Basic Electrical Engineering</li>
+
+                        <li>Engineering Graphics</li>
+
+                    </ul>
+
+                    <a href="/semester-1" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 2 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Semester 2
+                    </h3>
+
+                    <ul>
+
+                        <li>Engineering Mathematics</li>
+
+                        <li>Engineering Mechanics</li>
+
+                        <li>Programming Fundamentals</li>
+
+                        <li>Basic Civil Engineering</li>
+
+                        <li>Engineering Workshop</li>
+
+                    </ul>
+
+                    <a href="/semester-2" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 3 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Semester 3
+                    </h3>
+
+                    <ul>
+
+                        <li>Strength of Materials</li>
+
+                        <li>Fluid Mechanics</li>
+
+                        <li>Surveying</li>
+
+                        <li>Building Materials</li>
+
+                        <li>Engineering Mathematics</li>
+
+                    </ul>
+
+                    <a href="/semester-3" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 4 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        04
+                    </div>
+
+                    <h3>
+                        Semester 4
+                    </h3>
+
+                    <ul>
+
+                        <li>Structural Analysis</li>
+
+                        <li>Geotechnical Engineering</li>
+
+                        <li>Transportation Engineering</li>
+
+                        <li>Hydrology</li>
+
+                        <li>Concrete Technology</li>
+
+                    </ul>
+
+                    <a href="/semester-4" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 5 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        05
+                    </div>
+
+                    <h3>
+                        Semester 5
+                    </h3>
+
+                    <ul>
+
+                        <li>Design of Reinforced Concrete</li>
+
+                        <li>Environmental Engineering</li>
+
+                        <li>Foundation Engineering</li>
+
+                        <li>Water Resources Engineering</li>
+
+                        <li>Construction Management</li>
+
+                    </ul>
+
+                    <a href="/semester-5" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 6 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        06
+                    </div>
+
+                    <h3>
+                        Semester 6
+                    </h3>
+
+                    <ul>
+
+                        <li>Steel Structure Design</li>
+
+                        <li>Advanced Transportation</li>
+
+                        <li>Wastewater Engineering</li>
+
+                        <li>Estimation and Costing</li>
+
+                        <li>Engineering Geology</li>
+
+                    </ul>
+
+                    <a href="/semester-6" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 7 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        07
+                    </div>
+
+                    <h3>
+                        Semester 7
+                    </h3>
+
+                    <ul>
+
+                        <li>Advanced Structural Engineering</li>
+
+                        <li>Construction Planning</li>
+
+                        <li>Advanced Foundation Engineering</li>
+
+                        <li>Elective Subjects</li>
+
+                        <li>Project Work</li>
+
+                    </ul>
+
+                    <a href="/semester-7" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+
+                <!-- SEMESTER 8 -->
+
+                <div class="semester-card">
+
+                    <div class="semester-number">
+                        08
+                    </div>
+
+                    <h3>
+                        Semester 8
+                    </h3>
+
+                    <ul>
+
+                        <li>Major Project</li>
+
+                        <li>Professional Practice</li>
+
+                        <li>Technical Electives</li>
+
+                        <li>Seminar</li>
+
+                        <li>Career Preparation</li>
+
+                    </ul>
+
+                    <a href="/semester-8" class="semester-button">
+                        View Semester
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CORE SUBJECTS -->
+
+        <section class="dashboard-section">
+
+            <div class="core-subject-box">
+
+                <h2>
+                    🏗️ Core Civil Engineering Areas
+                </h2>
+
+                <p>
+                    These areas are important for both
+                    academic learning and many competitive
+                    Civil Engineering examinations.
+                </p>
+
+                <div class="core-subject-list">
+
+            
+                    <span>📏 Surveying</span>
+
+                    <span>⚙️ Strength of Materials</span>
+
+                    <span>🏢 Structural Engineering</span>
+
+                    <span>🌍 Geotechnical Engineering</span>
+
+                    <span>💧 Fluid Mechanics</span>
+
+                    <span>🚧 Transportation Engineering</span>
+
+                    <span>🌱 Environmental Engineering</span>
+
+                    <span>💦 Water Resources</span>
+
+                    <span>🧱 Construction Materials</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STUDY TOOLS -->
+
+        <section class="dashboard-section">
+
+            <div class="study-tools">
+
+                <h2>
+                    🎯 B.Tech Study Tools
+                </h2>
+
+                <div class="study-tool-grid">
+
+                    <div>
+                        <span>📖</span>
+                        <strong>Notes</strong>
+                        <p>
+                            Subject-wise study notes.
+                        </p>
+                    </div>
+
+                    <div>
+                        <span>🧮</span>
+                        <strong>Formulas</strong>
+                        <p>
+                            Important Civil Engineering formulas.
+                        </p>
+                    </div>
+
+                    <div>
+                        <span>📝</span>
+                        <strong>Practice</strong>
+                        <p>
+                            Practice questions and MCQs.
+                        </p>
+                    </div>
+
+                    <div>
+                        <span>📄</span>
+                        <strong>Previous Papers</strong>
+                        <p>
+                            Previous examination papers.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

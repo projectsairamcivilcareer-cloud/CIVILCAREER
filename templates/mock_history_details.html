@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ result["exam_name"] }} - Mock Test Result</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+
+        /* =====================================
+           MAIN CONTAINER
+        ===================================== */
+
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 32px 24px 50px;
+        }
+
+
+        /* =====================================
+           TOP HEADER
+        ===================================== */
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 24px;
+        }
+
+        .title-section h1 {
+            margin: 0;
+
+            font-size: 28px;
+            font-weight: 700;
+
+            color: #14213d;
+        }
+
+        .title-section p {
+            margin: 7px 0 0;
+
+            font-size: 14px;
+            color: #718096;
+        }
+
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 10px 16px;
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            color: #334155;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+
+        /* =====================================
+           RESULT HERO
+        ===================================== */
+
+        .result-hero {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #1d4ed8
+            );
+
+            color: white;
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 24px rgba(37, 99, 235, 0.18);
+        }
+
+
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 20px;
+        }
+
+
+        .hero-title h2 {
+            margin: 0;
+
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .hero-title p {
+            margin: 8px 0 0;
+
+            opacity: 0.88;
+
+            font-size: 14px;
+        }
+
+
+        .percentage-box {
+            text-align: right;
+        }
+
+        .percentage-box .percentage {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .percentage-box span {
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            opacity: 0.85;
+        }
+
+
+        /* =====================================
+           STAT CARDS
+        ===================================== */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .stat-card {
+            background: white;
+
+            border: 1px solid #e6ebf2;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 3px 12px rgba(15, 23, 42, 0.04);
+        }
+
+
+        .stat-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            margin-bottom: 10px;
+        }
+
+
+        .stat-value {
+            font-size: 27px;
+
+            font-weight: 750;
+
+            color: #172033;
+        }
+
+
+        .stat-description {
+            margin-top: 5px;
+
+            font-size: 11px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =====================================
+           CONTENT GRID
+        ===================================== */
+
+        .content-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.4fr
+                1fr;
+
+            gap: 20px;
+        }
+
+
+        .card {
+            background: white;
+
+            border: 1px solid #e6ebf2;
+
+            border-radius: 12px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 3px 12px rgba(15, 23, 42, 0.04);
+        }
+
+
+        .card h3 {
+            margin: 0;
+
+            font-size: 16px;
+
+            color: #172033;
+        }
+
+
+        .card-subtitle {
+            margin: 6px 0 20px;
+
+            font-size: 12px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =====================================
+           SCORE PERFORMANCE
+        ===================================== */
+
+        .score-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+
+            font-size: 13px;
+        }
+
+
+        .score-row strong {
+            color: #172033;
+        }
+
+
+        .progress {
+            height: 9px;
+
+            background: #e8edf4;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 22px;
+        }
+
+
+        .progress-bar {
+            height: 100%;
+
+            width: {{ result["percentage"] }}%;
+
+            background: #2563eb;
+
+            border-radius: 20px;
+
+            transition: width 0.5s ease;
+        }
+
+
+        /* =====================================
+           ACCURACY
+        ===================================== */
+
+        .accuracy-circle {
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin: 10px auto 20px;
+
+            width: 130px;
+
+            height: 130px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    #2563eb
+                    {{ result["percentage"] }}%,
+                    #e8edf4
+                    {{ result["percentage"] }}%
+                );
+
+            position: relative;
+        }
+
+
+        .accuracy-circle::before {
+            content: "";
+
+            position: absolute;
+
+            width: 94px;
+
+            height: 94px;
+
+            border-radius: 50%;
+
+            background: white;
+        }
+
+
+        .accuracy-value {
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 22px;
+
+            font-weight: 750;
+
+            color: #172033;
+        }
+
+
+        .accuracy-text {
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================
+           DETAILS
+        ===================================== */
+
+        .detail-list {
+            margin-top: 15px;
+        }
+
+
+        .detail-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #edf1f5;
+
+            font-size: 13px;
+        }
+
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .detail-label {
+            color: #64748b;
+        }
+
+
+        .detail-value {
+            color: #172033;
+
+            font-weight: 650;
+
+            text-align: right;
+        }
+
+
+        /* =====================================
+           RESULT BREAKDOWN
+        ===================================== */
+
+        .breakdown {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+
+        .breakdown-item {
+            padding: 15px;
+
+            border-radius: 9px;
+
+            background: #f8fafc;
+
+            text-align: center;
+        }
+
+
+        .breakdown-item strong {
+            display: block;
+
+            font-size: 22px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .breakdown-item span {
+            font-size: 11px;
+
+            color: #64748b;
+        }
+
+
+        /* =====================================
+           ACTION BUTTONS
+        ===================================== */
+
+        .actions {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 22px;
+        }
+
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 650;
+
+            transition: 0.2s;
+        }
+
+
+        .btn-primary {
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+
+        .btn-secondary {
+            background: #eef2f7;
+
+            color: #334155;
+        }
+
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 35px;
+
+            font-size: 11px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 900px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 20px 14px 35px;
+            }
+
+            .top-header {
+                align-items: flex-start;
+
+                gap: 15px;
+
+                flex-direction: column;
+            }
+
+            .hero-top {
+                flex-direction: column;
+            }
+
+            .percentage-box {
+                text-align: left;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .breakdown {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- ==================================
+         HEADER
+    ================================== -->
+
+    <div class="top-header">
+
+        <div class="title-section">
+
+            <h1>
+                Mock Test History
+            </h1>
+
+            <p>
+                Detailed performance analysis
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="back-btn">
+
+            ← Back to Profile
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ==================================
+         RESULT HERO
+    ================================== -->
+
+    <div class="result-hero">
+
+        <div class="hero-top">
+
+            <div class="hero-title">
+
+                <h2>
+                    {{ result["exam_name"] }}
+                </h2>
+
+                <p>
+                    Civil Engineering Mock Test
+                </p>
+
+                <p>
+                    Attempted on {{ result["created_at"] }}
+                </p>
+
+            </div>
+
+
+            <div class="percentage-box">
+
+                <div class="percentage">
+                    {{ result["percentage"] }}%
+                </div>
+
+                <span>
+                    Overall Performance
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================
+         STATISTICS
+    ================================== -->
+
+    <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                📝 Total Questions
+            </div>
+
+            <div class="stat-value">
+                {{ result["total_questions"] }}
+            </div>
+
+            <div class="stat-description">
+                Questions in this test
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                ✓ Correct
+            </div>
+
+            <div class="stat-value">
+                {{ result["correct"] }}
+            </div>
+
+            <div class="stat-description">
+                Correct answers
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                ✕ Wrong
+            </div>
+
+            <div class="stat-value">
+                {{ result["wrong"] }}
+            </div>
+
+            <div class="stat-description">
+                Incorrect answers
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                ○ Unanswered
+            </div>
+
+            <div class="stat-value">
+                {{ result["unanswered"] }}
+            </div>
+
+            <div class="stat-description">
+                Questions not attempted
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==================================
+         MAIN CONTENT
+    ================================== -->
+
+    <div class="content-grid">
+
+
+        <!-- SCORE PERFORMANCE -->
+
+        <div class="card">
+
+            <h3>
+                Performance Overview
+            </h3>
+
+            <div class="card-subtitle">
+                Your overall result for this attempt
+            </div>
+
+
+            <div class="score-row">
+
+                <span>
+                    Overall Score
+                </span>
+
+                <strong>
+                    {{ result["percentage"] }}%
+                </strong>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-bar"></div>
+
+            </div>
+
+
+            <div class="breakdown">
+
+
+                <div class="breakdown-item">
+
+                    <strong>
+                        {{ result["correct"] }}
+                    </strong>
+
+                    <span>
+                        Correct
+                    </span>
+
+                </div>
+
+
+                <div class="breakdown-item">
+
+                    <strong>
+                        {{ result["wrong"] }}
+                    </strong>
+
+                    <span>
+                        Wrong
+                    </span>
+
+                </div>
+
+
+                <div class="breakdown-item">
+
+                    <strong>
+                        {{ result["unanswered"] }}
+                    </strong>
+
+                    <span>
+                        Unanswered
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ACCURACY -->
+
+        <div class="card">
+
+            <h3>
+                Accuracy
+            </h3>
+
+            <div class="card-subtitle">
+                Overall test performance
+            </div>
+
+
+            <div class="accuracy-circle">
+
+                <div class="accuracy-value">
+                    {{ result["percentage"] }}%
+                </div>
+
+            </div>
+
+
+            <div class="accuracy-text">
+                Overall Performance
+            </div>
+
+
+            <div class="detail-list">
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Score
+                    </span>
+
+                    <span class="detail-value">
+                        {{ result["score"] }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Exam
+                    </span>
+
+                    <span class="detail-value">
+                        {{ result["exam_name"] }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Attempt
+                    </span>
+
+                    <span class="detail-value">
+                        #{{ result["id"] }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==================================
+         ACTIONS
+    ================================== -->
+
+    <div class="actions">
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="btn btn-secondary">
+
+            ← Back to Profile
+
+        </a>
+
+
+        <a
+            href="{{ url_for('mock_tests') }}"
+            class="btn btn-primary">
+
+            Take Another Mock Test →
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ==================================
+         FOOTER
+    ================================== -->
+
+    <div class="footer">
+
+        Civil Career • Civil Engineering Learning & Competitive Exam Platform
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

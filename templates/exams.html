@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Exams | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/exams.css') }}">
+
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+
+            🏗️
+
+            <span>CIVIL CAREER</span>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams" class="active">
+                📚 Exams
+            </a>
+
+            <a href="/government-jobs">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="/syllabus">
+                📖 Syllabus
+            </a>
+
+            <a href="/materials">
+                📚 Materials
+            </a>
+
+            <a href="/notifications">
+                🔔 Notifications
+            </a>
+
+            <a href="/practice">
+                🎯 Practice
+            </a>
+
+            <a href="/profile">
+                👤 Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Civil Engineering Exams
+                </h1>
+
+                <p>
+                    Explore examinations and prepare for your career.
+                </p>
+
+            </div>
+
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- INTRO -->
+
+        <section class="exam-intro">
+
+            <h2>
+                Choose Your Examination
+            </h2>
+
+            <p>
+                CIVIL CAREER brings academic and competitive
+                examinations together in one place.
+            </p>
+
+        </section>
+
+
+        <!-- EXAM CARDS -->
+
+        <section class="exam-grid">
+
+
+            <!-- DIPLOMA -->
+
+            <div class="exam-card">
+
+                <div class="exam-icon">
+                    🎓
+                </div>
+
+                <span class="exam-tag">
+                    ACADEMIC
+                </span>
+
+                <h2>
+                    Diploma
+                </h2>
+
+                <p>
+                    Civil Engineering diploma students can
+                    explore subjects, syllabus, study resources
+                    and examination preparation.
+                </p>
+
+                <a href="/exams/diploma" class="exam-button">
+                    Explore Diploma
+                </a>
+
+            </div>
+
+
+            <!-- BTECH -->
+
+            <div class="exam-card">
+
+                <div class="exam-icon">
+                    🏗️
+                </div>
+
+                <span class="exam-tag">
+                    ACADEMIC
+                </span>
+
+                <h2>
+                    B.Tech Civil Engineering
+                </h2>
+
+                <p>
+                    Study Civil Engineering subjects, semester
+                    resources, important topics and preparation
+                    materials.
+                </p>
+
+                <a href="/exams/btech" class="exam-button">
+                    Explore B.Tech
+                </a>
+
+            </div>
+
+
+            <!-- GATE -->
+
+            <div class="exam-card featured">
+
+                <div class="exam-icon">
+                    🏆
+                </div>
+
+                <span class="exam-tag">
+                    COMPETITIVE
+                </span>
+
+                <h2>
+                    GATE Civil Engineering
+                </h2>
+
+                <p>
+                    Prepare for GATE Civil Engineering with
+                    syllabus, subjects, previous papers,
+                    practice and mock tests.
+                </p>
+
+                <a href="/exams/gate" class="exam-button">
+                    Explore GATE
+                </a>
+
+            </div>
+
+
+            <!-- GOVERNMENT -->
+
+            <div class="exam-card">
+
+                <div class="exam-icon">
+                    🏛️
+                </div>
+
+                <span class="exam-tag">
+                    GOVERNMENT
+                </span>
+
+                <h2>
+                    Government Exams
+                </h2>
+
+                <p>
+                    Explore government engineering examinations
+                    including JE, AE, SSC JE and State-level exams.
+                </p>
+
+                <a href="/exams/government" class="exam-button">
+                    Explore Government Exams
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- CAREER PATH -->
+
+        <section class="career-path">
+
+            <h2>
+                Civil Engineering Career Path
+            </h2>
+
+            <div class="path-container">
+
+                <div class="path-item">
+
+                    <span>01</span>
+
+                    <h3>
+                        Diploma
+                    </h3>
+
+                    <p>
+                        Build your technical foundation.
+                    </p>
+
+                </div>
+
+
+                <div class="path-arrow">
+                    →
+                </div>
+
+
+                <div class="path-item">
+
+                    <span>02</span>
+
+                    <h3>
+                        B.Tech
+                    </h3>
+
+                    <p>
+                        Develop advanced engineering knowledge.
+                    </p>
+
+                </div>
+
+
+                <div class="path-arrow">
+                    →
+                </div>
+
+
+                <div class="path-item">
+
+                    <span>03</span>
+
+                    <h3>
+                        GATE / Competitive Exams
+                    </h3>
+
+                    <p>
+                        Prepare for higher studies and government careers.
+                    </p>
+
+                </div>
+
+
+                <div class="path-arrow">
+                    →
+                </div>
+
+
+                <div class="path-item">
+
+                    <span>04</span>
+
+                    <h3>
+                        Career
+                    </h3>
+
+                    <p>
+                        Move towards your professional goal.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

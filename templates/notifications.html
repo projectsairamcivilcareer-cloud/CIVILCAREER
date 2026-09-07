@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/notifications.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">📊 Dashboard</a>
+
+        <a href="/exams">📚 Exams</a>
+
+        <a href="/government-jobs">🏛️ Government Jobs</a>
+
+        <a href="/syllabus">📖 Syllabus</a>
+
+        <a href="/materials">📚 Materials</a>
+
+        <a href="/notifications" class="active">
+            🔔 Notifications
+        </a>
+
+        <a href="/practice">
+            🎯 Practice
+        </a>
+
+        <a href="/profile">
+            👤 Profile
+        </a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">🏠 Home</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <h1>Notifications</h1>
+
+            <p>
+                Important Civil Engineering exam and career updates.
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">👤</div>
+
+            <div>
+
+                <strong>{{ student_name }}</strong>
+
+                <small>{{ student_education }}</small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            🔔
+        </div>
+
+        <div>
+
+            <span>STAY UPDATED</span>
+
+            <h2>
+                Latest Civil Career Updates
+            </h2>
+
+            <p>
+                Keep track of examinations, government jobs,
+                admit cards and results.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="notification-flow-chart" aria-label="Notification workflow">
+        <img
+            src="{{ url_for('static', filename='images/flow_chart.png') }}"
+            alt="Civil Career notification workflow flow chart"
+        >
+    </section>
+
+
+    <section class="notification-categories">
+
+        <h2 class="section-title">
+            🔔 Notification Categories
+        </h2>
+
+        <div class="category-grid">
+
+            <div class="category-card">
+
+                <div>📚</div>
+
+                <h3>Exam Notifications</h3>
+
+                <p>
+                    Examination announcements,
+                    applications and important updates.
+                </p>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <div>🏛️</div>
+
+                <h3>Job Notifications</h3>
+
+                <p>
+                    Government Civil Engineering
+                    recruitment updates.
+                </p>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <div>🎫</div>
+
+                <h3>Admit Cards</h3>
+
+                <p>
+                    Important information about
+                    examination admit cards.
+                </p>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <div>🏆</div>
+
+                <h3>Results</h3>
+
+                <p>
+                    Examination results and
+                    recruitment updates.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="content-box latest-updates">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    📢 Latest Updates
+                </h2>
+
+                <p>
+                    Important updates will appear here.
+                </p>
+
+            </div>
+
+            <span class="status">
+                READY
+            </span>
+
+        </div>
+
+
+        <div class="empty-state">
+
+            <div>
+                🔔
+            </div>
+
+            <h3>
+                Notification Center
+            </h3>
+
+            <p>
+                New exam, job, admit card and result
+                notifications will be displayed here.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="content-box notification-type-section">
+
+        <h2>
+            📌 Notification Types
+        </h2>
+
+        <div class="notification-types">
+
+            <div>
+                <span>📅</span>
+                <strong>Important Dates</strong>
+                <small>Application and examination dates</small>
+            </div>
+
+            <div>
+                <span>🎫</span>
+                <strong>Admit Cards</strong>
+                <small>Hall ticket announcements</small>
+            </div>
+
+            <div>
+                <span>📢</span>
+                <strong>Recruitment</strong>
+                <small>Government job announcements</small>
+            </div>
+
+            <div>
+                <span>🏆</span>
+                <strong>Results</strong>
+                <small>Exam and recruitment results</small>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

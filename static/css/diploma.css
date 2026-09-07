@@ -1,0 +1,208 @@
+/* =================================
+   DIPLOMA HERO
+================================= */
+
+.diploma-hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.diploma-hero-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dbeafe;
+
+    border-radius: 15px;
+
+    font-size: 38px;
+}
+
+.diploma-hero h2 {
+    margin-bottom: 7px;
+}
+
+.diploma-hero p {
+    color: #64748b;
+}
+
+
+/* =================================
+   SUBJECT GRID
+================================= */
+
+.subject-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+.subject-card {
+    position: relative;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: #1e293b;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s;
+}
+
+.subject-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 9px 22px rgba(0, 0, 0, 0.10);
+}
+
+
+.subject-number {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    font-size: 12px;
+
+    color: #94a3b8;
+
+    font-weight: bold;
+}
+
+
+.subject-icon {
+    font-size: 35px;
+
+    margin-bottom: 15px;
+}
+
+
+.subject-card h3 {
+    margin-bottom: 10px;
+
+    font-size: 18px;
+}
+
+
+.subject-card p {
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =================================
+   PREPARATION BOX
+================================= */
+
+.preparation-box {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.preparation-box h2 {
+    margin-bottom: 10px;
+}
+
+.preparation-box > p {
+    color: #64748b;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+}
+
+
+.preparation-items {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+
+.preparation-items div {
+    background: #f8fafc;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+.preparation-items strong {
+    display: block;
+
+    margin-top: 8px;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 1000px) {
+
+    .subject-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .preparation-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .subject-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .preparation-items {
+        grid-template-columns: 1fr;
+    }
+
+    .diploma-hero {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}

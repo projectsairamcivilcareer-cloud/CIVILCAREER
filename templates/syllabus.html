@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Syllabus | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/syllabus.css') }}">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🏗️ CIVIL CAREER
+        </div>
+
+        <nav>
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams">
+                📚 Exams
+            </a>
+
+            <a href="/government-jobs">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="/syllabus" class="active">
+                📖 Syllabus
+            </a>
+
+            <a href="/materials">
+                📚 Materials
+            </a>
+
+            <a href="/notifications">
+                🔔 Notifications
+            </a>
+
+            <a href="/practice">
+                🎯 Practice
+            </a>
+
+            <a href="/profile">
+                👤 Profile
+            </a>
+
+        </nav>
+
+        <div class="bottom-menu">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Syllabus
+                </h1>
+
+                <p>
+                    Your Civil Engineering study roadmap
+                </p>
+
+            </div>
+
+            <div class="user">
+
+                <div class="avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-icon">
+                📖
+            </div>
+
+            <div>
+
+                <span>
+                    STUDY PLANNER
+                </span>
+
+                <h2>
+                    Civil Engineering Syllabus
+                </h2>
+
+                <p>
+                    Organize your Diploma and B.Tech
+                    Civil Engineering preparation.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORIES -->
+
+        <section>
+
+            <h2 class="section-title">
+                📚 Syllabus Categories
+            </h2>
+
+            <div class="cards">
+
+
+                <a href="#civil-subjects" class="card">
+
+                    <div class="card-icon">
+                        🏗️
+                    </div>
+
+                    <span class="tag">
+                        DIPLOMA & B.TECH
+                    </span>
+
+                    <h3>
+                        Civil Subjects
+                    </h3>
+
+                    <p>
+                        Diploma and B.Tech Civil Engineering
+                        subjects, topics and study areas.
+                    </p>
+
+                    <strong>
+                        Explore Subjects →
+                    </strong>
+
+                </a>
+
+
+                <a href="#gate-syllabus" class="card">
+
+                    <div class="card-icon">
+                        🏆
+                    </div>
+
+                    <span class="tag">
+                        GATE
+                    </span>
+
+                    <h3>
+                        GATE Syllabus
+                    </h3>
+
+                    <p>
+                        GATE Civil Engineering subjects
+                        and preparation topics.
+                    </p>
+
+                    <strong>
+                        Explore GATE →
+                    </strong>
+
+                </a>
+
+
+                <a href="/competitive" class="card">
+
+                    <div class="card-icon">
+                        🏛️
+                    </div>
+
+                    <span class="tag">
+                        COMPETITIVE
+                    </span>
+
+                    <h3>
+                        Competitive Exams
+                    </h3>
+
+                    <p>
+                        SSC JE, JE, AE and other
+                        competitive examination topics.
+                    </p>
+
+                    <strong>
+                        Explore Exams →
+                    </strong>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- SUBJECTS -->
+
+        <section class="content-box" id="civil-subjects">
+
+            <h2>
+                🏗️ Civil Engineering Study Areas
+            </h2>
+
+            <p>
+                Major Civil Engineering subjects that will
+                be organized inside the platform.
+            </p>
+
+
+            <div class="subjects">
+
+                <span>📐 Engineering Mathematics</span>
+
+                <span>⚙️ Engineering Mechanics</span>
+
+                <span>💪 Strength of Materials</span>
+
+                <span>🏢 Structural Analysis</span>
+
+                <span>🧱 Concrete Technology</span>
+
+                <span>🔩 Steel Structures</span>
+
+                <span>🌍 Geotechnical Engineering</span>
+
+                <span>💧 Fluid Mechanics</span>
+
+                <span>🌊 Hydrology</span>
+
+                <span>🚧 Transportation Engineering</span>
+
+                <span>🌱 Environmental Engineering</span>
+
+                <span>📏 Surveying</span>
+
+            </div>
+
+        </section>
+
+        <section class="content-box gate-syllabus-content" id="gate-syllabus">
+            <h2>🏆 GATE Civil Engineering Syllabus</h2>
+            <div class="syllabus-year-links">
+                {% for year in gate_syllabi %}
+                <a href="{{ url_for('syllabus', year=year) }}#gate-syllabus" class="{% if year == syllabus_year %}selected{% endif %}">GATE {{ year }}</a>
+                {% endfor %}
+                <a href="{{ url_for('download_gate_syllabus', year=syllabus_year) }}" class="download-link">Download GATE {{ syllabus_year }} PDF</a>
+            </div>
+            <p>GATE {{ syllabus_year }} syllabus used for preparation and mock tests.</p>
+
+            {% for area in gate_syllabus %}
+            <div class="gate-syllabus-area">
+                <h3>{{ area.subject }}</h3>
+                <ul>
+                    {% for topic in area.topics %}
+                    <li>{{ topic }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </section>
+
+
+        <!-- STUDY FLOW -->
+
+        <section class="content-box">
+
+            <h2>
+                🎯 Study Flow
+            </h2>
+
+            <div class="flow">
+
+                <div>
+
+                    <b>01</b>
+
+                    <h3>
+                        Select
+                    </h3>
+
+                    <p>
+                        Choose your course or examination.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <b>02</b>
+
+                    <h3>
+                        Learn
+                    </h3>
+
+                    <p>
+                        Study concepts and topics.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <b>03</b>
+
+                    <h3>
+                        Practice
+                    </h3>
+
+                    <p>
+                        Solve questions and PYQs.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <b>04</b>
+
+                    <h3>
+                        Revise
+                    </h3>
+
+                    <p>
+                        Review notes and formulas.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTE -->
+
+        <div class="note">
+
+            <span>
+                ℹ️
+            </span>
+
+            <div>
+
+                <strong>
+                    Syllabus Information
+                </strong>
+
+                <p>
+                    Detailed syllabus content will be added
+                    course-wise and examination-wise.
+                    Official examination notifications should
+                    always be checked for the latest requirements.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Practice | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/practice.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">📊 Dashboard</a>
+
+        <a href="/exams">📚 Exams</a>
+
+        <a href="/government-jobs">🏛️ Government Jobs</a>
+
+        <a href="/syllabus">📖 Syllabus</a>
+
+        <a href="/materials">📚 Materials</a>
+
+        <a href="/notifications">🔔 Notifications</a>
+
+        <a href="/practice" class="active">🎯 Practice</a>
+
+        <a href="/profile">👤 Profile</a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">🏠 Home</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <h1>Practice</h1>
+
+            <p>
+                Improve your Civil Engineering preparation
+                through regular practice.
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">👤</div>
+
+            <div>
+
+                <strong>{{ student_name }}</strong>
+
+                <small>{{ student_education }}</small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            🎯
+        </div>
+
+        <div>
+
+            <span>PRACTICE CENTER</span>
+
+            <h2>
+                Practice. Improve. Succeed.
+            </h2>
+
+            <p>
+                Practice MCQs, subjects, previous questions
+                and complete mock tests.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h2 class="section-title">
+            🎯 Practice Categories
+        </h2>
+
+        <div class="practice-grid">
+
+            <a href="/mcq" class="practice-card">
+
+                <div>❓</div>
+
+                <span>QUICK PRACTICE</span>
+
+                <h3>MCQs</h3>
+
+                <p>
+                    Solve multiple-choice questions
+                    and test your knowledge.
+                </p>
+
+                <strong>
+                    Start MCQs →
+                </strong>
+
+            </a>
+
+
+            <a href="/subject-practice" class="practice-card">
+
+                <div>📚</div>
+
+                <span>SUBJECT WISE</span>
+
+                <h3>Subject Practice</h3>
+
+                <p>
+                    Practice individual Civil Engineering
+                    subjects and topics.
+                </p>
+
+                <strong>
+                    Practice Subjects →
+                </strong>
+
+            </a>
+
+
+            <a href="/pyqs" class="practice-card">
+
+                <div>📄</div>
+
+                <span>PREVIOUS QUESTIONS</span>
+
+                <h3>PYQs</h3>
+
+                <p>
+                    Practice previous examination
+                    questions.
+                </p>
+
+                <strong>
+                    Solve PYQs →
+                </strong>
+
+            </a>
+
+
+            <a href="/mock-tests" class="practice-card">
+
+                <div>⏱️</div>
+
+                <span>EXAM SIMULATION</span>
+
+                <h3>Mock Tests</h3>
+
+                <p>
+                    Attempt timed tests and
+                    evaluate your preparation.
+                </p>
+
+                <strong>
+                    Start Mock Test →
+                </strong>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section class="content-box">
+
+        <h2>
+            📊 Your Practice Dashboard
+        </h2>
+
+        <div class="stats">
+
+            <div>
+                <span>📝</span>
+                <strong>0</strong>
+                <small>Questions Attempted</small>
+            </div>
+
+            <div>
+                <span>🎯</span>
+                <strong>0%</strong>
+                <small>Accuracy</small>
+            </div>
+
+            <div>
+                <span>🏆</span>
+                <strong>0</strong>
+                <small>Tests Completed</small>
+            </div>
+
+            <div>
+                <span>📈</span>
+                <strong>0</strong>
+                <small>Best Score</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="content-box">
+
+        <h2>
+            🏗️ Practice Areas
+        </h2>
+
+        <div class="subjects">
+
+            <span>📐 Engineering Mathematics</span>
+
+            <span>💪 Strength of Materials</span>
+
+            <span>🏢 Structural Engineering</span>
+
+            <span>🧱 Concrete Technology</span>
+
+            <span>🌍 Geotechnical Engineering</span>
+
+            <span>💧 Fluid Mechanics</span>
+
+            <span>🚧 Transportation</span>
+
+            <span>🌱 Environmental Engineering</span>
+
+            <span>📏 Surveying</span>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

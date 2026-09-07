@@ -1,0 +1,789 @@
+/* =========================================================
+   CIVIL CAREER - PROFESSIONAL MOCK TEST THEME
+   LAYOUT / FUNCTIONALITY: UNCHANGED
+   ONLY COLOUR + VISUAL DESIGN IMPROVED
+   ========================================================= */
+
+:root {
+    --primary: #173b67;
+    --primary-dark: #0f2b4d;
+    --primary-light: #eaf2fb;
+
+    --accent: #f59e0b;
+    --accent-dark: #d97706;
+
+    --success: #16a34a;
+    --success-bg: #ecfdf3;
+
+    --review: #f59e0b;
+    --review-bg: #fff7ed;
+
+    --current: #2563eb;
+    --current-bg: #eff6ff;
+
+    --danger: #dc2626;
+
+    --text: #172033;
+    --text-light: #64748b;
+
+    --border: #d8e0ea;
+    --border-dark: #b8c5d5;
+
+    --background: #f4f7fb;
+    --white: #ffffff;
+
+    --shadow-sm: 0 2px 8px rgba(15, 43, 77, 0.06);
+    --shadow-md: 0 8px 25px rgba(15, 43, 77, 0.09);
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background: var(--background);
+}
+
+
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
+
+.mock-header {
+    background: var(--white);
+    border-bottom: 2px solid #dbe3ee;
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* CIVIL CAREER LOGO */
+
+.logo,
+.brand,
+.company-name {
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+
+/* TEST TITLE */
+
+.test-title,
+.exam-title,
+.mock-title {
+    color: var(--primary-dark);
+    font-weight: 800;
+    background: #ffffff;
+    border-color: var(--primary);
+}
+
+
+/* =========================================================
+   CALCULATOR BUTTON
+   ========================================================= */
+
+.calculator-btn,
+.calculator,
+button.calculator {
+    background: #ffffff;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary);
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.calculator-btn:hover,
+.calculator:hover,
+button.calculator:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+.timer,
+.timer-box,
+#timer {
+    background: linear-gradient(
+        135deg,
+        #fff7ed,
+        #ffffff
+    );
+
+    color: var(--primary-dark);
+
+    border: 2px solid var(--primary);
+
+    font-weight: 800;
+
+    box-shadow:
+        0 3px 10px rgba(15, 43, 77, 0.08);
+
+    letter-spacing: 0.5px;
+}
+
+
+/* Timer icon */
+
+.timer-icon {
+    color: var(--accent-dark);
+}
+
+
+/* =========================================================
+   MAIN QUESTION AREA
+   ========================================================= */
+
+.question-area,
+.question-container,
+.questions-section,
+.main-question {
+    background: var(--background);
+}
+
+
+/* Question number heading */
+
+.question-header,
+.question-count {
+    color: var(--primary-dark);
+    font-weight: 800;
+}
+
+
+/* Question divider */
+
+.question-header::after {
+    background: #dbe3ee;
+}
+
+
+/* =========================================================
+   QUESTION CARD
+   ========================================================= */
+
+.question-card {
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow: var(--shadow-md);
+
+    color: var(--text);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.question-card:hover {
+    border-color: #c5d2e2;
+
+    box-shadow:
+        0 10px 30px rgba(15, 43, 77, 0.11);
+}
+
+
+/* Question text */
+
+.question-text,
+.question {
+    color: var(--text);
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   QUESTION TYPE BADGE
+   ========================================================= */
+
+.question-type,
+.type-badge,
+.badge {
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    border: 1px solid #c8d9ed;
+
+    font-weight: 700;
+}
+
+
+/* MCQ */
+
+.mcq {
+    background: #eef6ff;
+    color: #17549a;
+}
+
+
+/* NAT */
+
+.nat {
+    background: #fff7ed;
+    color: #a35400;
+}
+
+
+/* =========================================================
+   ANSWER OPTIONS
+   ========================================================= */
+
+.option,
+.answer-option,
+.option-card {
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+    color: #334155;
+
+    border-radius: 9px;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+/* Hover */
+
+.option:hover,
+.answer-option:hover,
+.option-card:hover {
+    background: #f8fbff;
+
+    border-color: #8eabc9;
+
+    box-shadow:
+        0 4px 12px rgba(23, 59, 103, 0.08);
+
+    transform: translateY(-1px);
+}
+
+
+/* Selected option */
+
+.option.selected,
+.answer-option.selected,
+.option-card.selected {
+    background: var(--current-bg);
+
+    border: 2px solid var(--current);
+
+    color: var(--primary-dark);
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.12);
+}
+
+
+/* Radio button */
+
+input[type="radio"] {
+    accent-color: var(--current);
+}
+
+
+/* Option letter */
+
+.option-letter,
+.choice-letter {
+    background: #f1f5f9;
+
+    color: var(--primary);
+
+    border: 1px solid #cbd5e1;
+
+    font-weight: 800;
+}
+
+
+/* Selected letter */
+
+.selected .option-letter,
+.selected .choice-letter {
+    background: var(--current);
+
+    color: #ffffff;
+
+    border-color: var(--current);
+}
+
+
+/* =========================================================
+   NUMERICAL ANSWER INPUT
+   ========================================================= */
+
+input[type="number"],
+input[type="text"],
+.numerical-input,
+.answer-input {
+    background: #ffffff;
+
+    border: 1px solid var(--border-dark);
+
+    color: var(--text);
+
+    border-radius: 8px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+.numerical-input:focus,
+.answer-input:focus {
+    outline: none;
+
+    border-color: var(--current);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+/* Numerical label */
+
+.numerical-label {
+    color: var(--primary-dark);
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   RIGHT QUESTION NUMBER PANEL
+   ========================================================= */
+
+.question-sidebar,
+.question-panel,
+.question-numbers {
+    background: #ffffff;
+
+    border-left: 2px solid #d8e0ea;
+
+    box-shadow:
+        -5px 0 18px rgba(15, 43, 77, 0.05);
+}
+
+
+/* Sidebar title */
+
+.question-sidebar h2,
+.question-sidebar h3,
+.question-panel h2,
+.question-panel h3 {
+    color: var(--primary-dark);
+
+    font-weight: 800;
+
+    border-bottom: 1px solid #dbe3ee;
+}
+
+
+/* Progress text */
+
+.question-progress {
+    color: var(--text-light);
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   QUESTION NUMBER BUTTONS
+   ========================================================= */
+
+.question-number,
+.question-btn,
+.q-number {
+    background: #ffffff;
+
+    color: #334155;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 7px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+/* Hover */
+
+.question-number:hover,
+.question-btn:hover,
+.q-number:hover {
+    background: #eef5fc;
+
+    color: var(--primary);
+
+    border-color: #8da8c5;
+}
+
+
+/* CURRENT */
+
+.question-number.current,
+.question-btn.current,
+.q-number.current {
+    background: var(--current);
+
+    color: #ffffff;
+
+    border-color: var(--current);
+
+    box-shadow:
+        0 3px 8px rgba(37, 99, 235, 0.25);
+}
+
+
+/* ANSWERED */
+
+.question-number.answered,
+.question-btn.answered,
+.q-number.answered {
+    background: var(--success-bg);
+
+    color: #15803d;
+
+    border-color: #86efac;
+}
+
+
+/* MARKED FOR REVIEW */
+
+.question-number.review,
+.question-btn.review,
+.q-number.review,
+.question-number.marked,
+.question-btn.marked,
+.q-number.marked {
+    background: var(--review-bg);
+
+    color: #b45309;
+
+    border-color: #fbbf24;
+}
+
+
+/* ANSWERED + CURRENT */
+
+.question-number.current.answered,
+.question-btn.current.answered,
+.q-number.current.answered {
+    background: var(--current);
+
+    color: #ffffff;
+
+    border-color: var(--current);
+}
+
+
+/* =========================================================
+   SIDEBAR LEGEND
+   ========================================================= */
+
+.legend,
+.status-legend {
+    background: #ffffff;
+
+    border-top: 1px solid #dbe3ee;
+}
+
+
+/* Current */
+
+.legend-current,
+.status-current {
+    background: var(--current);
+
+    border: 1px solid var(--current);
+}
+
+
+/* Answered */
+
+.legend-answered,
+.status-answered {
+    background: #bbf7d0;
+
+    border: 1px solid #86efac;
+}
+
+
+/* Review */
+
+.legend-review,
+.status-review {
+    background: #fed7aa;
+
+    border: 1px solid #fbbf24;
+}
+
+
+/* =========================================================
+   BOTTOM CONTROL BAR
+   ========================================================= */
+
+.bottom-bar,
+.navigation-bar,
+.mock-footer {
+    background: #ffffff;
+
+    border-top: 2px solid var(--primary-dark);
+
+    box-shadow:
+        0 -4px 15px rgba(15, 43, 77, 0.06);
+}
+
+
+/* =========================================================
+   PREVIOUS BUTTON
+   ========================================================= */
+
+.previous-btn,
+.btn-previous {
+    background: #ffffff;
+
+    color: #64748b;
+
+    border-right: 1px solid #dbe3ee;
+
+    font-weight: 700;
+}
+
+
+.previous-btn:hover,
+.btn-previous:hover {
+    background: #f1f5f9;
+
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   MARK FOR REVIEW
+   ========================================================= */
+
+.review-btn,
+.mark-review,
+.mark-review-btn {
+    background: #ffffff;
+
+    color: var(--primary-dark);
+
+    font-weight: 700;
+
+    border-right: 1px solid #dbe3ee;
+}
+
+
+.review-btn:hover,
+.mark-review:hover,
+.mark-review-btn:hover {
+    background: var(--review-bg);
+
+    color: #b45309;
+}
+
+
+/* =========================================================
+   NEXT BUTTON
+   ========================================================= */
+
+.next-btn,
+.btn-next {
+    background: #ffffff;
+
+    color: var(--primary-dark);
+
+    font-weight: 800;
+
+    border-left: 1px solid #dbe3ee;
+}
+
+
+.next-btn:hover,
+.btn-next:hover {
+    background: var(--primary-light);
+
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
+
+.submit-btn,
+button[type="submit"] {
+    background: var(--primary);
+
+    color: #ffffff;
+
+    border: none;
+
+    font-weight: 800;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.submit-btn:hover,
+button[type="submit"]:hover {
+    background: var(--primary-dark);
+
+    box-shadow:
+        0 5px 15px rgba(15, 43, 77, 0.25);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eef2f7;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b8c5d5;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8fa2b8;
+}
+
+
+/* =========================================================
+   FULLSCREEN MESSAGE / OVERLAY
+   ========================================================= */
+
+.fullscreen-message,
+.fullscreen-overlay {
+    background: rgba(15, 23, 42, 0.72);
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   ERROR / WARNING
+   ========================================================= */
+
+.error-message {
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    border: 1px solid #fecaca;
+}
+
+
+.warning-message {
+    background: #fff7ed;
+
+    color: #b45309;
+
+    border: 1px solid #fed7aa;
+}
+
+
+/* =========================================================
+   SUCCESS
+   ========================================================= */
+
+.success-message {
+    background: #ecfdf5;
+
+    color: #15803d;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+/* =========================================================
+   BUTTON FOCUS
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   PROFESSIONAL TEXT RENDERING
+   ========================================================= */
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   DO NOT CHANGE POSITIONING / SIZING
+   =========================================================
+   The existing HTML controls the interface structure.
+   This section intentionally does not redefine:
+   - width
+   - height
+   - grid
+   - flex
+   - position
+   - margins
+   - question panel dimensions
+   - sidebar dimensions
+   - footer dimensions
+   ========================================================= */

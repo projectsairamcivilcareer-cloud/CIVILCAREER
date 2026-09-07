@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Subject Practice | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/subject_practice.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">📊 Dashboard</a>
+
+        <a href="/exams">📚 Exams</a>
+
+        <a href="/government-jobs">🏛️ Government Jobs</a>
+
+        <a href="/syllabus">📖 Syllabus</a>
+
+        <a href="/materials">📚 Materials</a>
+
+        <a href="/notifications">🔔 Notifications</a>
+
+        <a href="/practice" class="active">
+            🎯 Practice
+        </a>
+
+        <a href="/profile">👤 Profile</a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">🏠 Home</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <div class="back-link">
+                <a href="/practice">← Back to Practice</a>
+            </div>
+
+            <h1>Subject Practice</h1>
+
+            <p>
+                Select a Civil Engineering subject and start practicing.
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong>{{ student_name }}</strong>
+
+                <small>{{ student_education }}</small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            📚
+        </div>
+
+        <div>
+
+            <span>SUBJECT WISE PRACTICE</span>
+
+            <h2>
+                Strengthen Your Technical Subjects
+            </h2>
+
+            <p>
+                Choose a subject to practice questions
+                topic by topic.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h2 class="section-title">
+            🏗️ Civil Engineering Subjects
+        </h2>
+
+
+        <div class="subject-grid">
+
+
+            <a href="/subject-practice/engineering-mathematics"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    📐
+                </div>
+
+                <div class="subject-number">
+                    01
+                </div>
+
+                <h3>
+                    Engineering Mathematics
+                </h3>
+
+                <p>
+                    Mathematics, calculus, algebra,
+                    probability and statistics.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/strength-of-materials"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    💪
+                </div>
+
+                <div class="subject-number">
+                    02
+                </div>
+
+                <h3>
+                    Strength of Materials
+                </h3>
+
+                <p>
+                    Stress, strain, bending moment,
+                    shear force and torsion.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/concrete-technology"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    🧱
+                </div>
+
+                <div class="subject-number">
+                    03
+                </div>
+
+                <h3>
+                    Concrete Technology
+                </h3>
+
+                <p>
+                    Cement, aggregates, concrete mix,
+                    properties and testing.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/structural-engineering"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    🏢
+                </div>
+
+                <div class="subject-number">
+                    04
+                </div>
+
+                <h3>
+                    Structural Engineering
+                </h3>
+
+                <p>
+                    Structural analysis, RCC,
+                    steel structures and design.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/geotechnical"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    🌍
+                </div>
+
+                <div class="subject-number">
+                    05
+                </div>
+
+                <h3>
+                    Geotechnical Engineering
+                </h3>
+
+                <p>
+                    Soil properties, foundations,
+                    bearing capacity and earth pressure.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/fluid-mechanics"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    💧
+                </div>
+
+                <div class="subject-number">
+                    06
+                </div>
+
+                <h3>
+                    Fluid Mechanics
+                </h3>
+
+                <p>
+                    Fluid properties, pressure,
+                    flow and hydraulic machines.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/transportation"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    🚧
+                </div>
+
+                <div class="subject-number">
+                    07
+                </div>
+
+                <h3>
+                    Transportation Engineering
+                </h3>
+
+                <p>
+                    Highway engineering, traffic,
+                    pavement and railway basics.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/environmental"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    🌱
+                </div>
+
+                <div class="subject-number">
+                    08
+                </div>
+
+                <h3>
+                    Environmental Engineering
+                </h3>
+
+                <p>
+                    Water supply, wastewater,
+                    treatment and pollution control.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+            <a href="/subject-practice/construction-management"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    📋
+                </div>
+
+                <div class="subject-number">
+                    09
+                </div>
+
+                <h3>
+                    Construction Management
+                </h3>
+
+                <p>
+                    Estimation, contracts, equipment,
+                    scheduling, PERT and CPM.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/surveying"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    📏
+                </div>
+
+                <div class="subject-number">
+                    09
+                </div>
+
+                <h3>
+                    Surveying
+                </h3>
+
+                <p>
+                    Chain surveying, leveling,
+                    theodolite and total station.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+            <a href="/subject-practice/construction-materials"
+               class="subject-card">
+
+                <div class="subject-icon">
+                    🏗️
+                </div>
+
+                <div class="subject-number">
+                    10
+                </div>
+
+                <h3>
+                    Construction Materials
+                </h3>
+
+                <p>
+                    Bricks, cement, timber, steel
+                    and modern construction materials.
+                </p>
+
+                <span class="start">
+                    Practice Questions →
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <section class="info-box">
+
+        <div class="info-icon">
+            💡
+        </div>
+
+        <div>
+
+            <h3>
+                How Subject Practice Works
+            </h3>
+
+            <p>
+                Select a subject above to practice
+                questions related to that Civil Engineering
+                subject. Your scores and progress will
+                be connected to your student profile
+                as we build the practice system.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

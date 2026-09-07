@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Materials | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/materials.css') }}">
+
+</head>
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🏗️ CIVIL CAREER
+        </div>
+
+
+        <nav>
+
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams">
+                📚 Exams
+            </a>
+
+            <a href="/government-jobs">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="/syllabus">
+                📖 Syllabus
+            </a>
+
+            <a href="/materials" class="active">
+                📚 Materials
+            </a>
+
+            <a href="#">
+                🔔 Notifications
+            </a>
+
+            <a href="#">
+                🎯 Practice
+            </a>
+
+            <a href="#">
+                👤 Profile
+            </a>
+
+        </nav>
+
+
+        <div class="bottom-menu">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Materials
+                </h1>
+
+                <p>
+                    Study resources for Civil Engineering students
+                    and competitive exam aspirants.
+                </p>
+
+            </div>
+
+
+            <div class="user">
+
+                <div class="avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ student_name }}
+                    </strong>
+
+                    <small>
+                        {{ student_education }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-icon">
+                📚
+            </div>
+
+            <div>
+
+                <span>
+                    CIVIL CAREER RESOURCE CENTER
+                </span>
+
+                <h2>
+                    Everything You Need to Study
+                </h2>
+
+                <p>
+                    Access college resources, competitive
+                    preparation materials, notes, formulas
+                    and previous examination papers.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MATERIAL CATEGORIES -->
+
+        <section>
+
+            <h2 class="section-title">
+                📚 Material Categories
+            </h2>
+
+
+            <div class="material-grid">
+
+
+                <!-- COLLEGE -->
+
+                <a href="#" class="material-card">
+
+                    <div class="material-icon">
+                        🎓
+                    </div>
+
+                    <span class="tag">
+                        COLLEGE
+                    </span>
+
+                    <h3>
+                        College Materials
+                    </h3>
+
+                    <p>
+                        Study resources for Diploma and
+                        B.Tech Civil Engineering students.
+                    </p>
+
+                    <strong>
+                        Explore Materials →
+                    </strong>
+
+                </a>
+
+
+                <!-- COMPETITIVE -->
+
+                <a href="#" class="material-card">
+
+                    <div class="material-icon">
+                        🏆
+                    </div>
+
+                    <span class="tag">
+                        COMPETITIVE
+                    </span>
+
+                    <h3>
+                        Competitive Materials
+                    </h3>
+
+                    <p>
+                        Preparation resources for GATE,
+                        SSC JE, JE, AE and other exams.
+                    </p>
+
+                    <strong>
+                        Explore Materials →
+                    </strong>
+
+                </a>
+
+
+                <!-- NOTES -->
+
+                <a href="#" class="material-card">
+
+                    <div class="material-icon">
+                        📝
+                    </div>
+
+                    <span class="tag">
+                        NOTES
+                    </span>
+
+                    <h3>
+                        Notes
+                    </h3>
+
+                    <p>
+                        Subject-wise notes for quick learning
+                        and examination revision.
+                    </p>
+
+                    <strong>
+                        View Notes →
+                    </strong>
+
+                </a>
+
+
+                <!-- FORMULAS -->
+
+                <a href="#" class="material-card">
+
+                    <div class="material-icon">
+                        📐
+                    </div>
+
+                    <span class="tag">
+                        QUICK REVISION
+                    </span>
+
+                    <h3>
+                        Formulas
+                    </h3>
+
+                    <p>
+                        Important Civil Engineering formulas
+                        organized for quick revision.
+                    </p>
+
+                    <strong>
+                        View Formulas →
+                    </strong>
+
+                </a>
+
+
+                <!-- PAPERS -->
+
+                <a href="#" class="material-card">
+
+                    <div class="material-icon">
+                        📄
+                    </div>
+
+                    <span class="tag">
+                        PYQs
+                    </span>
+
+                    <h3>
+                        Previous Papers
+                    </h3>
+
+                    <p>
+                        Previous examination papers for
+                        practice and preparation.
+                    </p>
+
+                    <strong>
+                        View Papers →
+                    </strong>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- STUDY RESOURCE TYPES -->
+
+        <section class="content-box">
+
+            <h2>
+                🗂️ Resource Types
+            </h2>
+
+            <p>
+                Materials will be organized so that students
+                can quickly find the resource they need.
+            </p>
+
+
+            <div class="resource-list">
+
+                <div>
+                    <span>📄</span>
+
+                    <strong>
+                        PDF Notes
+                    </strong>
+
+                    <small>
+                        Subject and topic notes
+                    </small>
+                </div>
+
+
+                <div>
+                    <span>📐</span>
+
+                    <strong>
+                        Formula Sheets
+                    </strong>
+
+                    <small>
+                        Quick revision resources
+                    </small>
+                </div>
+
+
+                <div>
+                    <span>📝</span>
+
+                    <strong>
+                        Question Papers
+                    </strong>
+
+                    <small>
+                        Previous examination papers
+                    </small>
+                </div>
+
+
+                <div>
+                    <span>📚</span>
+
+                    <strong>
+                        Study Resources
+                    </strong>
+
+                    <small>
+                        Additional learning material
+                    </small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FUTURE MATERIAL SYSTEM -->
+
+        <section class="content-box">
+
+            <h2>
+                🚀 Material Library
+            </h2>
+
+            <p>
+                The Civil Career material library will
+                eventually allow resources to be organized
+                by course, subject, examination and topic.
+            </p>
+
+
+            <div class="library-flow">
+
+                <div>
+                    <b>01</b>
+                    <span>Select Course</span>
+                </div>
+
+                <div>
+                    <b>02</b>
+                    <span>Select Subject</span>
+                </div>
+
+                <div>
+                    <b>03</b>
+                    <span>Select Topic</span>
+                </div>
+
+                <div>
+                    <b>04</b>
+                    <span>Open Material</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTE -->
+
+        <div class="note">
+
+            <span>
+                ℹ️
+            </span>
+
+            <div>
+
+                <strong>
+                    Material Information
+                </strong>
+
+                <p>
+                    Materials will be added and organized
+                    according to course and examination.
+                    Copyrighted resources should only be
+                    uploaded or shared when you have the
+                    necessary rights or permission.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>

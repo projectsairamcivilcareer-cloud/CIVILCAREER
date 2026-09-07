@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mock Tests | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/mock_tests.css') }}">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        🏗️ CIVIL CAREER
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            📊 Dashboard
+        </a>
+
+        <a href="/exams">
+            📚 Exams
+        </a>
+
+        <a href="/government-jobs">
+            🏛️ Government Jobs
+        </a>
+
+        <a href="/syllabus">
+            📖 Syllabus
+        </a>
+
+        <a href="/materials">
+            📚 Materials
+        </a>
+
+        <a href="/notifications">
+            🔔 Notifications
+        </a>
+
+        <a href="/practice" class="active">
+            🎯 Practice
+        </a>
+
+        <a href="/profile">
+            👤 Profile
+        </a>
+
+    </nav>
+
+    <div class="bottom-menu">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+        <a href="/logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+
+            <div class="back-link">
+                <a href="/practice">
+                    ← Back to Practice
+                </a>
+            </div>
+
+            <h1>
+                Mock Tests
+            </h1>
+
+            <p>
+                Test your Civil Engineering preparation.
+            </p>
+
+        </div>
+
+        <div class="user">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ student_name }}
+                </strong>
+
+                <small>
+                    {{ student_education }}
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            ⏱️
+        </div>
+
+        <div>
+
+            <span>
+                MOCK TEST CENTER
+            </span>
+
+            <h2>
+                Challenge Yourself
+            </h2>
+
+            <p>
+                Attempt timed Civil Engineering mock
+                tests and check your performance.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h2 class="section-title">
+            🎯 Select Mock Test
+        </h2>
+
+
+        <div class="test-grid">
+
+
+            <!-- GATE -->
+
+            <a href="/mock-test/gate?new=1"
+               class="test-card gate-card">
+
+                <div class="test-top">
+
+                    <div class="test-icon">
+                        🎓
+                    </div>
+
+                    <span class="badge">
+                        GATE SYLLABUS SET
+                    </span>
+
+                </div>
+
+                <h3>
+                    GATE Civil Engineering
+                </h3>
+
+                <p>
+                    Practice Civil Engineering questions
+                    for GATE preparation.
+                </p>
+
+                <div class="test-info">
+
+                    <span>
+                        ⏱️ 30 Minutes
+                    </span>
+
+                    <span>
+                        🎯 Variable count · 100 marks full mock
+                    </span>
+
+                </div>
+
+                <div class="start">
+                    Start Test →
+                </div>
+
+            </a>
+
+
+            <!-- SSC JE -->
+
+            <a href="/mock-test/ssc-je?new=1"
+               class="test-card">
+
+                <div class="test-top">
+
+                    <div class="test-icon">
+                        🏛️
+                    </div>
+
+                    <span class="badge">
+                        5 PYQs
+                    </span>
+
+                </div>
+
+                <h3>
+                    SSC JE Civil
+                </h3>
+
+                <p>
+                    Practice Civil Engineering questions
+                    for SSC JE preparation.
+                </p>
+
+                <div class="test-info">
+
+                    <span>
+                        ⏱️ 30 Minutes
+                    </span>
+
+                    <span>
+                        🎯 5 Previous-Year Questions
+                    </span>
+
+                </div>
+
+                <div class="start">
+                    Start Test →
+                </div>
+
+            </a>
+
+
+            <!-- JE AE -->
+
+            <a href="/mock-test/je-ae?new=1"
+               class="test-card">
+
+                <div class="test-top">
+
+                    <div class="test-icon">
+                        🔧
+                    </div>
+
+                    <span class="badge">
+                        5 PYQs
+                    </span>
+
+                </div>
+
+                <h3>
+                    JE / AE Civil
+                </h3>
+
+                <p>
+                    Practice technical Civil Engineering
+                    questions for JE and AE examinations.
+                </p>
+
+                <div class="test-info">
+
+                    <span>
+                        ⏱️ 30 Minutes
+                    </span>
+
+                    <span>
+                        🎯 5 Previous-Year Questions
+                    </span>
+
+                </div>
+
+                <div class="start">
+                    Start Test →
+                </div>
+
+            </a>
+
+
+            <!-- DIPLOMA -->
+
+            <a href="/mock-test/diploma?new=1"
+               class="test-card">
+
+                <div class="test-top">
+
+                    <div class="test-icon">
+                        🏫
+                    </div>
+
+                    <span class="badge">
+                        5 PYQs
+                    </span>
+
+                </div>
+
+                <h3>
+                    Diploma Civil
+                </h3>
+
+                <p>
+                    Practice Diploma Civil Engineering
+                    fundamentals.
+                </p>
+
+                <div class="test-info">
+
+                    <span>
+                        ⏱️ 30 Minutes
+                    </span>
+
+                    <span>
+                        🎯 5 Previous-Year Questions
+                    </span>
+
+                </div>
+
+                <div class="start">
+                    Start Test →
+                </div>
+
+            </a>
+
+
+            <!-- BTECH -->
+
+            <a href="/mock-test/btech?new=1"
+               class="test-card">
+
+                <div class="test-top">
+
+                    <div class="test-icon">
+                        🎓
+                    </div>
+
+                    <span class="badge">
+                        5 PYQs
+                    </span>
+
+                </div>
+
+                <h3>
+                    B.Tech Civil
+                </h3>
+
+                <p>
+                    Practice core Civil Engineering
+                    questions for B.Tech students.
+                </p>
+
+                <div class="test-info">
+
+                    <span>
+                        ⏱️ 30 Minutes
+                    </span>
+
+                    <span>
+                        🎯 5 Previous-Year Questions
+                    </span>
+
+                </div>
+
+                <div class="start">
+                    Start Test →
+                </div>
+
+            </a>
+
+
+            <!-- GOVERNMENT -->
+
+            <a href="/mock-test/government?new=1"
+               class="test-card">
+
+                <div class="test-top">
+
+                    <div class="test-icon">
+                        🇮🇳
+                    </div>
+
+                    <span class="badge">
+                        5 PYQs
+                    </span>
+
+                </div>
+
+                <h3>
+                    Government Exams
+                </h3>
+
+                <p>
+                    Practice Civil Engineering questions
+                    for government recruitment exams.
+                </p>
+
+                <div class="test-info">
+
+                    <span>
+                        ⏱️ 30 Minutes
+                    </span>
+
+                    <span>
+                        🎯 5 Previous-Year Questions
+                    </span>
+
+                </div>
+
+                <div class="start">
+                    Start Test →
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <section class="instructions">
+
+        <div class="instruction-icon">
+            💡
+        </div>
+
+        <div>
+
+            <h3>
+                Mock Test Instructions
+            </h3>
+
+            <ul>
+
+                <li>
+                    Select your examination.
+                </li>
+
+                <li>
+                    Each test is timed.
+                </li>
+
+                <li>
+                    Select the best answer.
+                </li>
+
+                <li>
+                    Your score will be calculated automatically.
+                </li>
+
+                <li>
+                    Your performance can be reviewed after submission.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

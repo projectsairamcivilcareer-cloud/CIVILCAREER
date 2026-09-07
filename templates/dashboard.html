@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Civil Career</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="dashboard-logo">
+
+            🏗️
+
+            <span>
+                CIVIL CAREER
+            </span>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard" class="active">
+                📊 Dashboard
+            </a>
+
+            <a href="/exams">
+                📚 Exams
+            </a>
+
+            <a href="/government-jobs">
+                🏛️ Government Jobs
+            </a>
+
+            <a href="/syllabus">
+                📖 Syllabus
+            </a>
+
+            <a href="/materials">
+                📚 Materials
+            </a>
+
+            <a href="/notifications">
+                🔔 Notifications
+            </a>
+
+            <a href="/practice">
+                🎯 Practice
+            </a>
+
+            <a href="/profile">
+                👤 Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/">
+                🏠 Home
+            </a>
+
+            <a href="/logout">
+            🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Student Dashboard
+                </h1>
+
+                <p>
+                    Manage your Civil Engineering career journey.
+                </p>
+
+            </div>
+
+
+            <div class="student-info">
+
+                <div class="student-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                <strong>
+                    {{ student_name }}
+                </strong>
+
+                <small>
+                    {{ student_education }}
+                </small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-card">
+
+            <div>
+
+                <h2>
+                Welcome, {{ student_name }} 👋
+                </h2>
+
+                <p>
+                    Prepare smarter for your Diploma, B.Tech,
+                    GATE and Government Engineering examinations.
+                </p>
+
+            </div>
+
+        </section>
+
+        <section class="dashboard-section dashboard-jobs-summary">
+            <div>
+                <h2>🏛️ Government Jobs</h2>
+                <p>Verified Civil Engineering recruitment notifications.</p>
+            </div>
+            <div class="jobs-summary-counts">
+                <span><strong>{{ job_counts.NEW }}</strong> New</span>
+                <span><strong>{{ job_counts.OPEN }}</strong> Open</span>
+                <span><strong>{{ job_counts['CLOSING SOON'] }}</strong> Closing Soon</span>
+            </div>
+            <a href="{{ url_for('government_jobs') }}">View Government Jobs</a>
+        </section>
+
+
+        <!-- QUICK ACCESS -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Quick Access
+            </h2>
+
+
+            <div class="dashboard-cards">
+
+
+                <a href="/exams" class="dashboard-card">
+
+                    <div class="card-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        Exams
+                    </h3>
+
+                    <p>
+                        Explore Diploma, B.Tech, GATE
+                        and Government Exams.
+                    </p>
+
+                </a>
+
+
+                <a href="/government-jobs" class="dashboard-card">
+
+                    <div class="card-icon">
+                        🏛️
+                    </div>
+
+                    <h3>
+                        Government Jobs
+                    </h3>
+
+                    <p>
+                        Find JE, AE, SSC JE and State
+                        Government opportunities.
+                    </p>
+
+                </a>
+
+
+                <a href="/syllabus" class="dashboard-card">
+
+                    <div class="card-icon">
+                        📖
+                    </div>
+
+                    <h3>
+                        Syllabus
+                    </h3>
+
+                    <p>
+                        Study Civil Engineering subjects
+                        and competitive exam syllabus.
+                    </p>
+
+                </a>
+
+
+                <a href="/materials" class="dashboard-card">
+
+                    <div class="card-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        Materials
+                    </h3>
+
+                    <p>
+                        Access notes, formulas and
+                        previous examination papers.
+                    </p>
+
+                </a>
+
+
+                <a href="/notifications" class="dashboard-card">
+
+                    <div class="card-icon">
+                        🔔
+                    </div>
+
+                    <h3>
+                        Notifications
+                    </h3>
+
+                    <p>
+                        Stay updated with exams, jobs,
+                        admit cards and results.
+                    </p>
+
+                </a>
+
+
+                <a href="/practice" class="dashboard-card">
+
+                    <div class="card-icon">
+                        🎯
+                    </div>
+
+                    <h3>
+                        Practice
+                    </h3>
+
+                    <p>
+                        Practice MCQs, PYQs, subjects
+                        and mock tests.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+
+        <section class="dashboard-section">
+
+            <h2>
+                Your Preparation
+            </h2>
+
+
+            <div class="progress-container">
+
+                <div class="progress-header">
+
+                    <span>
+                        Overall Progress
+                    </span>
+
+                    <strong>
+                        0%
+                    </strong>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div class="progress-fill"></div>
+
+                </div>
+
+                <p>
+                    Start practicing to track your progress.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</body>
+
+</html>

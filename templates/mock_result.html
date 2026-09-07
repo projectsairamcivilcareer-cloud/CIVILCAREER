@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mock Test Result | Civil Career</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* =====================================================
+           RESULT CARD
+           ===================================================== */
+
+        .result-card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .trophy {
+            font-size: 55px;
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .score {
+            font-size: 50px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .percentage {
+            color: #64748b;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           BASIC STATS
+           ===================================================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat {
+            padding: 18px;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .correct strong {
+            color: #16a34a;
+        }
+
+        .wrong strong {
+            color: #dc2626;
+        }
+
+        .unanswered strong {
+            color: #64748b;
+        }
+
+        /* =====================================================
+           GATE PERFORMANCE ANALYSIS
+           ===================================================== */
+
+        .performance-analysis {
+            margin: 28px 0 10px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            background: #ffffff;
+            text-align: left;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        .performance-analysis-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .performance-analysis-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            border-radius: 12px;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .performance-analysis-header h2 {
+            margin: 0 0 5px;
+            font-size: 21px;
+            color: #0f172a;
+        }
+
+        .performance-analysis-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           KPI CARDS
+           ===================================================== */
+
+        .analysis-kpis {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .analysis-kpi {
+            padding: 17px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        .analysis-kpi-label {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .analysis-kpi-value {
+            display: block;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .analysis-kpi-note {
+            display: block;
+            margin-top: 5px;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           RECOMMENDATION
+           ===================================================== */
+
+        .recommendation-box {
+            padding: 18px;
+            margin-bottom: 24px;
+            border-left: 4px solid #2563eb;
+            border-radius: 10px;
+            background: #eff6ff;
+        }
+
+        .recommendation-box h3 {
+            margin: 0 0 7px;
+            font-size: 15px;
+            color: #1e3a8a;
+        }
+
+        .recommendation-box p {
+            margin: 0;
+            color: #475569;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           ANALYSIS SECTIONS
+           ===================================================== */
+
+        .analysis-section {
+            margin-top: 22px;
+        }
+
+        .analysis-section h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            color: #0f172a;
+        }
+
+        .analysis-table {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .analysis-table-header,
+        .analysis-table-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 80px 80px;
+            gap: 10px;
+            align-items: center;
+            padding: 11px 13px;
+        }
+
+        .analysis-table-header {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .analysis-table-row {
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        .analysis-table-row strong {
+            color: #334155;
+        }
+
+        .analysis-percent {
+            text-align: right;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* =====================================================
+           STRENGTH / WEAKNESS
+           ===================================================== */
+
+        .strength-weakness {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .strength-box,
+        .weakness-box {
+            padding: 18px;
+            border-radius: 12px;
+        }
+
+        .strength-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .weakness-box {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+        }
+
+        .strength-box h3,
+        .weakness-box h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+        }
+
+        .strength-box h3 {
+            color: #166534;
+        }
+
+        .weakness-box h3 {
+            color: #9a3412;
+        }
+
+        .analysis-list {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .analysis-list li {
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        /* =====================================================
+           NEXT ACTION
+           ===================================================== */
+
+        .next-action {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .next-action h3 {
+            margin: 0 0 7px;
+            font-size: 14px;
+        }
+
+        .next-action p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           PROFESSIONAL PERFORMANCE INSIGHTS
+           ===================================================== */
+
+        .professional-analytics {
+            margin-top: 25px;
+            padding: 26px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            text-align: left;
+        }
+
+        .analytics-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .analytics-heading-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            border-radius: 12px;
+            font-size: 22px;
+        }
+
+        .analytics-heading h2 {
+            margin: 0 0 4px;
+            font-size: 21px;
+            color: #0f172a;
+        }
+
+        .analytics-heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           PERFORMANCE BANNER
+           ===================================================== */
+
+        .performance-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 13px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .insight-label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            color: #64748b;
+            letter-spacing: 0.5px;
+        }
+
+        .performance-banner h3 {
+            margin: 5px 0;
+            font-size: 24px;
+            color: #2563eb;
+        }
+
+        .performance-banner p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .performance-score {
+            font-size: 38px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* =====================================================
+           KEY METRICS
+           ===================================================== */
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .insight-card {
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .insight-icon {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .insight-card strong {
+            display: block;
+            font-size: 22px;
+            color: #0f172a;
+        }
+
+        .insight-card small {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           STRONG / WEAK CARDS
+           ===================================================== */
+
+        .strength-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .strength-card {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 17px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .strong-card {
+            background: #f0fdf4;
+        }
+
+        .weak-card {
+            background: #fff7ed;
+        }
+
+        .strength-icon {
+            font-size: 24px;
+        }
+
+        .strength-card small {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #64748b;
+        }
+
+        .strength-card strong {
+            display: block;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           SMART RECOMMENDATION
+           ===================================================== */
+
+        .smart-recommendation {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 18px;
+            padding: 18px;
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            border-radius: 10px;
+        }
+
+        .recommendation-icon {
+            font-size: 24px;
+        }
+
+        .smart-recommendation span {
+            display: block;
+            margin-bottom: 5px;
+            color: #2563eb;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .smart-recommendation p {
+            margin: 0;
+            color: #334155;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           NEXT TEST
+           ===================================================== */
+
+        .next-test {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: 14px;
+            padding: 18px;
+            border: 1px solid #dbeafe;
+            border-radius: 11px;
+        }
+
+        .next-test small {
+            display: block;
+            margin-bottom: 5px;
+            color: #64748b;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .next-test strong {
+            color: #0f172a;
+            font-size: 14px;
+        }
+
+        .next-test a {
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .next-test a:hover {
+            background: #1d4ed8;
+        }
+
+        /* =====================================================
+           FEEDBACK
+           ===================================================== */
+
+        .feedback {
+            margin-top: 30px;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            background: #ffffff;
+            text-align: left;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .feedback-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #eff6ff;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
+
+        .feedback-header h2 {
+            margin: 0 0 5px;
+            font-size: 20px;
+            color: #0f172a;
+        }
+
+        .feedback-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .rating-title {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .feedback-rating {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-rating input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .feedback-rating label {
+            flex: 1;
+            min-width: 55px;
+            padding: 12px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #f8fafc;
+            color: #475569;
+            cursor: pointer;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .feedback-rating label:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .feedback-rating label:has(input:checked) {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.10);
+        }
+
+        .feedback-field {
+            margin-bottom: 15px;
+        }
+
+        .feedback-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .feedback textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #1e293b;
+            font: inherit;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .feedback textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .feedback textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .feedback-submit {
+            margin-top: 4px;
+            padding: 12px 20px;
+            border: 0;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .feedback-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .feedback-success {
+            margin-top: 28px;
+            padding: 18px 20px;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            background: #f0fdf4;
+            color: #166534;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .feedback-success small {
+            display: block;
+            margin-top: 5px;
+            color: #4d7c5b;
+            font-weight: normal;
+        }
+
+        /* =====================================================
+           BUTTONS
+           ===================================================== */
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .buttons a {
+            text-decoration: none;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .secondary:hover {
+            background: #cbd5e1;
+        }
+
+        /* =====================================================
+           ANSWER REVIEW
+           ===================================================== */
+
+        .review-title {
+            margin-top: 35px;
+            margin-bottom: 18px;
+            font-size: 23px;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 18px;
+            border-left: 5px solid #cbd5e1;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .review-card.correct {
+            border-left-color: #16a34a;
+        }
+
+        .review-card.wrong {
+            border-left-color: #dc2626;
+        }
+
+        .review-card.unanswered {
+            border-left-color: #64748b;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status.correct {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.wrong {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status.unanswered {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .review-question {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        /* =====================================================
+           ANSWER OPTIONS
+           ===================================================== */
+
+        .answer-row {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #f8fafc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .answer-row.user-answer {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .answer-row.correct-answer {
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+        }
+
+        .answer-label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .answer-summary {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .your-answer {
+            font-weight: bold;
+        }
+
+        .correct-answer-text {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .explanation-box {
+            margin-top: 12px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        .explanation-box strong {
+            color: #1e293b;
+        }
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .analysis-kpis {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .insight-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                margin: 15px auto;
+                padding: 12px;
+            }
+
+            .result-card {
+                padding: 25px 18px;
+            }
+
+            .strength-weakness {
+                grid-template-columns: 1fr;
+            }
+
+            .strength-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-banner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .next-test {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .next-test a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .feedback {
+                padding: 20px;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .score {
+                font-size: 40px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-kpis {
+                grid-template-columns: 1fr;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-table-header,
+            .analysis-table-row {
+                grid-template-columns: minmax(0, 1fr) 65px 65px;
+                font-size: 11px;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .feedback-rating {
+                gap: 5px;
+            }
+
+            .feedback-rating label {
+                padding: 10px 5px;
+                font-size: 11px;
+            }
+
+            .performance-analysis {
+                padding: 18px;
+            }
+
+            .professional-analytics {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =====================================================
+         RESULT SUMMARY
+         ===================================================== -->
+
+    <div class="result-card">
+
+        <div class="trophy">
+            🏆
+        </div>
+
+        <h1>
+            Test Completed!
+        </h1>
+
+        <p class="subtitle">
+            {{ exam_name }} Civil Engineering Mock Test
+        </p>
+
+        <div class="score">
+            {{ score }} / {{ maximum_score }}
+        </div>
+
+        <div class="percentage">
+            {{ percentage }}%
+        </div>
+
+
+        <!-- BASIC STATISTICS -->
+
+        <div class="stats">
+
+            <div class="stat correct">
+                <strong>
+                    {{ correct }}
+                </strong>
+                <span>
+                    Correct
+                </span>
+            </div>
+
+            <div class="stat wrong">
+                <strong>
+                    {{ wrong }}
+                </strong>
+                <span>
+                    Wrong
+                </span>
+            </div>
+
+            <div class="stat unanswered">
+                <strong>
+                    {{ unanswered }}
+                </strong>
+                <span>
+                    Unanswered
+                </span>
+            </div>
+
+            <div class="stat">
+                <strong>
+                    {{ average_time }}
+                </strong>
+                <span>
+                    Avg. Time / Question
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             GATE ANALYSIS
+             ================================================= -->
+
+        {% if exam_slug == "gate" %}
+
+        <div class="performance-analysis">
+
+            <div class="performance-analysis-header">
+
+                <div class="performance-analysis-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h2>
+                        GATE Performance Analysis
+                    </h2>
+
+                    <p>
+                        Detailed analysis of your Civil Engineering
+                        mock-test performance.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- KPI CARDS -->
+
+            <div class="analysis-kpis">
+
+                <div class="analysis-kpi">
+
+                    <span class="analysis-kpi-label">
+                        Overall Score
+                    </span>
+
+                    <span class="analysis-kpi-value">
+                        {{ percentage }}%
+                    </span>
+
+                    <span class="analysis-kpi-note">
+                        Test performance
+                    </span>
+
+                </div>
+
+
+                <div class="analysis-kpi">
+
+                    <span class="analysis-kpi-label">
+                        Attempt Rate
+                    </span>
+
+                    <span class="analysis-kpi-value">
+                        {{ attempt_rate }}%
+                    </span>
+
+                    <span class="analysis-kpi-note">
+                        Questions attempted
+                    </span>
+
+                </div>
+
+
+                <div class="analysis-kpi">
+
+                    <span class="analysis-kpi-label">
+                        Accuracy
+                    </span>
+
+                    <span class="analysis-kpi-value">
+                        {{ accuracy }}%
+                    </span>
+
+                    <span class="analysis-kpi-note">
+                        Correct / attempted
+                    </span>
+
+                </div>
+
+
+                <div class="analysis-kpi">
+
+                    <span class="analysis-kpi-label">
+                        Next Level
+                    </span>
+
+                    <span class="analysis-kpi-value">
+                        {{ recommended_mode|replace("-", " ")|title }}
+                    </span>
+
+                    <span class="analysis-kpi-note">
+                        Recommended preparation
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECOMMENDATION -->
+
+            <div class="recommendation-box">
+
+                <h3>
+                    🎯 Recommended Next Step
+                </h3>
+
+                <p>
+
+                    {% if percentage >= 80 %}
+
+                        Excellent performance. You are ready to challenge
+                        yourself with a higher difficulty level and more
+                        advanced GATE problems.
+
+                    {% elif percentage >= 60 %}
+
+                        Good performance. Continue mixed practice and focus
+                        on improving accuracy in your weaker subjects.
+
+                    {% elif percentage >= 40 %}
+
+                        You have a developing foundation. Revise important
+                        concepts and practice topic-wise questions before
+                        increasing difficulty.
+
+                    {% else %}
+
+                        Focus on fundamentals first. Revise concepts,
+                        solve basic questions, and gradually move toward
+                        higher difficulty levels.
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+            <!-- STRENGTH / WEAKNESS -->
+
+            <div class="strength-weakness">
+
+                <div class="strength-box">
+
+                    <h3>
+                        💪 Strong Areas
+                    </h3>
+
+                    <ul class="analysis-list">
+
+                        {% for name, data in subject_stats.items() %}
+
+                            {% if data.total > 0 and
+                                  (data.correct / data.total * 100) >= 70 %}
+
+                                <li>
+                                    <strong>{{ name }}</strong>
+                                    —
+                                    {{ (data.correct / data.total * 100)|round(0)|int }}%
+                                </li>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <div class="weakness-box">
+
+                    <h3>
+                        ⚠️ Areas to Improve
+                    </h3>
+
+                    <ul class="analysis-list">
+
+                        {% for name, data in subject_stats.items() %}
+
+                            {% if data.total > 0 and
+                                  (data.correct / data.total * 100) < 70 %}
+
+                                <li>
+                                    <strong>{{ name }}</strong>
+                                    —
+                                    {{ (data.correct / data.total * 100)|round(0)|int }}%
+                                </li>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBJECT ANALYSIS -->
+
+            <div class="analysis-section">
+
+                <h3>
+                    📚 Subject-wise Performance
+                </h3>
+
+                <div class="analysis-table">
+
+                    <div class="analysis-table-header">
+
+                        <span>
+                            Subject
+                        </span>
+
+                        <span>
+                            Result
+                        </span>
+
+                        <span>
+                            Accuracy
+                        </span>
+
+                    </div>
+
+
+                    {% for name, data in subject_stats.items() %}
+
+                    <div class="analysis-table-row">
+
+                        <strong>
+                            {{ name }}
+                        </strong>
+
+                        <span>
+                            {{ data.correct }}/{{ data.total }}
+                        </span>
+
+                        <span class="analysis-percent">
+
+                            {% if data.total > 0 %}
+
+                                {{ (data.correct / data.total * 100)|round(0)|int }}%
+
+                            {% else %}
+
+                                0%
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- DIFFICULTY ANALYSIS -->
+
+            <div class="analysis-section">
+
+                <h3>
+                    🧠 Difficulty-wise Performance
+                </h3>
+
+                <div class="analysis-table">
+
+                    <div class="analysis-table-header">
+
+                        <span>
+                            Difficulty
+                        </span>
+
+                        <span>
+                            Result
+                        </span>
+
+                        <span>
+                            Accuracy
+                        </span>
+
+                    </div>
+
+
+                    {% for level in ["L1", "L2", "L3", "L4", "L5", "L6", "L7"] %}
+
+                        {% if level in difficulty_stats %}
+
+                        <div class="analysis-table-row">
+
+                            <strong>
+                                {{ level }}
+                            </strong>
+
+                            <span>
+                                {{ difficulty_stats[level].correct }}/{{ difficulty_stats[level].total }}
+                            </span>
+
+                            <span class="analysis-percent">
+
+                                {% if difficulty_stats[level].total > 0 %}
+
+                                    {{ (
+                                        difficulty_stats[level].correct /
+                                        difficulty_stats[level].total * 100
+                                    )|round(0)|int }}%
+
+                                {% else %}
+
+                                    0%
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- TOPIC ANALYSIS -->
+
+            <div class="analysis-section">
+
+                <h3>
+                    📖 Topic-wise Performance
+                </h3>
+
+                <div class="analysis-table">
+
+                    <div class="analysis-table-header">
+
+                        <span>
+                            Topic
+                        </span>
+
+                        <span>
+                            Result
+                        </span>
+
+                        <span>
+                            Accuracy
+                        </span>
+
+                    </div>
+
+
+                    {% for name, data in topic_stats.items() %}
+
+                    <div class="analysis-table-row">
+
+                        <strong>
+                            {{ name }}
+                        </strong>
+
+                        <span>
+                            {{ data.correct }}/{{ data.total }}
+                        </span>
+
+                        <span class="analysis-percent">
+
+                            {% if data.total > 0 %}
+
+                                {{ (data.correct / data.total * 100)|round(0)|int }}%
+
+                            {% else %}
+
+                                0%
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- NEXT ACTION -->
+
+            <div class="next-action">
+
+                <h3>
+                    🚀 What should you do next?
+                </h3>
+
+                <p>
+
+                    {% if percentage >= 80 %}
+
+                        Attempt advanced mixed questions and higher-level
+                        GATE problems. Maintain accuracy while improving speed.
+
+                    {% elif percentage >= 60 %}
+
+                        Revise your weaker subjects and attempt another mixed
+                        mock test. Aim to improve both accuracy and time management.
+
+                    {% elif percentage >= 40 %}
+
+                        Work on topic-wise practice first. Revise concepts
+                        behind incorrect answers before attempting another
+                        full mock test.
+
+                    {% else %}
+
+                        Start with L1/L2 fundamental questions and strengthen
+                        your core Civil Engineering concepts before attempting
+                        difficult mocks.
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+            <!-- PREPARATION LEVEL -->
+
+            <div class="analysis-section">
+
+                <h3>
+                    🎓 Preparation Level
+                </h3>
+
+                <div class="analysis-table">
+
+                    <div class="analysis-table-row">
+
+                        <strong>
+                            Current Mode
+                        </strong>
+
+                        <span>
+                            {{ current_mode|replace("-", " ")|title }}
+                        </span>
+
+                        <span></span>
+
+                    </div>
+
+
+                    <div class="analysis-table-row">
+
+                        <strong>
+                            Recommended Mode
+                        </strong>
+
+                        <span>
+                            {{ recommended_mode|replace("-", " ")|title }}
+                        </span>
+
+                        <span class="analysis-percent">
+                            Next
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             PROFESSIONAL PERFORMANCE INSIGHTS
+             ================================================= -->
+
+        <section class="professional-analytics">
+
+            <div class="analytics-heading">
+
+                <div class="analytics-heading-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h2>
+                        Performance Insights
+                    </h2>
+
+                    <p>
+                        A detailed overview of your mock-test performance.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE LEVEL -->
+
+            <div class="performance-banner">
+
+                <div>
+
+                    <span class="insight-label">
+                        PERFORMANCE LEVEL
+                    </span>
+
+                    <h3>
+                        {{ performance_level }}
+                    </h3>
+
+                    <p>
+                        {{ performance_message }}
+                    </p>
+
+                </div>
+
+                <div class="performance-score">
+                    {{ percentage }}%
+                </div>
+
+            </div>
+
+
+            <!-- KEY METRICS -->
+
+            <div class="insight-grid">
+
+                <div class="insight-card">
+
+                    <span class="insight-icon">
+                        🎯
+                    </span>
+
+                    <strong>
+                        {{ accuracy }}%
+                    </strong>
+
+                    <small>
+                        Accuracy
+                    </small>
+
+                </div>
+
+
+                <div class="insight-card">
+
+                    <span class="insight-icon">
+                        📝
+                    </span>
+
+                    <strong>
+                        {{ attempted }}/{{ total }}
+                    </strong>
+
+                    <small>
+                        Attempted
+                    </small>
+
+                </div>
+
+
+                <div class="insight-card">
+
+                    <span class="insight-icon">
+                        📈
+                    </span>
+
+                    <strong>
+                        {{ attempt_rate }}%
+                    </strong>
+
+                    <small>
+                        Attempt Rate
+                    </small>
+
+                </div>
+
+
+                <div class="insight-card">
+
+                    <span class="insight-icon">
+                        ⏱️
+                    </span>
+
+                    <strong>
+                        {{ average_time }}
+                    </strong>
+
+                    <small>
+                        Avg. Time / Question
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- STRONGEST / WEAKEST -->
+
+            <div class="strength-grid">
+
+                <div class="strength-card strong-card">
+
+                    <span class="strength-icon">
+                        💪
+                    </span>
+
+                    <div>
+
+                        <small>
+                            STRONGEST SUBJECT
+                        </small>
+
+                        <strong>
+                            {{ strongest_subject }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="strength-card weak-card">
+
+                    <span class="strength-icon">
+                        ⚠️
+                    </span>
+
+                    <div>
+
+                        <small>
+                            NEEDS ATTENTION
+                        </small>
+
+                        <strong>
+                            {{ weakest_subject }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="strength-card strong-card">
+
+                    <span class="strength-icon">
+                        📚
+                    </span>
+
+                    <div>
+
+                        <small>
+                            STRONGEST TOPIC
+                        </small>
+
+                        <strong>
+                            {{ strongest_topic }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="strength-card weak-card">
+
+                    <span class="strength-icon">
+                        🔎
+                    </span>
+
+                    <div>
+
+                        <small>
+                            WEAK TOPIC
+                        </small>
+
+                        <strong>
+                            {{ weakest_topic }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SMART RECOMMENDATION -->
+
+            <div class="smart-recommendation">
+
+                <div class="recommendation-icon">
+                    💡
+                </div>
+
+                <div>
+
+                    <span>
+                        SMART RECOMMENDATION
+                    </span>
+
+                    <p>
+                        {{ smart_recommendation }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEXT TEST -->
+
+            <div class="next-test">
+
+                <div>
+
+                    <small>
+                        RECOMMENDED NEXT TEST
+                    </small>
+
+                    <strong>
+                        {{ next_test_recommendation }}
+                    </strong>
+
+                </div>
+
+                <a href="{{ url_for('mock_test', exam_slug=exam_slug, new=1) }}">
+                    Take Next Test →
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FEEDBACK
+             ================================================= -->
+
+        {% if not feedback_submitted %}
+
+        <form
+            class="feedback"
+            method="POST"
+            action="{{ url_for('mock_test_result', exam_slug=exam_slug) }}"
+        >
+
+            <div class="feedback-header">
+
+                <div class="feedback-icon">
+                    ⭐
+                </div>
+
+                <div>
+
+                    <h2>
+                        How was your Mock Test?
+                    </h2>
+
+                    <p>
+                        Your feedback helps us improve the Civil Career
+                        mock-test experience for every student.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="feedback-field">
+
+                <label class="rating-title">
+                    Rate your test experience
+                </label>
+
+                <div class="feedback-rating">
+
+                    {% for rating in range(1, 6) %}
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="rating"
+                            value="{{ rating }}"
+                            required
+                        >
+
+                        <span>
+
+                            {% if rating == 1 %}
+                                ⭐ 1
+                            {% elif rating == 2 %}
+                                ⭐⭐ 2
+                            {% elif rating == 3 %}
+                                ⭐⭐⭐ 3
+                            {% elif rating == 4 %}
+                                ⭐⭐⭐⭐ 4
+                            {% else %}
+                                ⭐⭐⭐⭐⭐ 5
+                            {% endif %}
+
+                        </span>
+
+                    </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="feedback-field">
+
+                <label for="feedback-comments">
+                    Tell us about your experience
+                </label>
+
+                <textarea
+                    id="feedback-comments"
+                    name="comments"
+                    placeholder="Was the difficulty appropriate? Were the questions useful? Tell us what you think..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="feedback-submit"
+            >
+                Submit Feedback →
+            </button>
+
+        </form>
+
+
+        {% else %}
+
+        <div class="feedback-success">
+
+            ✓ Thank you for your feedback!
+
+            <small>
+                Your response has been recorded successfully.
+            </small>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             NAVIGATION BUTTONS
+             ================================================= -->
+
+        <div class="buttons">
+
+            <a
+                href="{{ url_for('mock_tests') }}"
+                class="secondary"
+            >
+                ← Mock Tests
+            </a>
+
+
+            <a
+                href="{{ url_for('mock_test', exam_slug=exam_slug, new=1) }}"
+                class="secondary"
+            >
+                🔄 Retake Test
+            </a>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="primary"
+            >
+                Dashboard →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ANSWER REVIEW
+         ===================================================== -->
+
+    <h2 class="review-title">
+        📋 Answer Review
+    </h2>
+
+
+    {% for item in review %}
+
+    <div class="review-card {{ item.status }}">
+
+        <div class="review-header">
+
+            <span class="question-number">
+
+                Question {{ item.number }}
+
+                ·
+
+                {{ item.marks }}
+
+                mark{% if item.marks != 1 %}s{% endif %}
+
+            </span>
+
+
+            {% if item.status == "correct" %}
+
+            <span class="status correct">
+                ✓ CORRECT
+            </span>
+
+            {% elif item.status == "wrong" %}
+
+            <span class="status wrong">
+                ✕ WRONG
+            </span>
+
+            {% else %}
+
+            <span class="status unanswered">
+                — UNANSWERED
+            </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- QUESTION -->
+
+        <div class="review-question">
+            {{ item.question }}
+        </div>
+
+
+        <!-- OPTIONS -->
+
+        {% if item.question_type in ["mcq", "msq"] %}
+
+
+        <!-- OPTION A -->
+
+        <div class="
+            answer-row
+            {% if item.user_answer == 'A' %}
+                user-answer
+            {% endif %}
+            {% if item.correct_answer == 'A' %}
+                correct-answer
+            {% endif %}
+        ">
+
+            <span class="answer-label">
+                A.
+            </span>
+
+            {{ item.option_a }}
+
+        </div>
+
+
+        <!-- OPTION B -->
+
+        <div class="
+            answer-row
+            {% if item.user_answer == 'B' %}
+                user-answer
+            {% endif %}
+            {% if item.correct_answer == 'B' %}
+                correct-answer
+            {% endif %}
+        ">
+
+            <span class="answer-label">
+                B.
+            </span>
+
+            {{ item.option_b }}
+
+        </div>
+
+
+        <!-- OPTION C -->
+
+        <div class="
+            answer-row
+            {% if item.user_answer == 'C' %}
+                user-answer
+            {% endif %}
+            {% if item.correct_answer == 'C' %}
+                correct-answer
+            {% endif %}
+        ">
+
+            <span class="answer-label">
+                C.
+            </span>
+
+            {{ item.option_c }}
+
+        </div>
+
+
+        <!-- OPTION D -->
+
+        <div class="
+            answer-row
+            {% if item.user_answer == 'D' %}
+                user-answer
+            {% endif %}
+            {% if item.correct_answer == 'D' %}
+                correct-answer
+            {% endif %}
+        ">
+
+            <span class="answer-label">
+                D.
+            </span>
+
+            {{ item.option_d }}
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- NUMERICAL / FILL BLANK -->
+
+        <div class="answer-row">
+
+            <span class="answer-label">
+                Direct Answer:
+            </span>
+
+            No options were provided for this question.
+
+        </div>
+
+
+        {% endif %}
+
+
+        <!-- ANSWER SUMMARY -->
+
+        <div class="answer-summary">
+
+            {% if item.user_answer %}
+
+                Your Answer:
+
+                <span class="your-answer">
+                    {{ item.user_answer }}
+                </span>
+
+            {% else %}
+
+                Your Answer:
+
+                <span>
+                    Not Answered
+                </span>
+
+            {% endif %}
+
+            &nbsp; | &nbsp;
+
+            Correct Answer:
+
+            <span class="correct-answer-text">
+
+                {% if item.correct_answer is iterable
+                      and item.correct_answer is not string %}
+
+                    {{ item.correct_answer|join(", ") }}
+
+                {% else %}
+
+                    {{ item.correct_answer }}
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <!-- EXPLANATION -->
+
+        {% if item.explanation or item.solution %}
+
+        <div class="explanation-box">
+
+            <strong>
+                📚 Concept:
+            </strong>
+
+            {{ item.subject }}
+
+            {% if item.topic %}
+                / {{ item.topic }}
+            {% endif %}
+
+            {% if item.difficulty_level %}
+                · {{ item.difficulty_level }}
+            {% endif %}
+
+            {% if item.explanation %}
+
+                <br><br>
+
+                <strong>
+                    💡 Explanation:
+                </strong>
+
+                {{ item.explanation }}
+
+            {% endif %}
+
+
+            {% if item.solution %}
+
+                <br><br>
+
+                <strong>
+                    🧮 Solution:
+                </strong>
+
+                {{ item.solution }}
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- =========================================================
+     CLEANUP MOCK TEST STORAGE
+     ========================================================= -->
+
+<script>
+
+    sessionStorage.removeItem(
+        "mock-test-started-{{ exam_slug }}"
+    );
+
+    localStorage.removeItem(
+        "civilengg-exam-answers-{{ exam_slug }}"
+    );
+
+    if (
+        document.fullscreenElement &&
+        document.exitFullscreen
+    ) {
+        document.exitFullscreen();
+    }
+
+</script>
+
+
+</body>
+</html>

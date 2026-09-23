@@ -118,6 +118,15 @@ def enrich_item(item):
             "status": "CLOSED",
         })
 
+    if item["organization"] == "SSC" and "junior engineer" in low and "2025" in low:
+        item.update({
+            "department": "Staff Selection Commission",
+            "job_type": "Central Government",
+            "branch": "Civil Engineering",
+            "selection_process": "SSC Junior Engineer Examination 2025; check official SSC notices for current stage",
+            "status": "CLOSED",
+        })
+
     if item["organization"] == "UPSC Recruitment":
         if "assistant professor, civil engineering (structural)" in low:
             item.update({

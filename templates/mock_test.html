@@ -2316,7 +2316,7 @@
             <span class="timer-icon">⏱</span>
 
             <span id="timer">
-                180:00
+                {{ '%02d:00'|format(duration_minutes) }}
             </span>
 
         </button>
@@ -3176,7 +3176,7 @@
         <p>
 
             Your mock test has a
-            <strong>180 minute</strong>
+            <strong>{{ duration_minutes }} minute{% if duration_minutes != 1 %}s{% endif %}</strong>
             time limit.
 
             <br><br>
@@ -3236,6 +3236,22 @@
         if (!form || !actionInput) {
             return;
         }
+
+        // Preserve every answer when a server-side action
+        // such as Mark for Review is submitted.
+        let answersInput =
+            form.querySelector('input[name="answers_json"]');
+
+        if (!answersInput) {
+            answersInput =
+                document.createElement("input");
+            answersInput.type = "hidden";
+            answersInput.name = "answers_json";
+            form.appendChild(answersInput);
+        }
+
+        answersInput.value =
+            JSON.stringify(collectStoredAnswers());
 
         actionInput.value = action;
 
@@ -3348,6 +3364,100 @@
             );
 
         }
+    }
+
+
+    function hasAnswerValue(value) {
+
+        if (Array.isArray(value)) {
+            return value.length > 0 && value.some(
+                item => String(item).trim() !== ""
+            );
+        }
+
+        return (
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== ""
+        );
+    }
+
+
+    function refreshNavigatorFromLocalStorage() {
+
+        const buttons =
+            document.querySelectorAll(".question-number");
+
+        buttons.forEach(function(button, index) {
+
+            const raw =
+                localStorage.getItem(
+                    answerStoragePrefix + index
+                );
+
+            let answered = false;
+
+            if (raw) {
+                try {
+                    const data = JSON.parse(raw);
+                    answered = hasAnswerValue(data.answer);
+                } catch (error) {
+                    answered = false;
+                }
+            }
+
+            button.classList.toggle(
+                "answered",
+                answered && index !== currentQuestion
+            );
+
+            button.classList.toggle(
+                "not-answered",
+                !answered && index !== currentQuestion
+            );
+
+            button.classList.toggle(
+                "not-visited",
+                !answered && index !== currentQuestion
+            );
+
+            button.classList.toggle(
+                "current",
+                index === currentQuestion
+            );
+        });
+    }
+
+
+    function countStoredAnsweredQuestions() {
+
+        let count = 0;
+
+        for (let i = 0; i < totalQuestions; i++) {
+
+            const raw =
+                localStorage.getItem(
+                    answerStoragePrefix + i
+                );
+
+            if (!raw) {
+                continue;
+            }
+
+            try {
+
+                const data = JSON.parse(raw);
+
+                if (hasAnswerValue(data.answer)) {
+                    count++;
+                }
+
+            } catch (error) {
+                /* Ignore malformed local data. */
+            }
+        }
+
+        return count;
     }
 
 
@@ -3540,6 +3650,7 @@
 
         // Reconnect option highlighting
         updateSelectedOptions();
+        refreshNavigatorFromLocalStorage();
 
         // Remove loading state
         document.body.classList.remove(
@@ -3583,9 +3694,7 @@
         saveCurrentAnswer();
 
         const answered =
-            document.querySelectorAll(
-                ".question-number.answered"
-            ).length;
+            countStoredAnsweredQuestions();
 
         document.getElementById(
             "submitMessage"
@@ -3966,6 +4075,7 @@
                 updateSelectedOptions();
 
                 saveCurrentAnswer();
+                refreshNavigatorFromLocalStorage();
             }
 
         }
@@ -4070,6 +4180,7 @@
 
             restoreSavedAnswer(currentQuestion);
             updateSelectedOptions();
+            refreshNavigatorFromLocalStorage();
 
             updateTimer();
 

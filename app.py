@@ -359,7 +359,7 @@ def create_database():
     connection.execute("""
         CREATE TABLE IF NOT EXISTS mock_test_results (
 
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id BIGSERIAL PRIMARY KEY,
 
             student_id INTEGER NOT NULL,
 
@@ -388,7 +388,7 @@ def create_database():
 
     connection.execute("""
         CREATE TABLE IF NOT EXISTS mock_test_feedback (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id BIGSERIAL PRIMARY KEY,
             student_id INTEGER NOT NULL,
             exam_slug TEXT NOT NULL,
             rating INTEGER NOT NULL,
@@ -407,7 +407,7 @@ def create_database():
 
     connection.execute("""
         CREATE TABLE IF NOT EXISTS government_jobs (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id BIGSERIAL PRIMARY KEY,
             organization TEXT NOT NULL,
             post_name TEXT NOT NULL,
             department TEXT NOT NULL DEFAULT '',
@@ -440,7 +440,7 @@ def create_database():
 
     connection.execute("""
         CREATE TABLE IF NOT EXISTS user_job_preferences (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id BIGSERIAL PRIMARY KEY,
             user_id INTEGER UNIQUE NOT NULL,
             qualification TEXT NOT NULL DEFAULT '',
             branch TEXT NOT NULL DEFAULT '',
@@ -455,7 +455,7 @@ def create_database():
 
     connection.execute("""
         CREATE TABLE IF NOT EXISTS job_notifications (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id BIGSERIAL PRIMARY KEY,
             user_id INTEGER NOT NULL,
             job_id INTEGER NOT NULL,
             notification_type TEXT NOT NULL,
@@ -5692,7 +5692,7 @@ def register():
 
             connection.commit()
 
-        except sqlite3.IntegrityError:
+        except psycopg_errors.UniqueViolation:
 
             connection.close()
 

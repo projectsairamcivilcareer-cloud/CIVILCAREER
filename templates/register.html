@@ -101,7 +101,24 @@
                 </div>
 
 
-                <!-- EDUCATION -->
+                                <div class="form-group">
+                    <label for="mobile_country_code">Mobile Country</label>
+                    <select id="mobile_country_code" name="mobile_country_code" required>
+                        <option value="">Select country code</option>
+                        <option value="+91">🇮🇳 India (+91)</option>
+                        <option value="+1">🇺🇸 USA (+1)</option>
+                        <option value="+44">🇬🇧 UK (+44)</option>
+                        <option value="+61">🇦🇺 Australia (+61)</option>
+                        <option value="+971">🇦🇪 UAE (+971)</option>
+                        <option value="+65">🇸🇬 Singapore (+65)</option>
+                        <option value="+1">🇨🇦 Canada (+1)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mobile_number">Mobile Number <span class="required-star">*</span></label>
+                    <input type="tel" id="mobile_number" name="mobile_number" inputmode="numeric" placeholder="Enter mobile number" required>
+                </div>
+<!-- EDUCATION -->
 
                 <div class="form-group">
 
@@ -148,13 +165,10 @@
                         Password
                     </label>
 
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Create a password"
-                        required
-                    >
+                    <div class="password-wrap">
+<input type="password" id="password" name="password" placeholder="Create a password" required>
+<button type="button" class="show-password" onclick="togglePassword('password', this)">Show</button>
+</div>
 
                 </div>
 
@@ -167,13 +181,10 @@
                         Confirm Password
                     </label>
 
-                    <input
-                        type="password"
-                        id="confirm_password"
-                        name="confirm_password"
-                        placeholder="Confirm your password"
-                        required
-                    >
+                    <div class="password-wrap">
+<input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+<button type="button" class="show-password" onclick="togglePassword('confirm_password', this)">Show</button>
+</div>
 
                 </div>
 
@@ -216,6 +227,12 @@
 
     </footer>
 
-</body>
+<script>
+function togglePassword(id, button) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+  button.textContent = input.type === "password" ? "Show" : "Hide";
+}
+</script></body>
 
 </html>

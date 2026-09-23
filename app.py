@@ -1771,7 +1771,7 @@ def profile():
     score_summary = connection.execute(
         """
         SELECT COUNT(*) AS tests_taken,
-               COALESCE(ROUND(AVG(percentage), 1), 0) AS average_score,
+               COALESCE(ROUND(AVG(percentage)::numeric, 1), 0) AS average_score,
                COALESCE(MAX(percentage), 0) AS best_score
         FROM mock_test_results
         WHERE student_id = ?

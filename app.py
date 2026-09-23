@@ -3753,13 +3753,23 @@ def mock_test(exam_slug):
 
         if number == current_index:
 
-            status = "current"
+            # Keep the review state visible even while the question
+            # is currently open.
+            if number in session.get(
+                doubt_key,
+                []
+            ):
+                status = "current review"
+            else:
+                status = "current"
 
         elif number in session.get(
             doubt_key,
             []
         ):
 
+            # Review status must remain visible even if an answer
+            # has also been saved for this question.
             status = "review"
 
         elif str(number) in answers:

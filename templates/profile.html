@@ -182,6 +182,20 @@
     </section>
 
 
+    {% if required_profile and not profile_complete %}
+    <section class="profile-required-banner">
+        <strong>⚠️ Complete your profile to continue</strong>
+        <p>New accounts must complete all required profile details before using Civil Career.</p>
+        <span>Required: Name • Education • Verified Email • Verified Mobile • Profile Photo • Target Exam</span>
+    </section>
+    {% endif %}
+
+    {% if profile_error %}
+    <div class="profile-alert profile-alert-error">{{ profile_error }}</div>
+    {% endif %}
+    {% if profile_message %}
+    <div class="profile-alert profile-alert-success">{{ profile_message }}</div>
+    {% endif %}
 
     <!-- =================================================
          PERSONAL DETAILS
@@ -253,67 +267,69 @@
         </div>
 
 
-        <form
-            method="POST"
-            class="personal-edit-form">
+        <div class="details-grid profile-readonly-grid">
+            <div><label>Name</label><strong>{{ student_name }}</strong></div>
+            <div><label>Email</label><strong>{{ student_email }}</strong><small class="verified-badge">{{ "Verified" if email_verified else "Not verified" }}</small></div>
+            <div><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong><small class="verified-badge">{{ "Verified" if mobile_verified else "Not verified" }}</small></div>
+            <div><label>Education</label><strong>{{ student_education }}</strong></div>
+        </div>
 
+        <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-details')">✏️ Change Details</button>
 
-            <input
-                type="hidden"
-                name="action"
-                value="personal">
+        <div id="change-details" class="profile-setting-panel">
+            <form method="POST">
+                <input type="hidden" name="action" value="personal">
+                <input type="hidden" name="required" value="{{ 1 if required_profile else 0 }}">
+                <label for="profile-name">Name</label>
+                <input id="profile-name" name="name" value="{{ student_name }}" required>
+                <label for="profile-education">Education</label>
+                <input id="profile-education" name="education" value="{{ student_education }}" required>
+                <button type="submit">Save Details</button>
+            </form>
+        </div>
 
+        <div class="profile-option-grid">
+            <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-password')">🔑 Change Password</button>
+            <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-email')">📧 Change Email</button>
+            <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-mobile')">📱 Change Mobile No</button>
+        </div>
 
-            <label for="profile-name">
-                Name
-            </label>
+        <div id="change-password" class="profile-setting-panel">
+            <form method="POST" action="{{ url_for('profile_change_password') }}">
+                <label>Current Password</label>
+                <input type="password" name="current_password" required>
+                <label>New Password</label>
+                <input type="password" name="new_password" required minlength="6">
+                <label>Confirm New Password</label>
+                <input type="password" name="confirm_password" required minlength="6">
+                <button type="submit">Change Password</button>
+            </form>
+        </div>
 
-            <input
-                id="profile-name"
-                name="name"
-                value="{{ student_name }}"
-                required>
+        <div id="change-email" class="profile-setting-panel">
+            <form method="POST" action="{{ url_for('profile_change_email') }}">
+                <label>New Email Address</label>
+                <input type="email" name="new_email" value="{{ student_email }}" required>
+                <button type="submit">Change Email & Verify</button>
+            </form>
+        </div>
 
-
-            <label for="profile-email">
-                Email
-            </label>
-
-            <input
-                id="profile-email"
-                type="email"
-                name="email"
-                value="{{ student_email }}"
-                required>
-
-
-            <label for="profile-education">
-                Education
-            </label>
-
-            <input
-                id="profile-education"
-                name="education"
-                value="{{ student_education }}"
-                required>
-
-
-            <button type="submit">
-                Save Personal Details
-            </button>
-
-
-        </form>
-
-
-        {% if profile_error %}
-
-            <p class="profile-error">
-                {{ profile_error }}
-            </p>
-
-        {% endif %}
-
+        <div id="change-mobile" class="profile-setting-panel">
+            <form method="POST" action="{{ url_for('profile_change_mobile') }}">
+                <label>Country</label>
+                <select name="mobile_country_code" required>
+                    <option value="+91" {% if mobile_country_code == "+91" %}selected{% endif %}>🇮🇳 India (+91)</option>
+                    <option value="+1" {% if mobile_country_code == "+1" %}selected{% endif %}>🇺🇸 USA (+1)</option>
+                    <option value="+44" {% if mobile_country_code == "+44" %}selected{% endif %}>🇬🇧 UK (+44)</option>
+                    <option value="+971" {% if mobile_country_code == "+971" %}selected{% endif %}>🇦🇪 UAE (+971)</option>
+                    <option value="+61" {% if mobile_country_code == "+61" %}selected{% endif %}>🇦🇺 Australia (+61)</option>
+                    <option value="+81" {% if mobile_country_code == "+81" %}selected{% endif %}>🇯🇵 Japan (+81)</option>
+                </select>
+                <label>New Mobile Number</label>
+                <input type="tel" name="mobile_number" value="{{ mobile_number }}" inputmode="numeric" required>
+                <button type="submit">Change Mobile & Verify</button>
+            </form>
+        </div>
 
     </section>
 
@@ -850,6 +866,14 @@
 </main>
 
 
+<script>
+function toggleProfilePanel(id) {
+    document.querySelectorAll('.profile-setting-panel').forEach(function(panel) {
+        if (panel.id === id) panel.classList.toggle('open');
+        else panel.classList.remove('open');
+    });
+}
+</script>
 </body>
 
 </html>

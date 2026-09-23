@@ -363,6 +363,8 @@ def create_database():
         ("email_verification_code", "TEXT"),
         ("mobile_verification_code", "TEXT"),
         ("verification_expires_at", "TEXT"),
+        ("password_reset_code", "TEXT"),
+        ("password_reset_expires_at", "TEXT"),
     ]:
         if column_name not in student_columns:
             connection.execute(f"ALTER TABLE students ADD COLUMN {column_name} {column_type}")
@@ -5838,6 +5840,76 @@ def subject_mcq_next(subject_slug):
 
     )
 
+
+# =========================================================
+# FORGOT PASSWORD / PASSWORD RESET
+# =========================================================
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = str(request.form.get("email", "")).strip().lower()
+        if not email:
+            return render_template("forgot_password.html", error="Please enter your registered email address.")
+
+        connection = get_db_connection()
+        student = connection.execute("SELECT id, email FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+        if not student:
+            connection.close()
+            return render_template("forgot_password.html", message="If this email is registered, a password reset code has been sent.")
+
+        code = str(secrets.randbelow(900000) + 100000)
+        connection.execute("UPDATE students SET password_reset_code=?, password_reset_expires_at=? WHERE id=?", (code, _verification_expiry(), student["id"]))
+        connection.commit()
+        connection.close()
+
+        try:
+            sent = _send_verification_email(email, code)
+        except Exception as exc:
+            print("[PASSWORD RESET EMAIL ERROR]", type(exc).__name__, exc, flush=True)
+            sent = False
+        if not sent:
+            return render_template("forgot_password.html", error="Password reset email could not be sent. Please try again later.")
+        return redirect(url_for("reset_password", email=email))
+
+    return render_template("forgot_password.html")
+
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+    email = str(request.form.get("email", request.args.get("email", ""))).strip().lower()
+    if request.method == "POST":
+        code = str(request.form.get("code", "")).strip()
+        password = str(request.form.get("password", ""))
+        confirm_password = str(request.form.get("confirm_password", ""))
+        if not email or not code or not password or not confirm_password:
+            return render_template("reset_password.html", error="All fields are required.", email=email)
+        if len(password) < 6:
+            return render_template("reset_password.html", error="Password must be at least 6 characters.", email=email)
+        if password != confirm_password:
+            return render_template("reset_password.html", error="Passwords do not match.", email=email)
+
+        connection = get_db_connection()
+        student = connection.execute("SELECT id, password_reset_code, password_reset_expires_at FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+        if not student:
+            connection.close()
+            return render_template("reset_password.html", error="Invalid or expired reset request.", email=email)
+
+        expires = student["password_reset_expires_at"]
+        try:
+            expired = not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow()
+        except ValueError:
+            expired = True
+        if expired or code != str(student["password_reset_code"] or ""):
+            connection.close()
+            return render_template("reset_password.html", error="Invalid or expired reset code.", email=email)
+
+        connection.execute("UPDATE students SET password=?, password_reset_code=NULL, password_reset_expires_at=NULL WHERE id=?", (generate_password_hash(password), student["id"]))
+        connection.commit()
+        connection.close()
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html", email=email)
 
 # =========================================================
 # REGISTER

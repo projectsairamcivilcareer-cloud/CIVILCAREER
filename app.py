@@ -52,6 +52,41 @@ app.secret_key = os.environ.get(
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
+
+# =========================================================
+# GLOBAL AUTHENTICATED NAVIGATION
+# Keep the application pages full-width and provide one
+# compact menu button in the top-left instead of a permanent
+# sidebar on every page.
+# =========================================================
+
+@app.after_request
+def add_global_navigation(response):
+    if (
+        "student_id" not in session
+        or response.status_code != 200
+        or not response.content_type
+        or not response.content_type.startswith("text/html")
+    ):
+        return response
+
+    html = response.get_data(as_text=True)
+
+    if "global-menu.css" in html or 'id="cc-global-menu"' in html:
+        return response
+
+    asset_version = "20260901"
+    assets = (
+        f'<link rel="stylesheet" href="/static/css/global-menu.css?v={asset_version}">'
+        f'<script defer src="/static/js/global-menu.js?v={asset_version}"></script>'
+    )
+    html = html.replace("</head>", assets + "</head>", 1)
+
+    response.set_data(html)
+    return response
+
+
+
 if os.environ.get("RAILWAY_PUBLIC_DOMAIN"):
     app.config["SESSION_COOKIE_SECURE"] = True
 

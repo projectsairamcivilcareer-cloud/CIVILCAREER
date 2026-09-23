@@ -571,3 +571,15 @@ section {
 .gate-syllabus-area li + li {
     margin-top: 8px;
 }
+
+/* SYLLABUS CATEGORY FIX - 2026-09-23 */
+.main{min-width:0;overflow-x:hidden}.hero>div:last-child,.content-box{min-width:0}
+.content-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.section-kicker{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.05em;color:#2563eb;background:#eff6ff;padding:6px 9px;border-radius:999px}
+.course-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 20px}.course-tabs a{text-decoration:none;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:700}
+.subject-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}.subject-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:18px;min-width:0}
+.subject-card h3{margin:0 0 8px;font-size:16px;color:#0f172a}.subject-card p{margin:0 0 10px;color:#64748b;line-height:1.55;font-size:13px}.subject-card ul{margin:0;padding-left:18px;color:#475569;font-size:12px;line-height:1.65}
+.course-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}.course-detail{background:#f1f5f9;border-left:4px solid #2563eb;border-radius:10px;padding:18px}.course-detail h3{margin:0 0 8px}.course-detail p{margin:0;color:#475569;line-height:1.6;font-size:13px}
+.exam-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.exam-link-card{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:#0f172a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px}.exam-link-card>span{font-size:25px}.exam-link-card h3{margin:0 0 5px;font-size:15px}.exam-link-card p{margin:0;color:#64748b;font-size:12px;line-height:1.5}.syllabus-year-links{flex-wrap:wrap}
+@media(max-width:1100px){.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exam-link-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.subject-grid,.course-detail-grid,.exam-link-grid{grid-template-columns:1fr}.content-box{padding:20px}.hero{padding:22px}}

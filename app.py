@@ -9,6 +9,7 @@ from datetime import date, datetime, timedelta
 from io import BytesIO
 from html import escape
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -17,15 +18,42 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_difficulty_mode
 
 app = Flask(__name__)
-WEBSITE_URL = os.environ.get("WEBSITE_URL", "https://civilcareer.com")
-app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024
-app.config["PROFILE_UPLOAD_FOLDER"] = os.path.join(
-    app.root_path, "static", "images", "profile_uploads"
+
+WEBSITE_URL = os.environ.get(
+    "WEBSITE_URL",
+    "https://civilcareer.up.railway.app"
 )
 
-# Secret key for login sessions
-# This is fine for our local development project.
-app.secret_key = "civil-career-development-key"
+DATA_DIR = os.environ.get(
+    "CIVILCAREER_DATA_DIR"
+) or (
+    "/app/data"
+    if os.path.isdir("/app/data")
+    else app.root_path
+)
+
+os.makedirs(DATA_DIR, exist_ok=True)
+
+app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024
+app.config["PROFILE_UPLOAD_FOLDER"] = os.path.join(
+    DATA_DIR,
+    "profile_uploads"
+)
+os.makedirs(
+    app.config["PROFILE_UPLOAD_FOLDER"],
+    exist_ok=True
+)
+
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "civil-career-development-key"
+)
+
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+if os.environ.get("RAILWAY_PUBLIC_DOMAIN"):
+    app.config["SESSION_COOKIE_SECURE"] = True
 
 
 # ==============================
@@ -34,7 +62,12 @@ app.secret_key = "civil-career-development-key"
 
 def get_db_connection():
 
-    connection = sqlite3.connect("civilcareer.db")
+    db_path = os.path.join(
+        DATA_DIR,
+        "civilcareer.db"
+    )
+
+    connection = sqlite3.connect(db_path)
 
     connection.row_factory = sqlite3.Row
 
@@ -46,6 +79,56 @@ def get_db_connection():
 # ==============================
 
 def create_database():
+
+    persistent_db = os.path.join(
+        DATA_DIR,
+        "civilcareer.db"
+    )
+    legacy_db = os.path.join(
+        app.root_path,
+        "civilcareer.db"
+    )
+
+    if (
+        persistent_db != legacy_db
+        and not os.path.exists(persistent_db)
+        and os.path.exists(legacy_db)
+    ):
+        import shutil
+        shutil.copy2(
+            legacy_db,
+            persistent_db
+        )
+
+    legacy_uploads = os.path.join(
+        app.root_path,
+        "static",
+        "images",
+        "profile_uploads"
+    )
+
+    if (
+        legacy_uploads != app.config["PROFILE_UPLOAD_FOLDER"]
+        and os.path.isdir(legacy_uploads)
+    ):
+        import shutil
+        for filename in os.listdir(legacy_uploads):
+            source = os.path.join(
+                legacy_uploads,
+                filename
+            )
+            target = os.path.join(
+                app.config["PROFILE_UPLOAD_FOLDER"],
+                filename
+            )
+            if (
+                os.path.isfile(source)
+                and not os.path.exists(target)
+            ):
+                shutil.copy2(
+                    source,
+                    target
+                )
 
     connection = get_db_connection()
 
@@ -186,6 +269,124 @@ def create_database():
     """)
 
 
+    seed_jobs = [
+        (
+            "Union Public Service Commission",
+            "Engineering Services (Preliminary) Examination, 2027",
+            "Engineering Services",
+            "Central Government Examination",
+            "Engineering degree in the relevant discipline; Civil Engineering candidates may apply for the Civil Engineering category.",
+            "Civil Engineering",
+            "As notified by UPSC",
+            "As per UPSC ESE 2027 rules",
+            "",
+            "",
+            "As per UPSC notification",
+            "2026-09-16",
+            "2026-10-06",
+            "2027-01-31",
+            "As per UPSC notification",
+            "Preliminary examination followed by subsequent stages under ESE rules",
+            "All India",
+            "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
+            "https://upsconline.nic.in/",
+            "UPSC",
+            "ESE-2027",
+            "2026-09-16",
+            "2026-09-23",
+            "OPEN"
+        ),
+        (
+            "National Highways Authority of India",
+            "Deputy Manager (Technical)",
+            "Technical / Highways",
+            "Direct Recruitment",
+            "Bachelor's Degree in Civil Engineering from a recognized University or Institute; valid GATE 2026 Civil Engineering score.",
+            "Civil Engineering",
+            "60",
+            "Not exceeding 30 years, subject to applicable relaxation",
+            "",
+            "Level 10: Rs. 56,100-1,77,500",
+            "2026-05-15",
+            "2026-06-15",
+            "",
+            "Direct recruitment through GATE 2026 score",
+            "All India",
+            "https://nhai.gov.in/nhai/sites/default/files/vacancy_files/Detailed-Advertisment-DM-Tech-GATE-2026.pdf",
+            "https://nhai.gov.in/#/vacancies/current",
+            "NHAI",
+            "DM-TECH-GATE-2026",
+            "2026-05-15",
+            "2026-09-23",
+            "CLOSED"
+        ),
+        (
+            "Staff Selection Commission",
+            "Junior Engineer (Civil, Mechanical & Electrical) Examination, 2026",
+            "Junior Engineer",
+            "Central Government Examination",
+            "Degree or Diploma in the relevant engineering discipline as prescribed by SSC.",
+            "Civil Engineering",
+            "As notified by SSC",
+            "As prescribed by SSC",
+            "",
+            "Level 6: Rs. 35,400-1,12,400",
+            "2026-03-01",
+            "2026-04-01",
+            "",
+            "Computer Based Examination and subsequent stages as notified by SSC",
+            "All India",
+            "https://ssc.gov.in/api/attachment/uploads/masterData/ExamCalendar/Tentative_Calendar2026_27_08012026.pdf",
+            "https://ssc.gov.in/",
+            "SSC",
+            "JE-2026",
+            "2026-01-08",
+            "2026-09-23",
+            "CLOSED"
+        ),
+        (
+            "Union Public Service Commission",
+            "Assistant Professor, Civil Engineering (Structural)",
+            "College of Military Engineering",
+            "Direct Recruitment",
+            "B.E./B.Tech in Civil Engineering and M.E./M.Tech in Structural Engineering, Structural Design, Dynamics or allied structural fields with First Class or equivalent at either stage.",
+            "Civil Engineering",
+            "1",
+            "35 years for EWS, subject to applicable rules",
+            "",
+            "Academic Level 10",
+            "2026-05-09",
+            "2026-05-29",
+            "",
+            "Shortlisting / Recruitment Test if applicable / Interview",
+            "Pune, Maharashtra",
+            "https://upsc.gov.in/sites/default/files/AdvtNo-04-2026-Engl-080526.pdf",
+            "https://upsconline.nic.in/ora/",
+            "UPSC",
+            "26050403309",
+            "2026-05-08",
+            "2026-09-23",
+            "CLOSED"
+        )
+    ]
+
+    connection.executemany(
+        """
+        INSERT OR IGNORE INTO government_jobs
+        (
+            organization, post_name, department, job_type,
+            qualification, branch, vacancies, age_limit,
+            age_relaxation, salary, pay_level,
+            application_start, application_last_date, exam_date,
+            application_fee, selection_process, job_location,
+            notification_url, apply_url, source,
+            notification_number, notification_date, last_verified, status
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        seed_jobs
+    )
+
     connection.commit()
 
     connection.close()
@@ -230,15 +431,47 @@ def login():
             """
             SELECT *
             FROM students
-            WHERE email = ? AND password = ?
+            WHERE email = ?
             """,
-            (email, password)
+            (email,)
         ).fetchone()
 
-        connection.close()
+        password_valid = False
+        legacy_plaintext = False
 
-        # LOGIN SUCCESS
         if student:
+            stored_password = student["password"]
+            try:
+                password_valid = check_password_hash(
+                    stored_password,
+                    password
+                )
+            except (ValueError, TypeError):
+                legacy_plaintext = (
+                    stored_password == password
+                )
+                password_valid = legacy_plaintext
+
+        if student and password_valid:
+
+            if legacy_plaintext:
+                connection.execute(
+                    """
+                    UPDATE students
+                    SET password = ?
+                    WHERE id = ?
+                    """,
+                    (
+                        generate_password_hash(password),
+                        student["id"]
+                    )
+                )
+                connection.commit()
+
+            connection.close()
+
+            # LOGIN SUCCESS
+            
 
             # Store student information in session
             session["student_id"] = student["id"]
@@ -932,6 +1165,28 @@ def practice():
 # ==============================
 # PROFILE
 # ==============================
+
+@app.route("/profile-photo/<path:filename>")
+def profile_photo(filename):
+
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    safe_name = os.path.basename(filename)
+
+    if safe_name != filename:
+        return "Invalid file name", 400
+
+    file_path = os.path.join(
+        app.config["PROFILE_UPLOAD_FOLDER"],
+        safe_name
+    )
+
+    if not os.path.isfile(file_path):
+        return "Profile image not found", 404
+
+    return send_file(file_path)
+
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
@@ -3905,7 +4160,7 @@ def mock_test(exam_slug):
                 question_statuses,
                 start=1
             )
-            if status == "review"
+            if "review" in status
         ],
 
         duration_minutes=round(
@@ -5112,7 +5367,7 @@ def register():
                     name,
                     email,
                     education,
-                    password
+                    generate_password_hash(password)
                 )
 
             )

@@ -147,6 +147,47 @@ def create_database():
         )
     """)
 
+    # -------------------------------------------------
+    # LOGIN-DATA MIGRATION
+    # Keep existing accounts when moving from a local
+    # database to Railway's persistent DATA_DIR.
+    # -------------------------------------------------
+    if persistent_db != legacy_db and os.path.exists(legacy_db):
+        try:
+            legacy_connection = sqlite3.connect(legacy_db)
+            legacy_connection.row_factory = sqlite3.Row
+            legacy_has_students = legacy_connection.execute(
+                "SELECT name FROM sqlite_master "
+                "WHERE type='table' AND name='students'"
+            ).fetchone()
+
+            if legacy_has_students:
+                legacy_students = legacy_connection.execute(
+                    "SELECT name, email, education, password "
+                    "FROM students"
+                ).fetchall()
+
+                for legacy_student in legacy_students:
+                    connection.execute(
+                        """
+                        INSERT OR IGNORE INTO students
+                        (name, email, education, password)
+                        VALUES (?, ?, ?, ?)
+                        """,
+                        (
+                            legacy_student["name"],
+                            str(legacy_student["email"]).strip().lower(),
+                            legacy_student["education"],
+                            legacy_student["password"]
+                        )
+                    )
+
+            legacy_connection.close()
+        except (sqlite3.Error, OSError):
+            # Never prevent the website from starting because of
+            # an optional legacy-database migration.
+            pass
+
     student_columns = {
         row["name"] for row in connection.execute("PRAGMA table_info(students)")
     }
@@ -427,17 +468,19 @@ def about():
 def login():
     if request.method == "POST":
 
-        email = request.form["email"]
-
-        password = request.form["password"]
+        email = str(request.form.get("email", "")).strip().lower()
+        password = str(request.form.get("password", ""))
 
         connection = get_db_connection()
 
+        # Email matching is intentionally case-insensitive and ignores
+        # accidental spaces copied from mobile/password managers.
         student = connection.execute(
             """
             SELECT *
             FROM students
-            WHERE email = ?
+            WHERE lower(trim(email)) = ?
+            LIMIT 1
             """,
             (email,)
         ).fetchone()
@@ -445,14 +488,17 @@ def login():
         password_valid = False
         legacy_plaintext = False
 
-        if student:
-            stored_password = student["password"]
+        if student and password:
+            stored_password = str(student["password"] or "").strip()
+
             try:
                 password_valid = check_password_hash(
                     stored_password,
                     password
                 )
             except (ValueError, TypeError):
+                # Older Civil Career accounts may still contain a
+                # plaintext password. Validate once, then upgrade it.
                 legacy_plaintext = (
                     stored_password == password
                 )
@@ -5427,7 +5473,7 @@ def register():
 
         name = request.form["name"]
 
-        email = request.form["email"]
+        email = str(request.form.get("email", "")).strip().lower()
 
         education = request.form["education"]
 

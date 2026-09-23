@@ -113,100 +113,57 @@ GATE_SYLLABUS_2025 = [
 
 
 GATE_SYLLABUS_2027 = [
+    {"subject": "General Aptitude", "topics": [
+        "Verbal Aptitude: Basic English grammar; basic vocabulary; words, idioms and phrases in context; reading comprehension; narrative sequencing.",
+        "Quantitative Aptitude: Data interpretation using graphs, plots, maps and tables; numerical computation and estimation; ratios, percentages, powers, exponents and logarithms; permutations and combinations; series; mensuration and geometry; elementary statistics and probability.",
+        "Analytical Aptitude: Logic, deduction and induction, analogy, numerical relations and reasoning.",
+        "Spatial Aptitude: Transformation of shapes including translation, rotation, scaling, mirroring, assembling and grouping; paper folding, cutting and patterns in two and three dimensions.",
+    ]},
     {"subject": "Engineering Mathematics", "topics": [
         "Linear Algebra: Matrix algebra; systems of linear equations; eigenvalues and eigenvectors.",
-        "Calculus: Single-variable functions, limits, continuity, differentiability, mean value theorems, maxima and minima, Taylor series, integrals, area and volume, partial and total derivatives, gradient, divergence, curl, directional derivatives, and line, surface and volume integrals.",
-        "Ordinary Differential Equations: First-order linear and nonlinear equations, higher-order linear equations with constant coefficients, Euler-Cauchy equations, and initial and boundary value problems.",
-        "Partial Differential Equations: Fourier series, separation of variables, one-dimensional diffusion and wave equations, and two-dimensional Laplace equation.",
-        "Probability and Statistics: Probability axioms and theorems, independence, conditional probability, descriptive statistics, random variables, PMF, PDF, CDF, Poisson and normal distributions, and linear regression.",
-        "Numerical Methods: Error analysis, algebraic equations, Newton and Lagrange polynomials, numerical differentiation and integration, and single- and multi-step methods for first-order differential equations.",
+        "Calculus: Functions of single variable; limits, continuity and differentiability; mean value theorems; local maxima and minima; Taylor series; definite and indefinite integrals; applications of definite integrals to area and volume; partial and total derivatives; gradient, divergence and curl; vector identities; directional derivatives; line, surface and volume integrals.",
+        "Ordinary Differential Equations: First-order linear and nonlinear equations; higher-order linear equations with constant coefficients; Euler-Cauchy equations; initial and boundary value problems.",
+        "Partial Differential Equations: Fourier series; separation of variables; one-dimensional diffusion equation; first- and second-order one-dimensional wave equations; two-dimensional Laplace equation.",
+        "Probability and Statistics: Basic probability concepts, axioms and theorems, statistical independence, conditional probability; descriptive statistics including mean, median, mode and standard deviation; random variables; probability mass function, probability density function and cumulative distribution function; Poisson and normal distributions; linear regression.",
+        "Numerical Methods: Error analysis; numerical solutions of linear and nonlinear algebraic equations; Newton and Lagrange polynomials; numerical differentiation; trapezoidal and Simpson's integration; single- and multi-step methods for first-order differential equations.",
     ]},
     {"subject": "Structural Engineering", "topics": [
-        "Engineering Mechanics: Force systems, free-body diagrams, equilibrium, internal forces, friction, and centre of mass.",
-        "Solid Mechanics: Beam shear force and bending moment, Mohr's circle, stress-strain relationships, bending, flexural and shear stresses, shear centre, torsion, combined stresses, and column buckling.",
-        "Structural Analysis: Superposition, virtual work, Castigliano's theorem, deflections, indeterminate structures, force and displacement methods, influence lines, stiffness method, arches, and cables.",
-        "Concrete Structures: Working stress and limit state design; beams, slabs, columns, isolated footings, bond, and development length.",
-        "Steel Structures: Working stress and limit state design; tension and compression members, beams, beam-columns, column bases, connections, and plastic analysis.",
+        "Engineering Mechanics: System of forces, free-body diagrams, equilibrium equations, internal forces in structures, friction and its applications, and centre of mass.",
+        "Solid Mechanics: Bending moment and shear force in statically determinate beams; transformation of stress including Mohr's circle; simple stress and strain relationships; simple bending theory; flexural and shear stresses; shear centre; uniform torsion; combined stresses; column buckling.",
+        "Structural Analysis: Principle of superposition; work and energy methods including principle of virtual work and Castigliano's second theorem; deflections of statically determinate beams, frames and trusses; analysis of statically indeterminate structures by force and displacement methods including method of consistent deformations, slope-deflection and moment distribution; influence lines and moving loads; stiffness matrix method; analysis of determinate arches and cables.",
+        "Concrete Structures: Working stress and limit state design concepts; design and detailing of beams, slabs, columns and isolated footings; bond and development length.",
+        "Steel Structures: Working stress and limit state design concepts; design of tension and compression members, beams, beam-columns and column bases; simple and eccentric connections and beam-column connections; plastic analysis of beams and portal frames.",
     ]},
     {"subject": "Geotechnical Engineering", "topics": [
-        "Phase relationships, index properties, soil classification, permeability, seepage, flow nets, uplift, piping, capillarity, seepage force, effective stress, and quicksand.",
-        "Compaction, one-dimensional consolidation, time rate, shear strength, Mohr's circle, effective and total strength parameters, stress-strain characteristics, and stress paths.",
-        "Sub-surface investigation: Boreholes, sampling, plate load, SPT, and CPT.",
-        "Earth pressure, slope stability, sheet piles, Boussinesq stress distribution, pressure bulbs, shallow and deep foundations, settlement, pile capacity, group efficiency, negative skin friction, and ground improvement.",
+        "Three-phase system and phase relationships; index properties; Unified and Indian Standard soil classification; permeability and one-dimensional flow; seepage through soils, two-dimensional flow and flow nets; uplift pressure, piping, capillarity and seepage force; effective stress and quicksand condition; compaction; one-dimensional consolidation and time rate; shear strength, Mohr's circle, effective and total shear strength parameters; stress-strain characteristics of clays and sand; stress paths.",
+        "Sub-surface investigations including drilling bore holes, sampling, plate load test, standard penetration test and cone penetration test; earth pressure theories by Rankine and Coulomb; slope stability for finite and infinite slopes using Bishop's method; sheet piles; Boussinesq stress distribution and pressure bulbs; shallow foundations including Terzaghi and Meyerhof bearing capacity and water-table effects; combined and raft foundations; contact pressure; settlement analysis in sands and clays; deep foundations including static formulae, axial load capacity of piles in sands and clays, pile load test, lateral loading, pile group efficiency and negative skin friction; ground improvement techniques.",
     ]},
     {"subject": "Water Resources Engineering", "topics": [
-        "Fluid Mechanics: Fluid properties and statics, continuity, momentum and energy equations, potential flow, laminar and turbulent flow, pipes, networks, boundary layers, lift, and drag.",
-        "Hydraulics: Immersed-body forces, flow measurement, dimensional analysis, specific energy, critical flow, hydraulic jump, uniform and gradually varied flow, channels, unsteady flow, and sharp-crested weirs.",
-        "Hydrology: Hydrologic cycle, precipitation, evaporation, evapotranspiration, watersheds, infiltration, streamflow, unit hydrographs, reservoirs, floods, routing, runoff models, groundwater, aquifers, and Darcy's law.",
-        "Irrigation: Irrigation systems and methods, crop water requirements, duty, delta, evapotranspiration, dams, spillways, canals, weirs, cross-drainage, river training, earthen dams, seepage, and well irrigation.",
+        "Fluid Mechanics: Properties of fluids and fluid statics; continuity, momentum and energy equations and applications; potential flow; laminar and turbulent flow; flow in pipes and pipe networks; boundary-layer growth; lift and drag.",
+        "Hydraulics: Forces on immersed bodies; flow measurement in channels and pipes; dimensional analysis and hydraulic similitude; prismatic and mobile channels; energy-depth relationships and specific energy; critical flow; steady and unsteady flow; rapidly varied flow and hydraulic jump; gradually varied flow and water-surface profiles; flow past sharp-crested weirs.",
+        "Hydrology: Hydrologic cycle, precipitation, evaporation, evapotranspiration and watershed; infiltration; streamflow measurement; unit hydrographs; hydrograph analysis; reservoir capacity; flood estimation and routing; surface-runoff models; groundwater hydrology including steady-state well hydraulics and aquifers; Darcy's law.",
+        "Irrigation: Types of irrigation systems and methods; crop water requirements, duty, delta and evapotranspiration; gravity dams and spillways; lined and unlined canals; design of weirs on permeable foundations; cross-drainage structures; river training structures; earthen dams; seepage through dams; well irrigation.",
     ]},
     {"subject": "Environmental Engineering", "topics": [
-        "Water and wastewater: Quality parameters and standards, water quality index, unit processes, water requirement, distribution, drinking-water treatment, sewerage, wastewater quantity, primary, secondary and tertiary treatment, discharge standards, sludge, and reuse.",
-        "Air Pollution: Pollutants, sources, impacts, control, standards, air quality index, and limits.",
-        "Municipal Solid Waste: Characteristics, generation, collection, transport, reuse, recycling, energy recovery, treatment, disposal, and landfill design and operation.",
+        "Water and Wastewater Quality and Treatment: Water-quality standards; physical, chemical and biological parameters; water quality index; unit processes and operations; water requirement; water distribution system; drinking-water treatment; sewerage system design; quantity of domestic wastewater; primary and secondary treatment; effluent discharge standards; sludge disposal; reuse of treated sewage.",
+        "Air Pollution: Types of pollutants, their sources and impacts; air-pollution control; air-quality standards; Air Quality Index and limits.",
+        "Municipal Solid Wastes: Characteristics, generation, collection and transportation; engineered systems for solid-waste management including reuse/recycle, energy recovery, treatment and disposal.",
     ]},
     {"subject": "Transportation Engineering", "topics": [
-        "Roadway geometric design using IRC codes: Cross-sections, sight distances, road classification, design vehicles, and horizontal and vertical alignment.",
-        "Railway and airport design: Track speed and cant, runway length and corrections, taxiways, and exit taxiways.",
-        "Highway Pavements: Materials and tests, bituminous mixes, flexible and rigid pavement factors and design using IRC codes.",
-        "Traffic Engineering and Planning: Flow and speed studies, peak hour factor, accidents, traffic parameters, signs, Webster signals, intersections, capacity, level of service, and four-step demand modelling.",
+        "Transportation Infrastructure: Geometric design of highways including cross-sectional elements, sight distances, horizontal and vertical alignments; geometric design of railway track including speed and cant; airport runway length, calculations and corrections; taxiway and exit taxiway design.",
+        "Highway Pavements: Highway materials, desirable properties and tests; desirable properties of bituminous paving mixes; design factors for flexible and rigid pavements; design of flexible and rigid pavement using IRC codes.",
+        "Traffic Engineering: Traffic studies on flow and speed, peak hour factor, accident study, statistical analysis of traffic data; microscopic and macroscopic traffic-flow parameters and fundamental relationships; traffic signs; signal design by Webster's method; types of intersections and interchanges; highway capacity and level of service.",
+        "Transportation Planning: Four-step travel demand modelling including trip generation, trip distribution, mode choice and traffic assignment and its applications.",
     ]},
     {"subject": "Geomatics Engineering", "topics": [
-        "Surveying principles, plane and geodetic surveying, GNSS, errors and adjustment, maps, scales, coordinates, distance and angle measurement, levelling, traversing, triangulation, and total station.",
-        "Topographic, cadastral and engineering surveys, cartography, and map projections.",
-        "Photogrammetry: Digital photogrammetry, photographic scale, flying height, space resection, parallax, elevation by parallax differences, and camera calibration.",
+        "Surveying: Principles of surveying; plane and geodetic surveying; GNSS surveying; errors and their adjustment; maps, scale and coordinate system; distance and angle measurement; levelling and trigonometric levelling; traversing and triangulation survey; total station; principles of topographic, cadastral and engineering surveys; introduction to cartography and map projections.",
+        "Photogrammetry: Introduction to photogrammetry; digital photogrammetry; photographic scale and flying height; space resection; parallax equations; elevations by parallax differences; camera calibration.",
     ]},
     {"subject": "Construction Materials and Management", "topics": [
-        "Construction Materials: Steel composition and behaviour, cement composition and hydration, microstructure, admixtures, and concrete constituents, mix design, and short- and long-term properties.",
-        "Construction Management: Project types, estimation and costing, long-wall/short-wall and centre-line methods, rate analysis, AOA and AON networks, PERT, CPM, updating, monitoring, equipment, and contracts.",
+        "Construction Materials: Steel composition, material properties and behaviour; cement composition, hydration and microstructure, chemical and mineral admixtures; concrete constituents, mix design, short-term and long-term properties.",
+        "Construction Management: Types of construction projects; estimation and costing using long-wall and short-wall methods, centre-line method and analysis of rates; project planning and scheduling using AOA and AON network analysis, PERT and CPM; project updating and monitoring; construction equipment for earthwork, concreting, hoisting and transportation of materials; types of contracts.",
     ]},
 ]
-
-
-GATE_SYLLABUS_2026 = [
-    {"subject": "Engineering Mathematics", "topics": [
-        "Linear Algebra: Matrix algebra, systems of linear equations, eigenvalues, and eigenvectors.",
-        "Calculus: Single-variable functions; limits, continuity, differentiability; mean value theorems; local maxima and minima; Taylor series; definite and indefinite integrals; area and volume; partial and total derivatives; gradient, divergence, curl, vector identities, directional, line, surface, and volume integrals.",
-        "Ordinary Differential Equations: First-order linear and nonlinear equations; higher-order linear equations with constant coefficients; Euler-Cauchy equations; initial value and boundary value problems.",
-        "Partial Differential Equations: Fourier series, separation of variables, one-dimensional diffusion equation, first- and second-order one-dimensional wave equations, and two-dimensional Laplace equation.",
-        "Probability and Statistics: Sampling theorems, conditional probability, descriptive statistics, mean, median, mode, standard deviation, discrete and continuous random variables, Poisson and normal distributions, and linear regression.",
-        "Numerical Methods: Error analysis; linear and nonlinear algebraic equations; Newton and Lagrange polynomials; numerical differentiation; trapezoidal and Simpson's rules; single- and multi-step first-order ODE methods.",
-    ]},
-    {"subject": "Structural Engineering", "topics": [
-        "Engineering Mechanics: Force systems, free-body diagrams, equilibrium, internal forces, friction and applications, centre of mass, and free vibrations of undamped SDOF systems.",
-        "Solid Mechanics: Bending moment and shear force in determinate beams; stress and strain; simple bending; flexural and shear stresses; shear centre; uniform torsion; stress transformation; column buckling; combined and direct bending stresses.",
-        "Structural Analysis: Determinate and indeterminate structures; force, flexibility, and energy methods; superposition; trusses, arches, beams, cables, frames; slope-deflection; moment distribution; influence lines; stiffness methods.",
-        "Construction Materials and Management: Structural steel composition, properties and behaviour; concrete constituents, mix design, short- and long-term properties; project types, planning, networks, PERT, CPM, and cost estimation.",
-        "Concrete Structures: Working stress and limit state design; beams, slabs, columns, bond, development length, and prestressed concrete beams.",
-        "Steel Structures: Working stress and limit state design; tension and compression members, beams, beam-columns, column bases, simple/eccentric/beam-column connections, plate girders, steel trusses, and plastic analysis of beams and frames.",
-    ]},
-    {"subject": "Geotechnical Engineering", "topics": [
-        "Soil Mechanics: Three-phase system, phase relationships, index properties, Unified and Indian Standard classification, permeability, one-dimensional flow, two-dimensional seepage, flow nets, uplift, piping, capillarity, seepage force, effective stress, quicksand, compaction, consolidation, time rate, shear strength, Mohr's circle, stress-strain behaviour, and stress paths.",
-        "Foundation Engineering: Sub-surface investigation, boreholes, sampling, plate load, SPT, CPT, Rankine and Coulomb earth pressure, finite and infinite slopes, Bishop's method, Boussinesq stress distribution, pressure bulbs, shallow foundations, Terzaghi and Meyerhof bearing capacity, water-table effects, combined and raft foundations, contact pressure, settlement, piles, pile tests, lateral loading, group efficiency, negative skin friction, and dynamic/static pile formulae.",
-    ]},
-    {"subject": "Water Resources Engineering", "topics": [
-        "Fluid Mechanics: Fluid properties and statics; continuity, momentum, and energy equations; potential, laminar, and turbulent flow; pipes and networks; boundary-layer growth; lift and drag.",
-        "Hydraulics: Forces on immersed bodies; flow measurement in channels and pipes; dimensional analysis and similitude; energy-depth relationships; specific and critical flow; hydraulic jump; uniform and gradually varied flow; water-surface profiles.",
-        "Hydrology: Hydrologic cycle, precipitation, evaporation, evapotranspiration, watershed, infiltration, unit hydrographs, hydrograph analysis, reservoir capacity, flood estimation and routing, runoff models, groundwater, wells, aquifers, and Darcy's law.",
-        "Irrigation: Irrigation systems and methods, crop water requirements, duty, delta, evapotranspiration, gravity dams, spillways, lined and unlined canals, weirs on permeable foundations, and cross-drainage structures.",
-    ]},
-    {"subject": "Environmental Engineering", "topics": [
-        "Water and Wastewater: Quality standards and physical, chemical, and biological parameters; Water Quality Index; unit processes and operations; water requirement and distribution; drinking-water treatment; sewerage; wastewater quantity; primary and secondary treatment; discharge standards; sludge disposal; reuse.",
-        "Air Pollution: Pollutant types, sources, impacts, control, air-quality standards, Air Quality Index, and limits.",
-        "Municipal Solid Waste: Characteristics, generation, collection, transportation, reuse, recycling, energy recovery, treatment, disposal, and engineered management systems.",
-    ]},
-    {"subject": "Transportation Engineering", "topics": [
-        "Transportation Infrastructure: Highway geometric design, cross-sections, sight distances, horizontal and vertical alignment, design principles; railway speed and cant; runway length and corrections; taxiway and exit taxiway design.",
-        "Highway Pavements: Highway materials and tests, bituminous mixes, flexible and rigid pavement factors, and IRC-based pavement design.",
-        "Traffic Engineering: Flow and speed studies, peak hour factor, accident studies, traffic-data statistics, microscopic and macroscopic parameters, fundamental relationships, signs, Webster signals, intersections, and highway capacity.",
-        "Transportation Planning: Four-step travel demand modelling, trip generation, trip distribution, mode choice, traffic assignment, and applications.",
-    ]},
-    {"subject": "Geomatics Engineering", "topics": [
-        "Surveying: Principles, errors and adjustment, maps, scale, coordinates, distance and angle measurement, levelling, trigonometric levelling, traversing, triangulation, total station, horizontal curves, and vertical curves.",
-        "Photogrammetry and Remote Sensing: Photogrammetric scale, flying height, remote-sensing basics, and GIS fundamentals.",
-    ]},
-]
-
 
 GATE_SYLLABI = {"2025": GATE_SYLLABUS_2025, "2026": GATE_SYLLABUS_2026, "2027": GATE_SYLLABUS_2027}
 GATE_SYLLABUS = GATE_SYLLABUS_2026

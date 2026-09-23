@@ -1,0 +1,201 @@
+/* =========================================================
+   CIVIL CAREER - GLOBAL COLLAPSIBLE MENU
+   The authenticated site uses one compact menu button at
+   the top-left. The old full-height sidebars are hidden.
+========================================================= */
+
+body.cc-menu-page {
+    overflow-x: hidden;
+}
+
+body.cc-menu-page .sidebar {
+    display: none !important;
+}
+
+body.cc-menu-page .dashboard-main,
+body.cc-menu-page .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    padding-top: 78px !important;
+}
+
+.cc-menu-button {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 10001;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 12px;
+    background: #0f172a;
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.22);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    line-height: 1;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cc-menu-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.cc-menu-button:focus-visible,
+.cc-menu-close:focus-visible,
+.cc-menu-link:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+.cc-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(15, 23, 42, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.cc-menu-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10002;
+    width: min(310px, 86vw);
+    height: 100vh;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 18px 14px;
+    box-shadow: 12px 0 30px rgba(15, 23, 42, 0.25);
+    transform: translateX(-105%);
+    transition: transform 0.24s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+body.cc-menu-open .cc-menu-backdrop {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.cc-menu-open .cc-menu-drawer {
+    transform: translateX(0);
+}
+
+.cc-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 8px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.cc-menu-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: 0.2px;
+}
+
+.cc-menu-brand-icon {
+    font-size: 22px;
+}
+
+.cc-menu-close {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.cc-menu-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.cc-menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 18px;
+}
+
+.cc-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 11px 13px;
+    border-radius: 9px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.cc-menu-link:hover {
+    background: #1e293b;
+    color: #ffffff;
+}
+
+.cc-menu-link.active {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.cc-menu-icon {
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+    flex: 0 0 24px;
+}
+
+.cc-menu-bottom {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+@media (max-width: 650px) {
+    body.cc-menu-page .dashboard-main,
+    body.cc-menu-page .main {
+        padding: 72px 16px 24px !important;
+    }
+
+    .cc-menu-button {
+        top: 12px;
+        left: 12px;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media print {
+    .cc-menu-button,
+    .cc-menu-drawer,
+    .cc-menu-backdrop {
+        display: none !important;
+    }
+
+    body.cc-menu-page .dashboard-main,
+    body.cc-menu-page .main {
+        padding-top: 0 !important;
+    }
+}

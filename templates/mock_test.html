@@ -1976,104 +1976,272 @@
         /* =========================================================
            RESPONSIVE
         ========================================================= */
+        /* =========================================================
+           RESPONSIVE — TABLET
+        ========================================================= */
 
         @media (max-width: 1000px) {
 
             .exam-header {
-
                 grid-template-columns:
-                    145px
-                    minmax(200px, 1fr)
-                    110px
-                    120px;
+                    135px
+                    minmax(0,1fr)
+                    105px
+                    115px;
+                gap: 8px;
+                padding: 7px 10px;
             }
 
             .test-name {
-                font-size: 16px;
+                font-size: 15px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .header-button {
+                font-size: 11px;
             }
 
             .test-body {
                 grid-template-columns:
                     minmax(0,1fr)
-                    220px;
+                    210px;
             }
 
             .question-scroll {
-                padding-left: 25px;
-                padding-right: 25px;
+                padding-left: 22px;
+                padding-right: 22px;
             }
 
             .question-card {
-                padding:
-                    30px 32px;
+                padding: 28px 30px;
             }
         }
 
 
+        /* =========================================================
+           RESPONSIVE — MOBILE
+           Fixes header overlap and gives the question area full width.
+        ========================================================= */
+
         @media (max-width: 720px) {
 
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .exam-wrapper {
+                height: 100dvh;
+                min-height: 100dvh;
+            }
+
+            /* Two-row mobile header:
+               row 1 = brand + test title
+               row 2 = calculator + timer */
             .exam-header {
+                height: 112px;
+                min-height: 112px;
+                grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+                grid-template-rows: 52px 48px;
+                gap: 6px;
+                padding: 6px;
+            }
 
-                height:
-                    68px;
-
-                grid-template-columns:
-                    105px
-                    minmax(0,1fr)
-                    95px
-                    100px;
-
-                gap:
-                    6px;
-
-                padding:
-                    7px;
+            .organization {
+                grid-column: 1;
+                grid-row: 1;
+                min-width: 0;
             }
 
             .organization-box {
-                min-width: 98px;
+                width: 100%;
+                min-width: 0;
+                height: 42px;
+                padding: 0 7px;
                 font-size: 9px;
+                white-space: nowrap;
             }
 
             .test-name {
-                font-size: 13px;
+                grid-column: 2;
+                grid-row: 1;
+                width: 100%;
+                height: 48px;
+                min-width: 0;
+                padding: 4px 6px;
+                font-size: 11px;
+                line-height: 1.1;
+                overflow: hidden;
+                text-align: center;
+            }
+
+            .exam-header > .header-button:nth-of-type(1) {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .exam-header > .header-button:nth-of-type(2) {
+                grid-column: 2;
+                grid-row: 2;
             }
 
             .header-button {
+                width: 100%;
+                height: 44px;
+                min-width: 0;
+                padding: 0 6px;
+                font-size: 11px;
+                gap: 5px;
+                white-space: nowrap;
+            }
+
+            #timer {
+                min-width: 0;
+                font-size: 14px;
+                letter-spacing: .3px;
+            }
+
+            /* On phones the navigator becomes a compact top panel.
+               This prevents the question itself from being squeezed
+               into a narrow half-screen column. */
+            .test-body {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 178px minmax(0,1fr);
+                min-height: 0;
+            }
+
+            .question-panel {
+                order: -1;
+                width: 100%;
+                height: 178px;
+                min-height: 178px;
+                border-left: 0;
+                border-bottom: 1px solid var(--border-dark);
+                box-shadow: 0 3px 12px rgba(15,39,71,.06);
+            }
+
+            .question-panel-title {
+                height: 36px;
+                min-height: 36px;
+                font-size: 13px;
+            }
+
+            .navigator-info {
+                padding: 6px 8px;
                 font-size: 10px;
             }
 
-            .test-body {
+            .question-numbers {
+                flex: 1;
+                padding: 7px 8px;
+                grid-template-columns: repeat(8, minmax(0,1fr));
+                gap: 5px;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
 
-                grid-template-columns:
-                    minmax(0,1fr)
-                    185px;
+            .question-number {
+                min-width: 0;
+                height: 28px;
+                padding: 0;
+                font-size: 10px;
+            }
+
+            .navigator-legend {
+                display: none;
+            }
+
+            .question-area {
+                min-height: 0;
+                border-right: 0;
             }
 
             .question-scroll {
-                padding: 16px;
+                padding: 12px 10px 18px;
+                overflow-y: auto;
+            }
+
+            .question-top {
+                gap: 8px;
+                padding-bottom: 10px;
+                margin-bottom: 12px;
+            }
+
+            .question-label {
+                font-size: 14px;
+            }
+
+            .question-type {
+                padding: 5px 9px;
+                font-size: 9px;
             }
 
             .question-card {
-                padding: 25px 22px;
+                width: 100%;
+                max-width: none;
+                margin-bottom: 16px;
+                padding: 22px 18px;
+                border-radius: 11px;
+            }
+
+            .question-card::before {
+                top: 16px;
+                bottom: 16px;
             }
 
             .question-text {
-                font-size: 17px;
+                font-size: 18px;
+                line-height: 1.55;
             }
 
-            .bottom-bar {
+            .options {
+                width: 100%;
+                max-width: none;
+                gap: 9px;
+            }
 
+            .option {
+                min-height: 54px;
+                padding: 11px 12px;
+                gap: 10px;
+            }
+
+            .option-text {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            .option-letter {
+                width: 28px;
+                height: 28px;
+                font-size: 10px;
+            }
+
+            .nat-area {
+                width: 100%;
+                max-width: none;
+            }
+
+            /* Keep all exam controls visible above the phone browser area. */
+            .bottom-bar {
+                height: 58px;
                 grid-template-columns:
-                    95px
-                    110px
                     1fr
-                    95px
-                    80px;
+                    1.2fr
+                    1fr
+                    1fr
+                    1fr;
             }
 
             .bottom-button {
+                min-width: 0;
+                padding: 0 4px;
                 font-size: 10px;
+                white-space: nowrap;
             }
         }
 

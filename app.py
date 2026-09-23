@@ -468,6 +468,22 @@ def create_database():
         )
     """)
 
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS notification_alerts (
+            id BIGSERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            category TEXT NOT NULL,
+            title TEXT NOT NULL,
+            message TEXT NOT NULL,
+            link_url TEXT NOT NULL DEFAULT '',
+            source TEXT NOT NULL DEFAULT 'Civil Career',
+            priority TEXT NOT NULL DEFAULT 'NORMAL',
+            is_read INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, category, title, link_url)
+        )
+    """)
+
 
     seed_jobs = [
         (
@@ -1403,7 +1419,6 @@ def materials():
 
 @app.route("/notifications")
 def notifications():
-
     if "student_id" not in session:
         return redirect(url_for("login"))
 
@@ -1418,9 +1433,26 @@ def notifications():
           AND apply_url != ''
           AND source != ''
         ORDER BY notification_date DESC, id DESC
-        LIMIT 10
+        LIMIT 20
         """
     ).fetchall()
+
+    alerts = connection.execute(
+        """
+        SELECT id, category, title, message, link_url, source,
+               priority, is_read, created_at
+        FROM notification_alerts
+        WHERE user_id=?
+        ORDER BY is_read ASC, created_at DESC, id DESC
+        LIMIT 30
+        """,
+        (session["student_id"],)
+    ).fetchall()
+
+    unread_count = connection.execute(
+        "SELECT COUNT(*) AS count FROM notification_alerts WHERE user_id=? AND is_read=0",
+        (session["student_id"],)
+    ).fetchone()["count"]
     connection.close()
 
     notification_jobs = []
@@ -1437,8 +1469,41 @@ def notifications():
         "notifications.html",
         student_name=session["student_name"],
         student_education=session["student_education"],
-        notification_jobs=notification_jobs
+        notification_jobs=notification_jobs,
+        notification_alerts=[dict(row) for row in alerts],
+        unread_count=unread_count
     )
+
+
+@app.route("/notifications/read/<int:alert_id>", methods=["POST"])
+def mark_notification_read(alert_id):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    connection.execute(
+        "UPDATE notification_alerts SET is_read=1 WHERE id=? AND user_id=?",
+        (alert_id, session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+    return redirect(url_for("notifications"))
+
+
+@app.route("/notifications/read-all", methods=["POST"])
+def mark_all_notifications_read():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    connection.execute(
+        "UPDATE notification_alerts SET is_read=1 WHERE user_id=?",
+        (session["student_id"],)
+    )
+    connection.commit()
+    connection.close()
+    return redirect(url_for("notifications"))
+
 
 
 # ==============================

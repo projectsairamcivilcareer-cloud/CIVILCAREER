@@ -161,6 +161,24 @@
         </section>
 
 
+        {% if matching_jobs %}
+        <section class="dashboard-section dashboard-matching-jobs">
+            <div>
+                <h2>🎯 Jobs Matching Your Preferences</h2>
+                <p>Opportunities matched to your current job preferences.</p>
+            </div>
+            <div class="matching-job-list">
+                {% for job in matching_jobs %}
+                <a class="dashboard-card" href="{{ url_for('government_job_detail', job_id=job.id) }}">
+                    <h3>{{ job.post_name }}</h3>
+                    <p>{{ job.organization }}</p>
+                    <strong>{{ job.match_score }}% match · {{ job.display_status }}</strong>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
         <!-- QUICK ACCESS -->
 
         <section class="dashboard-section">
@@ -311,7 +329,7 @@
 
                 <div class="progress-bar">
 
-                    <div class="progress-fill"></div>
+                    <div class="progress-fill" style="width: {{ overall_progress }}%;"></div>
 
                 </div>
 

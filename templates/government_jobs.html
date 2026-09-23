@@ -13,8 +13,7 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/dashboard.css') }}">
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/government_jobs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/government_jobs.css') }}?v=20260923">
 
 </head>
 
@@ -48,19 +47,24 @@
                 🏛️ Government Jobs
             </a>
 
-            <a href="{{ url_for('syllabus') }}">\n                📖 Syllabus
+            <a href="{{ url_for('syllabus') }}">
+                📖 Syllabus
             </a>
 
-            <a href="{{ url_for('materials') }}">\n                📚 Materials
+            <a href="{{ url_for('materials') }}">
+                📚 Materials
             </a>
 
-            <a href="{{ url_for('notifications') }}">\n                🔔 Notifications
+            <a href="{{ url_for('notifications') }}">
+                🔔 Notifications
             </a>
 
-            <a href="{{ url_for('practice') }}">\n                🎯 Practice
+            <a href="{{ url_for('practice') }}">
+                🎯 Practice
             </a>
 
-            <a href="{{ url_for('profile') }}">\n                👤 Profile
+            <a href="{{ url_for('profile') }}">
+                👤 Profile
             </a>
 
         </nav>
@@ -162,7 +166,7 @@
         <section class="dashboard-section">
             <div class="job-search-box">
                 <h2>🔎 Find Verified Civil Engineering Jobs</h2>
-                <p>Only opportunities with an official notification, official apply link, and source are shown.</p>
+                <p>Official-source recruitment data only. Open the official notification before applying.</p>
                 <form class="search-row" method="GET">
                     <input name="search" value="{{ filters.search }}" placeholder="Search organization or post...">
                     <select name="qualification">

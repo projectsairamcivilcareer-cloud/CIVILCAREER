@@ -114,9 +114,9 @@ class PostgreSQLCompatConnection:
         sql = sql.replace("?", "%s")
 
         # PostgreSQL equivalent for SQLite's INSERT OR IGNORE.
-        if re.match(r"^\\s*INSERT\\s+OR\\s+IGNORE\\s+INTO\\b", sql, re.I):
+        if re.match(r"^\s*INSERT\s+OR\s+IGNORE\s+INTO\b", sql, re.I):
             sql = re.sub(
-                r"^\\s*INSERT\\s+OR\\s+IGNORE\\s+INTO\\b",
+                r"^\s*INSERT\s+OR\s+IGNORE\s+INTO\b",
                 "INSERT INTO",
                 sql,
                 count=1,
@@ -126,7 +126,7 @@ class PostgreSQLCompatConnection:
 
         # SQLite PRAGMA used by the old schema migration code.
         pragma_match = re.match(
-            r"^\\s*PRAGMA\\s+table_info\\(([^)]+)\\)\\s*$",
+            r"^\s*PRAGMA\s+table_info\(([^)]+)\)\s*$",
             sql,
             re.I,
         )

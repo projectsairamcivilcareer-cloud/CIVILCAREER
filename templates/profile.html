@@ -122,7 +122,7 @@
             {% if profile_photo %}
 
                 <img
-                    src="{{ url_for('static', filename='images/profile_uploads/' + profile_photo) }}"
+                    src="{{ url_for('profile_photo', filename=profile_photo) }}"
                     alt="Profile photo">
 
             {% else %}

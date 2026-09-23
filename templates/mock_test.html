@@ -3291,6 +3291,128 @@
 
 
     /* =========================================================
+       RESTORE / SUBMIT ALL CLIENT-SIDE ANSWERS
+    ========================================================= */
+
+    const answerStoragePrefix =
+        "civilCareerMockAnswer_{{ exam_slug }}_";
+
+
+    function restoreSavedAnswer(index) {
+
+        const raw =
+            localStorage.getItem(
+                answerStoragePrefix + index
+            );
+
+        if (!raw) {
+            return;
+        }
+
+        try {
+
+            const data = JSON.parse(raw);
+
+            if (data.answer === undefined) {
+                return;
+            }
+
+            const values =
+                Array.isArray(data.answer)
+                    ? data.answer.map(String)
+                    : [String(data.answer)];
+
+            document
+                .querySelectorAll('input[name="answer"]')
+                .forEach(function(input) {
+
+                    if (
+                        input.type === "radio"
+                        || input.type === "checkbox"
+                    ) {
+                        input.checked =
+                            values.includes(String(input.value));
+                    } else {
+                        input.value = values[0] || "";
+                    }
+
+                });
+
+            updateSelectedOptions();
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to restore saved answer:",
+                error
+            );
+
+        }
+    }
+
+
+    function collectStoredAnswers() {
+
+        const answers = {};
+
+        for (let i = 0; i < totalQuestions; i++) {
+
+            const raw =
+                localStorage.getItem(
+                    answerStoragePrefix + i
+                );
+
+            if (!raw) {
+                continue;
+            }
+
+            try {
+
+                const data = JSON.parse(raw);
+
+                if (data.answer !== undefined) {
+                    answers[String(i)] = data.answer;
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Invalid saved mock answer:",
+                    error
+                );
+
+            }
+
+        }
+
+        return answers;
+    }
+
+
+    function clearStoredAnswers() {
+
+        const keys = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+
+            const key = localStorage.key(i);
+
+            if (
+                key &&
+                key.startsWith(answerStoragePrefix)
+            ) {
+                keys.push(key);
+            }
+
+        }
+
+        keys.forEach(function(key) {
+            localStorage.removeItem(key);
+        });
+    }
+
+
+    /* =========================================================
        NEXT
     ========================================================= */
 
@@ -3508,10 +3630,23 @@
         return;
     }
 
-    // Use the existing hidden action field
+    // Include all answers saved while navigating with AJAX.
+    let answersInput =
+        form.querySelector('input[name="answers_json"]');
+
+    if (!answersInput) {
+        answersInput =
+            document.createElement("input");
+        answersInput.type = "hidden";
+        answersInput.name = "answers_json";
+        form.appendChild(answersInput);
+    }
+
+    answersInput.value =
+        JSON.stringify(collectStoredAnswers());
+
     actionInput.value = "submit";
 
-    // Submit answers + submit action to Flask
     form.submit();
 }
 
@@ -3924,6 +4059,13 @@
         "DOMContentLoaded",
         function() {
 
+            if (
+                new URLSearchParams(window.location.search).get("new") === "1"
+            ) {
+                clearStoredAnswers();
+            }
+
+            restoreSavedAnswer(currentQuestion);
             updateSelectedOptions();
 
             updateTimer();

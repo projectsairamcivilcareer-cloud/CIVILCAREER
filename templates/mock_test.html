@@ -3215,7 +3215,7 @@
     const totalQuestions =
         {{ total_questions|int }};
 
-    const currentQuestion =
+    let currentQuestion =
         {{ question_index|int }};
 
     let timerInterval = null;
@@ -3283,7 +3283,7 @@
 
         localStorage.setItem(
 
-            "civilCareerMockAnswer_{{ exam_slug }}_{{ question_index }}",
+            "civilCareerMockAnswer_{{ exam_slug }}_" + currentQuestion,
 
             JSON.stringify(data)
         );
@@ -3296,12 +3296,9 @@
 
     function nextQuestion() {
 
-    const current =
-        {{ question_index|int }};
+    const current = currentQuestion;
 
-    if (
-        current + 1 >= totalQuestions
-    ) {
+    if (current + 1 >= totalQuestions) {
         return;
     }
 
@@ -3315,12 +3312,9 @@
 
     function previousQuestion() {
 
-    const current =
-        {{ question_index|int }};
+    const current = currentQuestion;
 
-    if (
-        current <= 0
-    ) {
+    if (current <= 0) {
         return;
     }
 
@@ -3408,6 +3402,9 @@
                 newQuestionPanel
             );
         }
+
+        // Keep client navigation state synchronized.
+        currentQuestion = index;
 
         // Update browser URL without page reload
         window.history.pushState(

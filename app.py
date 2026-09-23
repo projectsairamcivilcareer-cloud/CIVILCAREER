@@ -17,6 +17,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_difficulty_mode
 
 app = Flask(__name__)
+WEBSITE_URL = os.environ.get("WEBSITE_URL", "https://civilcareer.com")
 app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024
 app.config["PROFILE_UPLOAD_FOLDER"] = os.path.join(
     app.root_path, "static", "images", "profile_uploads"

@@ -4182,6 +4182,13 @@ def mock_test_result(exam_slug):
 
             wrong += 1
 
+            # GATE negative marking applies only to MCQs.
+            # 1-mark MCQ: -1/3, 2-mark MCQ: -2/3.
+            if question.get("question_type", "mcq") == "mcq":
+                score -= (
+                    question.get("marks", 1) / 3
+                )
+
             status = "wrong"
 
         # =================================================

@@ -1,820 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Profile | Civil Career</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/profile.css') }}">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | Civil Career</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 </head>
-
-
 <body>
+<main class="profile-page">
+  <header class="profile-page-header">
+    <div>
+      <h1>My Profile</h1>
+      <p>Manage your Civil Career account details.</p>
+    </div>
+  </header>
 
+  {% if required_profile and not profile_complete %}
+  <section class="profile-required-banner">
+    <strong>⚠️ Complete your profile</strong>
+    <p>Before continuing to Civil Career, please fill all required profile details and upload your profile photo.</p>
+  </section>
+  {% endif %}
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+  {% if profile_error %}<div class="profile-alert profile-alert-error">{{ profile_error }}</div>{% endif %}
+  {% if profile_message %}<div class="profile-alert profile-alert-success">{{ profile_message }}</div>{% endif %}
 
-<aside class="sidebar">
+  <section class="profile-card profile-top-card">
+    <div class="profile-avatar">
+      {% if profile_photo %}
+        <img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Profile photo">
+      {% else %}
+        <span>👤</span>
+      {% endif %}
+    </div>
+    <h2>{{ student_name or 'Student' }}</h2>
+    <div class="user-id">User ID: <strong>{{ user_id }}</strong></div>
 
-    <div class="logo">
-        🏗️ CIVIL CAREER
+    <form method="POST" enctype="multipart/form-data" class="photo-form">
+      <input type="hidden" name="action" value="photo">
+      <label for="profile-photo">Profile Picture <span class="required-star">*</span></label>
+      <input id="profile-photo" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" {% if not profile_photo %}required{% endif %}>
+      <button type="submit">Update Profile Picture</button>
+    </form>
+  </section>
+
+  <section class="profile-card">
+    <div class="section-title">
+      <h2>👤 Personal Data</h2>
+      <span class="required-label">Required</span>
+    </div>
+    <div class="personal-data-grid">
+      <div class="data-item"><label>User ID</label><strong>{{ user_id }}</strong></div>
+      <div class="data-item"><label>Name</label><strong>{{ student_name }}</strong></div>
+      <div class="data-item"><label>Email</label><strong>{{ student_email }}</strong><span class="verify-status {{ 'verified' if email_verified else 'not-verified' }}">{{ '✓ Verified' if email_verified else '⚠ Not verified' }}</span></div>
+      <div class="data-item"><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong><span class="verify-status {{ 'verified' if mobile_verified else 'not-verified' }}">{{ '✓ Verified' if mobile_verified else '⚠ Not verified' }}</span></div>
     </div>
 
+    <button type="button" class="profile-option-button" onclick="togglePanel('details-panel')">✏️ Change Details</button>
+    <div id="details-panel" class="profile-setting-panel">
+      <form method="POST">
+        <input type="hidden" name="action" value="personal">
+        <label>Name <span class="required-star">*</span></label>
+        <input name="name" value="{{ student_name }}" required>
+        <label>Education <span class="required-star">*</span></label>
+        <input name="education" value="{{ student_education }}" required>
+        <button type="submit">Save Details</button>
+      </form>
+    </div>
+  </section>
 
-    <nav>
+  <section class="profile-card">
+    <div class="section-title">
+      <h2>🎓 Education</h2>
+    </div>
+    <div class="education-display">
+      <strong>{{ student_education }}</strong>
+      <span>Civil Engineering</span>
+    </div>
+  </section>
 
-        <a href="/dashboard">
-            📊 Dashboard
-        </a>
-
-        <a href="/exams">
-            📚 Exams
-        </a>
-
-        <a href="/government-jobs">
-            🏛️ Government Jobs
-        </a>
-
-        <a href="/syllabus">
-            📖 Syllabus
-        </a>
-
-        <a href="/materials">
-            📚 Materials
-        </a>
-
-        <a href="/notifications">
-            🔔 Notifications
-        </a>
-
-        <a href="/practice">
-            🎯 Practice
-        </a>
-
-        <a href="/profile" class="active">
-            👤 Profile
-        </a>
-
-    </nav>
-
-
-    <div class="bottom-menu">
-
-        <a href="/">
-            🏠 Home
-        </a>
-
-        <a href="/logout">
-            🚪 Logout
-        </a>
-
+  <section class="profile-card">
+    <div class="section-title">
+      <h2>⚙️ Account Settings</h2>
+    </div>
+    <div class="profile-options">
+      <button type="button" class="profile-option-button" onclick="togglePanel('password-panel')">🔑 Change Password</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('email-panel')">📧 Change Email</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('mobile-panel')">📱 Change Mobile No</button>
     </div>
 
-</aside>
-
-
-
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
-
-<main class="main">
-
-
-    <!-- HEADER -->
-
-    <header class="header">
-
-        <div>
-
-            <h1>
-                My Profile
-            </h1>
-
-            <p>
-                Manage your Civil Career student profile.
-            </p>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =================================================
-         PROFILE HEADER
-    ================================================== -->
-
-    <section class="profile-header">
-
-
-        <div class="profile-avatar">
-
-            {% if profile_photo %}
-
-                <img
-                    src="{{ url_for('profile_photo', filename=profile_photo) }}"
-                    alt="Profile photo">
-
-            {% else %}
-
-                👤
-
-            {% endif %}
-
-        </div>
-
-
-        <div>
-
-            <h2>
-                {{ student_name }}
-            </h2>
-
-            <p>
-                {{ student_education }}
-            </p>
-
-            <span>
-                CIVIL ENGINEERING STUDENT
-            </span>
-
-        </div>
-
-
-        <form
-            method="POST"
-            enctype="multipart/form-data"
-            class="photo-form">
-
-            <input
-                type="hidden"
-                name="action"
-                value="photo">
-
-            <label for="profile-photo">
-                Profile photo
-            </label>
-
-            <input
-                id="profile-photo"
-                type="file"
-                name="profile_photo"
-                accept="image/jpeg,image/png,image/webp"
-                required>
-
-            <button type="submit">
-                Update Photo
-            </button>
-
-        </form>
-
-
-    </section>
-
-
-    {% if required_profile and not profile_complete %}
-    <section class="profile-required-banner">
-        <strong>⚠️ Complete your profile to continue</strong>
-        <p>New accounts must complete all required profile details before using Civil Career.</p>
-        <span>Required: Name • Education • Verified Email • Verified Mobile • Profile Photo • Target Exam</span>
-    </section>
-    {% endif %}
-
-    {% if profile_error %}
-    <div class="profile-alert profile-alert-error">{{ profile_error }}</div>
-    {% endif %}
-    {% if profile_message %}
-    <div class="profile-alert profile-alert-success">{{ profile_message }}</div>
-    {% endif %}
-
-    <!-- =================================================
-         PERSONAL DETAILS
-    ================================================== -->
-
-    <section class="content-box">
-
-
-        <h2>
-            👤 Personal Details
-        </h2>
-
-        <div class="details-grid profile-readonly-grid">
-            <div><label>Name</label><strong>{{ student_name }}</strong></div>
-            <div><label>Email</label><strong>{{ student_email }}</strong><small class="verified-badge">{{ "Verified" if email_verified else "Not verified" }}</small></div>
-            <div><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong><small class="verified-badge">{{ "Verified" if mobile_verified else "Not verified" }}</small></div>
-            <div><label>Education</label><strong>{{ student_education }}</strong></div>
-        </div>
-
-        <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-details')">✏️ Change Details</button>
-
-        <div id="change-details" class="profile-setting-panel">
-            <form method="POST">
-                <input type="hidden" name="action" value="personal">
-                <input type="hidden" name="required" value="{{ 1 if required_profile else 0 }}">
-                <label for="profile-name">Name</label>
-                <input id="profile-name" name="name" value="{{ student_name }}" required>
-                <label for="profile-education">Education</label>
-                <input id="profile-education" name="education" value="{{ student_education }}" required>
-                <button type="submit">Save Details</button>
-            </form>
-        </div>
-
-        <div class="profile-option-grid">
-            <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-password')">🔑 Change Password</button>
-            <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-email')">📧 Change Email</button>
-            <button type="button" class="profile-option-button" onclick="toggleProfilePanel('change-mobile')">📱 Change Mobile No</button>
-        </div>
-
-        <div id="change-password" class="profile-setting-panel">
-            <form method="POST" action="{{ url_for('profile_change_password') }}">
-                <label>Current Password</label>
-                <input type="password" name="current_password" required>
-                <label>New Password</label>
-                <input type="password" name="new_password" required minlength="6">
-                <label>Confirm New Password</label>
-                <input type="password" name="confirm_password" required minlength="6">
-                <button type="submit">Change Password</button>
-            </form>
-        </div>
-
-        <div id="change-email" class="profile-setting-panel">
-            <form method="POST" action="{{ url_for('profile_change_email') }}">
-                <label>New Email Address</label>
-                <input type="email" name="new_email" value="{{ student_email }}" required>
-                <button type="submit">Change Email & Verify</button>
-            </form>
-        </div>
-
-        <div id="change-mobile" class="profile-setting-panel">
-            <form method="POST" action="{{ url_for('profile_change_mobile') }}">
-                <label>Country</label>
-                <select name="mobile_country_code" required>
-                    <option value="+91" {% if mobile_country_code == "+91" %}selected{% endif %}>🇮🇳 India (+91)</option>
-                    <option value="+1" {% if mobile_country_code == "+1" %}selected{% endif %}>🇺🇸 USA (+1)</option>
-                    <option value="+44" {% if mobile_country_code == "+44" %}selected{% endif %}>🇬🇧 UK (+44)</option>
-                    <option value="+971" {% if mobile_country_code == "+971" %}selected{% endif %}>🇦🇪 UAE (+971)</option>
-                    <option value="+61" {% if mobile_country_code == "+61" %}selected{% endif %}>🇦🇺 Australia (+61)</option>
-                    <option value="+81" {% if mobile_country_code == "+81" %}selected{% endif %}>🇯🇵 Japan (+81)</option>
-                </select>
-                <label>New Mobile Number</label>
-                <input type="tel" name="mobile_number" value="{{ mobile_number }}" inputmode="numeric" required>
-                <button type="submit">Change Mobile & Verify</button>
-            </form>
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         EDUCATION
-    ================================================== -->
-
-    <section class="content-box">
-
-
-        <h2>
-            🎓 Education
-        </h2>
-
-
-        <div class="education-box">
-
-
-            <div class="education-icon">
-                🎓
-            </div>
-
-
-            <div>
-
-                <strong>
-                    {{ student_education }}
-                </strong>
-
-                <p>
-                    Civil Engineering
-                </p>
-
-            </div>
-
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         TARGET EXAM
-    ================================================== -->
-
-    <section class="content-box">
-
-
-        <h2>
-            🎯 Target Exam
-        </h2>
-
-
-        <form
-            method="POST"
-            class="target-grid profile-preference-form">
-
-
-            <input
-                type="hidden"
-                name="action"
-                value="target">
-
-
-            <div>
-
-                <span>
-                    🏆
-                </span>
-
-                <strong>
-                    Target Examination
-                </strong>
-
-                <label for="target-exam">
-                    Target Examination
-                </label>
-
-
-                <select
-                    id="target-exam"
-                    name="target_exam">
-
-
-                    {% for exam in [
-                        "GATE Civil Engineering",
-                        "SSC JE",
-                        "JE / AE",
-                        "Diploma Civil",
-                        "B.Tech Civil",
-                        "Government Exams"
-                    ] %}
-
-
-                        <option
-                            value="{{ exam }}"
-                            {% if target_exam == exam %}selected{% endif %}>
-
-                            {{ exam }}
-
-                        </option>
-
-
-                    {% endfor %}
-
-
-                </select>
-
-
-            </div>
-
-
-            <div>
-
-                <span>
-                    🏛️
-                </span>
-
-                <strong>
-                    Career Goal
-                </strong>
-
-                <p>
-                    Government / Civil Engineering Career
-                </p>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="save-preference">
-
-                Save Target Exam
-
-            </button>
-
-
-        </form>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         PROGRESS
-    ================================================== -->
-
-    <section class="content-box">
-
-
-        <h2>
-            📊 Progress
-        </h2>
-
-
-        <div class="progress-box">
-
-
-            <div class="progress-item">
-
-                <div>
-
-                    <span>
-                        Exam Preparation
-                    </span>
-
-                    <strong>
-                        {{ exam_progress }}%
-                    </strong>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div
-                        style="width: {{ exam_progress }}%">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="progress-item">
-
-                <div>
-
-                    <span>
-                        Practice
-                    </span>
-
-                    <strong>
-                        {{ practice_progress }}%
-                    </strong>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div
-                        style="width: {{ practice_progress }}%">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="progress-item">
-
-                <div>
-
-                    <span>
-                        Study Materials
-                    </span>
-
-                    <strong>
-                        0%
-                    </strong>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div style="width: 0%">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         SCORES
-    ================================================== -->
-
-    <section class="content-box">
-
-
-        <h2>
-            🏆 Scores
-        </h2>
-
-
-        <div class="score-grid">
-
-
-            <div>
-
-                <span>
-                    📝
-                </span>
-
-                <strong>
-                    {{ tests_taken }}
-                </strong>
-
-                <small>
-                    Tests Taken
-                </small>
-
-            </div>
-
-
-            <div>
-
-                <span>
-                    🎯
-                </span>
-
-                <strong>
-                    {{ average_score }}%
-                </strong>
-
-                <small>
-                    Average Score
-                </small>
-
-            </div>
-
-
-            <div>
-
-                <span>
-                    🏆
-                </span>
-
-                <strong>
-                    {{ best_score }}%
-                </strong>
-
-                <small>
-                    Best Score
-                </small>
-
-            </div>
-
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         PROFESSIONAL RECENT MOCK TESTS
-    ================================================== -->
-
-    <section class="content-box recent-results">
-
-
-        <div class="recent-results-header">
-
-
-            <div class="recent-results-heading">
-
-                <div class="recent-results-icon">
-                    📝
-                </div>
-
-
-                <div>
-
-                    <h2>
-                        Recent Mock Tests
-                    </h2>
-
-                    <p>
-                        Track your latest mock-test performance
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <a
-                href="{{ url_for('mock_tests') }}"
-                class="recent-view-all">
-
-                View All →
-
-            </a>
-
-
-        </div>
-
-
-
-        {% if recent_results %}
-
-
-            <div class="recent-results-list">
-
-
-                {% for result in recent_results %}
-
-
-                    <div class="recent-result-row">
-
-
-                        <!-- TEST ICON -->
-
-                        <div class="recent-result-icon">
-                            🎯
-                        </div>
-
-
-
-                        <!-- TEST INFORMATION -->
-
-                        <div class="recent-result-info">
-
-                            <strong>
-                                {{ result.exam_name }}
-                            </strong>
-
-                            <span>
-                                Civil Engineering Mock Test
-                            </span>
-
-                            <small>
-                                {{ result.created_at }}
-                            </small>
-
-                        </div>
-
-
-
-                        <!-- SCORE -->
-
-                        <div class="recent-result-score">
-
-                            <strong>
-                                {{ result.percentage }}%
-                            </strong>
-
-                            <span>
-                                {{ result.score }} marks
-                            </span>
-
-                        </div>
-
-
-
-                        <!-- STATUS -->
-
-                        <div class="recent-result-status">
-
-                            <span class="status-dot">
-                            </span>
-
-                            Completed
-
-                        </div>
-
-
-
-                        <!-- DETAILS BUTTON -->
-
-                        <div class="recent-result-action">
-
-                            <a
-                                href="{{ url_for('mock_test_history', result_id=result['id']) }}"
-                                class="recent-details-btn">
-
-                                View Details
-                                →
-
-                            </a>
-
-                        </div>
-
-
-                    </div>
-
-
-                {% endfor %}
-
-
-            </div>
-
-
-        {% else %}
-
-
-            <!-- EMPTY STATE -->
-
-            <div class="empty-results">
-
-
-                <div class="empty-results-icon">
-                    📝
-                </div>
-
-
-                <h3>
-                    No Mock Tests Yet
-                </h3>
-
-
-                <p>
-                    Complete your first mock test to see your performance here.
-                </p>
-
-
-                <a
-                    href="{{ url_for('mock_tests') }}"
-                    class="start-mock-btn">
-
-                    Start Mock Test →
-
-                </a>
-
-
-            </div>
-
-
-        {% endif %}
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         PROFILE NOTE
-    ================================================== -->
-
-    <div class="profile-note">
-
-
-        <span>
-            ℹ️
-        </span>
-
-
-        <div>
-
-            <strong>
-                Profile Development
-            </strong>
-
-            <p>
-                Your personal details, target exam, progress,
-                and mock-test scores are saved to your profile.
-            </p>
-
-        </div>
-
-
+    <div id="password-panel" class="profile-setting-panel">
+      <form method="POST" action="{{ url_for('profile_change_password') }}">
+        <label>Current Password <span class="required-star">*</span></label>
+        <input type="password" name="current_password" required>
+        <label>New Password <span class="required-star">*</span></label>
+        <input type="password" name="new_password" minlength="6" required>
+        <label>Confirm New Password <span class="required-star">*</span></label>
+        <input type="password" name="confirm_password" minlength="6" required>
+        <button type="submit">Change Password</button>
+      </form>
     </div>
 
+    <div id="email-panel" class="profile-setting-panel">
+      <form method="POST" action="{{ url_for('profile_change_email') }}">
+        <label>New Email Address <span class="required-star">*</span></label>
+        <input type="email" name="new_email" value="{{ student_email }}" required>
+        <button type="submit">Change Email & Verify</button>
+      </form>
+    </div>
 
+    <div id="mobile-panel" class="profile-setting-panel">
+      <form method="POST" action="{{ url_for('profile_change_mobile') }}">
+        <label>Country <span class="required-star">*</span></label>
+        <select name="mobile_country_code" required>
+          <option value="+91" {% if mobile_country_code == "+91" %}selected{% endif %}>🇮🇳 India (+91)</option>
+          <option value="+1" {% if mobile_country_code == "+1" %}selected{% endif %}>🇺🇸 USA (+1)</option>
+          <option value="+44" {% if mobile_country_code == "+44" %}selected{% endif %}>🇬🇧 UK (+44)</option>
+          <option value="+971" {% if mobile_country_code == "+971" %}selected{% endif %}>🇦🇪 UAE (+971)</option>
+          <option value="+61" {% if mobile_country_code == "+61" %}selected{% endif %}>🇦🇺 Australia (+61)</option>
+          <option value="+81" {% if mobile_country_code == "+81" %}selected{% endif %}>🇯🇵 Japan (+81)</option>
+          <option value="+65" {% if mobile_country_code == "+65" %}selected{% endif %}>🇸🇬 Singapore (+65)</option>
+          <option value="+49" {% if mobile_country_code == "+49" %}selected{% endif %}>🇩🇪 Germany (+49)</option>
+        </select>
+        <label>New Mobile Number <span class="required-star">*</span></label>
+        <input type="tel" name="mobile_number" value="{{ mobile_number }}" inputmode="numeric" required>
+        <button type="submit">Change Mobile & Verify</button>
+      </form>
+    </div>
+  </section>
 </main>
-
-
 <script>
-function toggleProfilePanel(id) {
-    document.querySelectorAll('.profile-setting-panel').forEach(function(panel) {
-        if (panel.id === id) panel.classList.toggle('open');
-        else panel.classList.remove('open');
-    });
+function togglePanel(id) {
+  const panel = document.getElementById(id);
+  document.querySelectorAll('.profile-setting-panel').forEach(p => {
+    if (p !== panel) p.classList.remove('open');
+  });
+  panel.classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

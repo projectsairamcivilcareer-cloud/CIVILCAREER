@@ -10,6 +10,9 @@ from psycopg.rows import dict_row
 import uuid
 import random
 import os
+import secrets
+import smtplib
+from email.message import EmailMessage
 from datetime import date, datetime, timedelta
 from io import BytesIO
 from html import escape
@@ -352,6 +355,17 @@ def create_database():
     }
     if "profile_photo" not in student_columns:
         connection.execute("ALTER TABLE students ADD COLUMN profile_photo TEXT")
+    for column_name, column_type in [
+        ("mobile_country_code", "TEXT"),
+        ("mobile_number", "TEXT"),
+        ("email_verified", "INTEGER NOT NULL DEFAULT 0"),
+        ("mobile_verified", "INTEGER NOT NULL DEFAULT 0"),
+        ("email_verification_code", "TEXT"),
+        ("mobile_verification_code", "TEXT"),
+        ("verification_expires_at", "TEXT"),
+    ]:
+        if column_name not in student_columns:
+            connection.execute(f"ALTER TABLE students ADD COLUMN {column_name} {column_type}")
 
 
     # ==========================================
@@ -726,6 +740,52 @@ def about():
 # ==============================
 
 
+def _verification_expiry():
+    return (datetime.utcnow() + timedelta(minutes=10)).isoformat()
+
+
+def _send_verification_email(email, code):
+    host = os.environ.get("SMTP_HOST")
+    port = int(os.environ.get("SMTP_PORT", "587"))
+    username = os.environ.get("SMTP_USERNAME")
+    password = os.environ.get("SMTP_PASSWORD")
+    sender = os.environ.get("SMTP_FROM") or username
+    if not all([host, username, password, sender]):
+        return False
+    message = EmailMessage()
+    message["Subject"] = "Civil Career - Email Verification Code"
+    message["From"] = sender
+    message["To"] = email
+    message.set_content(f"Your Civil Career email verification code is {code}. It expires in 10 minutes.")
+    with smtplib.SMTP(host, port, timeout=15) as smtp:
+        smtp.starttls()
+        smtp.login(username, password)
+        smtp.send_message(message)
+    return True
+
+
+def _send_verification_sms(country_code, mobile, code):
+    sid = os.environ.get("TWILIO_ACCOUNT_SID")
+    token = os.environ.get("TWILIO_AUTH_TOKEN")
+    from_number = os.environ.get("TWILIO_FROM_NUMBER")
+    if not all([sid, token, from_number]):
+        return False
+    try:
+        from twilio.rest import Client
+    except ImportError:
+        return False
+    Client(sid, token).messages.create(
+        body=f"Civil Career verification code: {code}. Expires in 10 minutes.",
+        from_=from_number,
+        to=f"{country_code}{mobile}",
+    )
+    return True
+
+
+def _verification_required(student):
+    return not (int(student.get("email_verified") or 0) == 1 and int(student.get("mobile_verified") or 0) == 1)
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -792,6 +852,9 @@ def login():
             session["student_name"] = student["name"]
             session["student_email"] = student["email"]
             session["student_education"] = student["education"]
+
+            if _verification_required(student):
+                return redirect(url_for("verify_account"))
 
             return redirect(url_for("dashboard"))
 
@@ -1640,13 +1703,15 @@ def profile():
             name = request.form.get("name", "").strip()
             email = request.form.get("email", "").strip().lower()
             education = request.form.get("education", "").strip()
-            if not name or not email or not education:
+            mobile_country_code = request.form.get("mobile_country_code", "").strip()
+            mobile_number = re.sub(r"\D", "", request.form.get("mobile_number", ""))
+            if not name or not email or not education or not mobile_country_code or not mobile_number:
                 profile_error = "Name, email, and education are required."
             else:
                 try:
                     connection.execute(
-                        "UPDATE students SET name = ?, email = ?, education = ? WHERE id = ?",
-                        (name, email, education, session["student_id"])
+                        "UPDATE students SET name = ?, email = ?, education = ?, mobile_country_code = ?, mobile_number = ?, email_verified = 0, mobile_verified = 0 WHERE id = ?",
+                        (name, email, education, mobile_country_code, mobile_number, session["student_id"])
                     )
                     connection.commit()
                     session["student_name"] = name
@@ -1695,7 +1760,7 @@ def profile():
                 connection.commit()
 
     student = connection.execute(
-        "SELECT name, email, education, profile_photo FROM students WHERE id = ?",
+        "SELECT name, email, education, profile_photo, mobile_country_code, mobile_number, email_verified, mobile_verified FROM students WHERE id = ?",
         (session["student_id"],)
     ).fetchone()
 
@@ -1729,6 +1794,10 @@ def profile():
         student_name=session["student_name"],
         student_education=session["student_education"],
         student_email=student["email"] if student else session.get("student_email", ""),
+        mobile_country_code=student["mobile_country_code"] if student else "",
+        mobile_number=student["mobile_number"] if student else "",
+        email_verified=int(student["email_verified"] or 0) if student else 0,
+        mobile_verified=int(student["mobile_verified"] or 0) if student else 0,
         target_exam=preference["target_exam"] if preference else "GATE Civil Engineering",
         profile_photo=student["profile_photo"] if student else None,
         profile_error=profile_error,
@@ -5774,91 +5843,126 @@ def subject_mcq_next(subject_slug):
 # REGISTER
 # =========================================================
 
-@app.route(
-    "/register",
-    methods=["GET", "POST"]
-)
+@app.route("/register", methods=["GET", "POST"])
 def register():
-
     if request.method == "POST":
-
-        name = request.form["name"]
-
+        name = str(request.form.get("name", "")).strip()
         email = str(request.form.get("email", "")).strip().lower()
+        education = str(request.form.get("education", "")).strip()
+        password = str(request.form.get("password", ""))
+        confirm_password = str(request.form.get("confirm_password", ""))
+        country_code = str(request.form.get("mobile_country_code", "")).strip()
+        mobile = re.sub(r"\D", "", str(request.form.get("mobile_number", "")))
 
-        education = request.form["education"]
-
-        password = request.form["password"]
-
-        confirm_password = request.form[
-            "confirm_password"
-        ]
-
-        # =================================================
-        # CHECK PASSWORD
-        # =================================================
-
+        if not all([name, email, education, password, confirm_password, country_code, mobile]):
+            return render_template("register.html", error="All fields including country and mobile number are required.")
         if password != confirm_password:
+            return render_template("register.html", error="Passwords do not match.")
+        if len(mobile) < 7 or len(mobile) > 15:
+            return render_template("register.html", error="Enter a valid mobile number.")
 
-            return render_template(
-
-                "register.html",
-
-                error="Passwords do not match."
-
-            )
+        email_code = str(secrets.randbelow(900000) + 100000)
+        mobile_code = str(secrets.randbelow(900000) + 100000)
+        expires = _verification_expiry()
 
         connection = get_db_connection()
-
         try:
-
             connection.execute(
-
-                """
-                INSERT INTO students
-                (
-                    name,
-                    email,
-                    education,
-                    password
-                )
-                VALUES (?, ?, ?, ?)
-                """,
-
-                (
-                    name,
-                    email,
-                    education,
-                    generate_password_hash(password)
-                )
-
+                """INSERT INTO students
+                (name, email, education, password, mobile_country_code, mobile_number,
+                 email_verified, mobile_verified, email_verification_code,
+                 mobile_verification_code, verification_expires_at)
+                VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)""",
+                (name, email, education, generate_password_hash(password),
+                 country_code, mobile, email_code, mobile_code, expires)
             )
-
             connection.commit()
-
         except psycopg_errors.UniqueViolation:
-
+            connection.rollback()
             connection.close()
-
-            return render_template(
-
-                "register.html",
-
-                error=(
-                    "This email is already registered."
-                )
-
-            )
-
+            return render_template("register.html", error="This email is already registered.")
         connection.close()
 
-        return redirect(
-            url_for("login")
-        )
+        try:
+            email_sent = _send_verification_email(email, email_code)
+            sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
+        except Exception as exc:
+            print(f"[VERIFICATION ERROR] {type(exc).__name__}: {exc}", flush=True)
+            email_sent = sms_sent = False
 
-    return render_template(
-        "register.html"
+        if not email_sent or not sms_sent:
+            return render_template("register.html", error="Email/SMS verification is not configured on Civil Career yet.")
+        return redirect(url_for("verify_account", email=email))
+
+    return render_template("register.html")
+
+
+@app.route("/verify-account", methods=["GET", "POST"])
+def verify_account():
+    if request.method == "POST":
+        email = str(request.form.get("email", "")).strip().lower()
+        email_code = str(request.form.get("email_code", "")).strip()
+        mobile_code = str(request.form.get("mobile_code", "")).strip()
+        connection = get_db_connection()
+        student = connection.execute("SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+        if not student:
+            connection.close()
+            return render_template("verify_account.html", error="Account not found.", email=email)
+
+        expires = student["verification_expires_at"]
+        if not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow():
+            connection.close()
+            return render_template("verify_account.html", error="Verification codes expired. Please resend the codes.", email=email)
+
+        if email_code != str(student["email_verification_code"] or "") or mobile_code != str(student["mobile_verification_code"] or ""):
+            connection.close()
+            return render_template("verify_account.html", error="Incorrect verification code(s).", email=email)
+
+        connection.execute(
+            """UPDATE students SET email_verified=1, mobile_verified=1,
+               email_verification_code=NULL, mobile_verification_code=NULL,
+               verification_expires_at=NULL WHERE id=?""",
+            (student["id"],)
+        )
+        connection.commit()
+        connection.close()
+        session["student_id"] = student["id"]
+        session["student_name"] = student["name"]
+        session["student_email"] = student["email"]
+        session["student_education"] = student["education"]
+        return redirect(url_for("dashboard"))
+    return render_template("verify_account.html", email=str(request.args.get("email", "")).strip().lower())
+
+
+@app.route("/verify-account/resend", methods=["POST"])
+def resend_verification():
+    email = str(request.form.get("email", "")).strip().lower()
+    connection = get_db_connection()
+    student = connection.execute("SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+    if not student:
+        connection.close()
+        return render_template("verify_account.html", error="Account not found.", email=email)
+
+    email_code = str(secrets.randbelow(900000) + 100000)
+    mobile_code = str(secrets.randbelow(900000) + 100000)
+    connection.execute(
+        """UPDATE students SET email_verification_code=?, mobile_verification_code=?,
+           verification_expires_at=?, email_verified=0, mobile_verified=0 WHERE id=?""",
+        (email_code, mobile_code, _verification_expiry(), student["id"])
     )
+    connection.commit()
+    connection.close()
+    try:
+        email_sent = _send_verification_email(email, email_code)
+        sms_sent = _send_verification_sms(student["mobile_country_code"], student["mobile_number"], mobile_code)
+    except Exception as exc:
+        print(f"[VERIFICATION RESEND ERROR] {type(exc).__name__}: {exc}", flush=True)
+        email_sent = sms_sent = False
+    if not email_sent or not sms_sent:
+        return render_template("verify_account.html", error="Email/SMS verification is not configured.", email=email)
+    return render_template("verify_account.html", message="New verification codes sent.", email=email)
+
+
 
 
 # =========================================================

@@ -746,7 +746,7 @@ def _verification_expiry():
     return (datetime.utcnow() + timedelta(minutes=10)).isoformat()
 
 
-def _send_verification_email(email, code):
+def _send_verification_email(email, code, subject="Civil Career - Email Verification Code", purpose="email verification"):
     host = os.environ.get("SMTP_HOST")
     port = int(os.environ.get("SMTP_PORT", "587"))
     username = os.environ.get("SMTP_USERNAME")
@@ -755,10 +755,10 @@ def _send_verification_email(email, code):
     if not all([host, username, password, sender]):
         return False
     message = EmailMessage()
-    message["Subject"] = "Civil Career - Email Verification Code"
+    message["Subject"] = subject
     message["From"] = sender
     message["To"] = email
-    message.set_content(f"Your Civil Career email verification code is {code}. It expires in 10 minutes.")
+    message.set_content(f"Your Civil Career {purpose} code is {code}. It expires in 10 minutes.")
     with smtplib.SMTP(host, port, timeout=15) as smtp:
         smtp.starttls()
         smtp.login(username, password)
@@ -5864,7 +5864,7 @@ def forgot_password():
         connection.close()
 
         try:
-            sent = _send_verification_email(email, code)
+            sent = _send_verification_email(email, code, subject="Civil Career - Password Reset Code", purpose="password reset")
         except Exception as exc:
             print("[PASSWORD RESET EMAIL ERROR]", type(exc).__name__, exc, flush=True)
             sent = False

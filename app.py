@@ -860,8 +860,6 @@ def login():
                 )
                 connection.commit()
 
-            connection.close()
-
             # LOGIN SUCCESS
             
 
@@ -879,8 +877,10 @@ def login():
                 (student["id"],)
             ).fetchone()
             if _profile_incomplete(student, preference_check["target_exam"] if preference_check else None):
+                connection.close()
                 return redirect(url_for("profile", required=1))
 
+            connection.close()
             return redirect(url_for("dashboard"))
 
         # LOGIN FAILED

@@ -6092,13 +6092,24 @@ def profile_change_email():
         return redirect(url_for("profile", error="Enter a new email address"))
 
     connection = get_db_connection()
+    current_student = connection.execute(
+        "SELECT email FROM students WHERE id=?",
+        (session["student_id"],)
+    ).fetchone()
+    current_email = str(current_student["email"] or "").strip().lower() if current_student else ""
+
+    # Do not treat the user's existing email as a duplicate.
+    if new_email == current_email:
+        connection.close()
+        return redirect(url_for("profile", message="This is already your current email address."))
+
     existing = connection.execute(
         "SELECT id FROM students WHERE lower(trim(email))=? AND id<>?",
         (new_email, session["student_id"])
     ).fetchone()
     if existing:
         connection.close()
-        return redirect(url_for("profile", error="That email address is already in use"))
+        return redirect(url_for("profile", error="That email address is already in use. Please use another email address."))
 
     email_code = str(secrets.randbelow(900000) + 100000)
     mobile_code = str(secrets.randbelow(900000) + 100000)

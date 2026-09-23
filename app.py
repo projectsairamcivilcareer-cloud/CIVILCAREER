@@ -6124,10 +6124,12 @@ def profile_change_email():
     connection.close()
 
     # Re-send verification for the changed email and existing mobile.
-    student = get_db_connection().execute(
+    read_connection = get_db_connection()
+    student = read_connection.execute(
         "SELECT mobile_country_code,mobile_number FROM students WHERE id=?",
         (session["student_id"],)
     ).fetchone()
+    read_connection.close()
     try:
         email_sent = _send_verification_email(new_email, email_code)
         sms_sent = _send_verification_sms(student["mobile_country_code"], student["mobile_number"], mobile_code)

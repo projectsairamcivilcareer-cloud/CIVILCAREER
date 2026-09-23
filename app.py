@@ -772,18 +772,56 @@ def download_gate_syllabus(year):
     def draw_page_chrome(canvas, document):
         canvas.saveState()
         width, height = A4
+
+        # Light diagonal watermark on every PDF page.
+        canvas.setFillColor(colors.HexColor("#E5EBF2"))
+        canvas.setFont("Helvetica-Bold", 34)
+        canvas.translate(width / 2, height / 2)
+        canvas.rotate(38)
+        canvas.drawCentredString(0, 0, "CIVIL CAREER")
+        canvas.setFont("Helvetica", 12)
+        canvas.drawCentredString(0, -18, WEBSITE_URL)
+        canvas.restoreState()
+
+        canvas.saveState()
         canvas.setStrokeColor(colors.HexColor("#D9E2EC"))
         canvas.setLineWidth(0.6)
         canvas.line(18 * mm, height - 17 * mm, width - 18 * mm, height - 17 * mm)
+
         canvas.setFont("Helvetica-Bold", 8)
         canvas.setFillColor(colors.HexColor("#12355B"))
         canvas.drawString(18 * mm, height - 12 * mm, "CIVIL CAREER")
+
         canvas.setFont("Helvetica", 8)
         canvas.setFillColor(colors.HexColor("#64748B"))
-        canvas.drawRightString(width - 18 * mm, height - 12 * mm, "GATE " + year + " | Civil Engineering")
+        canvas.drawRightString(
+            width - 18 * mm,
+            height - 12 * mm,
+            "GATE " + year + " | Civil Engineering"
+        )
+
         canvas.line(18 * mm, 13 * mm, width - 18 * mm, 13 * mm)
-        canvas.drawString(18 * mm, 8 * mm, "Civil Career | Official syllabus reference")
-        canvas.drawRightString(width - 18 * mm, 8 * mm, "Page " + str(canvas.getPageNumber()))
+
+        canvas.setFont("Helvetica-Bold", 7.5)
+        canvas.setFillColor(colors.HexColor("#12355B"))
+        footer_text = "Civil Career | " + WEBSITE_URL
+        canvas.drawString(18 * mm, 8 * mm, footer_text)
+
+        # Make the visible website address clickable in PDF viewers.
+        website_width = canvas.stringWidth(footer_text, "Helvetica-Bold", 7.5)
+        canvas.linkURL(
+            WEBSITE_URL,
+            (18 * mm, 6 * mm, 18 * mm + website_width, 12 * mm),
+            relative=0
+        )
+
+        canvas.setFont("Helvetica", 8)
+        canvas.setFillColor(colors.HexColor("#64748B"))
+        canvas.drawRightString(
+            width - 18 * mm,
+            8 * mm,
+            "Page " + str(canvas.getPageNumber())
+        )
         canvas.restoreState()
 
     subject_summary = [[
@@ -805,7 +843,11 @@ def download_gate_syllabus(year):
         Paragraph("Master Syllabus | " + escape(year), styles["Heading1"]),
         Spacer(1, 4),
         HRFlowable(width="100%", thickness=2, color=colors.HexColor("#2A9D8F"), spaceAfter=12),
-        Paragraph("Use this document as the syllabus boundary for Civil Career preparation and mock tests.", small_style),
+        Paragraph(
+            "Website: " + escape(WEBSITE_URL) +
+            " | Use this document as the syllabus boundary for Civil Career preparation and mock tests.",
+            small_style
+        ),
         Spacer(1, 14),
         Table(subject_summary, colWidths=[22 * mm, 105 * mm, 25 * mm], repeatRows=1, style=TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E8F1F5")),

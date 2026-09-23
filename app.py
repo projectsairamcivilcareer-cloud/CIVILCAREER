@@ -788,6 +788,20 @@ def _verification_required(student):
     return not (int(student.get("email_verified") or 0) == 1 and int(student.get("mobile_verified") or 0) == 1)
 
 
+def _profile_incomplete(student):
+    if not student:
+        return True
+    required = [
+        str(student["name"] or "").strip(),
+        str(student["email"] or "").strip(),
+        str(student["education"] or "").strip(),
+        str(student["mobile_country_code"] or "").strip(),
+        str(student["mobile_number"] or "").strip(),
+        str(student["profile_photo"] or "").strip(),
+    ]
+    return any(not value for value in required)
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -857,6 +871,9 @@ def login():
 
             if _verification_required(student):
                 return redirect(url_for("verify_account"))
+
+            if _profile_incomplete(student):
+                return redirect(url_for("profile", required=1))
 
             return redirect(url_for("dashboard"))
 
@@ -1699,110 +1716,105 @@ def profile():
 
     connection = get_db_connection()
     profile_error = None
+    profile_message = None
+    required_profile = request.args.get("required") == "1" or request.form.get("required") == "1"
+
     if request.method == "POST":
         action = request.form.get("action", "")
+
         if action == "personal":
             name = request.form.get("name", "").strip()
-            email = request.form.get("email", "").strip().lower()
             education = request.form.get("education", "").strip()
-            mobile_country_code = request.form.get("mobile_country_code", "").strip()
-            mobile_number = re.sub(r"\D", "", request.form.get("mobile_number", ""))
-            if not name or not email or not education or not mobile_country_code or not mobile_number:
-                profile_error = "Name, email, and education are required."
+            if not name or not education:
+                profile_error = "Name and education are required."
             else:
-                try:
-                    connection.execute(
-                        "UPDATE students SET name = ?, email = ?, education = ?, mobile_country_code = ?, mobile_number = ?, email_verified = 0, mobile_verified = 0 WHERE id = ?",
-                        (name, email, education, mobile_country_code, mobile_number, session["student_id"])
-                    )
-                    connection.commit()
-                    session["student_name"] = name
-                    session["student_email"] = email
-                    session["student_education"] = education
-                except psycopg_errors.UniqueViolation:
-                    profile_error = "That email address is already in use."
+                connection.execute(
+                    "UPDATE students SET name=?, education=? WHERE id=?",
+                    (name, education, session["student_id"])
+                )
+                connection.commit()
+                session["student_name"] = name
+                session["student_education"] = education
+                profile_message = "Personal details updated successfully."
 
         elif action == "photo":
             photo = request.files.get("profile_photo")
             allowed_extensions = {"jpg", "jpeg", "png", "webp"}
             extension = os.path.splitext(photo.filename or "")[1].lower().lstrip(".") if photo else ""
             if not photo or not photo.filename:
-                profile_error = "Choose an image to upload."
+                profile_error = "Choose a profile photo."
             elif extension not in allowed_extensions:
                 profile_error = "Use a JPG, PNG, or WEBP image."
             else:
                 os.makedirs(app.config["PROFILE_UPLOAD_FOLDER"], exist_ok=True)
-                filename = secure_filename(
-                    "student-" + str(session["student_id"]) + "-" + uuid.uuid4().hex + "." + extension
-                )
+                filename = secure_filename("student-" + str(session["student_id"]) + "-" + uuid.uuid4().hex + "." + extension)
                 photo.save(os.path.join(app.config["PROFILE_UPLOAD_FOLDER"], filename))
                 connection.execute(
-                    "UPDATE students SET profile_photo = ? WHERE id = ?",
+                    "UPDATE students SET profile_photo=? WHERE id=?",
                     (filename, session["student_id"])
                 )
                 connection.commit()
+                profile_message = "Profile photo updated successfully."
 
         elif action == "target":
             target_exam = request.form.get("target_exam", "").strip()
-            allowed_exams = {
-                "GATE Civil Engineering", "SSC JE", "JE / AE",
-                "Diploma Civil", "B.Tech Civil", "Government Exams"
-            }
+            allowed_exams = {"GATE Civil Engineering", "SSC JE", "JE / AE", "Diploma Civil", "B.Tech Civil", "Government Exams"}
             if target_exam in allowed_exams:
                 connection.execute(
-                    """
-                    INSERT INTO student_preferences (student_id, target_exam)
-                    VALUES (?, ?)
-                    ON CONFLICT(student_id) DO UPDATE SET
-                        target_exam = excluded.target_exam,
-                        updated_at = CURRENT_TIMESTAMP
-                    """,
+                    """INSERT INTO student_preferences (student_id, target_exam)
+                       VALUES (?, ?)
+                       ON CONFLICT(student_id) DO UPDATE SET
+                       target_exam=excluded.target_exam, updated_at=CURRENT_TIMESTAMP""",
                     (session["student_id"], target_exam)
                 )
                 connection.commit()
+                profile_message = "Target exam updated successfully."
 
     student = connection.execute(
-        "SELECT name, email, education, profile_photo, mobile_country_code, mobile_number, email_verified, mobile_verified FROM students WHERE id = ?",
+        """SELECT name,email,education,profile_photo,mobile_country_code,mobile_number,
+                  email_verified,mobile_verified,password
+           FROM students WHERE id=?""",
         (session["student_id"],)
     ).fetchone()
 
     preference = connection.execute(
-        "SELECT target_exam FROM student_preferences WHERE student_id = ?",
+        "SELECT target_exam FROM student_preferences WHERE student_id=?",
         (session["student_id"],)
     ).fetchone()
+
     score_summary = connection.execute(
-        """
-        SELECT COUNT(*) AS tests_taken,
-               COALESCE(ROUND(AVG(percentage)::numeric, 1), 0) AS average_score,
-               COALESCE(MAX(percentage), 0) AS best_score
-        FROM mock_test_results
-        WHERE student_id = ?
-        """,
+        """SELECT COUNT(*) AS tests_taken,
+                  COALESCE(ROUND(AVG(percentage)::numeric,1),0) AS average_score,
+                  COALESCE(MAX(percentage),0) AS best_score
+           FROM mock_test_results WHERE student_id=?""",
         (session["student_id"],)
     ).fetchone()
+
     recent_results = connection.execute(
-        """
-        SELECT id, exam_name, score, percentage, created_at
-        FROM mock_test_results
-        WHERE student_id = ?
-        ORDER BY id DESC LIMIT 5
-        """,
+        """SELECT id,exam_name,score,percentage,created_at
+           FROM mock_test_results WHERE student_id=?
+           ORDER BY id DESC LIMIT 5""",
         (session["student_id"],)
     ).fetchall()
     connection.close()
 
+    complete = not _profile_incomplete(student)
+
     return render_template(
         "profile.html",
-        student_name=session["student_name"],
-        student_education=session["student_education"],
-        student_email=student["email"] if student else session.get("student_email", ""),
+        student_name=student["name"] if student else session.get("student_name",""),
+        student_education=student["education"] if student else session.get("student_education",""),
+        student_email=student["email"] if student else session.get("student_email",""),
         mobile_country_code=student["mobile_country_code"] if student else "",
         mobile_number=student["mobile_number"] if student else "",
         email_verified=int(student["email_verified"] or 0) if student else 0,
         mobile_verified=int(student["mobile_verified"] or 0) if student else 0,
-        target_exam=preference["target_exam"] if preference else "GATE Civil Engineering",
+        target_exam=preference["target_exam"] if preference else "",
         profile_photo=student["profile_photo"] if student else None,
         profile_error=profile_error,
+        profile_message=profile_message,
+        required_profile=required_profile,
+        profile_complete=complete,
         tests_taken=score_summary["tests_taken"],
         average_score=score_summary["average_score"],
         best_score=score_summary["best_score"],
@@ -1810,6 +1822,8 @@ def profile():
         practice_progress=min(100, score_summary["tests_taken"] * 10),
         recent_results=recent_results
     )
+
+
 
 # ==========================================
 # MOCK TEST HISTORY DETAILS
@@ -6002,7 +6016,7 @@ def verify_account():
         session["student_name"] = student["name"]
         session["student_email"] = student["email"]
         session["student_education"] = student["education"]
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("profile", required=1))
     return render_template("verify_account.html", email=str(request.args.get("email", "")).strip().lower())
 
 

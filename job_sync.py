@@ -69,12 +69,12 @@ def discover(source_name, listing_url, apply_url):
         if key in seen:
             continue
         seen.add(key)
-        results.append({
+        results.append(enrich_item({
             "organization": source_name,
             "post_name": title[:500],
             "notification_url": href,
             "apply_url": apply_url,
-        })
+        }))
 
     return results[:40]
 
@@ -165,11 +165,23 @@ def sync_official_jobs():
                     if existing:
                         db.execute(
                             """UPDATE government_jobs
-                               SET notification_url=?, apply_url=?, source=?,
-                                   last_verified=?, updated_at=CURRENT_TIMESTAMP
+                               SET department=?, job_type=?, qualification=?, branch=?,
+                                   vacancies=?, age_limit=?, salary=?, pay_level=?,
+                                   application_start=?, application_last_date=?,
+                                   selection_process=?, job_location=?,
+                                   notification_url=?, apply_url=?, source=?,
+                                   notification_date=?, last_verified=?, status=?,
+                                   updated_at=CURRENT_TIMESTAMP
                                WHERE id=?""",
-                            (item["notification_url"], item["apply_url"], source,
-                             today, existing["id"])
+                            (
+                                item["department"], item["job_type"], item["qualification"],
+                                item["branch"], item["vacancies"], item["age_limit"],
+                                item["salary"], item["pay_level"], item["application_start"],
+                                item["application_last_date"], item["selection_process"],
+                                item["job_location"], item["notification_url"], item["apply_url"],
+                                source, item["notification_date"] or today, today,
+                                item["status"], existing["id"]
+                            )
                         )
                         summary["updated_jobs"] += 1
                         continue
@@ -187,16 +199,17 @@ def sync_official_jobs():
                         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                         (
                             item["organization"], item["post_name"],
-                            "Government / PSU Recruitment",
-                            "Government Recruitment",
-                            "See official notification for exact eligibility.",
-                            "Civil Engineering" if is_civil else "Engineering",
-                            "See official notification", "See official notification",
-                            "", "See official notification", "",
-                            None, None, None, "See official notification",
-                            "See official notification", "India",
+                            item["department"],
+                            item["job_type"],
+                            item["qualification"],
+                            item["branch"] if item.get("branch") else ("Civil Engineering" if is_civil else "Engineering"),
+                            item["vacancies"], item["age_limit"],
+                            "", item["salary"], item["pay_level"],
+                            item["application_start"], item["application_last_date"], None,
+                            "See official notification", item["selection_process"], item["job_location"],
                             item["notification_url"], item["apply_url"], source,
-                            notification_number(item), today, today, "NEW"
+                            item.get("notification_number") or notification_number(item),
+                            item.get("notification_date") or today, today, item["status"]
                         )
                     )
 

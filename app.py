@@ -148,7 +148,9 @@ class PostgreSQLCompatConnection:
 
     def executemany(self, sql, params_seq):
         sql, _ = self._translate_sql(sql, ())
-        return self._connection.executemany(sql, params_seq)
+        cursor = self._connection.cursor()
+        cursor.executemany(sql, params_seq)
+        return cursor
 
     def commit(self):
         return self._connection.commit()

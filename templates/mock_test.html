@@ -3535,6 +3535,9 @@
             targetUrl
         );
 
+        // Restore answer saved before this AJAX navigation.
+        restoreSavedAnswer(index);
+
         // Reconnect option highlighting
         updateSelectedOptions();
 

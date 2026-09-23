@@ -594,3 +594,32 @@
         padding: 20px;
     }
 }
+
+/* GOVERNMENT JOBS PAGE FIX - 2026-09-23 */
+.dashboard-main { min-width: 0; overflow-x: hidden; }
+.jobs-hero { min-width: 0; }
+.jobs-hero > div:last-child { min-width: 0; }
+.jobs-hero h2, .jobs-hero p { overflow-wrap: anywhere; }
+.job-status-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.search-row { grid-template-columns: minmax(220px, 2fr) repeat(3, minmax(150px, 1fr)) auto; align-items: center; }
+.search-row > * { min-width: 0; box-sizing: border-box; }
+.search-row button { white-space: nowrap; }
+.section-heading-row > div:last-child { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+.preferences-link { display:inline-flex; align-items:center; padding:8px 12px; border-radius:8px; background:#eff6ff; color:#1d4ed8; text-decoration:none; font-size:12px; font-weight:700; }
+.verified-job-card { min-width:0; overflow:hidden; }
+.job-card-heading > div:first-child { min-width:0; }
+.job-card-heading h3, .job-card-heading p { overflow-wrap:anywhere; }
+.job-facts span { min-width:0; overflow-wrap:anywhere; }
+@media (max-width:1200px) {
+  .search-row { grid-template-columns: 2fr 1fr 1fr; }
+  .search-row input { grid-column:1 / -1; }
+  .search-row select:nth-of-type(1), .search-row select:nth-of-type(2), .search-row select:nth-of-type(3) { grid-column:auto; }
+  .search-row button { grid-column:1 / -1; }
+}
+@media (max-width:800px) {
+  .jobs-hero { padding:22px; }
+  .job-status-grid { grid-template-columns:1fr; }
+  .search-row { grid-template-columns:1fr; }
+  .search-row input, .search-row select, .search-row button { grid-column:auto; }
+  .section-heading-row > div:last-child { justify-content:flex-start; }
+}

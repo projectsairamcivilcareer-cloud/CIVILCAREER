@@ -3145,7 +3145,14 @@ def answer_is_correct(question, user_answer):
 # MOCK TEST ENGINE
 # ==========================================
 
-MOCK_TEST_DURATION_SECONDS = 180 * 60
+MOCK_TEST_DURATIONS = {
+    "gate": 180 * 60,
+    "ssc-je": 30 * 60,
+    "je-ae": 30 * 60,
+    "diploma": 30 * 60,
+    "btech": 30 * 60,
+    "government": 30 * 60,
+}
 
 
 @app.route(
@@ -3321,7 +3328,10 @@ def mock_test(exam_slug):
 
         session[timer_key] = (
             int(time.time())
-            + MOCK_TEST_DURATION_SECONDS
+            + MOCK_TEST_DURATIONS.get(
+                exam_slug,
+                30 * 60
+            )
         )
 
 
@@ -3886,7 +3896,14 @@ def mock_test(exam_slug):
                 start=1
             )
             if status == "review"
-        ]
+        ],
+
+        duration_minutes=round(
+            MOCK_TEST_DURATIONS.get(
+                exam_slug,
+                30 * 60
+            ) / 60
+        )
 
     )
 
@@ -4184,7 +4201,10 @@ def mock_test_result(exam_slug):
 
             # GATE negative marking applies only to MCQs.
             # 1-mark MCQ: -1/3, 2-mark MCQ: -2/3.
-            if question.get("question_type", "mcq") == "mcq":
+            if (
+                exam_slug == "gate"
+                and question.get("question_type", "mcq") == "mcq"
+            ):
                 score -= (
                     question.get("marks", 1) / 3
                 )

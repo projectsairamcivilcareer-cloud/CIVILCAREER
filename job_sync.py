@@ -197,7 +197,7 @@ def sync_official_jobs():
 
                     is_civil = civil_relevant(item["post_name"])
                     cursor = db.execute(
-                        """INSERT OR IGNORE INTO government_jobs
+                        """INSERT INTO government_jobs
                         (organization, post_name, department, job_type,
                          qualification, branch, vacancies, age_limit,
                          age_relaxation, salary, pay_level,
@@ -205,11 +205,13 @@ def sync_official_jobs():
                          application_fee, selection_process, job_location,
                          notification_url, apply_url, source,
                          notification_number, notification_date, last_verified, status)
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                        ON CONFLICT (organization, post_name, notification_number, notification_date)
+                        DO NOTHING
+                        RETURNING id""",
                         (
                             item["organization"], item["post_name"],
-                            item["department"],
-                            item["job_type"],
+                            item["department"], item["job_type"],
                             item["qualification"],
                             item["branch"] if item.get("branch") else ("Civil Engineering" if is_civil else "Engineering"),
                             item["vacancies"], item["age_limit"],
@@ -221,21 +223,37 @@ def sync_official_jobs():
                             item.get("notification_date") or today, today, item["status"]
                         )
                     )
-
-                    if cursor.lastrowid:
+                    inserted = cursor.fetchone()
+                    if inserted:
+                        job_id = inserted["id"]
                         summary["new_jobs"] += 1
                         students = db.execute(
                             "SELECT user_id FROM user_job_preferences WHERE notifications_enabled=1"
                         ).fetchall()
                         for student in students:
+                            user_id = student["user_id"]
                             db.execute(
-                                """INSERT OR IGNORE INTO job_notifications
+                                """INSERT INTO job_notifications
                                    (user_id, job_id, notification_type, message)
-                                   VALUES (?,?,?,?)""",
+                                   VALUES (?,?,?,?)
+                                   ON CONFLICT (user_id, job_id, notification_type) DO NOTHING""",
                                 (
-                                    student["user_id"], cursor.lastrowid,
+                                    user_id, job_id,
                                     "NEW_OFFICIAL_JOB",
                                     f"New official government job notification: {item['post_name']}"
+                                )
+                            )
+                            db.execute(
+                                """INSERT INTO notification_alerts
+                                   (user_id, category, title, message, link_url, source, priority)
+                                   VALUES (?,?,?,?,?,?,?)
+                                   ON CONFLICT (user_id, category, title, link_url) DO NOTHING""",
+                                (
+                                    user_id, "JOBS",
+                                    f"New Government Job: {item['post_name']}",
+                                    f"{item['organization']} has published an official Civil Engineering-related recruitment update.",
+                                    f"/government-jobs/{job_id}",
+                                    source, "HIGH"
                                 )
                             )
 

@@ -356,6 +356,7 @@ def create_database():
     if "profile_photo" not in student_columns:
         connection.execute("ALTER TABLE students ADD COLUMN profile_photo TEXT")
     for column_name, column_type in [
+        ("user_id", "TEXT UNIQUE"),
         ("mobile_country_code", "TEXT"),
         ("mobile_number", "TEXT"),
         ("email_verified", "INTEGER NOT NULL DEFAULT 0"),
@@ -788,6 +789,18 @@ def _verification_required(student):
     return not (int(student.get("email_verified") or 0) == 1 and int(student.get("mobile_verified") or 0) == 1)
 
 
+def _generate_user_id(connection, name):
+    base = re.sub(r"[^A-Za-z]", "", str(name or "")).upper()[:3] or "USR"
+    while len(base) < 3:
+        base += "X"
+    for _ in range(100):
+        candidate = base + "".join(str(secrets.randbelow(10)) for _ in range(5))
+        exists = connection.execute("SELECT id FROM students WHERE user_id=? LIMIT 1", (candidate,)).fetchone()
+        if not exists:
+            return candidate
+    return base + str(random.randint(10000, 99999))
+
+
 def _profile_incomplete(student, target_exam=None):
     if not student:
         return True
@@ -799,8 +812,6 @@ def _profile_incomplete(student, target_exam=None):
         str(student["mobile_number"] or "").strip(),
         str(student["profile_photo"] or "").strip(),
     ]
-    if target_exam is not None:
-        required.append(str(target_exam or "").strip())
     return any(not value for value in required)
 
 
@@ -872,11 +883,12 @@ def login():
             if _verification_required(student):
                 return redirect(url_for("verify_account"))
 
-            preference_check = connection.execute(
-                "SELECT target_exam FROM student_preferences WHERE student_id=?",
-                (student["id"],)
-            ).fetchone()
-            if _profile_incomplete(student, preference_check["target_exam"] if preference_check else None):
+            if not student["user_id"]:
+                generated_id = _generate_user_id(connection, student["name"])
+                connection.execute("UPDATE students SET user_id=? WHERE id=?", (generated_id, student["id"]))
+                connection.commit()
+
+            if _profile_incomplete(student):
                 connection.close()
                 return redirect(url_for("profile", required=1))
 
@@ -1729,14 +1741,13 @@ def profile_photo(filename):
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
-
     if "student_id" not in session:
         return redirect(url_for("login"))
 
     connection = get_db_connection()
     profile_error = request.args.get("error") or None
     profile_message = request.args.get("message") or None
-    required_profile = request.args.get("required") == "1" or request.form.get("required") == "1"
+    required_profile = request.args.get("required") == "1"
 
     if request.method == "POST":
         action = request.form.get("action", "")
@@ -1747,10 +1758,7 @@ def profile():
             if not name or not education:
                 profile_error = "Name and education are required."
             else:
-                connection.execute(
-                    "UPDATE students SET name=?, education=? WHERE id=?",
-                    (name, education, session["student_id"])
-                )
+                connection.execute("UPDATE students SET name=?, education=? WHERE id=?", (name, education, session["student_id"]))
                 connection.commit()
                 session["student_name"] = name
                 session["student_education"] = education
@@ -1768,78 +1776,44 @@ def profile():
                 os.makedirs(app.config["PROFILE_UPLOAD_FOLDER"], exist_ok=True)
                 filename = secure_filename("student-" + str(session["student_id"]) + "-" + uuid.uuid4().hex + "." + extension)
                 photo.save(os.path.join(app.config["PROFILE_UPLOAD_FOLDER"], filename))
-                connection.execute(
-                    "UPDATE students SET profile_photo=? WHERE id=?",
-                    (filename, session["student_id"])
-                )
+                connection.execute("UPDATE students SET profile_photo=? WHERE id=?", (filename, session["student_id"]))
                 connection.commit()
                 profile_message = "Profile photo updated successfully."
 
-        elif action == "target":
-            target_exam = request.form.get("target_exam", "").strip()
-            allowed_exams = {"GATE Civil Engineering", "SSC JE", "JE / AE", "Diploma Civil", "B.Tech Civil", "Government Exams"}
-            if target_exam in allowed_exams:
-                connection.execute(
-                    """INSERT INTO student_preferences (student_id, target_exam)
-                       VALUES (?, ?)
-                       ON CONFLICT(student_id) DO UPDATE SET
-                       target_exam=excluded.target_exam, updated_at=CURRENT_TIMESTAMP""",
-                    (session["student_id"], target_exam)
-                )
-                connection.commit()
-                profile_message = "Target exam updated successfully."
-
     student = connection.execute(
-        """SELECT name,email,education,profile_photo,mobile_country_code,mobile_number,
-                  email_verified,mobile_verified,password
+        """SELECT id,user_id,name,email,education,profile_photo,mobile_country_code,mobile_number,
+                  email_verified,mobile_verified
            FROM students WHERE id=?""",
         (session["student_id"],)
     ).fetchone()
-
-    preference = connection.execute(
-        "SELECT target_exam FROM student_preferences WHERE student_id=?",
-        (session["student_id"],)
-    ).fetchone()
-
-    score_summary = connection.execute(
-        """SELECT COUNT(*) AS tests_taken,
-                  COALESCE(ROUND(AVG(percentage)::numeric,1),0) AS average_score,
-                  COALESCE(MAX(percentage),0) AS best_score
-           FROM mock_test_results WHERE student_id=?""",
-        (session["student_id"],)
-    ).fetchone()
-
-    recent_results = connection.execute(
-        """SELECT id,exam_name,score,percentage,created_at
-           FROM mock_test_results WHERE student_id=?
-           ORDER BY id DESC LIMIT 5""",
-        (session["student_id"],)
-    ).fetchall()
     connection.close()
 
-    complete = not _profile_incomplete(student, preference["target_exam"] if preference else None)
+    if student and not student["user_id"]:
+        connection = get_db_connection()
+        generated_id = _generate_user_id(connection, student["name"])
+        connection.execute("UPDATE students SET user_id=? WHERE id=?", (generated_id, student["id"]))
+        connection.commit()
+        connection.close()
+        student = dict(student)
+        student["user_id"] = generated_id
+
+    complete = not _profile_incomplete(student)
 
     return render_template(
         "profile.html",
-        student_name=student["name"] if student else session.get("student_name",""),
-        student_education=student["education"] if student else session.get("student_education",""),
-        student_email=student["email"] if student else session.get("student_email",""),
+        user_id=student["user_id"] if student else "",
+        student_name=student["name"] if student else "",
+        student_education=student["education"] if student else "",
+        student_email=student["email"] if student else "",
         mobile_country_code=student["mobile_country_code"] if student else "",
         mobile_number=student["mobile_number"] if student else "",
         email_verified=int(student["email_verified"] or 0) if student else 0,
         mobile_verified=int(student["mobile_verified"] or 0) if student else 0,
-        target_exam=preference["target_exam"] if preference else "",
         profile_photo=student["profile_photo"] if student else None,
         profile_error=profile_error,
         profile_message=profile_message,
         required_profile=required_profile,
-        profile_complete=complete,
-        tests_taken=score_summary["tests_taken"],
-        average_score=score_summary["average_score"],
-        best_score=score_summary["best_score"],
-        exam_progress=min(100, round(score_summary["average_score"])),
-        practice_progress=min(100, score_summary["tests_taken"] * 10),
-        recent_results=recent_results
+        profile_complete=complete
     )
 
 
@@ -5974,12 +5948,13 @@ def register():
         try:
             connection.execute(
                 """INSERT INTO students
-                (name, email, education, password, mobile_country_code, mobile_number,
+                (name, email, education, password, user_id, mobile_country_code, mobile_number,
                  email_verified, mobile_verified, email_verification_code,
                  mobile_verification_code, verification_expires_at)
-                VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)""",
+                VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)""",
                 (name, email, education, generate_password_hash(password),
-                 country_code, mobile, email_code, mobile_code, expires)
+                 _generate_user_id(connection, name), country_code, mobile,
+                 email_code, mobile_code, expires)
             )
             connection.commit()
         except psycopg_errors.UniqueViolation:

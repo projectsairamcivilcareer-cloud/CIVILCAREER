@@ -526,18 +526,39 @@ def dashboard():
         if status in job_counts:
             job_counts[status] += 1
 
-    matching_jobs = get_matching_jobs(session["student_id"], limit=3)
+    matching_jobs = get_matching_jobs(
+        session["student_id"],
+        limit=3
+    )
+
+    connection = get_db_connection()
+    progress_row = connection.execute(
+        """
+        SELECT COALESCE(AVG(percentage), 0) AS overall_progress
+        FROM mock_test_results
+        WHERE student_id = ?
+        """,
+        (session["student_id"],)
+    ).fetchone()
+    connection.close()
+
+    overall_progress = min(
+        100,
+        round(
+            float(
+                progress_row["overall_progress"]
+                or 0
+            )
+        )
+    )
 
     return render_template(
-
         "dashboard.html",
-
         student_name=student_name,
-
         student_education=student_education,
         job_counts=job_counts,
         matching_jobs=matching_jobs,
-
+        overall_progress=overall_progress,
     )
 
 # ==============================
@@ -717,31 +738,42 @@ def calculate_match_score(job, preferences):
         return 0
 
     score = 0
-    checks = 0
+    possible = 0
 
     qualification_pref = (preferences.get("qualification") or "").strip()
     if qualification_pref:
-        checks += 1
+        possible += 35
         job_qualification = (job.get("qualification") or "").lower()
         if qualification_pref.lower() in job_qualification or any(
-            item.lower() in job_qualification for item in qualification_pref.split("/")
+            item.lower() in job_qualification
+            for item in qualification_pref.split("/")
         ):
             score += 35
-        elif any(item.lower() in job_qualification for item in ["diploma", "b.tech", "b.e.", "m.tech", "civil"]):
+        elif any(
+            item.lower() in job_qualification
+            for item in ["diploma", "b.tech", "b.e.", "m.tech", "civil"]
+        ):
             score += 20
 
     branch_pref = (preferences.get("branch") or "").strip()
     if branch_pref:
-        checks += 1
-        job_branch = (job.get("branch") or job.get("qualification") or "").lower()
-        if "civil" in branch_pref.lower() and "civil" in job_branch:
+        possible += 25
+        job_branch = (
+            job.get("branch")
+            or job.get("qualification")
+            or ""
+        ).lower()
+        if (
+            "civil" in branch_pref.lower()
+            and "civil" in job_branch
+        ):
             score += 25
         else:
             score += 10
 
     states = _normalize_list(preferences.get("preferred_states"))
     if states:
-        checks += 1
+        possible += 15
         job_location = (job.get("job_location") or "").lower()
         if any(state.lower() in job_location for state in states):
             score += 15
@@ -750,27 +782,43 @@ def calculate_match_score(job, preferences):
 
     preferred_job_types = _normalize_list(preferences.get("job_types"))
     if preferred_job_types:
-        checks += 1
+        possible += 15
         job_type = (job.get("job_type") or "").lower()
-        if any(job_type == item.lower() or item.lower() in job_type for item in preferred_job_types):
+        if any(
+            job_type == item.lower()
+            or item.lower() in job_type
+            for item in preferred_job_types
+        ):
             score += 15
         else:
             score += 5
 
     experience = (preferences.get("experience") or "").lower()
     if experience:
-        checks += 1
-        if "fresher" in experience and ("fresher" in job.get("qualification", "").lower() or "0" in (job.get("age_limit") or "")):
+        possible += 10
+        qualification = (job.get("qualification") or "").lower()
+        age_limit = (job.get("age_limit") or "").lower()
+        if (
+            "fresher" in experience
+            and (
+                "fresher" in qualification
+                or "0" in age_limit
+            )
+        ):
             score += 10
         else:
             score += 5
 
-    if checks == 0:
+    if possible == 0:
         return 50
 
-    return min(100, max(0, int(round(score / checks * 100 / 100))))
-
-
+    return min(
+        100,
+        max(
+            0,
+            int(round(score / possible * 100))
+        )
+    )
 def get_matching_jobs(student_id, limit=3):
     preferences = get_user_job_preferences(student_id)
     connection = get_db_connection()
@@ -1138,10 +1186,37 @@ def notifications():
     if "student_id" not in session:
         return redirect(url_for("login"))
 
+    connection = get_db_connection()
+    rows = connection.execute(
+        """
+        SELECT id, organization, post_name, application_last_date,
+               exam_date, notification_url, apply_url, status,
+               notification_date
+        FROM government_jobs
+        WHERE notification_url != ''
+          AND apply_url != ''
+          AND source != ''
+        ORDER BY notification_date DESC, id DESC
+        LIMIT 10
+        """
+    ).fetchall()
+    connection.close()
+
+    notification_jobs = []
+    for row in rows:
+        item = dict(row)
+        item["display_status"] = government_job_status(
+            item["application_last_date"],
+            item["exam_date"],
+            item["status"]
+        )
+        notification_jobs.append(item)
+
     return render_template(
         "notifications.html",
         student_name=session["student_name"],
-        student_education=session["student_education"]
+        student_education=session["student_education"],
+        notification_jobs=notification_jobs
     )
 
 
@@ -5112,6 +5187,30 @@ def mock_test_result(exam_slug):
         next_test_recommendation=next_test_recommendation
 
     )
+
+
+# ==============================
+# ERROR HANDLERS
+# ==============================
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template(
+        "error.html",
+        error_code=404,
+        error_title="Page Not Found",
+        error_message="The page you requested does not exist."
+    ), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template(
+        "error.html",
+        error_code=500,
+        error_title="Something went wrong",
+        error_message="The page could not be opened. Please return to the dashboard and try again."
+    ), 500
 
 
 # =========================================================

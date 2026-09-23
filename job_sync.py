@@ -17,13 +17,14 @@ OFFICIAL_SOURCES = [
     ("UPSC", "https://www.upsc.gov.in/recruitment/recruitment-advertisement", "https://upsconline.nic.in/"),
     ("SSC", "https://ssc.gov.in/", "https://ssc.gov.in/"),
     ("NHAI", "https://nhai.gov.in/nhai/taxonomy/term/248", "https://nhai.gov.in/"),
+    ("UPSC Recruitment", "https://www.upsc.gov.in/recruitment/criteria-adopted", "https://upsconline.nic.in/"),
 ]
 
 CIVIL_KEYWORDS = (
     "civil", "junior engineer", "assistant engineer", "executive engineer",
     "deputy manager (technical)", "technical", "structural", "highway",
     "roads", "construction", "works", "survey", "geotechnical",
-    "water resources", "quantity"
+    "water resources", "quantity", "engineering (structural)", "engineering (soil mechanics)"
 )
 
 def fetch_html(url):
@@ -58,6 +59,9 @@ def discover(source_name, listing_url, apply_url):
         if source_name == "UPSC":
             if not re.search(r"advertisement\s+no\.?\s*\d+", title, re.I):
                 continue
+        elif source_name == "UPSC Recruitment":
+            if not civil_relevant(title):
+                continue
         elif not civil_relevant(title + " " + clean(a.parent.get_text(" ", strip=True))):
             continue
 
@@ -73,6 +77,65 @@ def discover(source_name, listing_url, apply_url):
         })
 
     return results[:40]
+
+
+def enrich_item(item):
+    title = item["post_name"]
+    low = title.lower()
+    item.update({
+        "department": "Government / PSU Recruitment",
+        "job_type": "Central Government",
+        "qualification": "See official notification for exact eligibility.",
+        "branch": "Civil Engineering",
+        "vacancies": "See official notification",
+        "age_limit": "See official notification",
+        "salary": "See official notification",
+        "pay_level": "",
+        "application_start": None,
+        "application_last_date": None,
+        "selection_process": "See official notification",
+        "job_location": "India",
+        "notification_date": None,
+        "status": "NEW",
+    })
+    match = re.search(r"(?:fill(?:ing)? up|for)\s+(\d+)\s+posts?", low, re.I)
+    if match:
+        item["vacancies"] = match.group(1)
+
+    if item["organization"] == "NHAI" and "60 posts" in low and "deputy manager (technical)" in low:
+        item.update({
+            "department": "National Highways Authority of India, Ministry of Road Transport and Highways",
+            "job_type": "PSU",
+            "qualification": "B.E./B.Tech in Civil Engineering; GATE 2026 Civil Engineering score as specified in the official notice",
+            "branch": "Civil Engineering",
+            "vacancies": "60",
+            "age_limit": "30 years (relaxation as per official rules)",
+            "salary": "Rs. 56,100–1,77,500 + applicable allowances",
+            "pay_level": "Level 10, 7th CPC",
+            "application_start": "2026-05-15",
+            "application_last_date": "2026-06-15",
+            "selection_process": "Direct recruitment through GATE 2026 score, subject to the official notification",
+            "status": "CLOSED",
+        })
+
+    if item["organization"] == "UPSC Recruitment":
+        if "assistant professor, civil engineering (structural)" in low:
+            item.update({
+                "department": "College of Military Engineering, Pune, Ministry of Defence",
+                "branch": "Civil Engineering – Structural",
+                "vacancies": "1",
+                "notification_number": "04/2026 | Vacancy No. 26050403309",
+                "notification_date": "2026-09-10",
+            })
+        elif "assistant professor, civil engineering (soil mechanics)" in low:
+            item.update({
+                "department": "Ministry of Defence",
+                "branch": "Civil Engineering – Soil Mechanics",
+                "vacancies": "1",
+                "notification_number": "05/2025",
+                "notification_date": "2026-06-19",
+            })
+    return item
 
 def notification_number(item):
     match = re.search(

@@ -115,14 +115,10 @@
                         Password
                     </label>
 
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
+                    <div class="password-wrap">
+<input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+<button type="button" class="show-password" onclick="togglePassword('password', this)">Show</button>
+</div>
 
                 </div>
 
@@ -169,6 +165,12 @@
 
     </footer>
 
-</body>
+<script>
+function togglePassword(id, button) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+  button.textContent = input.type === "password" ? "Show" : "Hide";
+}
+</script></body>
 
 </html>

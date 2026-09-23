@@ -2,6 +2,8 @@
 
 from collections import Counter
 
+from gate_question_bank_extra import GATE_QUESTION_BANK_EXTRA
+
 
 GATE_SUBJECTS = [
     "Engineering Mathematics",
@@ -245,7 +247,7 @@ def _difficulty_target(mode):
 
 def build_gate_mock(mode="mixed", count=20, profile=None, scope="all"):
     """Return a syllabus-tagged selection for a difficulty, profile, and scope."""
-    questions = GATE_APTITUDE_QUESTIONS + GATE_QUESTION_BANK
+    questions = GATE_APTITUDE_QUESTIONS + GATE_QUESTION_BANK + GATE_QUESTION_BANK_EXTRA
     questions = [
         question for question in questions
         if scope == "all"

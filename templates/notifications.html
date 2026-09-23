@@ -214,11 +214,37 @@
         </div>
 
 
+        {% if notification_jobs %}
+        <div class="notification-list">
+            {% for job in notification_jobs %}
+            <article class="notification-item">
+                <div>
+                    <strong>{{ job.organization }}</strong>
+                    <h3>{{ job.post_name }}</h3>
+                    <p>
+                        Status: {{ job.display_status }}
+                        {% if job.application_last_date %}
+                        · Last date: {{ job.application_last_date }}
+                        {% endif %}
+                        {% if job.exam_date %}
+                        · Exam: {{ job.exam_date }}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="notification-actions">
+                    <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>
+                    <a href="{{ job.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notice</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
         <div class="empty-state">
-
-            <div>
-                🔔
-            </div>
+            <div>🔔</div>
+            <h3>Notification Center</h3>
+            <p>No verified updates are available yet.</p>
+        </div>
+        {% endif %}
 
             <h3>
                 Notification Center

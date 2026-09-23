@@ -6052,6 +6052,125 @@ def resend_verification():
 
 
 # =========================================================
+# PROFILE ACCOUNT SETTINGS
+# =========================================================
+
+@app.route("/profile/change-password", methods=["POST"])
+def profile_change_password():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    current = str(request.form.get("current_password", ""))
+    new_password = str(request.form.get("new_password", ""))
+    confirm = str(request.form.get("confirm_password", ""))
+
+    connection = get_db_connection()
+    student = connection.execute("SELECT password FROM students WHERE id=?", (session["student_id"],)).fetchone()
+
+    valid = False
+    try:
+        valid = bool(student and check_password_hash(str(student["password"] or ""), current))
+    except (ValueError, TypeError):
+        valid = bool(student and str(student["password"] or "") == current)
+
+    if not valid:
+        connection.close()
+        return redirect(url_for("profile", error="Current password is incorrect"))
+
+    if len(new_password) < 6 or new_password != confirm:
+        connection.close()
+        return redirect(url_for("profile", error="New passwords must match and contain at least 6 characters"))
+
+    connection.execute(
+        "UPDATE students SET password=? WHERE id=?",
+        (generate_password_hash(new_password), session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+    return redirect(url_for("profile", message="Password changed successfully"))
+
+
+@app.route("/profile/change-email", methods=["POST"])
+def profile_change_email():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    new_email = str(request.form.get("new_email", "")).strip().lower()
+    if not new_email:
+        return redirect(url_for("profile", error="Enter a new email address"))
+
+    connection = get_db_connection()
+    existing = connection.execute(
+        "SELECT id FROM students WHERE lower(trim(email))=? AND id<>?",
+        (new_email, session["student_id"])
+    ).fetchone()
+    if existing:
+        connection.close()
+        return redirect(url_for("profile", error="That email address is already in use"))
+
+    email_code = str(secrets.randbelow(900000) + 100000)
+    mobile_code = str(secrets.randbelow(900000) + 100000)
+    connection.execute(
+        """UPDATE students SET email=?, email_verified=0, mobile_verified=0,
+           email_verification_code=?, mobile_verification_code=?,
+           verification_expires_at=? WHERE id=?""",
+        (new_email, email_code, mobile_code, _verification_expiry(), session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+
+    # Re-send verification for the changed email and existing mobile.
+    student = get_db_connection().execute(
+        "SELECT mobile_country_code,mobile_number FROM students WHERE id=?",
+        (session["student_id"],)
+    ).fetchone()
+    try:
+        email_sent = _send_verification_email(new_email, email_code)
+        sms_sent = _send_verification_sms(student["mobile_country_code"], student["mobile_number"], mobile_code)
+    except Exception as exc:
+        print("[EMAIL CHANGE VERIFICATION ERROR]", type(exc).__name__, exc, flush=True)
+        email_sent = sms_sent = False
+
+    if not email_sent or not sms_sent:
+        return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
+    session["student_email"] = new_email
+    return redirect(url_for("verify_account", email=new_email))
+
+
+@app.route("/profile/change-mobile", methods=["POST"])
+def profile_change_mobile():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    country_code = str(request.form.get("mobile_country_code", "")).strip()
+    mobile = re.sub(r"\D", "", str(request.form.get("mobile_number", "")))
+    if not country_code or len(mobile) < 7 or len(mobile) > 15:
+        return redirect(url_for("profile", error="Enter a valid country code and mobile number"))
+
+    connection = get_db_connection()
+    email = connection.execute("SELECT email FROM students WHERE id=?", (session["student_id"],)).fetchone()["email"]
+    email_code = str(secrets.randbelow(900000) + 100000)
+    mobile_code = str(secrets.randbelow(900000) + 100000)
+    connection.execute(
+        """UPDATE students SET mobile_country_code=?, mobile_number=?,
+           email_verified=0, mobile_verified=0,
+           email_verification_code=?, mobile_verification_code=?,
+           verification_expires_at=? WHERE id=?""",
+        (country_code, mobile, email_code, mobile_code, _verification_expiry(), session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+
+    try:
+        email_sent = _send_verification_email(email, email_code)
+        sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
+    except Exception as exc:
+        print("[MOBILE CHANGE VERIFICATION ERROR]", type(exc).__name__, exc, flush=True)
+        email_sent = sms_sent = False
+
+    if not email_sent or not sms_sent:
+        return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
+    return redirect(url_for("verify_account", email=email))
+
+
+# =========================================================
 # LOGOUT
 # =========================================================
 

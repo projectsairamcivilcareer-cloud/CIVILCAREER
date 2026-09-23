@@ -25,12 +25,14 @@ GATE_SUBJECTS = [
 
 
 GATE_MOCK_PROFILES = {
-    "short": {"math_questions": 5, "core_questions": 55, "aptitude_questions": 10, "total_marks": 100},
-    "standard": {"math_questions": 7, "core_questions": 57, "aptitude_questions": 10, "total_marks": 100},
-    "full": {"math_questions": 10, "core_questions": 60, "aptitude_questions": 10, "total_marks": 100},
-    "difficult": {"math_questions": 8, "core_questions": 58, "aptitude_questions": 10, "total_marks": 100},
-    "expert": {"math_questions": 9, "core_questions": 59, "aptitude_questions": 10, "total_marks": 100},
-    "elite": {"math_questions": 10, "core_questions": 60, "aptitude_questions": 10, "total_marks": 100},
+    # All full-length Civil Career mock profiles are 100 marks / 65 questions.
+    # 10 GA + 7 Engineering Mathematics + 48 Civil Core.
+    "short": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
+    "standard": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
+    "full": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
+    "difficult": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
+    "expert": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
+    "elite": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
 }
 
 
@@ -256,48 +258,20 @@ def build_gate_mock(mode="mixed", count=20, profile=None, scope="all"):
         or (scope == "aptitude" and question["subject"] == "General Aptitude")
     ]
     if profile in GATE_MOCK_PROFILES:
-        settings = gate_mock_structure(profile)
-        count = settings["total_questions"]
-        quotas = {
-            "General Aptitude": settings["aptitude_questions"],
-            "Engineering Mathematics": settings["math_questions"],
-            "Civil Core": settings["core_questions"],
+        # GATE-style 100-mark distribution:
+        # GA = 5x1 + 5x2 = 15
+        # Engineering Mathematics = 1x1 + 6x2 = 13
+        # Civil Core = 24x1 + 24x2 = 72
+        one_mark_limits = {
+            "General Aptitude": 5,
+            "Engineering Mathematics": 1,
+            "Civil Core": 24,
         }
-        selected = []
-        for section_name, quota in quotas.items():
-            section_questions = [
-                question for question in questions
-                if (section_name == "General Aptitude" and question["subject"] == section_name)
-                or (section_name == "Engineering Mathematics" and question["subject"] == section_name)
-                or (section_name == "Civil Core" and question["subject"] not in ("General Aptitude", "Engineering Mathematics"))
-            ]
-            if mode == "mixed" or not _difficulty_target(mode):
-                section_selected = section_questions[:quota]
-            else:
-                target = _difficulty_target(mode)
-                section_selected = sorted(section_questions, key=lambda item: (abs(item["difficulty_rating"] - target), item["difficulty_rating"]))[:quota]
-            if len(section_selected) < quota and section_questions:
-                section_selected.extend(section_questions[index % len(section_questions)] for index in range(quota - len(section_selected)))
-            selected.extend(section_selected)
-    elif mode == "mixed" or not _difficulty_target(mode):
-        selected = questions[:count]
-    else:
-        target = _difficulty_target(mode)
-        selected = sorted(questions, key=lambda item: (abs(item["difficulty_rating"] - target), item["difficulty_rating"]))[:count]
-    if len(selected) < count and questions:
-        # The allocator supports the requested profile while the bank is being expanded.
-        selected.extend(questions[index % len(questions)] for index in range(count - len(selected)))
-    result = [dict(question) for question in selected]
-    for question in result:
-        question["section"] = (
-            "General Aptitude" if question["subject"] == "General Aptitude"
-            else "Engineering Mathematics" if question["subject"] == "Engineering Mathematics"
-            else "Civil Core"
-        )
-    if profile in GATE_MOCK_PROFILES:
-        mark_mix = gate_mock_structure(profile)["marks"]
-        for index, question in enumerate(result):
-            question["marks"] = 1 if index < mark_mix["one_mark"] else 2
+        seen = {"General Aptitude": 0, "Engineering Mathematics": 0, "Civil Core": 0}
+        for question in result:
+            section = question["section"]
+            seen[section] += 1
+            question["marks"] = 1 if seen[section] <= one_mark_limits[section] else 2
     return result
 
 

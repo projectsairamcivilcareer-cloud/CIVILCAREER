@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Preferences | Civil Career</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/government_jobs.css') }}">
+    <style>
+        .preferences-card{max-width:900px;margin:28px auto;background:#fff;border-radius:18px;padding:30px;box-shadow:0 12px 32px rgba(18,53,91,.10)}
+        .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+        .form-field{display:flex;flex-direction:column;gap:7px}
+        .form-field.full{grid-column:1/-1}
+        .form-field label{font-weight:700;color:#12355B}
+        .form-field input,.form-field select{padding:11px 12px;border:1px solid #D9E2EC;border-radius:9px;font:inherit}
+        .checks{display:flex;gap:24px;flex-wrap:wrap;margin-top:6px}
+        .checks label{font-weight:600;color:#475569}
+        .save-button{margin-top:22px;border:0;border-radius:10px;padding:12px 20px;background:#12355B;color:#fff;font-weight:700;cursor:pointer}
+        .message{padding:12px 14px;border-radius:9px;background:#E8F5EF;color:#17613A;margin-bottom:20px}
+        .back-link{display:inline-block;margin-bottom:18px;text-decoration:none;color:#12355B;font-weight:700}
+        @media(max-width:700px){.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}}
+    </style>
+</head>
+<body>
+<aside class="sidebar">
+    <div class="dashboard-logo">🏗️ <span>CIVIL CAREER</span></div>
+    <nav class="sidebar-menu">
+        <a href="{{ url_for('dashboard') }}">📊 Dashboard</a>
+        <a href="{{ url_for('exams') }}">📚 Exams</a>
+        <a href="{{ url_for('government_jobs') }}" class="active">🏛️ Government Jobs</a>
+        <a href="{{ url_for('syllabus') }}">📖 Syllabus</a>
+        <a href="{{ url_for('materials') }}">📚 Materials</a>
+        <a href="{{ url_for('notifications') }}">🔔 Notifications</a>
+        <a href="{{ url_for('practice') }}">🎯 Practice</a>
+        <a href="{{ url_for('profile') }}">👤 Profile</a>
+    </nav>
+    <div class="sidebar-bottom">
+        <a href="{{ url_for('home') }}">🏠 Home</a>
+        <a href="{{ url_for('logout') }}">🚪 Logout</a>
+    </div>
+</aside>
+
+<main class="dashboard-main">
+    <header class="topbar">
+        <div>
+            <a class="back-link" href="{{ url_for('government_jobs') }}">← Government Jobs</a>
+            <h1>Job Preferences</h1>
+            <p>Set your Civil Engineering job preferences to improve matching.</p>
+        </div>
+        <div class="student-info">
+            <div class="student-avatar">👤</div>
+            <div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div>
+        </div>
+    </header>
+
+    <section class="preferences-card">
+        {% if message %}<div class="message">{{ message }}</div>{% endif %}
+        <form method="POST">
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="qualification">Qualification</label>
+                    <input id="qualification" name="qualification" value="{{ preferences.qualification }}" placeholder="Diploma, B.Tech, B.E.">
+                </div>
+                <div class="form-field">
+                    <label for="branch">Branch</label>
+                    <input id="branch" name="branch" value="{{ preferences.branch }}" placeholder="Civil Engineering">
+                </div>
+                <div class="form-field">
+                    <label for="preferred_states">Preferred States</label>
+                    <input id="preferred_states" name="preferred_states" value="{{ preferences.preferred_states }}" placeholder="Telangana, Andhra Pradesh">
+                </div>
+                <div class="form-field">
+                    <label for="job_types">Preferred Job Types</label>
+                    <input id="job_types" name="job_types" value="{{ preferences.job_types }}" placeholder="Central Government, PSU">
+                </div>
+                <div class="form-field">
+                    <label for="organizations">Preferred Organizations</label>
+                    <input id="organizations" name="organizations" value="{{ preferences.organizations }}" placeholder="UPSC, SSC, NHAI">
+                </div>
+                <div class="form-field">
+                    <label for="experience">Experience</label>
+                    <select id="experience" name="experience">
+                        {% for value in ['Fresher','1-3 years','3+ years'] %}
+                        <option value="{{ value }}" {% if preferences.experience == value %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-field full">
+                    <div class="checks">
+                        <label><input type="checkbox" name="notifications_enabled" {% if preferences.notifications_enabled %}checked{% endif %}> In-app job notifications</label>
+                        <label><input type="checkbox" name="email_enabled" {% if preferences.email_enabled %}checked{% endif %}> Email notifications</label>
+                    </div>
+                </div>
+            </div>
+            <button class="save-button" type="submit">Save Preferences</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

@@ -1089,14 +1089,33 @@
         }
 
 
-        .question-number.current.answered,
+        .question-number.current.answered {
+
+            border:
+                2px solid var(--accent);
+
+            background:
+                var(--success-bg);
+
+            color:
+                #116247;
+        }
+
+
         .question-number.current.review {
 
             border:
                 2px solid var(--accent);
 
+            background:
+                var(--warning-bg);
+
             color:
-                #1255B4;
+                #8A5A10;
+
+            box-shadow:
+                0 3px 9px
+                rgba(183,121,31,.16);
         }
 
 
@@ -3183,6 +3202,13 @@
     const totalQuestions =
         {{ total_questions|int }};
 
+
+    // Review state comes from the server session and is preserved
+    // while questions are changed through AJAX.
+    const reviewQuestions =
+        {{ review_questions|tojson }};
+
+
     let currentQuestion =
         {{ question_index|int }};
 
@@ -3420,19 +3446,36 @@
             // Answered questions are green. If the answered question
             // is also the current question, the blue current border
             // remains visible while the green answered fill is shown.
+            const reviewNumber =
+                index + 1;
+
+            const reviewed =
+                reviewQuestions.includes(
+                    reviewNumber
+                );
+
             button.classList.toggle(
                 "answered",
-                answered
+                answered && !reviewed
+            );
+
+            button.classList.toggle(
+                "review",
+                reviewed
             );
 
             button.classList.toggle(
                 "not-answered",
-                !answered && index !== currentQuestion
+                !answered
+                && !reviewed
+                && index !== currentQuestion
             );
 
             button.classList.toggle(
                 "not-visited",
-                !answered && index !== currentQuestion
+                !answered
+                && !reviewed
+                && index !== currentQuestion
             );
 
             button.classList.toggle(

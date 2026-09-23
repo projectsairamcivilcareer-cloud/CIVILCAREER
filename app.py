@@ -788,7 +788,7 @@ def _verification_required(student):
     return not (int(student.get("email_verified") or 0) == 1 and int(student.get("mobile_verified") or 0) == 1)
 
 
-def _profile_incomplete(student):
+def _profile_incomplete(student, target_exam=None):
     if not student:
         return True
     required = [
@@ -799,6 +799,8 @@ def _profile_incomplete(student):
         str(student["mobile_number"] or "").strip(),
         str(student["profile_photo"] or "").strip(),
     ]
+    if target_exam is not None:
+        required.append(str(target_exam or "").strip())
     return any(not value for value in required)
 
 
@@ -872,7 +874,11 @@ def login():
             if _verification_required(student):
                 return redirect(url_for("verify_account"))
 
-            if _profile_incomplete(student):
+            preference_check = connection.execute(
+                "SELECT target_exam FROM student_preferences WHERE student_id=?",
+                (student["id"],)
+            ).fetchone()
+            if _profile_incomplete(student, preference_check["target_exam"] if preference_check else None):
                 return redirect(url_for("profile", required=1))
 
             return redirect(url_for("dashboard"))
@@ -1798,7 +1804,7 @@ def profile():
     ).fetchall()
     connection.close()
 
-    complete = not _profile_incomplete(student)
+    complete = not _profile_incomplete(student, preference["target_exam"] if preference else None)
 
     return render_template(
         "profile.html",

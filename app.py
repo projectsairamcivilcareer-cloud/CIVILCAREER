@@ -483,6 +483,33 @@ def create_database():
             UNIQUE(user_id, category, title, link_url)
         )
     """)
+ 
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS notification_categories (
+            id BIGSERIAL PRIMARY KEY,
+            category_key TEXT UNIQUE NOT NULL,
+            name TEXT NOT NULL,
+            icon TEXT NOT NULL,
+            description TEXT NOT NULL,
+            enabled INTEGER NOT NULL DEFAULT 1,
+            sort_order INTEGER NOT NULL DEFAULT 0
+        )
+    """)
+    connection.executemany(
+        """
+        INSERT INTO notification_categories
+        (category_key, name, icon, description, sort_order)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT (category_key) DO NOTHING
+        """,
+        [
+            ("EXAMS", "Exam Notifications", "📚", "Exam announcements, applications and important exam updates.", 1),
+            ("JOBS", "Job Notifications", "🏛️", "Official Civil Engineering government and PSU recruitment alerts.", 2),
+            ("ADMIT_CARDS", "Admit Cards", "🎫", "Admit card and hall-ticket announcements.", 3),
+            ("RESULTS", "Results", "🏆", "Exam and recruitment result announcements.", 4),
+            ("DEADLINES", "Important Dates", "📅", "Application deadlines, exam dates and other important dates.", 5),
+        ]
+    )
 
 
     seed_jobs = [
@@ -618,6 +645,43 @@ def create_database():
         f"across {migration_result['tables']} tables",
         flush=True,
     )
+
+    # Generate initial in-app alerts for existing official job data.
+    users = connection.execute(
+        "SELECT user_id FROM user_job_preferences WHERE notifications_enabled=1"
+    ).fetchall()
+    jobs = connection.execute(
+        """
+        SELECT id, organization, post_name, application_last_date,
+               exam_date, notification_url, status
+        FROM government_jobs
+        WHERE notification_url != ''
+        ORDER BY notification_date DESC, id DESC
+        LIMIT 30
+        """
+    ).fetchall()
+    for user in users:
+        for job in jobs:
+            priority = "HIGH" if str(job["status"]).upper() == "OPEN" else "NORMAL"
+            message = f"{job['organization']}: {job['post_name']}"
+            if job["application_last_date"]:
+                message += f" | Last date: {job['application_last_date']}"
+            connection.execute(
+                """
+                INSERT INTO notification_alerts
+                (user_id, category, title, message, link_url, source, priority)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT (user_id, category, title, link_url) DO NOTHING
+                """,
+                (
+                    user["user_id"], "JOBS",
+                    f"Government Job Update: {job['post_name']}",
+                    message,
+                    f"/government-jobs/{job['id']}",
+                    job["organization"],
+                    priority
+                )
+            )
 
     connection.commit()
 

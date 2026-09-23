@@ -1715,8 +1715,8 @@ def profile():
         return redirect(url_for("login"))
 
     connection = get_db_connection()
-    profile_error = None
-    profile_message = None
+    profile_error = request.args.get("error") or None
+    profile_message = request.args.get("message") or None
     required_profile = request.args.get("required") == "1" or request.form.get("required") == "1"
 
     if request.method == "POST":

@@ -675,7 +675,7 @@ def gate():
 
         return redirect(url_for("login"))
 
-    syllabus_year = request.args.get("year", "2026")
+    syllabus_year = request.args.get("year", "2027")
     if syllabus_year not in GATE_SYLLABI:
         syllabus_year = "2026"
 

@@ -3272,39 +3272,73 @@
             return;
         }
 
-        const formData =
-            new FormData(form);
+        const answerInputs =
+            Array.from(
+                form.querySelectorAll('input[name="answer"]')
+            );
 
-        const data = {};
+        let values = [];
 
-        formData.forEach(
-            (value, key) => {
+        answerInputs.forEach(function(input) {
 
-                if (data[key]) {
+            if (
+                input.type === "radio"
+                || input.type === "checkbox"
+            ) {
 
-                    if (!Array.isArray(data[key])) {
-                        data[key] = [data[key]];
-                    }
+                if (input.checked) {
+                    values.push(String(input.value));
+                }
 
-                    data[key].push(value);
+            } else {
 
-                } else {
+                const value =
+                    String(input.value || "").trim();
 
-                    data[key] = value;
-
+                if (value !== "") {
+                    values.push(value);
                 }
 
             }
-        );
 
-        localStorage.setItem(
+        });
 
-            "civilCareerMockAnswer_{{ exam_slug }}_" + currentQuestion,
+        let answerValue = "";
 
-            JSON.stringify(data)
-        );
+        if (answerInputs.some(
+            input => input.type === "checkbox"
+        )) {
+
+            answerValue = values;
+
+        } else {
+
+            answerValue = values[0] || "";
+
+        }
+
+        const data = {
+            answer: answerValue,
+            question_number: currentQuestion + 1,
+            saved_at: Date.now()
+        };
+
+        try {
+
+            localStorage.setItem(
+                answerStoragePrefix + currentQuestion,
+                JSON.stringify(data)
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to save mock answer to browser storage:",
+                error
+            );
+
+        }
     }
-
 
     /* =========================================================
        RESTORE / SUBMIT ALL CLIENT-SIDE ANSWERS
@@ -3398,17 +3432,29 @@
             let answered = false;
 
             if (raw) {
+
                 try {
-                    const data = JSON.parse(raw);
-                    answered = hasAnswerValue(data.answer);
+
+                    const data =
+                        JSON.parse(raw);
+
+                    answered =
+                        hasAnswerValue(data.answer);
+
                 } catch (error) {
+
                     answered = false;
+
                 }
+
             }
 
+            // Answered questions are green. If the answered question
+            // is also the current question, the blue current border
+            // remains visible while the green answered fill is shown.
             button.classList.toggle(
                 "answered",
-                answered && index !== currentQuestion
+                answered
             );
 
             button.classList.toggle(
@@ -3425,6 +3471,7 @@
                 "current",
                 index === currentQuestion
             );
+
         });
     }
 
@@ -4059,24 +4106,68 @@
 
 
     /* =========================================================
-       OPTION CHANGE
+       OPTION CHANGE / AUTO-SAVE
     ========================================================= */
 
+    // Radio and checkbox answers are saved immediately when selected.
     document.addEventListener(
         "change",
         function(event) {
 
             if (
                 event.target.matches(
-                    ".option input"
+                    '.option input'
                 )
             ) {
 
                 updateSelectedOptions();
+                saveCurrentAnswer();
+                refreshNavigatorFromLocalStorage();
+
+            }
+
+        }
+    );
+
+
+    // NAT answers are saved on every keystroke.
+    document.addEventListener(
+        "input",
+        function(event) {
+
+            if (
+                event.target.matches(
+                    '.nat-answer'
+                )
+            ) {
 
                 saveCurrentAnswer();
                 refreshNavigatorFromLocalStorage();
+
             }
+
+        }
+    );
+
+
+    // Save again when the browser hides or unloads the page.
+    window.addEventListener(
+        "pagehide",
+        function() {
+
+            saveCurrentAnswer();
+
+        }
+    );
+
+
+    // Keep browser back/forward navigation synchronized with the
+    // AJAX question navigation used by this mock test.
+    window.addEventListener(
+        "popstate",
+        function() {
+
+            window.location.reload();
 
         }
     );

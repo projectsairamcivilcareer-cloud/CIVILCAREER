@@ -199,7 +199,10 @@
                     <h2>📋 Verified Government Jobs</h2>
                     <p>Review the official notification before applying.</p>
                 </div>
-                <span class="verified-badge">OFFICIAL SOURCES ONLY</span>
+                <div>
+                    <span class="verified-badge">OFFICIAL SOURCES ONLY</span>
+                    <a class="preferences-link" href="{{ url_for('government_jobs_preferences') }}">⚙️ Job Preferences</a>
+                </div>
             </div>
             {% if jobs %}
             <div class="verified-job-list">

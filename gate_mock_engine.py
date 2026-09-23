@@ -165,8 +165,13 @@ GATE_SYLLABUS_2027 = [
     ]},
 ]
 
+# Keep the year selector backward-compatible. The current Civil syllabus is stored in
+# GATE_SYLLABUS_2027; use the same syllabus for the 2026 fallback instead of
+# crashing the production app when an older year is requested.
+GATE_SYLLABUS_2026 = GATE_SYLLABUS_2027
+
 GATE_SYLLABI = {"2025": GATE_SYLLABUS_2025, "2026": GATE_SYLLABUS_2026, "2027": GATE_SYLLABUS_2027}
-GATE_SYLLABUS = GATE_SYLLABUS_2026
+GATE_SYLLABUS = GATE_SYLLABUS_2027
 
 
 GATE_QUESTION_BANK = [

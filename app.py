@@ -912,6 +912,19 @@ def dashboard():
     student_education = session["student_education"]
 
     connection = get_db_connection()
+    profile_check = connection.execute(
+        """SELECT name,email,education,mobile_country_code,mobile_number,profile_photo
+           FROM students WHERE id=?""",
+        (session["student_id"],)
+    ).fetchone()
+    preference_check = connection.execute(
+        "SELECT target_exam FROM student_preferences WHERE student_id=?",
+        (session["student_id"],)
+    ).fetchone()
+    if _profile_incomplete(profile_check, preference_check["target_exam"] if preference_check else None):
+        connection.close()
+        return redirect(url_for("profile", required=1))
+
     verified_jobs = connection.execute(
         """
         SELECT application_last_date, exam_date, status

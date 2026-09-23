@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, session, s
 import json
 import time
 import sqlite3
+import re
+
+import psycopg
+from psycopg import errors as psycopg_errors
+from psycopg.rows import dict_row
 import uuid
 import random
 import os
@@ -95,23 +100,192 @@ if os.environ.get("RAILWAY_PUBLIC_DOMAIN"):
 # DATABASE CONNECTION
 # ==============================
 
+class PostgreSQLCompatConnection:
+    """Small SQLite-compatible adapter so existing Civil Career SQL can use PostgreSQL."""
+
+    def __init__(self, connection):
+        self._connection = connection
+
+    @staticmethod
+    def _translate_sql(sql, params=None):
+        params = tuple(params or ())
+
+        # SQLite uses '?' placeholders; psycopg uses '%s'.
+        sql = sql.replace("?", "%s")
+
+        # PostgreSQL equivalent for SQLite's INSERT OR IGNORE.
+        if re.match(r"^\\s*INSERT\\s+OR\\s+IGNORE\\s+INTO\\b", sql, re.I):
+            sql = re.sub(
+                r"^\\s*INSERT\\s+OR\\s+IGNORE\\s+INTO\\b",
+                "INSERT INTO",
+                sql,
+                count=1,
+                flags=re.I,
+            )
+            sql = sql.rstrip().rstrip(";") + " ON CONFLICT DO NOTHING"
+
+        # SQLite PRAGMA used by the old schema migration code.
+        pragma_match = re.match(
+            r"^\\s*PRAGMA\\s+table_info\\(([^)]+)\\)\\s*$",
+            sql,
+            re.I,
+        )
+        if pragma_match:
+            table_name = pragma_match.group(1).strip().strip("'").strip('"')
+            sql = (
+                "SELECT column_name AS name "
+                "FROM information_schema.columns "
+                "WHERE table_schema = 'public' AND table_name = %s "
+                "ORDER BY ordinal_position"
+            )
+            params = (table_name,)
+
+        return sql, params
+
+    def execute(self, sql, params=None):
+        sql, params = self._translate_sql(sql, params)
+        return self._connection.execute(sql, params)
+
+    def executemany(self, sql, params_seq):
+        sql, _ = self._translate_sql(sql, ())
+        return self._connection.executemany(sql, params_seq)
+
+    def commit(self):
+        return self._connection.commit()
+
+    def rollback(self):
+        return self._connection.rollback()
+
+    def close(self):
+        return self._connection.close()
+
+
 def get_db_connection():
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
+        raise RuntimeError(
+            "DATABASE_URL is not configured. Add Railway PostgreSQL and "
+            "reference Postgres.DATABASE_URL from the CIVILCAREER service."
+        )
 
-    db_path = os.path.join(
-        DATA_DIR,
-        "civilcareer.db"
+    connection = psycopg.connect(
+        database_url,
+        row_factory=dict_row,
+        connect_timeout=10,
     )
-
-    connection = sqlite3.connect(db_path)
-
-    connection.row_factory = sqlite3.Row
-
-    return connection
+    return PostgreSQLCompatConnection(connection)
 
 
 # ==============================
 # CREATE DATABASE
 # ==============================
+
+def migrate_legacy_sqlite(connection, legacy_db):
+    """Import existing SQLite data into PostgreSQL without replacing newer data."""
+    if not os.path.exists(legacy_db):
+        return {"tables": 0, "rows": 0}
+
+    legacy = None
+    migrated_tables = 0
+    migrated_rows = 0
+
+    try:
+        legacy = sqlite3.connect(legacy_db)
+        legacy.row_factory = sqlite3.Row
+
+        legacy_tables = legacy.execute(
+            "SELECT name FROM sqlite_master "
+            "WHERE type='table' AND name NOT LIKE 'sqlite_%' "
+            "ORDER BY name"
+        ).fetchall()
+
+        target_tables = {
+            row["table_name"]
+            for row in connection.execute(
+                "SELECT table_name FROM information_schema.tables "
+                "WHERE table_schema = 'public' AND table_type = 'BASE TABLE'"
+            ).fetchall()
+        }
+
+        for table_row in legacy_tables:
+            table_name = table_row["name"]
+            if table_name not in target_tables:
+                continue
+
+            legacy_columns = [
+                row["name"]
+                for row in legacy.execute(
+                    f"PRAGMA table_info({table_name})"
+                ).fetchall()
+            ]
+            target_columns = [
+                row["column_name"]
+                for row in connection.execute(
+                    "SELECT column_name FROM information_schema.columns "
+                    "WHERE table_schema = 'public' AND table_name = %s "
+                    "ORDER BY ordinal_position",
+                    (table_name,),
+                ).fetchall()
+            ]
+
+            columns = [name for name in legacy_columns if name in target_columns]
+            if not columns:
+                continue
+
+            quoted_columns = ", ".join(
+                '"' + name.replace('"', '""') + '"'
+                for name in columns
+            )
+            placeholders = ", ".join(["%s"] * len(columns))
+            insert_sql = (
+                f'INSERT INTO "{table_name}" ({quoted_columns}) '
+                f"VALUES ({placeholders}) ON CONFLICT DO NOTHING"
+            )
+
+            rows = legacy.execute(
+                f'SELECT {quoted_columns} FROM "{table_name}"'
+            ).fetchall()
+
+            for row in rows:
+                connection._connection.execute(
+                    insert_sql,
+                    tuple(row[name] for name in columns),
+                )
+                migrated_rows += 1
+
+            if rows:
+                migrated_tables += 1
+
+            if "id" in columns and "id" in target_columns:
+                try:
+                    connection._connection.execute(
+                        """
+                        SELECT setval(
+                            pg_get_serial_sequence(%s, 'id'),
+                            COALESCE((SELECT MAX(id) FROM public.%s), 1),
+                            true
+                        )
+                        """.replace("public.%s", f'public."{table_name}"'),
+                        (table_name,),
+                    )
+                except Exception:
+                    # Some tables may not have a serial-backed id column.
+                    pass
+
+        connection.commit()
+        return {"tables": migrated_tables, "rows": migrated_rows}
+
+    except Exception as exc:
+        connection.rollback()
+        print(
+            f"[DB MIGRATION ERROR] {type(exc).__name__}: {exc}",
+            flush=True,
+        )
+        return {"tables": migrated_tables, "rows": migrated_rows}
+    finally:
+        if legacy is not None:
+            legacy.close()
+
 
 def create_database():
 
@@ -123,17 +297,6 @@ def create_database():
         app.root_path,
         "civilcareer.db"
     )
-
-    if (
-        persistent_db != legacy_db
-        and not os.path.exists(persistent_db)
-        and os.path.exists(legacy_db)
-    ):
-        import shutil
-        shutil.copy2(
-            legacy_db,
-            persistent_db
-        )
 
     legacy_uploads = os.path.join(
         app.root_path,
@@ -174,54 +337,13 @@ def create_database():
 
     connection.execute("""
         CREATE TABLE IF NOT EXISTS students (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id BIGSERIAL PRIMARY KEY,
             name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             education TEXT NOT NULL,
             password TEXT NOT NULL
         )
     """)
-
-    # -------------------------------------------------
-    # LOGIN-DATA MIGRATION
-    # Keep existing accounts when moving from a local
-    # database to Railway's persistent DATA_DIR.
-    # -------------------------------------------------
-    if persistent_db != legacy_db and os.path.exists(legacy_db):
-        try:
-            legacy_connection = sqlite3.connect(legacy_db)
-            legacy_connection.row_factory = sqlite3.Row
-            legacy_has_students = legacy_connection.execute(
-                "SELECT name FROM sqlite_master "
-                "WHERE type='table' AND name='students'"
-            ).fetchone()
-
-            if legacy_has_students:
-                legacy_students = legacy_connection.execute(
-                    "SELECT name, email, education, password "
-                    "FROM students"
-                ).fetchall()
-
-                for legacy_student in legacy_students:
-                    connection.execute(
-                        """
-                        INSERT OR IGNORE INTO students
-                        (name, email, education, password)
-                        VALUES (?, ?, ?, ?)
-                        """,
-                        (
-                            legacy_student["name"],
-                            str(legacy_student["email"]).strip().lower(),
-                            legacy_student["education"],
-                            legacy_student["password"]
-                        )
-                    )
-
-            legacy_connection.close()
-        except (sqlite3.Error, OSError):
-            # Never prevent the website from starting because of
-            # an optional legacy-database migration.
-            pass
 
     student_columns = {
         row["name"] for row in connection.execute("PRAGMA table_info(students)")
@@ -467,6 +589,16 @@ def create_database():
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         seed_jobs
+    )
+
+    migration_result = migrate_legacy_sqlite(
+        connection,
+        legacy_db
+    )
+    print(
+        f"[DB MIGRATION] imported {migration_result['rows']} rows "
+        f"across {migration_result['tables']} tables",
+        flush=True,
     )
 
     connection.commit()
@@ -1376,7 +1508,7 @@ def profile():
                     session["student_name"] = name
                     session["student_email"] = email
                     session["student_education"] = education
-                except sqlite3.IntegrityError:
+                except psycopg_errors.UniqueViolation:
                     profile_error = "That email address is already in use."
 
         elif action == "photo":

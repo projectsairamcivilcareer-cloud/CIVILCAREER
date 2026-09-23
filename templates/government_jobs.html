@@ -215,7 +215,8 @@
                         <span><b>Vacancies</b> {{ job.vacancies or 'As per notification' }}</span>
                         <span><b>Qualification</b> {{ job.qualification or 'See official notification' }}</span>
                         <span><b>Last Date</b> {{ job.application_last_date or 'Not specified' }}</span>
-                        <span><b>Salary</b> {{ job.salary or job.pay_level or 'See official notification' }}</span>
+                        <span><b>Salary / Pay</b> {{ job.salary or job.pay_level or 'See official notification' }}</span>
+                        <span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
                     </div>
                     <div class="job-card-actions">
                         <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>

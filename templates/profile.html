@@ -22,8 +22,11 @@
   </section>
   {% endif %}
 
-  {% if profile_error %}<div class="profile-alert profile-alert-error">{{ profile_error }}</div>{% endif %}
-  {% if profile_message %}<div class="profile-alert profile-alert-success">{{ profile_message }}</div>{% endif %}
+  {% if profile_error %}
+  <div class="profile-alert profile-alert-error">{{ profile_error }}</div>
+  {% elif profile_message %}
+  <div class="profile-alert profile-alert-success">{{ profile_message }}</div>
+  {% endif %}
 
   <section class="profile-card profile-top-card">
     <div class="profile-avatar">

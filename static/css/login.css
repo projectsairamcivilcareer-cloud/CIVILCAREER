@@ -145,3 +145,7 @@
     text-align: center;
     font-size: 14px;
 }
+.password-wrap{position:relative;display:flex;align-items:center}
+.password-wrap input{padding-right:70px}
+.show-password{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:#eef2ff;color:#1d4ed8;border-radius:6px;padding:6px 9px;font-size:12px;font-weight:700;cursor:pointer}
+.required-star{color:#dc2626}

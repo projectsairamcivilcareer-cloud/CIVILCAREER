@@ -666,22 +666,35 @@ def create_database():
             message = f"{job['organization']}: {job['post_name']}"
             if job["application_last_date"]:
                 message += f" | Last date: {job['application_last_date']}"
-            connection.execute(
-                """
-                INSERT INTO notification_alerts
-                (user_id, category, title, message, link_url, source, priority)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT (user_id, category, title, link_url) DO NOTHING
-                """,
-                (
-                    user["user_id"], "JOBS",
-                    f"Government Job Update: {job['post_name']}",
-                    message,
-                    f"/government-jobs/{job['id']}",
-                    job["organization"],
-                    priority
+
+            categories = ["JOBS"]
+            if "examination" in str(job["post_name"]).lower() or "exam" in str(job["post_name"]).lower():
+                categories.append("EXAMS")
+            if job["application_last_date"]:
+                categories.append("DEADLINES")
+
+            for category in categories:
+                title_prefix = {
+                    "JOBS": "Government Job Update",
+                    "EXAMS": "Exam Notification",
+                    "DEADLINES": "Important Date",
+                }.get(category, "Civil Career Alert")
+                connection.execute(
+                    """
+                    INSERT INTO notification_alerts
+                    (user_id, category, title, message, link_url, source, priority)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT (user_id, category, title, link_url) DO NOTHING
+                    """,
+                    (
+                        user["user_id"], category,
+                        f"{title_prefix}: {job['post_name']}",
+                        message,
+                        f"/government-jobs/{job['id']}",
+                        job["organization"],
+                        priority
+                    )
                 )
-            )
 
     connection.commit()
 

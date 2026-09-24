@@ -136,7 +136,7 @@ def add_global_navigation(response):
                 '</style>'
             )
             html = html.replace("</head>", profile_css + "</head>", 1)
-            html = re.sub(r"(<body\\b[^>]*>)", lambda match: match.group(1) + avatar, html, count=1, flags=re.I)
+            html = re.sub(r"(<body\b[^>]*>)", lambda match: match.group(1) + avatar, html, count=1, flags=re.I)
     except Exception:
         # Keep the page available even if profile display lookup fails.
         app.logger.exception("Could not inject global profile photo")

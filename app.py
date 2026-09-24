@@ -748,23 +748,64 @@ def _verification_expiry():
 
 
 def _send_verification_email(email, code, subject="Civil Career - Email Verification Code", purpose="email verification"):
-    host = os.environ.get("SMTP_HOST")
-    port = int(os.environ.get("SMTP_PORT", "587"))
-    username = os.environ.get("SMTP_USERNAME")
-    password = os.environ.get("SMTP_PASSWORD")
-    sender = os.environ.get("SMTP_FROM") or username
-    if not all([host, username, password, sender]):
+    host = (os.environ.get("SMTP_HOST") or "").strip()
+    username = (os.environ.get("SMTP_USERNAME") or "").strip()
+    password = os.environ.get("SMTP_PASSWORD") or ""
+    sender = (os.environ.get("SMTP_FROM") or username).strip()
+
+    try:
+        port = int(os.environ.get("SMTP_PORT", "587"))
+    except (TypeError, ValueError):
+        port = 587
+
+    missing = []
+    if not host:
+        missing.append("SMTP_HOST")
+    if not username:
+        missing.append("SMTP_USERNAME")
+    if not password:
+        missing.append("SMTP_PASSWORD")
+    if not sender:
+        missing.append("SMTP_FROM")
+
+    if missing:
+        print(
+            "[EMAIL OTP] Missing Railway variables: " + ", ".join(missing),
+            flush=True
+        )
         return False
+
     message = EmailMessage()
     message["Subject"] = subject
     message["From"] = sender
     message["To"] = email
-    message.set_content(f"Your Civil Career {purpose} code is {code}. It expires in 10 minutes.")
-    with smtplib.SMTP(host, port, timeout=15) as smtp:
-        smtp.starttls()
-        smtp.login(username, password)
-        smtp.send_message(message)
-    return True
+    message.set_content(
+        f"Your Civil Career {purpose} code is {code}. "
+        "It expires in 10 minutes."
+    )
+
+    try:
+        if port == 465:
+            with smtplib.SMTP_SSL(host, port, timeout=20) as smtp:
+                smtp.login(username, password)
+                smtp.send_message(message)
+        else:
+            with smtplib.SMTP(host, port, timeout=20) as smtp:
+                smtp.ehlo()
+                smtp.starttls()
+                smtp.ehlo()
+                smtp.login(username, password)
+                smtp.send_message(message)
+
+        print(f"[EMAIL OTP] Sent successfully to {email}", flush=True)
+        return True
+
+    except Exception as exc:
+        print(
+            f"[EMAIL OTP ERROR] {type(exc).__name__}: {exc}",
+            flush=True
+        )
+        return False
 
 
 def _send_verification_sms(country_code, mobile, code):
@@ -5979,7 +6020,24 @@ def register():
             email_sent = sms_sent = False
 
         if not email_sent or not sms_sent:
-            return render_template("register.html", error="Email/SMS verification is not configured on Civil Career yet.")
+            failed_services = []
+            if not email_sent:
+                failed_services.append("email")
+            if not sms_sent:
+                failed_services.append("mobile SMS")
+
+            cleanup = get_db_connection()
+            cleanup.execute("DELETE FROM students WHERE id=?", (pending_student_id,))
+            cleanup.commit()
+            cleanup.close()
+
+            if len(failed_services) == 1:
+                message = f"{failed_services[0].title()} verification could not be sent. Please try again after the service is configured."
+            else:
+                message = "Email and mobile verification codes could not be sent. Please try again after the services are configured."
+
+            return render_template("register.html", error=message)
+
         session["verification_email"] = email
         session["pending_verification_student_id"] = pending_student_id
         return redirect(url_for("verify_account", email=email))
@@ -6242,9 +6300,10 @@ def resend_verification():
         sent = False
 
     if not sent:
+        channel = "email" if verification_type == "email" else "mobile SMS"
         return render_template(
             "verify_account.html",
-            error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code could not be sent. Check the service settings.",
+            error=f"{channel.title()} verification code could not be sent. Please check the {channel} service configuration.",
             email=email,
             email_verified=bool(student["email_verified"]),
             mobile_verified=bool(student["mobile_verified"])

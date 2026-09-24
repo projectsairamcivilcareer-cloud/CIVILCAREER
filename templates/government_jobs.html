@@ -252,10 +252,12 @@
                     <div class="job-facts">
                         <span><b>Vacancies</b> {{ job.vacancies }}</span>
                         <span><b>Qualification</b> {{ job.qualification }}</span>
-                        <span><b>Last Date (with time)</b> {{ job.application_last_datetime }}</span>
+                        <div class="application-dates">
+                            <span><b>Start Date</b> {{ job.application_start }}</span>
+                            <span><b>Last Date (with time)</b> {{ job.application_last_datetime }}</span>
+                        </div>
                         <span><b>Salary / Pay</b> {{ job.salary or job.pay_level }}</span>
                         <span><b>Registration Fee</b> {{ job.application_fee }}</span>
-                        <span><b>Start Date</b> {{ job.application_start }}</span>
                         <span class="job-role-preview"><b>Job Role & Responsibilities</b> {{ job.job_role_responsibilities }}</span>
                         <span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
                     </div>

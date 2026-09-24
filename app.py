@@ -1381,6 +1381,9 @@ def get_matching_jobs(student_id, limit=3):
         job["display_status"] = government_job_status(
             job["application_last_date"], job["exam_date"], job["status"]
         )
+        # Closed notifications/jobs are not shown in active job matches.
+        if job["display_status"] == "CLOSED":
+            continue
         job["match_score"] = calculate_match_score(job, preferences)
         if job["match_score"] >= 40:
             matches.append(job)
@@ -1407,6 +1410,9 @@ def government_job_detail(job_id):
     job["display_status"] = government_job_status(
         job["application_last_date"], job["exam_date"], job["status"]
     )
+    # Do not expose closed government-job notifications through direct links.
+    if job["display_status"] == "CLOSED":
+        return "Government job notification is closed", 404
     preferences = get_user_job_preferences(session["student_id"])
     match_score = calculate_match_score(job, preferences)
     return render_template(
@@ -1501,6 +1507,9 @@ def government_jobs():
         job["display_status"] = government_job_status(
             job["application_last_date"], job["exam_date"], job["status"]
         )
+        # Government Jobs page shows only active/open/ongoing notifications.
+        if job["display_status"] == "CLOSED":
+            continue
         job["match_score"] = calculate_match_score(job, user_preferences)
         searchable = " ".join((job["organization"], job["post_name"], job["department"])).lower()
         if filters["search"] and filters["search"].lower() not in searchable:
@@ -1770,6 +1779,9 @@ def notifications():
             item["exam_date"],
             item["status"]
         )
+        # Closed notifications are intentionally hidden from Notifications.
+        if item["display_status"] == "CLOSED":
+            continue
         notification_jobs.append(item)
 
     return render_template(

@@ -35,6 +35,9 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f1f5f9;color:#0
 .status-pending{background:#fef3c7;color:#92400e}
 .resend-form{margin-top:10px}
 .verified-box{padding:12px;border-radius:9px;background:#dcfce7;color:#166534;font-weight:600}
+.fallback-code{margin:12px 0;padding:14px;border-radius:10px;background:#fff7ed;border:1px solid #fdba74;color:#9a3412}
+.fallback-code strong{font-size:24px;letter-spacing:5px;color:#7c2d12}
+.fallback-note{display:block;margin-top:5px;font-size:12px;letter-spacing:0;color:#7c2d12}
 .all-verified{padding:14px;border-radius:10px;background:#dcfce7;color:#166534;text-align:center;font-weight:800;margin-top:18px}
 @media(max-width:600px){
  .verification-card{padding:16px}
@@ -88,6 +91,12 @@ Email and mobile verification are separate. Complete both verifications to conti
 <input type="hidden" name="verification_type" value="email">
 <button type="submit" class="verify-secondary">Resend Email Code</button>
 </form>
+{% if fallback_email_code %}
+<div class="fallback-code">
+<strong>{{ fallback_email_code }}</strong>
+<span class="fallback-note">Email delivery is unavailable right now. This newly generated code can be used to complete email verification.</span>
+</div>
+{% endif %}
 {% else %}
 <div class="verified-box">Your email address has been verified successfully.</div>
 {% endif %}
@@ -119,6 +128,12 @@ Email and mobile verification are separate. Complete both verifications to conti
 <input type="hidden" name="verification_type" value="mobile">
 <button type="submit" class="verify-secondary">Resend Mobile Code</button>
 </form>
+{% if fallback_mobile_code %}
+<div class="fallback-code">
+<strong>{{ fallback_mobile_code }}</strong>
+<span class="fallback-note">SMS delivery is unavailable right now. This newly generated code can be used to complete mobile verification.</span>
+</div>
+{% endif %}
 {% else %}
 <div class="verified-box">Your mobile number has been verified successfully.</div>
 {% endif %}

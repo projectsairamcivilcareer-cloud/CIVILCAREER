@@ -1731,6 +1731,18 @@ def government_jobs():
         filters=filters,
         matching_jobs=matching_jobs,
         user_preferences=user_preferences,
+        civil_job_categories=[
+            {"title":"Diploma Civil Engineering", "posts":"Junior Engineer (JE), Work Inspector, Overseer, Draftsman (Civil), Surveyor, Junior Technical Assistant, Sub-Engineer", "recruiters":"State R&B/PWD, Irrigation/Water Resources, Municipalities, Panchayat/Rural Engineering, PHED, Railways (eligible technical posts), SSC JE where diploma is accepted", "months":"Vacancy-driven; check throughout the year. State JE/overseer notices often vary by department and state."},
+            {"title":"B.E. / B.Tech Civil Engineering", "posts":"Assistant Engineer (AE), Assistant Executive Engineer (AEE), Graduate Engineer Trainee (GET), Engineering Services, Project/Planning Engineer, Junior Engineer (where degree holders are eligible)", "recruiters":"UPSC Engineering Services (ESE), State PSC/Engineering Services, SSC JE, RRB/Metro, CPWD, BRO, NHAI, CWC, CPHEEO-linked departments, state PWD and Irrigation", "months":"UPSC ESE calendar is usually published annually; application/exam dates change each year. State PSC, SSC, PSU and department vacancies are irregular—monitor official portals monthly."},
+            {"title":"M.E. / M.Tech Civil Engineering", "posts":"Specialist/Research Engineer, Scientist/Technical Officer (where Civil specializations are accepted), Assistant Professor/Lecturer (as per applicable eligibility), Senior/Project Engineer, PSU specialist roles", "recruiters":"CSIR/DRDO/ISRO or other research bodies when Civil disciplines are notified, IITs/NITs/central universities, state technical education departments, PSUs and project authorities", "months":"No fixed annual month across organizations; openings are vacancy/project-based. Check official recruitment and institute career pages throughout the year."},
+            {"title":"All Civil qualifications – common routes", "posts":"SSC JE, State JE/AE, Railways/Metro, PSU recruitment, Defence engineering organizations, municipal and water-resource departments", "recruiters":"SSC, RRBs, State PSCs, state recruitment boards, CPWD, BRO, PSUs, municipal and water-resource bodies", "months":"Notification dates are not guaranteed. Use the official annual exam calendar where available and verify each live notification."},
+        ],
+        recruitment_month_notes=[
+            {"period":"January–March","note":"Check annual exam calendars, UPSC/SSC notices, state budget-year recruitment announcements and PSU career pages; dates vary."},
+            {"period":"April–June","note":"Monitor State PSC/JE/AE boards, PSU and infrastructure department vacancies; no common fixed release month."},
+            {"period":"July–September","note":"Continue checking state recruitment boards, rail/metro, municipal, irrigation and technical institute notices."},
+            {"period":"October–December","note":"Watch revised calendars, year-end/next-year recruitment plans and department-specific vacancies."},
+        ],
     )
 
 # ==============================

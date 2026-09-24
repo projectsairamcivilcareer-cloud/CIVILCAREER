@@ -358,7 +358,10 @@ def create_database():
     }
     if "profile_photo" not in student_columns:
         connection.execute("ALTER TABLE students ADD COLUMN profile_photo TEXT")
+        student_columns.add("profile_photo")
     for column_name, column_type in [
+        ("profile_photo_data", "BYTEA"),
+        ("profile_photo_mime", "TEXT"),
         ("user_id", "TEXT UNIQUE"),
         ("mobile_country_code", "TEXT"),
         ("mobile_number", "TEXT"),
@@ -2012,14 +2015,29 @@ def profile_photo(filename):
     if safe_name != filename:
         return "Invalid file name", 400
 
+    connection = get_db_connection()
+    student = connection.execute(
+        "SELECT profile_photo, profile_photo_data, profile_photo_mime "
+        "FROM students WHERE id=?",
+        (session["student_id"],)
+    ).fetchone()
+    connection.close()
+
+    # Prefer the database copy so profile pictures survive Railway redeploys.
+    if student and student["profile_photo"] == safe_name and student["profile_photo_data"]:
+        return send_file(
+            BytesIO(bytes(student["profile_photo_data"])),
+            mimetype=student["profile_photo_mime"] or "image/jpeg",
+            download_name=safe_name,
+        )
+
+    # Backward-compatible fallback for older filesystem uploads.
     file_path = os.path.join(
         app.config["PROFILE_UPLOAD_FOLDER"],
         safe_name
     )
-
     if not os.path.isfile(file_path):
         return "Profile image not found", 404
-
     return send_file(file_path)
 
 
@@ -2057,15 +2075,46 @@ def profile():
             elif extension not in allowed_extensions:
                 profile_error = "Use a JPG, PNG, or WEBP image."
             else:
-                os.makedirs(app.config["PROFILE_UPLOAD_FOLDER"], exist_ok=True)
-                filename = secure_filename("student-" + str(session["student_id"]) + "-" + uuid.uuid4().hex + "." + extension)
-                photo.save(os.path.join(app.config["PROFILE_UPLOAD_FOLDER"], filename))
-                connection.execute("UPDATE students SET profile_photo=? WHERE id=?", (filename, session["student_id"]))
+                filename = secure_filename(
+                    "student-" + str(session["student_id"]) + "-" +
+                    uuid.uuid4().hex + "." + extension
+                )
+                photo_bytes = photo.read()
+                mime_type = photo.mimetype or (
+                    "image/png" if extension == "png"
+                    else "image/webp" if extension == "webp"
+                    else "image/jpeg"
+                )
+
+                # Store the image in PostgreSQL so it is not lost when
+                # Railway replaces the container during a deployment.
+                connection.execute(
+                    "UPDATE students SET profile_photo=?, profile_photo_data=?, "
+                    "profile_photo_mime=? WHERE id=?",
+                    (filename, photo_bytes, mime_type, session["student_id"])
+                )
                 connection.commit()
+
+                # Keep a local copy as a compatibility fallback.
+                try:
+                    os.makedirs(app.config["PROFILE_UPLOAD_FOLDER"], exist_ok=True)
+                    with open(
+                        os.path.join(app.config["PROFILE_UPLOAD_FOLDER"], filename),
+                        "wb"
+                    ) as image_file:
+                        image_file.write(photo_bytes)
+                except Exception as exc:
+                    print(
+                        f"[PROFILE PHOTO FILE FALLBACK] {type(exc).__name__}: {exc}",
+                        flush=True,
+                    )
+
                 profile_message = "Profile photo updated successfully."
 
     student = connection.execute(
-        """SELECT id,user_id,name,email,education,profile_photo,mobile_country_code,mobile_number,
+        """SELECT id,user_id,name,email,education,profile_photo,
+                  profile_photo_data,profile_photo_mime,
+                  mobile_country_code,mobile_number,
                   email_verified,mobile_verified
            FROM students WHERE id=?""",
         (session["student_id"],)

@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "Civil Career",
+  "short_name": "CivilCareer",
+  "description": "Civil Engineering exams, jobs, syllabus, study materials and mock tests.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f7fb",
+  "theme_color": "#123b65",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {"src": "/static/icons/civilcareer-app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}
+  ]
+}

@@ -684,7 +684,7 @@ def create_database():
         """
         UPDATE government_jobs
         SET vacancies='40',
-            qualification='Bachelor\'s Degree in Civil Engineering from a recognized University or Institute.',
+            qualification='Bachelor''s Degree in Civil Engineering from a recognized University or Institute.',
             branch='Civil Engineering',
             age_limit='Not exceeding 30 years, subject to applicable relaxation',
             salary='',

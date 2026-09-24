@@ -6613,16 +6613,18 @@ def resend_verification():
         connection.close()
 
         channel = "email" if verification_type == "email" else "mobile SMS"
+        session.pop("verification_fallback_email_code", None)
+        session.pop("verification_fallback_mobile_code", None)
+        session.pop("verification_email", None)
+        session.pop("pending_verification_student_id", None)
+        session.pop("verification_mobile", None)
         return render_template(
-            "verify_account.html",
+            "register.html",
             error=(
                 f"Unable to send the new {channel} verification code. "
-                "No verification code is shown here for security. Please try again later."
-            ),
-            email=email,
-            mobile_number=session.get("verification_mobile", ""),
-            email_verified=bool(student["email_verified"]),
-            mobile_verified=bool(student["mobile_verified"])
+                "No verification page will be opened until the code is delivered. "
+                "Please check the email/SMS delivery configuration and register again."
+            )
         )
 
     return render_template(

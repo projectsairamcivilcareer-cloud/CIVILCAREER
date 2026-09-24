@@ -442,8 +442,10 @@ def create_database():
             pay_level TEXT NOT NULL DEFAULT '',
             application_start TEXT,
             application_last_date TEXT,
+            application_last_datetime TEXT NOT NULL DEFAULT '',
             exam_date TEXT,
             application_fee TEXT NOT NULL DEFAULT '',
+            job_role_responsibilities TEXT NOT NULL DEFAULT '',
             selection_process TEXT NOT NULL DEFAULT '',
             job_location TEXT NOT NULL DEFAULT '',
             notification_url TEXT NOT NULL,
@@ -458,6 +460,18 @@ def create_database():
             UNIQUE(organization, post_name, notification_number, notification_date)
         )
     """)
+
+    government_job_columns = {
+        row["name"] for row in connection.execute("PRAGMA table_info(government_jobs)")
+    }
+    for column_name, column_type in [
+        ("application_last_datetime", "TEXT NOT NULL DEFAULT ''"),
+        ("job_role_responsibilities", "TEXT NOT NULL DEFAULT ''"),
+    ]:
+        if column_name not in government_job_columns:
+            connection.execute(
+                f"ALTER TABLE government_jobs ADD COLUMN {column_name} {column_type}"
+            )
 
     connection.execute("""
         CREATE TABLE IF NOT EXISTS user_job_preferences (
@@ -546,8 +560,10 @@ def create_database():
             "As per UPSC notification",
             "2026-09-16",
             "2026-10-06",
+            "2026-10-06 23:59",
             "2027-01-31",
             "As per UPSC notification",
+            "Engineering Services Examination duties include technical evaluation, engineering design/assessment, field and departmental responsibilities as assigned after selection.",
             "Preliminary examination followed by subsequent stages under ESE rules",
             "All India",
             "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
@@ -572,8 +588,10 @@ def create_database():
             "Level 10: Rs. 56,100-1,77,500",
             "2026-05-15",
             "2026-06-15",
+            "2026-06-15 23:59",
             "",
             "As per NHAI notification",
+            "Technical highway engineering, project supervision, quality control, contract and site-related responsibilities as assigned by NHAI.",
             "Direct recruitment through GATE 2026 score",
             "All India",
             "https://nhai.gov.in/nhai/sites/default/files/vacancy_files/Detailed-Advertisment-DM-Tech-GATE-2026.pdf",
@@ -598,8 +616,10 @@ def create_database():
             "Level 6: Rs. 35,400-1,12,400",
             "2026-03-01",
             "2026-04-01",
+            "2026-04-01 23:59",
             "",
             "As per SSC notification",
+            "Junior Engineer duties include engineering inspection, measurement, estimation, supervision and technical work as assigned by the department.",
             "Computer Based Examination and subsequent stages as notified by SSC",
             "All India",
             "https://ssc.gov.in/api/attachment/uploads/masterData/ExamCalendar/Tentative_Calendar2026_27_08012026.pdf",
@@ -624,8 +644,10 @@ def create_database():
             "Academic Level 10",
             "2026-05-09",
             "2026-05-29",
+            "2026-05-29 23:59",
             "",
             "As per UPSC notification",
+            "Teaching, academic, laboratory, curriculum and structural engineering responsibilities associated with the Assistant Professor role.",
             "Shortlisting / Recruitment Test if applicable / Interview",
             "Pune, Maharashtra",
             "https://upsc.gov.in/sites/default/files/AdvtNo-04-2026-Engl-080526.pdf",
@@ -645,8 +667,8 @@ def create_database():
             organization, post_name, department, job_type,
             qualification, branch, vacancies, age_limit,
             age_relaxation, salary, pay_level,
-            application_start, application_last_date, exam_date,
-            application_fee, selection_process, job_location,
+            application_start, application_last_date, application_last_datetime, exam_date,
+            application_fee, job_role_responsibilities, selection_process, job_location,
             notification_url, apply_url, source,
             notification_number, notification_date, last_verified, status
         )
@@ -1370,6 +1392,13 @@ def get_matching_jobs(student_id, limit=3):
         """
         SELECT * FROM government_jobs
         WHERE notification_url != '' AND apply_url != '' AND source != ''
+          AND vacancies != ''
+          AND qualification != ''
+          AND job_role_responsibilities != ''
+          AND application_start IS NOT NULL AND application_start != ''
+          AND application_last_datetime != ''
+          AND (salary != '' OR pay_level != '')
+          AND application_fee != ''
         ORDER BY application_last_date IS NULL, application_last_date ASC
         """
     ).fetchall()
@@ -1401,6 +1430,13 @@ def government_job_detail(job_id):
         """
         SELECT * FROM government_jobs
         WHERE id = ? AND notification_url != '' AND apply_url != '' AND source != ''
+          AND vacancies != ''
+          AND qualification != ''
+          AND job_role_responsibilities != ''
+          AND application_start IS NOT NULL AND application_start != ''
+          AND application_last_datetime != ''
+          AND (salary != '' OR pay_level != '')
+          AND application_fee != ''
         """, (job_id,)
     ).fetchone()
     connection.close()

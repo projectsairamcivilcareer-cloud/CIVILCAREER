@@ -717,3 +717,30 @@
   .job-card-actions { display: grid; grid-template-columns: 1fr; }
   .job-card-actions a { width: 100%; box-sizing: border-box; }
 }
+
+
+/* Keep application start and closing dates together in one two-column row */
+.verified-jobs-section .job-facts .application-dates {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  min-width: 0;
+  padding: 0;
+}
+.verified-jobs-section .job-facts .application-dates > span {
+  min-width: 0;
+  padding: 17px 14px 14px 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .verified-jobs-section .job-facts .application-dates {
+    grid-column: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .verified-jobs-section .job-facts .application-dates > span,
+  .verified-jobs-section .job-facts .application-dates > span:nth-child(2n) {
+    padding: 13px 0;
+  }
+}

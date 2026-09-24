@@ -152,3 +152,35 @@
 
 .login-message{background:#dcfce7;color:#166534;padding:12px;border-radius:8px;margin-bottom:20px;text-align:center;font-size:14px}
 .forgot-password-link a{color:#2563eb;text-decoration:none;font-weight:600}
+
+
+/* CIVIL CAREER primary logo visibility on public authentication pages */
+.navbar .logo {
+    display: flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    min-width: 0;
+    line-height: 0;
+}
+.navbar .logo a {
+    display: inline-flex !important;
+    align-items: center !important;
+    text-decoration: none;
+}
+.navbar .logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 260px !important;
+    max-width: min(42vw, 260px) !important;
+    height: auto !important;
+    min-height: 54px;
+    object-fit: contain;
+}
+@media (max-width: 600px) {
+    .navbar .logo img {
+        width: 190px !important;
+        max-width: 48vw !important;
+        min-height: 44px;
+    }
+}

@@ -29,8 +29,7 @@
             >
                 <div class="cc-menu-head">
                     <div class="cc-menu-brand">
-                        <span class="cc-menu-brand-icon">🏗️</span>
-                        <span>CIVIL CAREER</span>
+                        <img class="cc-menu-brand-logo" src="/static/images/civil-career-white.svg" alt="Civil Career" />
                     </div>
                     <button
                         class="cc-menu-close"

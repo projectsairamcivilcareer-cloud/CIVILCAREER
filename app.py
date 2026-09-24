@@ -62,7 +62,23 @@ app.secret_key = os.environ.get(
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["PERMANENT_SESSION_LIFETIME"] = 600
+app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 
+
+@app.before_request
+def enforce_session_idle_timeout():
+    if "student_id" not in session:
+        return None
+    now = int(time.time())
+    last_activity = int(session.get("last_activity", now))
+    if now - last_activity >= 600:
+        session.clear()
+        return redirect(url_for("login", expired=1))
+    if request.endpoint != "static":
+        session["last_activity"] = now
+    session.permanent = True
+    return None
 
 # =========================================================
 # GLOBAL AUTHENTICATED NAVIGATION
@@ -113,6 +129,7 @@ def add_global_navigation(response):
         f'<link rel="stylesheet" href="/static/css/global-menu.css?v=20260924c">'
         f'<link rel="stylesheet" href="/static/css/mobile.css?v=20260924a">'
         f'<script defer src="/static/js/global-menu.js?v=20260924c"></script>'
+        f'<script defer src="/static/js/session-timeout.js?v=20260924a"></script>'
     )
     html = html.replace("</head>", assets + "</head>", 1)
 
@@ -1119,6 +1136,8 @@ def login():
 
             # Store student information in session
             session["student_id"] = student["id"]
+            session["last_activity"] = int(time.time())
+            session.permanent = True
             session["student_name"] = student["name"]
             session["student_email"] = student["email"]
             session["student_education"] = student["education"]
@@ -6353,6 +6372,8 @@ def register():
             return render_template("register.html", error="Registration could not be completed. Please try again.")
 
         session["student_id"] = student["id"]
+        session["last_activity"] = int(time.time())
+        session.permanent = True
         session["student_name"] = student["name"]
         session["student_email"] = student["email"]
         session["student_education"] = student["education"]
@@ -6532,6 +6553,12 @@ def logout_feedback():
 # =========================================================
 # LOGOUT
 # =========================================================
+
+@app.route("/auto-logout")
+def auto_logout():
+    session.clear()
+    return redirect(url_for("login", expired=1))
+
 
 @app.route("/logout")
 def logout():

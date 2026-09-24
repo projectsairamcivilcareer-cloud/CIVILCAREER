@@ -6615,16 +6615,21 @@ def resend_verification():
         channel = "email" if verification_type == "email" else "mobile SMS"
         session.pop("verification_fallback_email_code", None)
         session.pop("verification_fallback_mobile_code", None)
-        session.pop("verification_email", None)
-        session.pop("pending_verification_student_id", None)
-        session.pop("verification_mobile", None)
+        # Keep the user on the verification page when a resend fails.
+        # Never send the user back to Create Account from the Resend button.
+        session["verification_email"] = email
+        session["pending_verification_student_id"] = student["id"]
+        session["verification_mobile"] = f"{student["mobile_country_code"]} {student["mobile_number"]}"
         return render_template(
-            "register.html",
+            "verify_account.html",
             error=(
                 f"Unable to send the new {channel} verification code. "
-                "No verification page will be opened until the code is delivered. "
-                "Please check the email/SMS delivery configuration and register again."
-            )
+                "No verification code is shown for security. Please try Resend again later."
+            ),
+            email=email,
+            mobile_number=session.get("verification_mobile", ""),
+            email_verified=bool(student["email_verified"]),
+            mobile_verified=bool(student["mobile_verified"])
         )
 
     return render_template(

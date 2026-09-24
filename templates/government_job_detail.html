@@ -33,10 +33,10 @@
             <div><b>Organization</b><span>{{ job.organization }}</span></div><div><b>Vacancies</b><span>{{ job.vacancies or 'See notification' }}</span></div>
             <div><b>Qualification</b><span>{{ job.qualification or 'See notification' }}</span></div><div><b>Branch</b><span>{{ job.branch or 'See notification' }}</span></div>
             <div><b>Age Limit</b><span>{{ job.age_limit or 'See notification' }}</span></div><div><b>Age Relaxation</b><span>{{ job.age_relaxation or 'See notification' }}</span></div>
-            <div><b>Salary / Pay Level</b><span>{{ job.salary or job.pay_level or 'See notification' }}</span></div><div><b>Job Location</b><span>{{ job.job_location or 'See notification' }}</span></div>
-            <div><b>Application Start</b><span>{{ job.application_start or 'Not specified' }}</span></div><div><b>Application Last Date</b><span>{{ job.application_last_date or 'Not specified' }}</span></div>
-            <div><b>Exam Date</b><span>{{ job.exam_date or 'Not announced' }}</span></div><div><b>Application Fee</b><span>{{ job.application_fee or 'See notification' }}</span></div>
-            <div><b>Selection Process</b><span>{{ job.selection_process or 'See notification' }}</span></div><div><b>Notification Number</b><span>{{ job.notification_number or 'Not specified' }}</span></div>
+            <div><b>Salary / Pay</b><span>{{ job.salary or job.pay_level }}</span></div><div><b>Job Location</b><span>{{ job.job_location or 'See notification' }}</span></div>
+            <div><b>Start Date</b><span>{{ job.application_start }}</span></div><div><b>Last Date (with time)</b><span>{{ job.application_last_datetime }}</span></div>
+            <div><b>Exam Date</b><span>{{ job.exam_date or 'Not announced' }}</span></div><div><b>Registration Fee</b><span>{{ job.application_fee }}</span></div>
+            <div class="job-role-full"><b>Job Role & Responsibilities</b><span>{{ job.job_role_responsibilities }}</span></div><div><b>Selection Process</b><span>{{ job.selection_process or 'See notification' }}</span></div><div><b>Notification Number</b><span>{{ job.notification_number or 'Not specified' }}</span></div>
         </div>
         <div class="official-source"><b>Official source:</b> {{ job.source }}<br><small>Last verified: {{ job.last_verified }}. Please verify details in the official notification.</small></div>
         <div class="job-card-actions"><a href="{{ job.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notification</a><a href="{{ job.apply_url }}" target="_blank" rel="noopener noreferrer">Official Apply Link</a></div>

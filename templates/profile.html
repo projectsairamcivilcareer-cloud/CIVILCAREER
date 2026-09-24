@@ -18,7 +18,7 @@
   {% if required_profile and not profile_complete %}
   <section class="profile-required-banner">
     <strong>⚠️ Complete your profile</strong>
-    <p>Before continuing to Civil Career, please fill all required profile details and upload your profile photo.</p>
+    <p>Before continuing to Civil Career, please fill all required personal details and upload your profile photo.</p>
   </section>
   {% endif %}
 
@@ -49,17 +49,23 @@
 
   <section class="profile-card">
     <div class="section-title">
-      <h2>👤 Personal Data</h2>
+      <h2>👤 Personal Details</h2>
       <span class="required-label">Required</span>
     </div>
+
     <div class="personal-data-grid">
       <div class="data-item"><label>User ID</label><strong>{{ user_id }}</strong></div>
       <div class="data-item"><label>Name</label><strong>{{ student_name }}</strong></div>
-      <div class="data-item"><label>Email</label><strong>{{ student_email }}</strong><span class="verify-status {{ 'verified' if email_verified else 'not-verified' }}">{{ '✓ Verified' if email_verified else '⚠ Not verified' }}</span></div>
-      <div class="data-item"><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong><span class="verify-status {{ 'verified' if mobile_verified else 'not-verified' }}">{{ '✓ Verified' if mobile_verified else '⚠ Not verified' }}</span></div>
+      <div class="data-item"><label>Email</label><strong>{{ student_email }}</strong></div>
+      <div class="data-item"><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong></div>
     </div>
 
-    <button type="button" class="profile-option-button" onclick="togglePanel('details-panel')">✏️ Change Details</button>
+    <div class="profile-options">
+      <button type="button" class="profile-option-button" onclick="togglePanel('details-panel')">✏️ Change Name / Education</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('email-panel')">📧 Change Email</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('mobile-panel')">📱 Change Mobile No</button>
+    </div>
+
     <div id="details-panel" class="profile-setting-panel">
       <form method="POST">
         <input type="hidden" name="action" value="personal">
@@ -67,7 +73,34 @@
         <input name="name" value="{{ student_name }}" required>
         <label>Education <span class="required-star">*</span></label>
         <input name="education" value="{{ student_education }}" required>
-        <button type="submit">Save Details</button>
+        <button type="submit">Save Personal Details</button>
+      </form>
+    </div>
+
+    <div id="email-panel" class="profile-setting-panel">
+      <form method="POST" action="{{ url_for('profile_change_email') }}">
+        <label>New Email Address <span class="required-star">*</span></label>
+        <input type="email" name="new_email" value="{{ student_email }}" required>
+        <button type="submit">Save Email</button>
+      </form>
+    </div>
+
+    <div id="mobile-panel" class="profile-setting-panel">
+      <form method="POST" action="{{ url_for('profile_change_mobile') }}">
+        <label>Country <span class="required-star">*</span></label>
+        <select name="mobile_country_code" required>
+          <option value="+91" {% if mobile_country_code == "+91" %}selected{% endif %}>🇮🇳 India (+91)</option>
+          <option value="+1" {% if mobile_country_code == "+1" %}selected{% endif %}>🇺🇸 USA (+1)</option>
+          <option value="+44" {% if mobile_country_code == "+44" %}selected{% endif %}>🇬🇧 UK (+44)</option>
+          <option value="+971" {% if mobile_country_code == "+971" %}selected{% endif %}>🇦🇪 UAE (+971)</option>
+          <option value="+61" {% if mobile_country_code == "+61" %}selected{% endif %}>🇦🇺 Australia (+61)</option>
+          <option value="+81" {% if mobile_country_code == "+81" %}selected{% endif %}>🇯🇵 Japan (+81)</option>
+          <option value="+65" {% if mobile_country_code == "+65" %}selected{% endif %}>🇸🇬 Singapore (+65)</option>
+          <option value="+49" {% if mobile_country_code == "+49" %}selected{% endif %}>🇩🇪 Germany (+49)</option>
+        </select>
+        <label>Mobile Number <span class="required-star">*</span></label>
+        <input type="tel" name="mobile_number" value="{{ mobile_number }}" inputmode="numeric" required>
+        <button type="submit">Save Mobile</button>
       </form>
     </div>
   </section>
@@ -86,10 +119,9 @@
     <div class="section-title">
       <h2>⚙️ Account Settings</h2>
     </div>
+
     <div class="profile-options">
       <button type="button" class="profile-option-button" onclick="togglePanel('password-panel')">🔑 Change Password</button>
-      <button type="button" class="profile-option-button" onclick="togglePanel('email-panel')">📧 Change Email</button>
-      <button type="button" class="profile-option-button" onclick="togglePanel('mobile-panel')">📱 Change Mobile No</button>
     </div>
 
     <div id="password-panel" class="profile-setting-panel">
@@ -103,35 +135,9 @@
         <button type="submit">Change Password</button>
       </form>
     </div>
-
-    <div id="email-panel" class="profile-setting-panel">
-      <form method="POST" action="{{ url_for('profile_change_email') }}">
-        <label>New Email Address <span class="required-star">*</span></label>
-        <input type="email" name="new_email" value="{{ student_email }}" required>
-        <button type="submit">Change Email & Verify</button>
-      </form>
-    </div>
-
-    <div id="mobile-panel" class="profile-setting-panel">
-      <form method="POST" action="{{ url_for('profile_change_mobile') }}">
-        <label>Country <span class="required-star">*</span></label>
-        <select name="mobile_country_code" required>
-          <option value="+91" {% if mobile_country_code == "+91" %}selected{% endif %}>🇮🇳 India (+91)</option>
-          <option value="+1" {% if mobile_country_code == "+1" %}selected{% endif %}>🇺🇸 USA (+1)</option>
-          <option value="+44" {% if mobile_country_code == "+44" %}selected{% endif %}>🇬🇧 UK (+44)</option>
-          <option value="+971" {% if mobile_country_code == "+971" %}selected{% endif %}>🇦🇪 UAE (+971)</option>
-          <option value="+61" {% if mobile_country_code == "+61" %}selected{% endif %}>🇦🇺 Australia (+61)</option>
-          <option value="+81" {% if mobile_country_code == "+81" %}selected{% endif %}>🇯🇵 Japan (+81)</option>
-          <option value="+65" {% if mobile_country_code == "+65" %}selected{% endif %}>🇸🇬 Singapore (+65)</option>
-          <option value="+49" {% if mobile_country_code == "+49" %}selected{% endif %}>🇩🇪 Germany (+49)</option>
-        </select>
-        <label>New Mobile Number <span class="required-star">*</span></label>
-        <input type="tel" name="mobile_number" value="{{ mobile_number }}" inputmode="numeric" required>
-        <button type="submit">Change Mobile & Verify</button>
-      </form>
-    </div>
   </section>
 </main>
+
 <script>
 function togglePanel(id) {
   const panel = document.getElementById(id);

@@ -115,6 +115,13 @@ def add_global_navigation(response):
     )
     html = html.replace("</head>", assets + "</head>", 1)
 
+    # Render one consistent, live India Standard Time clock on authenticated pages.
+    # Intl handles the browser's display while forcing Asia/Kolkata regardless of
+    # the visitor's device timezone; no server-local timezone assumptions.
+    ist_clock = r'''<div id="cc-ist-clock" role="status" aria-label="Current India Standard Time" style="position:fixed;right:14px;bottom:14px;z-index:9998;background:#102a43;color:#fff;border:1px solid #3b82f6;border-radius:12px;padding:9px 13px;font:600 12px/1.35 system-ui,sans-serif;box-shadow:0 5px 20px #0002"><span style="color:#bfdbfe">INDIA · IST</span><br><time id="cc-ist-live-time">--:--:--</time> <span id="cc-ist-live-date" style="font-weight:500;color:#dbeafe"></span></div><script>(function(){function tick(){var n=new Date();var t=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(n);var d=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',year:'numeric'}).format(n);var te=document.getElementById('cc-ist-live-time'),de=document.getElementById('cc-ist-live-date');if(te)te.textContent=t;if(de)de.textContent='· '+d;}tick();setInterval(tick,1000);})();</script>'''
+    if 'id="cc-ist-clock"' not in html:
+        html = html.replace("</body>", ist_clock + "</body>", 1)
+
     # Profile photos are shown only inside profile-management controls; do not inject
     # a floating photo/name chip into application pages.
 

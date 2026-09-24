@@ -12,6 +12,7 @@ import random
 import os
 import secrets
 import smtplib
+import urllib.request
 from email.message import EmailMessage
 from datetime import date, datetime, timedelta
 from io import BytesIO
@@ -748,6 +749,69 @@ def _verification_expiry():
 
 
 def _send_verification_email(email, code, subject="Civil Career - Email Verification Code", purpose="email verification"):
+    body_text = (
+        f"Your Civil Career {purpose} code is {code}. "
+        "It expires in 10 minutes."
+    )
+
+    # Railway-friendly HTTPS email delivery. Resend uses HTTPS instead
+    # of direct SMTP, which avoids SMTP egress restrictions on Railway.
+    resend_api_key = (os.environ.get("RESEND_API_KEY") or "").strip()
+    resend_from = (
+        os.environ.get("RESEND_FROM")
+        or os.environ.get("SMTP_FROM")
+        or ""
+    ).strip()
+
+    if resend_api_key and resend_from:
+        try:
+            payload = json.dumps({
+                "from": resend_from,
+                "to": [email],
+                "subject": subject,
+                "text": body_text,
+            }).encode("utf-8")
+
+            resend_request = urllib.request.Request(
+                "https://api.resend.com/emails",
+                data=payload,
+                headers={
+                    "Authorization": f"Bearer {resend_api_key}",
+                    "Content-Type": "application/json",
+                    "User-Agent": "Civil-Career/1.0",
+                },
+                method="POST",
+            )
+
+            with urllib.request.urlopen(resend_request, timeout=20) as response:
+                response_body = response.read().decode("utf-8", errors="replace")
+                if 200 <= response.status < 300:
+                    print(
+                        f"[EMAIL OTP] Sent successfully to {email} via Resend",
+                        flush=True,
+                    )
+                    return True
+
+                print(
+                    f"[EMAIL OTP ERROR] Resend HTTP {response.status}: "
+                    f"{response_body[:500]}",
+                    flush=True,
+                )
+
+        except Exception as exc:
+            print(
+                f"[EMAIL OTP ERROR] Resend {type(exc).__name__}: {exc}",
+                flush=True,
+            )
+    elif resend_api_key or resend_from:
+        print(
+            "[EMAIL OTP] Resend configuration incomplete: "
+            "RESEND_API_KEY and RESEND_FROM are required.",
+            flush=True,
+        )
+
+    # SMTP remains as a fallback for environments where outbound SMTP
+    # is available. On Railway Free/Trial/Hobby, HTTPS email is preferred.
     host = (os.environ.get("SMTP_HOST") or "").strip()
     username = (os.environ.get("SMTP_USERNAME") or "").strip()
     password = os.environ.get("SMTP_PASSWORD") or ""
@@ -770,8 +834,9 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
 
     if missing:
         print(
-            "[EMAIL OTP] Missing Railway variables: " + ", ".join(missing),
-            flush=True
+            "[EMAIL OTP] No usable email delivery configured. "
+            "Configure RESEND_API_KEY + RESEND_FROM on Railway.",
+            flush=True,
         )
         return False
 
@@ -779,10 +844,7 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
     message["Subject"] = subject
     message["From"] = sender
     message["To"] = email
-    message.set_content(
-        f"Your Civil Career {purpose} code is {code}. "
-        "It expires in 10 minutes."
-    )
+    message.set_content(body_text)
 
     try:
         if port == 465:
@@ -797,13 +859,13 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
                 smtp.login(username, password)
                 smtp.send_message(message)
 
-        print(f"[EMAIL OTP] Sent successfully to {email}", flush=True)
+        print(f"[EMAIL OTP] Sent successfully to {email} via SMTP", flush=True)
         return True
 
     except Exception as exc:
         print(
-            f"[EMAIL OTP ERROR] {type(exc).__name__}: {exc}",
-            flush=True
+            f"[EMAIL OTP ERROR] SMTP {type(exc).__name__}: {exc}",
+            flush=True,
         )
         return False
 

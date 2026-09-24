@@ -199,3 +199,13 @@ body.cc-menu-open .cc-menu-drawer {
         padding-top: 0 !important;
     }
 }
+
+
+/* Civil Career official brand mark in the navigation drawer */
+.cc-menu-brand-logo {
+    display: block;
+    width: 238px;
+    max-width: calc(100% - 12px);
+    height: auto;
+    object-fit: contain;
+}

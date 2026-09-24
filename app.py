@@ -678,6 +678,42 @@ def create_database():
         seed_jobs
     )
 
+    # Normalize migrated NHAI GATE 2025 records so outdated/partial legacy rows
+    # cannot appear as active jobs with missing mandatory fields.
+    connection.execute(
+        """
+        UPDATE government_jobs
+        SET vacancies='40',
+            qualification='Bachelor\'s Degree in Civil Engineering from a recognized University or Institute.',
+            branch='Civil Engineering',
+            age_limit='Not exceeding 30 years, subject to applicable relaxation',
+            salary='',
+            pay_level='Level 10: Rs. 56,100-1,77,500',
+            application_start='2025-05-10',
+            application_last_date='2025-07-31',
+            application_last_datetime='2025-07-31 18:00',
+            application_fee='As per NHAI notification',
+            job_role_responsibilities='Technical highway engineering, project supervision, quality control, contract administration, site inspection and related engineering responsibilities assigned by NHAI.',
+            selection_process='Direct recruitment through valid GATE 2025 Civil Engineering score, as prescribed by NHAI.',
+            job_location='All India',
+            notification_url='https://nhai.gov.in/nhai/sites/default/files/vacancy_files/DM-Technical-Detailed-Advt.pdf',
+            apply_url='https://nhai.gov.in/',
+            source='NHAI',
+            notification_number='NHAI-DM-TECH-GATE-2025',
+            notification_date='2025-05-10',
+            last_verified='2026-09-24',
+            status='CLOSED'
+        WHERE LOWER(organization) LIKE '%national highways authority of india%'
+          AND LOWER(post_name) LIKE '%deputy manager%technical%'
+          AND (
+              LOWER(COALESCE(notification_number,'')) LIKE '%0592666c5fb30cd8%'
+              OR LOWER(COALESCE(notification_url,'')) LIKE '%57286%'
+              OR LOWER(COALESCE(post_name,'')) LIKE '%gate 2025%'
+              OR LOWER(COALESCE(department,'')) LIKE '%gate 2025%'
+          )
+    """
+    )
+
     # Backfill mandatory fields for the built-in official job records.
     connection.execute(
         """

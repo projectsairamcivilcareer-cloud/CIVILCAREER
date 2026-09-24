@@ -1613,6 +1613,58 @@ def government_job_detail(job_id):
     )
 
 
+@app.route("/government-jobs/all")
+def government_jobs_all():
+    """Show the complete verified Civil Engineering job register, including closed notices."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    filters = {key: request.args.get(key, "").strip() for key in ("search", "qualification", "job_type", "status")}
+    connection = get_db_connection()
+    rows = connection.execute("""
+        SELECT * FROM government_jobs
+        WHERE notification_url != '' AND apply_url != '' AND source != ''
+          AND vacancies != '' AND qualification != ''
+          AND job_role_responsibilities != ''
+          AND application_start IS NOT NULL AND application_start != ''
+          AND application_last_datetime != ''
+          AND (salary != '' OR pay_level != '')
+          AND application_fee != ''
+        ORDER BY application_last_datetime DESC, organization ASC
+    """).fetchall()
+    connection.close()
+
+    jobs = []
+    counts = {"NEW": 0, "OPEN": 0, "CLOSING SOON": 0, "EXAM DATE ANNOUNCED": 0, "CLOSED": 0}
+    for row in rows:
+        job = dict(row)
+        job["display_status"] = government_job_status(
+            job["application_last_date"], job["exam_date"], job["status"]
+        )
+        job["match_score"] = 0
+        if filters["search"] and filters["search"].lower() not in " ".join(
+            (job.get("organization", ""), job.get("post_name", ""), job.get("department", ""))
+        ).lower():
+            continue
+        if filters["qualification"] and filters["qualification"].lower() not in job.get("qualification", "").lower():
+            continue
+        if filters["job_type"] and filters["job_type"].lower() not in job.get("job_type", "").lower():
+            continue
+        if filters["status"] and filters["status"] != job["display_status"]:
+            continue
+        jobs.append(job)
+        counts[job["display_status"]] = counts.get(job["display_status"], 0) + 1
+
+    return render_template(
+        "government_jobs_all.html",
+        student_name=session["student_name"],
+        student_education=session["student_education"],
+        jobs=jobs,
+        counts=counts,
+        filters=filters,
+    )
+
+
 @app.route("/government-jobs/preferences", methods=["GET", "POST"])
 def government_jobs_preferences():
     if "student_id" not in session:

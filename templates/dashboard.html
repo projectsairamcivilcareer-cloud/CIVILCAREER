@@ -106,27 +106,6 @@
             </div>
 
 
-            <div class="student-info">
-
-                <div class="student-avatar">
-                    {% if profile_photo %}
-                    <img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Your profile picture">
-                    {% else %}
-                    <span aria-label="Default profile picture">👤</span>
-                    {% endif %}
-                </div>
-
-                <div class="student-details">
-
-                <strong>
-                    {{ student_name }}
-                </strong>
-
-                <small>
-                    {{ student_education }}
-                </small>
-                </div>
-
         </header>
 
 

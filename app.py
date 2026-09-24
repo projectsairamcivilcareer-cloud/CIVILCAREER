@@ -677,6 +677,44 @@ def create_database():
         seed_jobs
     )
 
+    # Backfill mandatory fields for the built-in official job records.
+    connection.execute(
+        """
+        UPDATE government_jobs
+        SET application_last_datetime='2026-10-06 23:59',
+            job_role_responsibilities='Engineering Services Examination duties include technical evaluation, engineering design/assessment, field and departmental responsibilities as assigned after selection.'
+        WHERE notification_number='ESE-2027'
+          AND (application_last_datetime='' OR job_role_responsibilities='')
+        """
+    )
+    connection.execute(
+        """
+        UPDATE government_jobs
+        SET application_last_datetime='2026-06-15 23:59',
+            job_role_responsibilities='Technical highway engineering, project supervision, quality control, contract and site-related responsibilities as assigned by NHAI.'
+        WHERE notification_number='DM-TECH-GATE-2026'
+          AND (application_last_datetime='' OR job_role_responsibilities='')
+        """
+    )
+    connection.execute(
+        """
+        UPDATE government_jobs
+        SET application_last_datetime='2026-04-01 23:59',
+            job_role_responsibilities='Junior Engineer duties include engineering inspection, measurement, estimation, supervision and technical work as assigned by the department.'
+        WHERE notification_number='JE-2026'
+          AND (application_last_datetime='' OR job_role_responsibilities='')
+        """
+    )
+    connection.execute(
+        """
+        UPDATE government_jobs
+        SET application_last_datetime='2026-05-29 23:59',
+            job_role_responsibilities='Teaching, academic, laboratory, curriculum and structural engineering responsibilities associated with the Assistant Professor role.'
+        WHERE notification_number='26050403309'
+          AND (application_last_datetime='' OR job_role_responsibilities='')
+        """
+    )
+
     migration_result = migrate_legacy_sqlite(
         connection,
         legacy_db

@@ -5832,10 +5832,13 @@ def mock_test_result(exam_slug):
             )
 
             connection.commit()
-            session.pop("mock_feedback_pending_exam", None)
-            session[feedback_key] = True
 
         connection.close()
+
+    # The mock test remains locked behind the mandatory feedback form
+    # until the student submits feedback for this completed attempt.
+    if not feedback_submitted:
+        session["mock_feedback_pending_exam"] = exam_slug
 
     # =====================================================
     # SHOW RESULT PAGE

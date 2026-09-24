@@ -3597,3 +3597,3253 @@ MOCK_TEST_QUESTIONS = {
 
             "correct_answer": "C"
         },
+
+        {
+            "question":
+                "The unit weight of water is approximately:",
+
+            "option_a": "1 kN/m³",
+            "option_b": "9.81 kN/m³",
+            "option_c": "98.1 kN/m³",
+            "option_d": "100 kN/m³",
+
+            "correct_answer": "B"
+        },
+
+        {
+            "question":
+                "The Reynolds number is mainly used to determine the nature of:",
+
+            "option_a": "Soil",
+            "option_b": "Concrete",
+            "option_c": "Fluid flow",
+            "option_d": "Road pavement",
+
+            "correct_answer": "C"
+        },
+
+        {
+            "question":
+                "Effective stress in saturated soil is equal to:",
+
+            "option_a": "Total stress + pore pressure",
+            "option_b": "Total stress − pore pressure",
+            "option_c": "Pore pressure − total stress",
+            "option_d": "Total stress × pore pressure",
+
+            "correct_answer": "B"
+        },
+
+        {
+            "question":
+                "The main purpose of providing camber on a road is:",
+
+            "option_a": "Drainage",
+            "option_b": "Increasing road length",
+            "option_c": "Reducing traffic",
+            "option_d": "Increasing pavement thickness",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The standard unit of coefficient of permeability of soil is:",
+
+            "option_a": "m/s",
+            "option_b": "m²/s",
+            "option_c": "N/m²",
+            "option_d": "kg/m³",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The slump test is commonly used to measure the workability of:",
+
+            "option_a": "Fresh concrete",
+            "option_b": "Hardened concrete",
+            "option_c": "Cement paste after setting",
+            "option_d": "Bitumen",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "For ordinary concrete, reducing the water-cement ratio generally increases:",
+
+            "option_a": "Permeability",
+            "option_b": "Compressive strength",
+            "option_c": "Bleeding",
+            "option_d": "Segregation in every case",
+
+            "correct_answer": "B"
+        },
+
+        {
+            "question":
+                "The neutral axis of a homogeneous symmetric rectangular beam section passes through its:",
+
+            "option_a": "Top edge",
+            "option_b": "Bottom edge",
+            "option_c": "Centroid",
+            "option_d": "Corner",
+
+            "correct_answer": "C"
+        },
+
+        {
+            "question":
+                "The primary purpose of stirrups in a reinforced concrete beam is to resist:",
+
+            "option_a": "Shear",
+            "option_b": "Shrinkage only",
+            "option_c": "Temperature only",
+            "option_d": "Dead load only",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "In a flow net, the quantity of seepage through a soil foundation is estimated using:",
+
+            "option_a": "Flow channels and equipotential drops",
+            "option_b": "Contour intervals only",
+            "option_c": "Traffic density",
+            "option_d": "Beam deflection",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "A total station is primarily used to measure angles and:",
+
+            "option_a": "Distance electronically",
+            "option_b": "Concrete strength",
+            "option_c": "Soil moisture only",
+            "option_d": "Bitumen viscosity",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The hydraulic radius of an open channel is the ratio of flow area to:",
+
+            "option_a": "Wetted perimeter",
+            "option_b": "Top width",
+            "option_c": "Channel slope",
+            "option_d": "Hydraulic depth",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The BOD of wastewater indicates the amount of oxygen required by microorganisms to decompose:",
+
+            "option_a": "Biodegradable organic matter",
+            "option_b": "Dissolved sand",
+            "option_c": "Chlorine",
+            "option_d": "Inert gravel",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "In highway engineering, the main function of a pavement subgrade is to:",
+
+            "option_a": "Provide support to the pavement layers",
+            "option_b": "Provide road markings",
+            "option_c": "Drain roof water",
+            "option_d": "Increase vehicle speed directly",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "A contour line joins points having equal:",
+
+            "option_a": "Elevation",
+            "option_b": "Slope distance",
+            "option_c": "Bearing",
+            "option_d": "Rainfall intensity",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The critical path in a project network is the path with:",
+
+            "option_a": "The longest total duration",
+            "option_b": "The fewest activities",
+            "option_c": "The lowest cost only",
+            "option_d": "No predecessor activities",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The California Bearing Ratio test is mainly used to evaluate:",
+
+            "option_a": "Subgrade strength for pavement design",
+            "option_b": "Concrete setting time",
+            "option_c": "Steel ductility",
+            "option_d": "Water quality",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The factor of safety for a slope is the ratio of resisting forces to:",
+
+            "option_a": "Driving forces",
+            "option_b": "Pore volume",
+            "option_c": "Rainfall duration",
+            "option_d": "Slope length",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The main purpose of curing concrete is to maintain suitable moisture and temperature for:",
+
+            "option_a": "Cement hydration",
+            "option_b": "Aggregate crushing",
+            "option_c": "Steel corrosion",
+            "option_d": "Surface drying",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The minimum grade of concrete generally used for reinforced concrete work is:",
+
+            "option_a": "M10",
+            "option_b": "M15",
+            "option_c": "M20",
+            "option_d": "M5",
+
+            "correct_answer": "C"
+        },
+
+        {
+            "question":
+                "The liquid limit of a soil is determined using the:",
+
+            "option_a": "Casagrande apparatus",
+            "option_b": "Proctor mould",
+            "option_c": "Pycnometer only",
+            "option_d": "Vicat apparatus",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The Darcy-Weisbach equation is used to calculate head loss due to:",
+
+            "option_a": "Friction in pipe flow",
+            "option_b": "Evaporation",
+            "option_c": "Rainfall",
+            "option_d": "Sedimentation",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The horizontal distance between two successive vehicle positions on a transition curve is called:",
+
+            "option_a": "Shift",
+            "option_b": "Tangent length",
+            "option_c": "Chainage",
+            "option_d": "Camber",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The primary objective of a building foundation is to transfer loads safely to:",
+
+            "option_a": "The roof",
+            "option_b": "The soil",
+            "option_c": "The plaster",
+            "option_d": "The damp-proof course",
+
+            "correct_answer": "B"
+        },
+
+        {
+            "question":
+                "A water-cement ratio of 0.50 means that the weight of water is what fraction of cement weight?",
+
+            "option_a": "0.05",
+            "option_b": "0.50",
+            "option_c": "5.0",
+            "option_d": "50.0",
+
+            "correct_answer": "B"
+        },
+
+        {
+            "question":
+                "The instrument used to measure differences in elevation between points is a:",
+
+            "option_a": "Level",
+            "option_b": "Planimeter",
+            "option_c": "Theodolite only",
+            "option_d": "Clinometer only",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The process of removing air voids from freshly placed concrete is called:",
+
+            "option_a": "Vibration",
+            "option_b": "Curing",
+            "option_c": "Dressing",
+            "option_d": "Tempering",
+
+            "correct_answer": "A"
+        },
+
+        {
+            "question":
+                "The pH value of neutral water at room temperature is approximately:",
+
+            "option_a": "2",
+            "option_b": "5",
+            "option_c": "7",
+            "option_d": "12",
+
+            "correct_answer": "C"
+        },
+
+        {
+            "question":
+                "In a simply supported beam, the bending moment at an ideal pin or roller support is:",
+
+            "option_a": "Zero",
+            "option_b": "Maximum always",
+            "option_c": "Equal to the shear force",
+            "option_d": "Infinite",
+
+            "correct_answer": "A"
+        }
+
+    ]
+
+}
+
+
+MOCK_TEST_QUESTIONS = {
+    exam_slug: questions.copy()
+    for exam_slug, questions in PYQ_QUESTIONS.items()
+}
+
+
+for exam_questions in MOCK_TEST_QUESTIONS.values():
+
+    for question_index, question in enumerate(exam_questions):
+
+        question["marks"] = 1 if question_index % 2 == 0 else 2
+
+
+MOCK_TEST_QUESTIONS["gate"][1]["question_type"] = "fill_blank"
+MOCK_TEST_QUESTIONS["gate"][1]["answer"] = "9.81"
+
+MOCK_TEST_QUESTIONS["gate"][2]["question_type"] = "msq"
+MOCK_TEST_QUESTIONS["gate"][2]["option_a"] = (
+    "Effective stress is total stress plus pore pressure"
+)
+MOCK_TEST_QUESTIONS["gate"][2]["option_b"] = (
+    "Effective stress is total stress minus pore pressure"
+)
+MOCK_TEST_QUESTIONS["gate"][2]["option_c"] = (
+    "Pore pressure reduces effective stress"
+)
+MOCK_TEST_QUESTIONS["gate"][2]["option_d"] = (
+    "Effective stress is independent of pore pressure"
+)
+MOCK_TEST_QUESTIONS["gate"][2]["correct_answer"] = ["B", "C"]
+
+MOCK_TEST_QUESTIONS["gate"].append({
+    "question": "A discharge of 2 m³ flows through a channel in 4 seconds. The discharge rate is ___ m³/s.",
+    "question_type": "numerical",
+    "answer": 0.5,
+    "option_a": "",
+    "option_b": "",
+    "option_c": "",
+    "option_d": "",
+    "correct_answer": "0.5",
+    "marks": 2
+})
+
+
+MOCK_TEST_QUESTIONS["gate"].extend([
+    {
+        "question": "For a matrix to have an inverse, its determinant must be:",
+        "option_a": "Zero",
+        "option_b": "Non-zero",
+        "option_c": "Negative only",
+        "option_d": "Equal to one only",
+        "correct_answer": "B"
+    },
+    {
+        "question": "The degree of a polynomial equation is equal to the number of its:",
+        "option_a": "Distinct real roots always",
+        "option_b": "Roots including multiplicity over the complex field",
+        "option_c": "Positive roots only",
+        "option_d": "Negative roots only",
+        "correct_answer": "B"
+    },
+    {
+        "question": "The bending equation for a beam in elastic bending is:",
+        "option_a": "M/I = sigma/y = E/R",
+        "option_b": "M/I = y/sigma = R/E",
+        "option_c": "M = I/E",
+        "option_d": "sigma = MR",
+        "correct_answer": "A"
+    },
+    {
+        "question": "In a truss, a member carrying zero force under a particular loading is called a:",
+        "option_a": "Redundant member",
+        "option_b": "Zero-force member",
+        "option_c": "Tension-only member",
+        "option_d": "Compression block",
+        "correct_answer": "B"
+    },
+    {
+        "question": "The characteristic strength of concrete is defined at an age of:",
+        "option_a": "3 days",
+        "option_b": "7 days",
+        "option_c": "14 days",
+        "option_d": "28 days",
+        "correct_answer": "D"
+    },
+    {
+        "question": "The fineness modulus is an index of the average size of particles in:",
+        "option_a": "Fine or coarse aggregate",
+        "option_b": "Cement paste only",
+        "option_c": "Structural steel",
+        "option_d": "Fresh concrete only",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The standard Proctor test is used to determine the relationship between moisture content and:",
+        "option_a": "Dry density of soil",
+        "option_b": "Liquid limit only",
+        "option_c": "Permeability only",
+        "option_d": "Shear strength of steel",
+        "correct_answer": "A"
+    },
+    {
+        "question": "According to Darcy's law, seepage velocity through soil is proportional to the:",
+        "option_a": "Hydraulic gradient",
+        "option_b": "Specific gravity only",
+        "option_c": "Grain diameter squared only",
+        "option_d": "Atmospheric pressure",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The active earth pressure condition occurs when a retaining wall moves:",
+        "option_a": "Towards the backfill",
+        "option_b": "Away from the backfill",
+        "option_c": "Vertically upward only",
+        "option_d": "Without any deformation",
+        "correct_answer": "B"
+    },
+    {
+        "question": "The Froude number is important in the analysis of:",
+        "option_a": "Open channel flow",
+        "option_b": "Soil classification",
+        "option_c": "Concrete strength",
+        "option_d": "Steel corrosion",
+        "correct_answer": "A"
+    },
+    {
+        "question": "For uniform flow in an open channel, the energy slope is equal to the:",
+        "option_a": "Bed slope",
+        "option_b": "Side slope only",
+        "option_c": "Cross-fall",
+        "option_d": "Bank height",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The main purpose of a spillway in a reservoir is to:",
+        "option_a": "Release excess flood water safely",
+        "option_b": "Increase sediment deposition",
+        "option_c": "Measure cement fineness",
+        "option_d": "Support bridge traffic",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The activated sludge process is a method of:",
+        "option_a": "Secondary wastewater treatment",
+        "option_b": "Water distribution only",
+        "option_c": "Solid waste landfilling",
+        "option_d": "Road construction",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The main objective of chlorination of drinking water is:",
+        "option_a": "Disinfection",
+        "option_b": "Softening only",
+        "option_c": "Increasing turbidity",
+        "option_d": "Removing all dissolved salts",
+        "correct_answer": "A"
+    },
+    {
+        "question": "Superelevation on a horizontal road curve is provided to counteract:",
+        "option_a": "Centrifugal force",
+        "option_b": "Vehicle weight only",
+        "option_c": "Rolling resistance only",
+        "option_d": "Wind pressure only",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The stopping sight distance of a vehicle depends mainly on speed, reaction time, and:",
+        "option_a": "Braking distance",
+        "option_b": "Pavement colour",
+        "option_c": "Lane marking width only",
+        "option_d": "Shoulder material only",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The purpose of a transition curve is to provide a gradual change in:",
+        "option_a": "Curvature and superelevation",
+        "option_b": "Pavement colour",
+        "option_c": "Traffic signal timing",
+        "option_d": "Soil classification",
+        "correct_answer": "A"
+    },
+    {
+        "question": "In surveying, a benchmark is a point whose elevation is:",
+        "option_a": "Known or established",
+        "option_b": "Always zero",
+        "option_c": "Equal to its bearing",
+        "option_d": "Estimated from rainfall",
+        "correct_answer": "A"
+    },
+    {
+        "question": "The contour interval is the constant difference in elevation between:",
+        "option_a": "Successive contour lines",
+        "option_b": "Two benchmarks only",
+        "option_c": "Two road lanes",
+        "option_d": "Two survey stations only",
+        "correct_answer": "A"
+    },
+    {
+        "question": "In project scheduling, total float is the time by which an activity can be delayed without delaying:",
+        "option_a": "Project completion",
+        "option_b": "Its own start date",
+        "option_c": "Material delivery only",
+        "option_d": "The site survey only",
+        "correct_answer": "A"
+    }
+])
+
+
+for exam_questions in MOCK_TEST_QUESTIONS.values():
+
+    for question_index, question in enumerate(exam_questions):
+
+        question.setdefault("question_type", "mcq")
+        question.setdefault("marks", 1 if question_index % 2 == 0 else 2)
+
+
+for exam_slug, exam_questions in MOCK_TEST_QUESTIONS.items():
+
+    if exam_slug == "gate" or len(exam_questions) < 2:
+        continue
+
+    fill_question = exam_questions[1]
+    correct_option = fill_question["correct_answer"].lower()
+    fill_question["question_type"] = "fill_blank"
+    fill_question["answer"] = fill_question[
+        "option_" + correct_option
+    ]
+
+
+def answer_is_correct(question, user_answer):
+
+    question_type = question.get("question_type", "mcq")
+
+    if question_type == "msq":
+        return sorted(user_answer or []) == sorted(question["correct_answer"])
+
+    if question_type in ("fill_blank", "numerical", "nat"):
+        try:
+            return abs(
+                float(str(user_answer).strip()) - float(question["answer"])
+            ) <= 0.01
+        except (TypeError, ValueError):
+            return str(user_answer).strip().lower() == str(
+                question["answer"]
+            ).strip().lower()
+
+    return user_answer == question["correct_answer"]
+
+# ==========================================
+# MOCK TEST ENGINE
+# ==========================================
+
+MOCK_TEST_DURATIONS = {
+    "gate": 180 * 60,
+    "ssc-je": 30 * 60,
+    "je-ae": 30 * 60,
+    "diploma": 30 * 60,
+    "btech": 30 * 60,
+    "government": 30 * 60,
+}
+
+
+@app.route(
+    "/mock-test/<exam_slug>",
+    methods=["GET", "POST"]
+)
+def mock_test(exam_slug):
+
+    # ==========================================
+    # LOGIN CHECK
+    # ==========================================
+
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+
+    # ==========================================
+    # EXAM CHECK
+    # ==========================================
+
+    if exam_slug not in MOCK_TEST_QUESTIONS:
+        return "Mock test not available", 404
+
+
+    # ==========================================
+    # SESSION KEYS
+    # ==========================================
+
+    index_key = "mock_index_" + exam_slug
+    answers_key = "mock_answers_" + exam_slug
+    timer_key = "mock_deadline_" + exam_slug
+    order_key = "mock_order_" + exam_slug
+    seen_key = "mock_seen_" + exam_slug
+    doubt_key = "mock_doubt_" + exam_slug
+    fullscreen_key = "mock_fullscreen_started_" + exam_slug
+    attempt_key = "mock_attempt_" + exam_slug
+
+    mode_key = "mock_mode_" + exam_slug
+    profile_key = "mock_profile_" + exam_slug
+    scope_key = "mock_scope_" + exam_slug
+    count_key = "mock_count_" + exam_slug
+
+
+    # ==========================================
+    # REQUESTED GATE SETTINGS
+    # ==========================================
+
+    requested_mode = request.args.get(
+        "mode",
+        session.get(mode_key, "mixed")
+    )
+
+    requested_profile = request.args.get(
+        "profile",
+        session.get(profile_key, "full")
+    )
+
+    requested_scope = request.args.get(
+        "scope",
+        session.get(scope_key, "all")
+    )
+
+    requested_count = request.args.get(
+        "count",
+        session.get(count_key, 0),
+        type=int
+    )
+
+
+    # ==========================================
+    # VALIDATE SETTINGS
+    # ==========================================
+
+    allowed_profiles = {
+        "short",
+        "standard",
+        "full",
+        "difficult",
+        "expert",
+        "elite"
+    }
+
+    allowed_scopes = {
+        "all",
+        "mathematics",
+        "core",
+        "aptitude"
+    }
+
+    if requested_profile not in allowed_profiles:
+        requested_profile = "full"
+
+    if requested_scope not in allowed_scopes:
+        requested_scope = "all"
+
+    if requested_count < 0 or requested_count > 100:
+        requested_count = 0
+
+
+    # ==========================================
+    # DETERMINE NEW TEST
+    # ==========================================
+
+    start_new = request.args.get("new") == "1"
+
+
+    # ==========================================
+    # LOAD QUESTIONS
+    # ==========================================
+
+    if exam_slug == "gate":
+
+        if (
+            start_new
+            or mode_key not in session
+        ):
+
+            session[mode_key] = requested_mode
+            session[profile_key] = requested_profile
+            session[scope_key] = requested_scope
+            session[count_key] = requested_count
+
+
+        questions = build_gate_mock(
+
+            session.get(
+                mode_key,
+                "mixed"
+            ),
+
+            count=session.get(
+                count_key,
+                0
+            ) or 20,
+
+            profile=(
+                session.get(
+                    profile_key,
+                    "full"
+                )
+                if session.get(
+                    scope_key,
+                    "all"
+                ) == "all"
+                else None
+            ),
+
+            scope=session.get(
+                scope_key,
+                "all"
+            )
+        )
+
+    else:
+
+        questions = MOCK_TEST_QUESTIONS[exam_slug]
+
+
+    # ==========================================
+    # NEW ATTEMPT
+    # ==========================================
+
+    if (
+        start_new
+        or timer_key not in session
+        or order_key not in session
+        or answers_key not in session
+    ):
+
+        # --------------------------------------
+        # TIMER = 180 MINUTES
+        # --------------------------------------
+
+        session[timer_key] = (
+            int(time.time())
+            + MOCK_TEST_DURATIONS.get(
+                exam_slug,
+                30 * 60
+            )
+        )
+
+
+        # --------------------------------------
+        # START AT QUESTION 1
+        # --------------------------------------
+
+        session[index_key] = 0
+
+
+        # --------------------------------------
+        # EMPTY ANSWERS
+        # --------------------------------------
+
+        session[answers_key] = {}
+
+
+        # --------------------------------------
+        # EMPTY SEEN QUESTIONS
+        # --------------------------------------
+
+        session[seen_key] = []
+
+
+        # --------------------------------------
+        # EMPTY REVIEW LIST
+        # --------------------------------------
+
+        session[doubt_key] = []
+
+
+        # --------------------------------------
+        # FULLSCREEN
+        # --------------------------------------
+
+        session[fullscreen_key] = False
+
+
+        # --------------------------------------
+        # NEW UNIQUE ATTEMPT ID
+        # --------------------------------------
+
+        session[attempt_key] = str(
+            uuid.uuid4()
+        )
+
+
+        # --------------------------------------
+        # RANDOM QUESTION ORDER
+        #
+        # random.sample() guarantees that the
+        # same question is not selected twice
+        # in this attempt.
+        # --------------------------------------
+
+        question_order = random.sample(
+            range(len(questions)),
+            len(questions)
+        )
+
+        session[order_key] = question_order
+
+
+    else:
+
+        question_order = session.get(
+            order_key,
+            []
+        )
+
+
+    # ==========================================
+    # SAFETY CHECK QUESTION ORDER
+    # ==========================================
+
+    if (
+        not question_order
+        or len(question_order) != len(questions)
+        or any(
+            i < 0 or i >= len(questions)
+            for i in question_order
+        )
+    ):
+
+        question_order = random.sample(
+            range(len(questions)),
+            len(questions)
+        )
+
+        session[order_key] = question_order
+
+
+    # ==========================================
+    # REMAINING TIME
+    # ==========================================
+
+    remaining_seconds = (
+        session[timer_key]
+        - int(time.time())
+    )
+
+
+    # ==========================================
+    # TIME EXPIRED
+    # ==========================================
+
+    if remaining_seconds <= 0:
+
+        return redirect(
+            url_for(
+                "mock_test_result",
+                exam_slug=exam_slug
+            )
+        )
+
+
+    # ==========================================
+    # INITIALIZE SESSION VALUES
+    # ==========================================
+
+    if index_key not in session:
+        session[index_key] = 0
+
+    if answers_key not in session:
+        session[answers_key] = {}
+
+    if seen_key not in session:
+        session[seen_key] = []
+
+    if doubt_key not in session:
+        session[doubt_key] = []
+
+
+    # ==========================================
+    # CURRENT INDEX SAFETY
+    # ==========================================
+
+    current_index = session[index_key]
+
+    if (
+        current_index < 0
+        or current_index >= len(question_order)
+    ):
+
+        current_index = 0
+        session[index_key] = 0
+
+
+    # ==========================================
+    # HANDLE POST
+    # ==========================================
+
+    if request.method == "POST":
+
+        action = request.form.get(
+            "action",
+            ""
+        )
+
+        current_index = session[index_key]
+
+        current_question = questions[
+            question_order[current_index]
+        ]
+
+        answers = session[answers_key]
+
+
+        # ======================================
+        # SAVE CURRENT ANSWER
+        # ======================================
+
+        submitted_answers = request.form.getlist(
+            "answer"
+        )
+
+
+        if current_question.get(
+            "question_type",
+            "mcq"
+        ) == "msq":
+
+            if submitted_answers:
+
+                answers[
+                    str(current_index)
+                ] = submitted_answers
+
+            else:
+
+                answers[
+                    str(current_index)
+                ] = []
+
+        else:
+
+            answer = request.form.get(
+                "answer"
+            )
+
+            if answer is not None:
+
+                answers[
+                    str(current_index)
+                ] = answer
+
+
+        # ======================================
+        # SAVE ALL ANSWERS FROM JS
+        # ======================================
+
+        answers_json = request.form.get(
+            "answers_json",
+            ""
+        )
+
+
+        if answers_json:
+
+            try:
+
+                saved_answers = json.loads(
+                    answers_json
+                )
+
+                if isinstance(
+                    saved_answers,
+                    dict
+                ):
+
+                    for key, value in saved_answers.items():
+
+                        try:
+
+                            answer_index = int(key)
+
+                            if (
+                                answer_index < 0
+                                or answer_index >= len(
+                                    question_order
+                                )
+                            ):
+                                continue
+
+                            question_for_answer = questions[
+                                question_order[
+                                    answer_index
+                                ]
+                            ]
+
+                            if question_for_answer.get(
+                                "question_type",
+                                "mcq"
+                            ) == "msq":
+
+                                if isinstance(
+                                    value,
+                                    list
+                                ):
+                                    answers[key] = value
+
+                            else:
+
+                                if isinstance(
+                                    value,
+                                    list
+                                ):
+
+                                    answers[key] = (
+                                        value[0]
+                                        if value
+                                        else ""
+                                    )
+
+                                else:
+
+                                    answers[key] = value
+
+                        except (
+                            ValueError,
+                            TypeError,
+                            IndexError
+                        ):
+                            continue
+
+            except (
+                TypeError,
+                json.JSONDecodeError
+            ):
+
+                pass
+
+
+        session[answers_key] = answers
+
+
+        # ======================================
+        # MARK / UNMARK FOR REVIEW
+        # ======================================
+
+        if action == "toggle_doubt":
+
+            doubt_questions = session[
+                doubt_key
+            ]
+
+            if current_index in doubt_questions:
+
+                doubt_questions.remove(
+                    current_index
+                )
+
+            else:
+
+                doubt_questions.append(
+                    current_index
+                )
+
+            session[doubt_key] = doubt_questions
+
+
+        # ======================================
+        # NEXT
+        # ======================================
+
+        elif action == "next":
+
+            if (
+                current_index
+                < len(question_order) - 1
+            ):
+
+                session[index_key] = (
+                    current_index + 1
+                )
+
+
+        # ======================================
+        # PREVIOUS
+        # ======================================
+
+        elif action == "previous":
+
+            if current_index > 0:
+
+                session[index_key] = (
+                    current_index - 1
+                )
+
+
+        # ======================================
+        # SUBMIT
+        # ======================================
+
+        elif action == "submit":
+            return redirect(
+                url_for(
+                "mock_test_result",
+                exam_slug=exam_slug
+            )
+        )
+
+
+    # ==========================================
+    # UPDATE CURRENT INDEX
+    # ==========================================
+
+    current_index = session[index_key]
+
+
+    # ==========================================
+    # MARK QUESTION AS SEEN
+    # ==========================================
+
+    seen_questions = session[seen_key]
+
+    if current_index not in seen_questions:
+
+        seen_questions.append(
+            current_index
+        )
+
+        session[seen_key] = seen_questions
+
+
+    # ==========================================
+    # CURRENT QUESTION
+    # ==========================================
+
+    question = questions[
+        question_order[current_index]
+    ]
+
+
+    # ==========================================
+    # ANSWERS
+    # ==========================================
+
+    answers = session.get(
+        answers_key,
+        {}
+    )
+
+
+    selected_answer = answers.get(
+        str(current_index)
+    )
+
+
+    # ==========================================
+    # QUESTION STATUS
+    # ==========================================
+
+    question_statuses = []
+
+    for number in range(
+        len(question_order)
+    ):
+
+        if number == current_index:
+
+            # Keep the review state visible even while the question
+            # is currently open.
+            if number in session.get(
+                doubt_key,
+                []
+            ):
+                status = "current review"
+            else:
+                status = "current"
+
+        elif number in session.get(
+            doubt_key,
+            []
+        ):
+
+            # Review status must remain visible even if an answer
+            # has also been saved for this question.
+            status = "review"
+
+        elif str(number) in answers:
+
+            saved = answers[
+                str(number)
+            ]
+
+            if saved:
+
+                status = "answered"
+
+            else:
+
+                status = "not-answered"
+
+        elif number in session.get(
+            seen_key,
+            []
+        ):
+
+            status = "not-answered"
+
+        else:
+
+            status = "not-visited"
+
+
+        question_statuses.append(
+            status
+        )
+
+
+    # ==========================================
+    # EXAM NAME
+    # ==========================================
+
+    exam_names = {
+
+        "gate":
+            "GATE",
+
+        "ssc-je":
+            "SSC JE",
+
+        "je-ae":
+            "JE / AE",
+
+        "diploma":
+            "Diploma Civil",
+
+        "btech":
+            "B.Tech Civil",
+
+        "government":
+            "Government Exams"
+
+    }
+
+
+    exam_name = exam_names.get(
+
+        exam_slug,
+
+        exam_slug.replace(
+            "-",
+            " "
+        ).upper()
+
+    )
+
+
+    # ==========================================
+    # RENDER
+    # ==========================================
+
+    return render_template(
+
+        "mock_test.html",
+
+        student_name=session[
+            "student_name"
+        ],
+
+        student_education=session[
+            "student_education"
+        ],
+
+        exam_name=exam_name,
+
+        exam_slug=exam_slug,
+
+        question=question,
+
+        question_number=current_index + 1,
+
+        question_index=current_index,
+
+        total_questions=len(
+            question_order
+        ),
+
+        selected_answer=selected_answer,
+
+        remaining_seconds=remaining_seconds,
+
+        show_start_gate=not session.get(
+            fullscreen_key,
+            False
+        ),
+
+        question_statuses=question_statuses,
+
+        is_doubt=current_index in session.get(
+            doubt_key,
+            []
+        ),
+
+        answered_questions=[
+            i
+            for i, status
+            in enumerate(
+                question_statuses,
+                start=1
+            )
+            if status == "answered"
+        ],
+
+        review_questions=[
+            i
+            for i, status
+            in enumerate(
+                question_statuses,
+                start=1
+            )
+            if "review" in status
+        ],
+
+        duration_minutes=round(
+            MOCK_TEST_DURATIONS.get(
+                exam_slug,
+                30 * 60
+            ) / 60
+        )
+
+    )
+
+@app.route("/mock-test/<exam_slug>/start", methods=["POST"])
+def mock_test_start(exam_slug):
+
+    if "student_id" not in session:
+        return "Unauthorized", 401
+
+    if exam_slug not in MOCK_TEST_QUESTIONS:
+        return "Mock test not available", 404
+
+    session["mock_fullscreen_started_" + exam_slug] = True
+
+    return "", 204
+
+
+@app.route("/mock-test/<exam_slug>/question/<int:question_index>")
+def mock_test_question(
+    exam_slug,
+    question_index
+):
+
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    if exam_slug not in MOCK_TEST_QUESTIONS:
+        return "Mock test not available", 404
+
+    questions = build_gate_mock(
+        session.get("mock_mode_" + exam_slug, "mixed"),
+        count=session.get("mock_count_" + exam_slug, 0) or 20,
+        profile=session.get("mock_profile_" + exam_slug, "full") if session.get("mock_scope_" + exam_slug, "all") == "all" else None,
+        scope=session.get("mock_scope_" + exam_slug, "all")
+    ) if exam_slug == "gate" else MOCK_TEST_QUESTIONS[exam_slug]
+
+    order_key = "mock_order_" + exam_slug
+
+    question_order = session.get(order_key, list(range(len(questions))))
+
+    if question_index < 0 or question_index >= len(question_order):
+        return redirect(
+            url_for(
+                "mock_test",
+                exam_slug=exam_slug
+            )
+        )
+
+    session[
+        "mock_index_" + exam_slug
+    ] = question_index
+
+    return redirect(
+        url_for(
+            "mock_test",
+            exam_slug=exam_slug
+        )
+    )
+
+
+# =========================================================
+# MOCK TEST RESULT
+# =========================================================
+
+@app.route("/mock-test/<exam_slug>/result", methods=["GET", "POST"])
+def mock_test_result(exam_slug):
+
+    # =====================================================
+    # LOGIN CHECK
+    # =====================================================
+
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    # =====================================================
+    # CHECK EXAM
+    # =====================================================
+
+    if exam_slug not in MOCK_TEST_QUESTIONS:
+        return "Mock test not available", 404
+
+    # =====================================================
+    # FEEDBACK
+    # =====================================================
+
+    feedback_key = "mock_feedback_submitted_" + exam_slug
+
+    feedback_submitted = session.get(
+        feedback_key,
+        False
+    )
+
+    if request.method == "POST" and not feedback_submitted:
+
+        rating = request.form.get(
+            "rating",
+            type=int
+        )
+
+        comments = request.form.get(
+            "comments",
+            ""
+        ).strip()
+
+        if rating in range(1, 6) and comments:
+
+            connection = get_db_connection()
+
+            connection.execute(
+                """
+                INSERT INTO mock_test_feedback
+                (
+                    student_id,
+                    exam_slug,
+                    rating,
+                    comments
+                )
+                VALUES (?, ?, ?, ?)
+                """,
+                (
+                    session["student_id"],
+                    exam_slug,
+                    rating,
+                    comments
+                )
+            )
+
+            connection.commit()
+            connection.close()
+
+            feedback_submitted = True
+            session[feedback_key] = True
+
+    # =====================================================
+    # LOAD QUESTIONS
+    # =====================================================
+
+    if exam_slug == "gate":
+
+        questions = build_gate_mock(
+
+            session.get(
+                "mock_mode_" + exam_slug,
+                "mixed"
+            ),
+
+            count=session.get(
+                "mock_count_" + exam_slug,
+                0
+            ) or 20,
+
+            profile=(
+                session.get(
+                    "mock_profile_" + exam_slug,
+                    "full"
+                )
+                if session.get(
+                    "mock_scope_" + exam_slug,
+                    "all"
+                ) == "all"
+                else None
+            ),
+
+            scope=session.get(
+                "mock_scope_" + exam_slug,
+                "all"
+            )
+        )
+
+    else:
+
+        questions = MOCK_TEST_QUESTIONS[exam_slug]
+
+    # =====================================================
+    # ANSWERS
+    # =====================================================
+
+    answers_key = "mock_answers_" + exam_slug
+
+    answers = session.get(
+        answers_key,
+        {}
+    )
+
+    # =====================================================
+    # QUESTION ORDER
+    # =====================================================
+
+    order_key = "mock_order_" + exam_slug
+
+    question_order = session.get(
+        order_key,
+        list(range(len(questions)))
+    )
+
+    # =====================================================
+    # RESULT VARIABLES
+    # =====================================================
+
+    correct = 0
+    wrong = 0
+    unanswered = 0
+
+    total = len(question_order)
+
+    # =====================================================
+    # MAXIMUM SCORE
+    # =====================================================
+
+    maximum_score = sum(
+
+        questions[question_index].get(
+            "marks",
+            1
+        )
+
+        for question_index in question_order
+
+    )
+
+    score = 0
+
+    # =====================================================
+    # STATISTICS
+    # =====================================================
+
+    subject_stats = {}
+    topic_stats = {}
+    difficulty_stats = {}
+
+    # =====================================================
+    # ANSWER REVIEW
+    # =====================================================
+
+    review = []
+
+    for i, question_index in enumerate(question_order):
+
+        question = questions[question_index]
+
+        user_answer = answers.get(
+            str(i)
+        )
+
+        correct_answer = question.get(
+            "correct_answer",
+            ""
+        )
+
+        # =================================================
+        # DISPLAYED ANSWER
+        # =================================================
+
+        if question.get("question_type") in (
+            "fill_blank",
+            "numerical"
+        ):
+
+            displayed_answer = question.get(
+                "answer",
+                correct_answer
+            )
+
+        else:
+
+            displayed_answer = correct_answer
+
+        # =================================================
+        # CHECK ANSWER
+        # =================================================
+
+        if not user_answer:
+
+            unanswered += 1
+
+            status = "unanswered"
+
+        elif answer_is_correct(
+            question,
+            user_answer
+        ):
+
+            correct += 1
+
+            score += question.get(
+                "marks",
+                1
+            )
+
+            status = "correct"
+
+        else:
+
+            wrong += 1
+
+            # GATE negative marking applies only to MCQs.
+            # 1-mark MCQ: -1/3, 2-mark MCQ: -2/3.
+            if (
+                exam_slug == "gate"
+                and question.get("question_type", "mcq") == "mcq"
+            ):
+                score -= (
+                    question.get("marks", 1) / 3
+                )
+
+            status = "wrong"
+
+        # =================================================
+        # SUBJECT STATISTICS
+        # =================================================
+
+        subject_name = question.get(
+            "subject",
+            "Unclassified"
+        )
+
+        subject_row = subject_stats.setdefault(
+            subject_name,
+            {
+                "total": 0,
+                "correct": 0,
+                "attempted": 0
+            }
+        )
+
+        subject_row["total"] += 1
+
+        if user_answer:
+            subject_row["attempted"] += 1
+
+        if status == "correct":
+            subject_row["correct"] += 1
+
+        # =================================================
+        # TOPIC STATISTICS
+        # =================================================
+
+        topic_name = question.get(
+            "topic",
+            "Unclassified"
+        )
+
+        topic_row = topic_stats.setdefault(
+            topic_name,
+            {
+                "total": 0,
+                "correct": 0,
+                "attempted": 0
+            }
+        )
+
+        topic_row["total"] += 1
+
+        if user_answer:
+            topic_row["attempted"] += 1
+
+        if status == "correct":
+            topic_row["correct"] += 1
+
+        # =================================================
+        # DIFFICULTY STATISTICS
+        # =================================================
+
+        difficulty_name = question.get(
+            "difficulty_level",
+            "Unrated"
+        )
+
+        difficulty_row = difficulty_stats.setdefault(
+            difficulty_name,
+            {
+                "total": 0,
+                "correct": 0,
+                "attempted": 0
+            }
+        )
+
+        difficulty_row["total"] += 1
+
+        if user_answer:
+            difficulty_row["attempted"] += 1
+
+        if status == "correct":
+            difficulty_row["correct"] += 1
+
+        # =================================================
+        # REVIEW DATA
+        # =================================================
+
+        review.append({
+
+            "number": i + 1,
+
+            "question": question.get(
+                "question",
+                ""
+            ),
+
+            "option_a": question.get(
+                "option_a",
+                ""
+            ),
+
+            "option_b": question.get(
+                "option_b",
+                ""
+            ),
+
+            "option_c": question.get(
+                "option_c",
+                ""
+            ),
+
+            "option_d": question.get(
+                "option_d",
+                ""
+            ),
+
+            "user_answer": user_answer,
+
+            "correct_answer": displayed_answer,
+
+            "marks": question.get(
+                "marks",
+                1
+            ),
+
+            "question_type": question.get(
+                "question_type",
+                "mcq"
+            ),
+
+            "subject": question.get(
+                "subject",
+                ""
+            ),
+
+            "topic": question.get(
+                "topic",
+                ""
+            ),
+
+            "difficulty_level": question.get(
+                "difficulty_level",
+                ""
+            ),
+
+            "explanation": question.get(
+                "explanation",
+                ""
+            ),
+
+            "solution": question.get(
+                "solution",
+                ""
+            ),
+
+            "status": status
+
+        })
+
+    # =====================================================
+    # PERCENTAGE
+    # =====================================================
+
+    percentage = round(
+
+        (score / maximum_score) * 100,
+
+        2
+
+    ) if maximum_score else 0
+
+    # =====================================================
+    # AVERAGE QUESTION TIME
+    # =====================================================
+
+    average_time = round(
+
+        sum(
+
+            questions[question_index].get(
+                "estimated_time",
+                0
+            )
+
+            for question_index in question_order
+
+        ) / total,
+
+        2
+
+    ) if total else 0
+
+    # =====================================================
+    # MOCK MODE
+    # =====================================================
+
+    current_mode = session.get(
+        "mock_mode_" + exam_slug,
+        "mixed"
+    )
+
+    if exam_slug == "gate":
+
+        recommended_mode = next_difficulty_mode(
+            percentage,
+            current_mode
+        )
+
+    else:
+
+        recommended_mode = current_mode
+
+    # =====================================================
+    # PROFESSIONAL MOCK TEST ANALYTICS
+    # =====================================================
+
+    attempted = correct + wrong
+
+    accuracy = round(
+
+        (correct / attempted) * 100,
+
+        2
+
+    ) if attempted else 0
+
+    attempt_rate = round(
+
+        (attempted / total) * 100,
+
+        2
+
+    ) if total else 0
+
+    # =====================================================
+    # PERFORMANCE LEVEL
+    # =====================================================
+
+    if percentage >= 85:
+
+        performance_level = "Excellent"
+
+        performance_message = (
+            "Outstanding performance. "
+            "You are ready for a higher-level challenge."
+        )
+
+    elif percentage >= 70:
+
+        performance_level = "Strong"
+
+        performance_message = (
+            "Strong performance. "
+            "Continue practicing difficult and mixed questions."
+        )
+
+    elif percentage >= 55:
+
+        performance_level = "Good"
+
+        performance_message = (
+            "Good progress. "
+            "Focus on improving accuracy and weak topics."
+        )
+
+    elif percentage >= 40:
+
+        performance_level = "Needs Improvement"
+
+        performance_message = (
+            "Revise weak concepts and practice more questions "
+            "before moving to advanced tests."
+        )
+
+    else:
+
+        performance_level = "Beginner"
+
+        performance_message = (
+            "Build your fundamentals first and gradually "
+            "increase question difficulty."
+        )
+
+    # =====================================================
+    # STRONGEST / WEAKEST SUBJECT
+    # =====================================================
+
+    strongest_subject = "Not enough data"
+    weakest_subject = "Not enough data"
+
+    if subject_stats:
+
+        subject_scores = []
+
+        for name, data in subject_stats.items():
+
+            subject_percentage = round(
+
+                (
+                    data["correct"]
+                    /
+                    data["total"]
+                ) * 100,
+
+                2
+
+            ) if data["total"] else 0
+
+            subject_scores.append(
+                (
+                    name,
+                    subject_percentage
+                )
+            )
+
+        subject_scores.sort(
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        if subject_scores:
+
+            strongest_subject = subject_scores[0][0]
+
+            weakest_subject = subject_scores[-1][0]
+
+    # =====================================================
+    # STRONGEST / WEAKEST TOPIC
+    # =====================================================
+
+    strongest_topic = "Not enough data"
+    weakest_topic = "Not enough data"
+
+    if topic_stats:
+
+        topic_scores = []
+
+        for name, data in topic_stats.items():
+
+            topic_percentage = round(
+
+                (
+                    data["correct"]
+                    /
+                    data["total"]
+                ) * 100,
+
+                2
+
+            ) if data["total"] else 0
+
+            topic_scores.append(
+                (
+                    name,
+                    topic_percentage
+                )
+            )
+
+        topic_scores.sort(
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        if topic_scores:
+
+            strongest_topic = topic_scores[0][0]
+
+            weakest_topic = topic_scores[-1][0]
+
+    # =====================================================
+    # SMART RECOMMENDATION
+    # =====================================================
+
+    if percentage >= 85:
+
+        smart_recommendation = (
+            "You performed very well. "
+            "Try a higher difficulty mock test "
+            "and focus on maintaining accuracy "
+            "under time pressure."
+        )
+
+    elif percentage >= 70:
+
+        smart_recommendation = (
+            f"Your performance is strong. "
+            f"Revise {weakest_subject} "
+            f"and practice more questions "
+            f"from {weakest_topic}."
+        )
+
+    elif percentage >= 55:
+
+        smart_recommendation = (
+            f"Your fundamentals are developing. "
+            f"Give extra attention to {weakest_subject} "
+            f"and strengthen the topic {weakest_topic}."
+        )
+
+    else:
+
+        smart_recommendation = (
+            f"Focus on fundamentals before attempting "
+            f"advanced tests. Start with {weakest_subject} "
+            f"and revise {weakest_topic}."
+        )
+
+    # =====================================================
+    # NEXT MOCK RECOMMENDATION
+    # =====================================================
+
+    if exam_slug == "gate":
+
+        if percentage >= 85:
+
+            next_test_recommendation = (
+                "Advanced / L5–L7 Mock"
+            )
+
+        elif percentage >= 70:
+
+            next_test_recommendation = (
+                "Hard Mixed Mock"
+            )
+
+        elif percentage >= 55:
+
+            next_test_recommendation = (
+                "Moderate Mixed Mock"
+            )
+
+        else:
+
+            next_test_recommendation = (
+                "Foundation / L1–L3 Mock"
+            )
+
+    else:
+
+        if percentage >= 75:
+
+            next_test_recommendation = (
+                "Higher Difficulty Mock"
+            )
+
+        elif percentage >= 50:
+
+            next_test_recommendation = (
+                "Standard Mixed Mock"
+            )
+
+        else:
+
+            next_test_recommendation = (
+                "Foundation Practice Mock"
+            )
+
+    # =====================================================
+    # EXAM NAMES
+    # =====================================================
+
+    exam_names = {
+
+        "gate": "GATE",
+
+        "ssc-je": "SSC JE",
+
+        "je-ae": "JE / AE",
+
+        "diploma": "Diploma Civil",
+
+        "btech": "B.Tech Civil",
+
+        "government": "Government Exams"
+
+    }
+
+    exam_name = exam_names.get(
+
+        exam_slug,
+
+        exam_slug.replace(
+            "-",
+            " "
+        ).upper()
+
+    )
+
+    # =====================================================
+    # SAVE MOCK TEST RESULT
+    # =====================================================
+
+    attempt_id = session.get(
+        "mock_attempt_" + exam_slug
+    )
+
+    if attempt_id:
+
+        connection = get_db_connection()
+
+        existing_result = connection.execute(
+
+            """
+            SELECT id
+            FROM mock_test_results
+            WHERE attempt_id = ?
+            """,
+
+            (attempt_id,)
+
+        ).fetchone()
+
+        if existing_result is None:
+
+            connection.execute(
+
+                """
+                INSERT INTO mock_test_results
+                (
+                    student_id,
+                    exam_slug,
+                    exam_name,
+                    total_questions,
+                    correct,
+                    wrong,
+                    unanswered,
+                    score,
+                    percentage,
+                    attempt_id
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+
+                (
+                    session["student_id"],
+
+                    exam_slug,
+
+                    exam_name,
+
+                    total,
+
+                    correct,
+
+                    wrong,
+
+                    unanswered,
+
+                    score,
+
+                    percentage,
+
+                    attempt_id
+                )
+
+            )
+
+            connection.commit()
+            session.pop("mock_feedback_pending_exam", None)
+            session[feedback_key] = True
+
+        connection.close()
+
+    # =====================================================
+    # SHOW RESULT PAGE
+    # =====================================================
+
+    return render_template(
+
+        "mock_result.html",
+
+        student_name=session.get(
+            "student_name",
+            ""
+        ),
+
+        student_education=session.get(
+            "student_education",
+            ""
+        ),
+
+        student_email=session.get(
+            "student_email",
+            ""
+        ),
+
+        exam_name=exam_name,
+
+        exam_slug=exam_slug,
+
+        total=total,
+
+        maximum_score=maximum_score,
+
+        correct=correct,
+
+        wrong=wrong,
+
+        unanswered=unanswered,
+
+        score=score,
+
+        percentage=percentage,
+
+        review=review,
+
+        feedback_submitted=feedback_submitted,
+
+        average_time=average_time,
+
+        subject_stats=subject_stats,
+
+        topic_stats=topic_stats,
+
+        difficulty_stats=difficulty_stats,
+
+        current_mode=current_mode,
+
+        recommended_mode=recommended_mode,
+
+        attempted=attempted,
+
+        accuracy=accuracy,
+
+        attempt_rate=attempt_rate,
+
+        performance_level=performance_level,
+
+        performance_message=performance_message,
+
+        strongest_subject=strongest_subject,
+
+        weakest_subject=weakest_subject,
+
+        strongest_topic=strongest_topic,
+
+        weakest_topic=weakest_topic,
+
+        smart_recommendation=smart_recommendation,
+
+        next_test_recommendation=next_test_recommendation
+
+    )
+
+
+# ==============================
+# ERROR HANDLERS
+# ==============================
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template(
+        "error.html",
+        error_code=404,
+        error_title="Page Not Found",
+        error_message="The page you requested does not exist."
+    ), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template(
+        "error.html",
+        error_code=500,
+        error_title="Something went wrong",
+        error_message="The page could not be opened. Please return to the dashboard and try again."
+    ), 500
+
+
+# =========================================================
+# SUBJECT MCQ
+# =========================================================
+
+@app.route(
+    "/subject-practice/<subject_slug>",
+    methods=["GET", "POST"]
+)
+def subject_mcq(subject_slug):
+
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    if subject_slug not in SUBJECT_QUESTIONS:
+        return "Subject not available", 404
+
+    questions = SUBJECT_QUESTIONS[subject_slug]
+
+    session_key_index = (
+        "subject_index_" + subject_slug
+    )
+
+    session_key_score = (
+        "subject_score_" + subject_slug
+    )
+
+    if session_key_index not in session:
+        session[session_key_index] = 0
+
+    if session_key_score not in session:
+        session[session_key_score] = 0
+
+    index = session[session_key_index]
+
+    if index >= len(questions):
+
+        index = 0
+
+        session[session_key_index] = 0
+
+        session[session_key_score] = 0
+
+    question = questions[index]
+
+    result = None
+
+    if request.method == "POST":
+
+        answer = request.form.get(
+            "answer"
+        )
+
+        if answer == question["correct_answer"]:
+
+            result = "Correct"
+
+            session[session_key_score] += 1
+
+        else:
+
+            result = "Wrong"
+
+    # =====================================================
+    # SUBJECT NAMES
+    # =====================================================
+
+    subject_names = {
+
+        "engineering-mathematics":
+            "Engineering Mathematics",
+
+        "strength-of-materials":
+            "Strength of Materials",
+
+        "concrete-technology":
+            "Concrete Technology",
+
+        "structural-engineering":
+            "Structural Engineering",
+
+        "geotechnical":
+            "Geotechnical Engineering",
+
+        "fluid-mechanics":
+            "Fluid Mechanics",
+
+        "transportation":
+            "Transportation Engineering",
+
+        "environmental":
+            "Environmental Engineering",
+
+        "surveying":
+            "Surveying",
+
+        "construction-materials":
+            "Construction Materials",
+
+        "construction-management":
+            "Construction Management"
+
+    }
+
+    subject_name = subject_names.get(
+
+        subject_slug,
+
+        subject_slug.replace(
+            "-",
+            " "
+        ).title()
+
+    )
+
+    return render_template(
+
+        "subject_mcq.html",
+
+        student_name=session.get(
+            "student_name",
+            ""
+        ),
+
+        student_education=session.get(
+            "student_education",
+            ""
+        ),
+
+        subject_name=subject_name,
+
+        subject_slug=subject_slug,
+
+        question=question,
+
+        question_number=index + 1,
+
+        total_questions=len(questions),
+
+        score=session[session_key_score],
+
+        result=result
+
+    )
+
+
+# =========================================================
+# SUBJECT MCQ NEXT
+# =========================================================
+
+@app.route(
+    "/subject-practice/<subject_slug>/next"
+)
+def subject_mcq_next(subject_slug):
+
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    if subject_slug not in SUBJECT_QUESTIONS:
+        return "Subject not available", 404
+
+    session_key_index = (
+        "subject_index_" + subject_slug
+    )
+
+    session_key_score = (
+        "subject_score_" + subject_slug
+    )
+
+    if session_key_index not in session:
+        session[session_key_index] = 0
+
+    if session_key_score not in session:
+        session[session_key_score] = 0
+
+    session[session_key_index] += 1
+
+    if session[session_key_index] >= len(
+        SUBJECT_QUESTIONS[subject_slug]
+    ):
+
+        session[session_key_index] = 0
+
+        session[session_key_score] = 0
+
+    return redirect(
+
+        url_for(
+            "subject_mcq",
+            subject_slug=subject_slug
+        )
+
+    )
+
+
+# =========================================================
+# FORGOT PASSWORD / PASSWORD RESET
+# =========================================================
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = str(request.form.get("email", "")).strip().lower()
+        if not email:
+            return render_template("forgot_password.html", error="Please enter your registered email address.")
+
+        connection = get_db_connection()
+        student = connection.execute("SELECT id, email FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+        if not student:
+            connection.close()
+            return render_template("forgot_password.html", message="If this email is registered, a password reset code has been sent.")
+
+        code = str(secrets.randbelow(900000) + 100000)
+        connection.execute("UPDATE students SET password_reset_code=?, password_reset_expires_at=? WHERE id=?", (code, _verification_expiry(), student["id"]))
+        connection.commit()
+        connection.close()
+
+        try:
+            sent = _send_verification_email(email, code, subject="Civil Career - Password Reset Code", purpose="password reset")
+        except Exception as exc:
+            print("[PASSWORD RESET EMAIL ERROR]", type(exc).__name__, exc, flush=True)
+            sent = False
+        if not sent:
+            return render_template("forgot_password.html", error="Password reset email could not be sent. Please try again later.")
+        return redirect(url_for("reset_password", email=email))
+
+    return render_template("forgot_password.html")
+
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+    email = str(request.form.get("email", request.args.get("email", ""))).strip().lower()
+    if request.method == "POST":
+        code = str(request.form.get("code", "")).strip()
+        password = str(request.form.get("password", ""))
+        confirm_password = str(request.form.get("confirm_password", ""))
+        if not email or not code or not password or not confirm_password:
+            return render_template("reset_password.html", error="All fields are required.", email=email)
+        if len(password) < 6:
+            return render_template("reset_password.html", error="Password must be at least 6 characters.", email=email)
+        if password != confirm_password:
+            return render_template("reset_password.html", error="Passwords do not match.", email=email)
+
+        connection = get_db_connection()
+        student = connection.execute("SELECT id, password_reset_code, password_reset_expires_at FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+        if not student:
+            connection.close()
+            return render_template("reset_password.html", error="Invalid or expired reset request.", email=email)
+
+        expires = student["password_reset_expires_at"]
+        try:
+            expired = not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow()
+        except ValueError:
+            expired = True
+        if expired or code != str(student["password_reset_code"] or ""):
+            connection.close()
+            return render_template("reset_password.html", error="Invalid or expired reset code.", email=email)
+
+        connection.execute("UPDATE students SET password=?, password_reset_code=NULL, password_reset_expires_at=NULL WHERE id=?", (generate_password_hash(password), student["id"]))
+        connection.commit()
+        connection.close()
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html", email=email)
+
+# =========================================================
+# REGISTER
+# =========================================================
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        name = str(request.form.get("name", "")).strip()
+        email = str(request.form.get("email", "")).strip().lower()
+        education = str(request.form.get("education", "")).strip()
+        password = str(request.form.get("password", ""))
+        confirm_password = str(request.form.get("confirm_password", ""))
+        country_code = str(request.form.get("mobile_country_code", "")).strip()
+        mobile = re.sub(r"\D", "", str(request.form.get("mobile_number", "")))
+
+        if not all([name, email, education, password, confirm_password, country_code, mobile]):
+            return render_template("register.html", error="All fields including country and mobile number are required.")
+        if password != confirm_password:
+            return render_template("register.html", error="Passwords do not match.")
+        if len(mobile) < 7 or len(mobile) > 15:
+            return render_template("register.html", error="Enter a valid mobile number.")
+
+        email_code = str(secrets.randbelow(900000) + 100000)
+        mobile_code = str(secrets.randbelow(900000) + 100000)
+        expires = _verification_expiry()
+
+        connection = get_db_connection()
+        try:
+            connection.execute(
+                """INSERT INTO students
+                (name, email, education, password, user_id, mobile_country_code, mobile_number,
+                 email_verified, mobile_verified, email_verification_code,
+                 mobile_verification_code, verification_expires_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)""",
+                (name, email, education, generate_password_hash(password),
+                 _generate_user_id(connection, name), country_code, mobile,
+                 email_code, mobile_code, expires)
+            )
+            connection.commit()
+        except psycopg_errors.UniqueViolation:
+            connection.rollback()
+            connection.close()
+            return render_template("register.html", error="This email is already registered.")
+        student_row = connection.execute(
+            "SELECT id FROM students WHERE lower(trim(email))=? LIMIT 1",
+            (email,)
+        ).fetchone()
+        pending_student_id = student_row["id"] if student_row else None
+        connection.close()
+
+        if not pending_student_id:
+            return render_template("register.html", error="Registration could not be completed. Please try again.")
+
+        try:
+            email_sent = _send_verification_email(email, email_code)
+        except Exception as exc:
+            print(f"[VERIFICATION EMAIL ERROR] {type(exc).__name__}: {exc}", flush=True)
+            email_sent = False
+
+        try:
+            sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
+        except Exception as exc:
+            print(f"[VERIFICATION SMS ERROR] {type(exc).__name__}: {exc}", flush=True)
+            sms_sent = False
+
+        # Keep the account and OTPs even when an external delivery provider is
+        # unavailable. The verification page can then use the generated code
+        # through the local fallback until email/SMS delivery is configured.
+        session["verification_email"] = email
+        session["pending_verification_student_id"] = pending_student_id
+        session["verification_fallback_email_code"] = email_code if not email_sent else ""
+        session["verification_fallback_mobile_code"] = mobile_code if not sms_sent else ""
+
+        failed_services = []
+        if not email_sent:
+            failed_services.append("email")
+        if not sms_sent:
+            failed_services.append("mobile SMS")
+
+        if failed_services:
+            failed = " and ".join(failed_services)
+            connection = get_db_connection()
+            connection.execute(
+                """UPDATE students
+                   SET email_verification_code=NULL,
+                       mobile_verification_code=NULL,
+                       verification_expires_at=NULL
+                   WHERE id=?""",
+                (student_id,)
+            )
+            connection.commit()
+            connection.close()
+            session.pop("verification_fallback_email_code", None)
+            session.pop("verification_fallback_mobile_code", None)
+            return render_template(
+                "register.html",
+                error=(
+                    f"Verification could not be sent to your {failed}. "
+                    "Please check the email/SMS delivery configuration and try registration again."
+                )
+            )
+
+        return redirect(url_for("verify_account", email=email))
+
+    return render_template("register.html")
+
+
+@app.route("/verify-account", methods=["GET", "POST"])
+def verify_account():
+    if request.method == "POST":
+        email = str(
+            request.form.get("email", "")
+            or session.get("verification_email", "")
+            or session.get("student_email", "")
+        ).strip().lower()
+        verification_type = str(request.form.get("verification_type", "")).strip().lower()
+        code = str(request.form.get("verification_code", "")).strip()
+
+        if verification_type not in {"email", "mobile"}:
+            return render_template(
+                "verify_account.html",
+                error="Select email or mobile verification.",
+                email=email
+            )
+
+        connection = get_db_connection()
+        pending_id = session.get("pending_verification_student_id") or session.get("student_id")
+        student = None
+
+        if pending_id:
+            student = connection.execute(
+                "SELECT * FROM students WHERE id=? LIMIT 1",
+                (pending_id,)
+            ).fetchone()
+
+        if not student and email:
+            student = connection.execute(
+                "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
+                (email,)
+            ).fetchone()
+
+        if not student:
+            connection.close()
+            return render_template(
+                "verify_account.html",
+                error="Verification session expired. Please register again or request verification.",
+                email=email
+            )
+
+        email = str(student["email"] or "").strip().lower()
+
+        expires = student["verification_expires_at"]
+        try:
+            expired = not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow()
+        except (TypeError, ValueError):
+            expired = True
+
+        if expired:
+            connection.close()
+            return render_template(
+                "verify_account.html",
+                error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code expired. Please resend the code.",
+                email=email,
+                email_verified=bool(student["email_verified"]),
+                mobile_verified=bool(student["mobile_verified"]),
+                fallback_email_code=session.get("verification_fallback_email_code", ""),
+                fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+            )
+
+        if verification_type == "email":
+            if int(student["email_verified"] or 0) == 1:
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    message="Email is already verified.",
+                    email=email,
+                    email_verified=True,
+                    mobile_verified=bool(student["mobile_verified"]),
+                    fallback_email_code=session.get("verification_fallback_email_code", ""),
+                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+                )
+
+            if code != str(student["email_verification_code"] or ""):
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    error="Incorrect email verification code.",
+                    email=email,
+                    email_verified=False,
+                    mobile_verified=bool(student["mobile_verified"]),
+                    fallback_email_code=session.get("verification_fallback_email_code", ""),
+                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+                )
+
+            connection.execute(
+                """UPDATE students
+                   SET email_verified=1, email_verification_code=NULL
+                   WHERE id=?""",
+                (student["id"],)
+            )
+            session["verification_fallback_email_code"] = ""
+            email_verified = True
+            mobile_verified = bool(student["mobile_verified"])
+
+        else:
+            if int(student["mobile_verified"] or 0) == 1:
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    message="Mobile number is already verified.",
+                    email=email,
+                    email_verified=bool(student["email_verified"]),
+                    mobile_verified=True
+                )
+
+            if code != str(student["mobile_verification_code"] or ""):
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    error="Incorrect mobile verification code.",
+                    email=email,
+                    email_verified=bool(student["email_verified"]),
+                    mobile_verified=False,
+                    fallback_email_code=session.get("verification_fallback_email_code", ""),
+                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+                )
+
+            connection.execute(
+                """UPDATE students
+                   SET mobile_verified=1, mobile_verification_code=NULL
+                   WHERE id=?""",
+                (student["id"],)
+            )
+            session["verification_fallback_mobile_code"] = ""
+            email_verified = bool(student["email_verified"])
+            mobile_verified = True
+
+        # Keep the expiry until both verifications are complete.
+        if email_verified and mobile_verified:
+            connection.execute(
+                "UPDATE students SET verification_expires_at=NULL WHERE id=?",
+                (student["id"],)
+            )
+
+        connection.commit()
+        connection.close()
+
+        if email_verified and mobile_verified:
+            session["student_id"] = student["id"]
+            session["student_name"] = student["name"]
+            session["student_email"] = student["email"]
+            session["student_education"] = student["education"]
+            session.pop("verification_email", None)
+            session.pop("pending_verification_student_id", None)
+            session.pop("verification_fallback_email_code", None)
+            session.pop("verification_fallback_mobile_code", None)
+            return redirect(url_for("profile", required=1))
+
+        return render_template(
+            "verify_account.html",
+            message=f"{'Email' if verification_type == 'email' else 'Mobile number'} verified successfully. Please verify the other one.",
+            email=email,
+            email_verified=email_verified,
+            mobile_verified=mobile_verified,
+            fallback_email_code=session.get("verification_fallback_email_code", ""),
+            fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+        )
+
+    email = str(
+        request.args.get("email", "")
+        or session.get("verification_email", "")
+        or session.get("student_email", "")
+    ).strip().lower()
+
+    connection = get_db_connection()
+    pending_id = session.get("pending_verification_student_id") or session.get("student_id")
+    student = None
+    if pending_id:
+        student = connection.execute(
+            "SELECT email,email_verified,mobile_verified FROM students WHERE id=? LIMIT 1",
+            (pending_id,)
+        ).fetchone()
+    if not student and email:
+        student = connection.execute(
+            "SELECT email,email_verified,mobile_verified FROM students WHERE lower(trim(email))=? LIMIT 1",
+            (email,)
+        ).fetchone()
+    connection.close()
+
+    if student:
+        email = str(student["email"] or "").strip().lower()
+
+    fallback_email_code = session.get("verification_fallback_email_code", "")
+    fallback_mobile_code = session.get("verification_fallback_mobile_code", "")
+
+    return render_template(
+        "verify_account.html",
+        email=email,
+        mobile_number=session.get("verification_mobile", ""),
+        email_verified=bool(student and student["email_verified"]),
+        mobile_verified=bool(student and student["mobile_verified"]),
+        fallback_email_code=fallback_email_code,
+        fallback_mobile_code=fallback_mobile_code
+    )
+
+
+@app.route("/verify-account/resend", methods=["POST"])
+def resend_verification():
+    email = str(
+        request.form.get("email", "")
+        or session.get("verification_email", "")
+        or session.get("student_email", "")
+    ).strip().lower()
+    verification_type = str(request.form.get("verification_type", "")).strip().lower()
+
+    if verification_type not in {"email", "mobile"}:
+        return render_template(
+            "verify_account.html",
+            error="Select email or mobile verification.",
+            email=email
+        )
+
+    connection = get_db_connection()
+    pending_id = session.get("pending_verification_student_id") or session.get("student_id")
+    student = None
+
+    if pending_id:
+        student = connection.execute(
+            "SELECT * FROM students WHERE id=? LIMIT 1",
+            (pending_id,)
+        ).fetchone()
+
+    if not student and email:
+        student = connection.execute(
+            "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
+            (email,)
+        ).fetchone()
+
+    if not student:
+        connection.close()
+        return render_template(
+            "verify_account.html",
+            error="Verification session expired. Please register again or request verification.",
+            email=email
+        )
+
+    email = str(student["email"] or "").strip().lower()
+    code = str(secrets.randbelow(900000) + 100000)
+    expires = _verification_expiry()
+
+    if verification_type == "email":
+        connection.execute(
+            """UPDATE students
+               SET email_verification_code=?, verification_expires_at=?
+               WHERE id=?""",
+            (code, expires, student["id"])
+        )
+    else:
+        connection.execute(
+            """UPDATE students
+               SET mobile_verification_code=?, verification_expires_at=?
+               WHERE id=?""",
+            (code, expires, student["id"])
+        )
+
+    connection.commit()
+    connection.close()
+
+    try:
+        if verification_type == "email":
+            sent = _send_verification_email(email, code)
+        else:
+            sent = _send_verification_sms(
+                student["mobile_country_code"],
+                student["mobile_number"],
+                code
+            )
+    except Exception as exc:
+        print(f"[VERIFICATION RESEND ERROR] {type(exc).__name__}: {exc}", flush=True)
+        sent = False
+
+    session["verification_email"] = email
+    session["pending_verification_student_id"] = student["id"]
+    session["verification_mobile"] = f"{student['mobile_country_code']} {student['mobile_number']}"
+
+    if verification_type == "email":
+        session["verification_fallback_email_code"] = code if not sent else ""
+    else:
+        session["verification_fallback_mobile_code"] = code if not sent else ""
+
+    if not sent:
+        channel = "email" if verification_type == "email" else "mobile SMS"
+        return render_template(
+            "verify_account.html",
+            message=(
+                f"New {channel} verification code was generated. "
+                f"{channel.title()} delivery is currently unavailable, so use the generated code shown below."
+            ),
+            email=email,
+            email_verified=bool(student["email_verified"]),
+            mobile_verified=bool(student["mobile_verified"]),
+            fallback_email_code=session.get("verification_fallback_email_code", ""),
+            fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+        )
+
+    return render_template(
+        "verify_account.html",
+        message=f"New {'email' if verification_type == 'email' else 'mobile'} verification code sent.",
+        email=email,
+        email_verified=bool(student["email_verified"]),
+        mobile_verified=bool(student["mobile_verified"]),
+        fallback_email_code="",
+        fallback_mobile_code=""
+    )
+
+
+
+# =========================================================
+# PROFILE ACCOUNT SETTINGS
+# =========================================================
+
+@app.route("/profile/change-password", methods=["POST"])
+def profile_change_password():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    current = str(request.form.get("current_password", ""))
+    new_password = str(request.form.get("new_password", ""))
+    confirm = str(request.form.get("confirm_password", ""))
+
+    connection = get_db_connection()
+    student = connection.execute("SELECT password FROM students WHERE id=?", (session["student_id"],)).fetchone()
+
+    valid = False
+    try:
+        valid = bool(student and check_password_hash(str(student["password"] or ""), current))
+    except (ValueError, TypeError):
+        valid = bool(student and str(student["password"] or "") == current)
+
+    if not valid:
+        connection.close()
+        return redirect(url_for("profile", error="Current password is incorrect"))
+
+    if len(new_password) < 6 or new_password != confirm:
+        connection.close()
+        return redirect(url_for("profile", error="New passwords must match and contain at least 6 characters"))
+
+    connection.execute(
+        "UPDATE students SET password=? WHERE id=?",
+        (generate_password_hash(new_password), session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+    return redirect(url_for("profile", message="Password changed successfully"))
+
+
+@app.route("/profile/change-email", methods=["POST"])
+def profile_change_email():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    new_email = str(request.form.get("new_email", "")).strip().lower()
+    if not new_email:
+        return redirect(url_for("profile", error="Enter a new email address"))
+
+    connection = get_db_connection()
+    current_student = connection.execute(
+        "SELECT email FROM students WHERE id=?",
+        (session["student_id"],)
+    ).fetchone()
+    current_email = str(current_student["email"] or "").strip().lower() if current_student else ""
+
+    # Do not treat the user's existing email as a duplicate.
+    if new_email == current_email:
+        connection.close()
+        return redirect(url_for("profile", message="This is already your current email address."))
+
+    existing = connection.execute(
+        "SELECT id FROM students WHERE lower(trim(email))=? AND id<>?",
+        (new_email, session["student_id"])
+    ).fetchone()
+    if existing:
+        connection.close()
+        return redirect(url_for("profile", error="That email address is already in use. Please use another email address."))
+
+    email_code = str(secrets.randbelow(900000) + 100000)
+    mobile_code = str(secrets.randbelow(900000) + 100000)
+    connection.execute(
+        """UPDATE students SET email=?, email_verified=0, mobile_verified=0,
+           email_verification_code=?, mobile_verification_code=?,
+           verification_expires_at=? WHERE id=?""",
+        (new_email, email_code, mobile_code, _verification_expiry(), session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+
+    # Re-send verification for the changed email and existing mobile.
+    read_connection = get_db_connection()
+    student = read_connection.execute(
+        "SELECT mobile_country_code,mobile_number FROM students WHERE id=?",
+        (session["student_id"],)
+    ).fetchone()
+    read_connection.close()
+    try:
+        email_sent = _send_verification_email(new_email, email_code)
+        sms_sent = _send_verification_sms(student["mobile_country_code"], student["mobile_number"], mobile_code)
+    except Exception as exc:
+        print("[EMAIL CHANGE VERIFICATION ERROR]", type(exc).__name__, exc, flush=True)
+        email_sent = sms_sent = False
+
+    if not email_sent or not sms_sent:
+        return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
+    session["student_email"] = new_email
+    session["verification_email"] = new_email
+    return redirect(url_for("verify_account", email=new_email))
+
+
+@app.route("/profile/change-mobile", methods=["POST"])
+def profile_change_mobile():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    country_code = str(request.form.get("mobile_country_code", "")).strip()
+    mobile = re.sub(r"\D", "", str(request.form.get("mobile_number", "")))
+    if not country_code or len(mobile) < 7 or len(mobile) > 15:
+        return redirect(url_for("profile", error="Enter a valid country code and mobile number"))
+
+    connection = get_db_connection()
+    email = connection.execute("SELECT email FROM students WHERE id=?", (session["student_id"],)).fetchone()["email"]
+    email_code = str(secrets.randbelow(900000) + 100000)
+    mobile_code = str(secrets.randbelow(900000) + 100000)
+    connection.execute(
+        """UPDATE students SET mobile_country_code=?, mobile_number=?,
+           email_verified=0, mobile_verified=0,
+           email_verification_code=?, mobile_verification_code=?,
+           verification_expires_at=? WHERE id=?""",
+        (country_code, mobile, email_code, mobile_code, _verification_expiry(), session["student_id"])
+    )
+    connection.commit()
+    connection.close()
+
+    try:
+        email_sent = _send_verification_email(email, email_code)
+        sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
+    except Exception as exc:
+        print("[MOBILE CHANGE VERIFICATION ERROR]", type(exc).__name__, exc, flush=True)
+        email_sent = sms_sent = False
+
+    if not email_sent or not sms_sent:
+        return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
+    session["verification_email"] = email
+    return redirect(url_for("verify_account", email=email))
+
+
+# =========================================================
+# REQUIRED MOCK-TEST FEEDBACK GUARD
+# =========================================================
+
+@app.before_request
+def enforce_mock_feedback():
+    if "student_id" not in session:
+        return None
+
+    pending_exam = session.get("mock_feedback_pending_exam")
+    if not pending_exam:
+        return None
+
+    allowed_endpoints = {
+        "static",
+        "mock_test_result",
+        "logout",
+        "logout_feedback",
+    }
+    if request.endpoint in allowed_endpoints:
+        return None
+
+    return redirect(url_for("mock_test_result", exam_slug=pending_exam))
+
+
+# =========================================================
+# LOGOUT FEEDBACK
+# =========================================================
+
+@app.route("/logout-feedback", methods=["GET", "POST"])
+def logout_feedback():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    error = None
+
+    if request.method == "POST":
+        rating = request.form.get("rating", type=int)
+        comments = str(request.form.get("comments", "")).strip()
+
+        if rating not in range(1, 6):
+            error = "Please select a rating from 1 to 5."
+        elif not comments:
+            error = "Please enter your feedback before logging out."
+        else:
+            connection = get_db_connection()
+            connection.execute(
+                """
+                INSERT INTO mock_test_feedback
+                (student_id, exam_slug, rating, comments)
+                VALUES (?, ?, ?, ?)
+                """,
+                (session["student_id"], "logout", rating, comments)
+            )
+            connection.commit()
+            connection.close()
+            session.clear()
+            return redirect(url_for("login"))
+
+    return render_template(
+        "logout_feedback.html",
+        student_name=session.get("student_name", ""),
+        error=error
+    )
+
+
+# =========================================================
+# LOGOUT
+# =========================================================
+
+@app.route("/logout")
+def logout():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    return redirect(url_for("logout_feedback"))
+
+
+# =========================================================
+# START APPLICATION
+# =========================================================
+
+if __name__ == "__main__":
+
+    create_database()
+
+    app.run(
+        debug=True
+    )

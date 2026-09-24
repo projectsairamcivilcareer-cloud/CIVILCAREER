@@ -1116,7 +1116,7 @@ def dashboard():
 
     verified_jobs = connection.execute(
         """
-        SELECT application_last_date, exam_date, status
+        SELECT application_last_date, application_last_datetime, exam_date, status
         FROM government_jobs
         WHERE notification_url != '' AND apply_url != '' AND source != ''
         """
@@ -1125,7 +1125,10 @@ def dashboard():
     job_counts = {"NEW": 0, "OPEN": 0, "CLOSING SOON": 0}
     for job in verified_jobs:
         status = government_job_status(
-            job["application_last_date"], job["exam_date"], job["status"]
+            job["application_last_date"],
+            job["exam_date"],
+            job["status"],
+            job.get("application_last_datetime")
         )
         if status in job_counts:
             job_counts[status] += 1
@@ -1261,23 +1264,47 @@ def government():
 # GOVERNMENT JOBS
 # ==============================
 
-def government_job_status(last_date, exam_date, stored_status):
+def government_job_status(last_date, exam_date, stored_status, last_datetime=None):
     if stored_status in {"RESULT", "ADMIT CARD", "CANCELLED"}:
         return stored_status
-    today = date.today()
+
+    now = datetime.now()
+    today = now.date()
+
     try:
-        if last_date:
-            closing = datetime.strptime(last_date, "%Y-%m-%d").date()
+        # Use the exact application deadline when available.
+        if last_datetime:
+            deadline = None
+            raw_deadline = str(last_datetime).strip()
+            for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M", "%Y-%m-%dT%H:%M:%S"):
+                try:
+                    deadline = datetime.strptime(raw_deadline, fmt)
+                    break
+                except ValueError:
+                    continue
+
+            if deadline is not None:
+                if deadline < now:
+                    return "CLOSED"
+                if deadline <= now + timedelta(days=7):
+                    return "CLOSING SOON"
+
+        # Backward-compatible fallback for older records that only have a date.
+        if not last_datetime and last_date:
+            closing = datetime.strptime(str(last_date).strip(), "%Y-%m-%d").date()
             if closing < today:
                 return "CLOSED"
             if closing <= today + timedelta(days=7):
                 return "CLOSING SOON"
+
         if exam_date:
-            exam = datetime.strptime(exam_date, "%Y-%m-%d").date()
+            exam = datetime.strptime(str(exam_date).strip(), "%Y-%m-%d").date()
             if exam >= today:
                 return "EXAM DATE ANNOUNCED"
+
     except ValueError:
         return "UNVERIFIED"
+
     return stored_status if stored_status in {"NEW", "OPEN"} else "UNVERIFIED"
 
 
@@ -1482,7 +1509,10 @@ def government_job_detail(job_id):
         return "Government job not available", 404
     job = dict(job)
     job["display_status"] = government_job_status(
-        job["application_last_date"], job["exam_date"], job["status"]
+        job["application_last_date"],
+        job["exam_date"],
+        job["status"],
+        job.get("application_last_datetime")
     )
     # Do not expose closed government-job notifications through direct links.
     if job["display_status"] == "CLOSED":
@@ -1568,7 +1598,14 @@ def government_jobs():
         """
         SELECT * FROM government_jobs
         WHERE notification_url != '' AND apply_url != '' AND source != ''
-        ORDER BY application_last_date IS NULL, application_last_date ASC
+          AND vacancies != ''
+          AND qualification != ''
+          AND job_role_responsibilities != ''
+          AND application_start IS NOT NULL AND application_start != ''
+          AND application_last_datetime != ''
+          AND (salary != '' OR pay_level != '')
+          AND application_fee != ''
+        ORDER BY application_last_datetime IS NULL, application_last_datetime ASC
         """
     ).fetchall()
     connection.close()
@@ -1816,7 +1853,7 @@ def notifications():
     rows = connection.execute(
         """
         SELECT id, organization, post_name, application_last_date,
-               exam_date, notification_url, apply_url, status,
+               application_last_datetime, exam_date, notification_url, apply_url, status,
                notification_date
         FROM government_jobs
         WHERE notification_url != ''
@@ -1851,7 +1888,8 @@ def notifications():
         item["display_status"] = government_job_status(
             item["application_last_date"],
             item["exam_date"],
-            item["status"]
+            item["status"],
+            item.get("application_last_datetime")
         )
         # Closed notifications are intentionally hidden from Notifications.
         if item["display_status"] == "CLOSED":

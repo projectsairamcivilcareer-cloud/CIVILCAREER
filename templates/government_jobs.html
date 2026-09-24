@@ -216,11 +216,11 @@
                         <span class="job-status status-{{ job.display_status|lower|replace(' ', '-') }}">{{ job.display_status }}</span>
                     </div>
                     <div class="job-facts">
-                        <span><b>Vacancies</b> {{ job.vacancies or 'As per notification' }}</span>
-                        <span><b>Qualification</b> {{ job.qualification or 'See official notification' }}</span>
-                        <span><b>Last Date</b> {{ job.application_last_date or 'Not specified' }}</span>
-                        <span><b>Salary / Pay</b> {{ job.salary or job.pay_level or 'See official notification' }}</span>
-                        <span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
+                        <span><b>Vacancies</b> {{ job.vacancies }}</span>
+                        <span><b>Qualification</b> {{ job.qualification }}</span>
+                        <span><b>Last Date (with time)</b> {{ job.application_last_datetime }}</span>
+                        <span><b>Salary / Pay</b> {{ job.salary or job.pay_level }}</span>
+                        <span><b>Registration Fee</b> {{ job.application_fee }}</span><span><b>Start Date</b> {{ job.application_start }}</span><span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
                     </div>
                     <div class="job-card-actions">
                         <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>

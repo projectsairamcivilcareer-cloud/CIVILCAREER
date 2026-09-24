@@ -5995,10 +5995,17 @@ def verify_account():
             or session.get("verification_email", "")
             or session.get("student_email", "")
         ).strip().lower()
-        email_code = str(request.form.get("email_code", "")).strip()
-        mobile_code = str(request.form.get("mobile_code", "")).strip()
-        connection = get_db_connection()
+        verification_type = str(request.form.get("verification_type", "")).strip().lower()
+        code = str(request.form.get("verification_code", "")).strip()
 
+        if verification_type not in {"email", "mobile"}:
+            return render_template(
+                "verify_account.html",
+                error="Select email or mobile verification.",
+                email=email
+            )
+
+        connection = get_db_connection()
         pending_id = session.get("pending_verification_student_id") or session.get("student_id")
         student = None
 
@@ -6018,44 +6025,145 @@ def verify_account():
             connection.close()
             return render_template(
                 "verify_account.html",
-                error="Verification session expired. Please register again or request verification from your account.",
+                error="Verification session expired. Please register again or request verification.",
                 email=email
             )
 
-        # Always use the database record as the source of truth.
         email = str(student["email"] or "").strip().lower()
 
         expires = student["verification_expires_at"]
-        if not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow():
-            connection.close()
-            return render_template("verify_account.html", error="Verification codes expired. Please resend the codes.", email=email)
+        try:
+            expired = not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow()
+        except (TypeError, ValueError):
+            expired = True
 
-        if email_code != str(student["email_verification_code"] or "") or mobile_code != str(student["mobile_verification_code"] or ""):
+        if expired:
             connection.close()
-            return render_template("verify_account.html", error="Incorrect verification code(s).", email=email)
+            return render_template(
+                "verify_account.html",
+                error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code expired. Please resend the code.",
+                email=email,
+                email_verified=bool(student["email_verified"]),
+                mobile_verified=bool(student["mobile_verified"])
+            )
 
-        connection.execute(
-            """UPDATE students SET email_verified=1, mobile_verified=1,
-               email_verification_code=NULL, mobile_verification_code=NULL,
-               verification_expires_at=NULL WHERE id=?""",
-            (student["id"],)
-        )
+        if verification_type == "email":
+            if int(student["email_verified"] or 0) == 1:
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    message="Email is already verified.",
+                    email=email,
+                    email_verified=True,
+                    mobile_verified=bool(student["mobile_verified"])
+                )
+
+            if code != str(student["email_verification_code"] or ""):
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    error="Incorrect email verification code.",
+                    email=email,
+                    email_verified=False,
+                    mobile_verified=bool(student["mobile_verified"])
+                )
+
+            connection.execute(
+                """UPDATE students
+                   SET email_verified=1, email_verification_code=NULL
+                   WHERE id=?""",
+                (student["id"],)
+            )
+            email_verified = True
+            mobile_verified = bool(student["mobile_verified"])
+
+        else:
+            if int(student["mobile_verified"] or 0) == 1:
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    message="Mobile number is already verified.",
+                    email=email,
+                    email_verified=bool(student["email_verified"]),
+                    mobile_verified=True
+                )
+
+            if code != str(student["mobile_verification_code"] or ""):
+                connection.close()
+                return render_template(
+                    "verify_account.html",
+                    error="Incorrect mobile verification code.",
+                    email=email,
+                    email_verified=bool(student["email_verified"]),
+                    mobile_verified=False
+                )
+
+            connection.execute(
+                """UPDATE students
+                   SET mobile_verified=1, mobile_verification_code=NULL
+                   WHERE id=?""",
+                (student["id"],)
+            )
+            email_verified = bool(student["email_verified"])
+            mobile_verified = True
+
+        # Keep the expiry until both verifications are complete.
+        if email_verified and mobile_verified:
+            connection.execute(
+                "UPDATE students SET verification_expires_at=NULL WHERE id=?",
+                (student["id"],)
+            )
+
         connection.commit()
         connection.close()
-        session["student_id"] = student["id"]
-        session["student_name"] = student["name"]
-        session["student_email"] = student["email"]
-        session["student_education"] = student["education"]
-        session.pop("verification_email", None)
-        session.pop("pending_verification_student_id", None)
-        return redirect(url_for("profile", required=1))
+
+        if email_verified and mobile_verified:
+            session["student_id"] = student["id"]
+            session["student_name"] = student["name"]
+            session["student_email"] = student["email"]
+            session["student_education"] = student["education"]
+            session.pop("verification_email", None)
+            session.pop("pending_verification_student_id", None)
+            return redirect(url_for("profile", required=1))
+
+        return render_template(
+            "verify_account.html",
+            message=f"{'Email' if verification_type == 'email' else 'Mobile number'} verified successfully. Please verify the other one.",
+            email=email,
+            email_verified=email_verified,
+            mobile_verified=mobile_verified
+        )
 
     email = str(
         request.args.get("email", "")
         or session.get("verification_email", "")
         or session.get("student_email", "")
     ).strip().lower()
-    return render_template("verify_account.html", email=email)
+
+    connection = get_db_connection()
+    pending_id = session.get("pending_verification_student_id") or session.get("student_id")
+    student = None
+    if pending_id:
+        student = connection.execute(
+            "SELECT email,email_verified,mobile_verified FROM students WHERE id=? LIMIT 1",
+            (pending_id,)
+        ).fetchone()
+    if not student and email:
+        student = connection.execute(
+            "SELECT email,email_verified,mobile_verified FROM students WHERE lower(trim(email))=? LIMIT 1",
+            (email,)
+        ).fetchone()
+    connection.close()
+
+    if student:
+        email = str(student["email"] or "").strip().lower()
+
+    return render_template(
+        "verify_account.html",
+        email=email,
+        email_verified=bool(student and student["email_verified"]),
+        mobile_verified=bool(student and student["mobile_verified"])
+    )
 
 
 @app.route("/verify-account/resend", methods=["POST"])
@@ -6065,8 +6173,16 @@ def resend_verification():
         or session.get("verification_email", "")
         or session.get("student_email", "")
     ).strip().lower()
-    connection = get_db_connection()
+    verification_type = str(request.form.get("verification_type", "")).strip().lower()
 
+    if verification_type not in {"email", "mobile"}:
+        return render_template(
+            "verify_account.html",
+            error="Select email or mobile verification.",
+            email=email
+        )
+
+    connection = get_db_connection()
     pending_id = session.get("pending_verification_student_id") or session.get("student_id")
     student = None
 
@@ -6091,29 +6207,59 @@ def resend_verification():
         )
 
     email = str(student["email"] or "").strip().lower()
+    code = str(secrets.randbelow(900000) + 100000)
+    expires = _verification_expiry()
 
-    email_code = str(secrets.randbelow(900000) + 100000)
-    mobile_code = str(secrets.randbelow(900000) + 100000)
-    connection.execute(
-        """UPDATE students SET email_verification_code=?, mobile_verification_code=?,
-           verification_expires_at=?, email_verified=0, mobile_verified=0 WHERE id=?""",
-        (email_code, mobile_code, _verification_expiry(), student["id"])
-    )
+    if verification_type == "email":
+        connection.execute(
+            """UPDATE students
+               SET email_verification_code=?, verification_expires_at=?
+               WHERE id=?""",
+            (code, expires, student["id"])
+        )
+    else:
+        connection.execute(
+            """UPDATE students
+               SET mobile_verification_code=?, verification_expires_at=?
+               WHERE id=?""",
+            (code, expires, student["id"])
+        )
+
     connection.commit()
     connection.close()
+
     try:
-        email_sent = _send_verification_email(email, email_code)
-        sms_sent = _send_verification_sms(student["mobile_country_code"], student["mobile_number"], mobile_code)
+        if verification_type == "email":
+            sent = _send_verification_email(email, code)
+        else:
+            sent = _send_verification_sms(
+                student["mobile_country_code"],
+                student["mobile_number"],
+                code
+            )
     except Exception as exc:
         print(f"[VERIFICATION RESEND ERROR] {type(exc).__name__}: {exc}", flush=True)
-        email_sent = sms_sent = False
-    if not email_sent or not sms_sent:
-        return render_template("verify_account.html", error="Email/SMS verification is not configured.", email=email)
+        sent = False
+
+    if not sent:
+        return render_template(
+            "verify_account.html",
+            error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code could not be sent. Check the service settings.",
+            email=email,
+            email_verified=bool(student["email_verified"]),
+            mobile_verified=bool(student["mobile_verified"])
+        )
 
     session["verification_email"] = email
     session["pending_verification_student_id"] = student["id"]
-    return render_template("verify_account.html", message="New verification codes sent.", email=email)
 
+    return render_template(
+        "verify_account.html",
+        message=f"New {'email' if verification_type == 'email' else 'mobile'} verification code sent.",
+        email=email,
+        email_verified=bool(student["email_verified"]),
+        mobile_verified=bool(student["mobile_verified"])
+    )
 
 
 

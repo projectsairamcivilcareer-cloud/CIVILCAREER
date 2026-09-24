@@ -29,6 +29,13 @@
   {% endif %}
 
   <section class="profile-card profile-top-card">
+    <div class="profile-avatar">
+      {% if profile_photo %}
+        <img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Profile photo">
+      {% else %}
+        <span>👤</span>
+      {% endif %}
+    </div>
     <h2>{{ student_name or 'Student' }}</h2>
     <div class="user-id">User ID: <strong>{{ user_id }}</strong></div>
 

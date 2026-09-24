@@ -108,8 +108,10 @@ def add_global_navigation(response):
 
     asset_version = "20260901"
     assets = (
-        f'<link rel="stylesheet" href="/static/css/global-menu.css?v=20260924">'
-        f'<script defer src="/static/js/global-menu.js?v=20260924b"></script>'
+        f'<link rel="icon" type="image/svg+xml" href="/static/images/civil-career-icon.svg?v=20260924">'
+        f'<link rel="apple-touch-icon" href="/static/images/civil-career-icon.svg?v=20260924">'
+        f'<link rel="stylesheet" href="/static/css/global-menu.css?v=20260924c">'
+        f'<script defer src="/static/js/global-menu.js?v=20260924c"></script>'
     )
     html = html.replace("</head>", assets + "</head>", 1)
 

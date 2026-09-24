@@ -6595,34 +6595,43 @@ def resend_verification():
     session["pending_verification_student_id"] = student["id"]
     session["verification_mobile"] = f"{student['mobile_country_code']} {student['mobile_number']}"
 
-    if verification_type == "email":
-        session["verification_fallback_email_code"] = code if not sent else ""
-    else:
-        session["verification_fallback_mobile_code"] = code if not sent else ""
-
     if not sent:
+        # Delivery failed: invalidate the newly generated OTP and never
+        # expose it on the website. The user can retry Resend later.
+        connection = get_db_connection()
+        if verification_type == "email":
+            connection.execute(
+                "UPDATE students SET email_verification_code=NULL WHERE id=?",
+                (student["id"],)
+            )
+        else:
+            connection.execute(
+                "UPDATE students SET mobile_verification_code=NULL WHERE id=?",
+                (student["id"],)
+            )
+        connection.commit()
+        connection.close()
+
         channel = "email" if verification_type == "email" else "mobile SMS"
         return render_template(
             "verify_account.html",
-            message=(
-                f"New {channel} verification code was generated. "
-                f"{channel.title()} delivery is currently unavailable, so use the generated code shown below."
+            error=(
+                f"Unable to send the new {channel} verification code. "
+                "No verification code is shown here for security. Please try again later."
             ),
             email=email,
+            mobile_number=session.get("verification_mobile", ""),
             email_verified=bool(student["email_verified"]),
-            mobile_verified=bool(student["mobile_verified"]),
-            fallback_email_code=session.get("verification_fallback_email_code", ""),
-            fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
+            mobile_verified=bool(student["mobile_verified"])
         )
 
     return render_template(
         "verify_account.html",
-        message=f"New {'email' if verification_type == 'email' else 'mobile'} verification code sent.",
+        message=f"New {'email' if verification_type == 'email' else 'mobile'} verification code sent successfully.",
         email=email,
+        mobile_number=session.get("verification_mobile", ""),
         email_verified=bool(student["email_verified"]),
-        mobile_verified=bool(student["mobile_verified"]),
-        fallback_email_code="",
-        fallback_mobile_code=""
+        mobile_verified=bool(student["mobile_verified"])
     )
 
 

@@ -47,7 +47,10 @@
                         <span class="cc-menu-icon">📚</span><span>Exams</span>
                     </a>
                     <a class="cc-menu-link" href="/government-jobs" data-cc-path="/government-jobs">
-                        <span class="cc-menu-icon">🏛️</span><span>Government Jobs</span>
+                        <span class="cc-menu-icon">🏛️</span><span>Current Government Jobs</span>
+                    </a>
+                    <a class="cc-menu-link" href="/government-jobs/all" data-cc-path="/government-jobs/all">
+                        <span class="cc-menu-icon">📋</span><span>All / Previous Govt Jobs</span>
                     </a>
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
                         <span class="cc-menu-icon">📖</span><span>Syllabus</span>

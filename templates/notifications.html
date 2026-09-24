@@ -27,7 +27,7 @@
             <h2>Stay updated without missing important dates</h2>
             <p>Alerts are generated from verified Civil Career data and official recruitment updates.</p>
         </div>
-        <div class="unread-badge">{{ unread_count }} unread</div>
+        <div class="unread-badge"><span>{{ unread_count }} unread</span><small id="auto-refresh-status" style="display:block;margin-top:6px;font-size:11px;font-weight:500;">Auto-update: ON · checking every 60 sec</small></div>
     </section>
 
     <section class="notification-categories">
@@ -130,5 +130,33 @@
         {% endif %}
     </section>
 </main>
+<script>
+(() => {
+    // Refresh the notifications page periodically so newly synced database
+    // alerts and recruitment records appear without manual refresh.
+    const refreshEveryMs = 60000;
+    let refreshTimer;
+
+    function scheduleRefresh() {
+        clearTimeout(refreshTimer);
+        refreshTimer = setTimeout(() => {
+            if (!document.hidden) {
+                window.location.reload();
+            } else {
+                scheduleRefresh();
+            }
+        }, refreshEveryMs);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+            // When the user returns to this tab, immediately check for updates.
+            window.location.reload();
+        }
+    });
+
+    scheduleRefresh();
+})();
+</script>
 </body>
 </html>

@@ -1200,6 +1200,7 @@ def dashboard():
         "dashboard.html",
         student_name=student_name,
         student_education=student_education,
+        profile_photo=profile_check["profile_photo"] if profile_check else None,
         job_counts=job_counts,
         matching_jobs=matching_jobs,
         overall_progress=overall_progress,

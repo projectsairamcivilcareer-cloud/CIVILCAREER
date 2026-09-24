@@ -331,6 +331,36 @@
 
     </main>
 
+<!-- Install / Add to Home Screen prompt -->
+<div id="installPrompt" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.62);align-items:center;justify-content:center;padding:18px;box-sizing:border-box;" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+ <div style="position:relative;width:min(420px,100%);background:#fff;border-radius:22px;padding:26px 22px;text-align:center;box-shadow:0 20px 70px rgba(0,0,0,.28);box-sizing:border-box;">
+  <button id="installClose" aria-label="Close install popup" style="position:absolute;right:14px;top:12px;border:0;background:#eef2f7;border-radius:50%;width:34px;height:34px;font-size:22px;cursor:pointer;">×</button>
+  <img src="/static/images/civil-career-icon.svg" alt="Civil Career logo" style="width:82px;height:82px;object-fit:contain;margin:4px auto 12px;">
+  <h2 id="installTitle" style="margin:0 0 8px;color:#0B1F3A;font-size:24px;">Install CIVIL CAREER</h2>
+  <p style="margin:0 0 18px;color:#475569;line-height:1.55;">Add Civil Career to your home screen or desktop for quick access to exams, materials, jobs and mock tests.</p>
+  <button id="installNow" style="width:100%;border:0;border-radius:12px;padding:14px 18px;background:#0878D1;color:#fff;font-weight:800;font-size:16px;cursor:pointer;">Install / Add Shortcut</button>
+  <p id="installHelp" style="display:none;margin:14px 0 0;padding:12px;border-radius:10px;background:#f1f5f9;color:#334155;font-size:14px;line-height:1.5;"></p>
+  <button id="installLater" style="margin-top:12px;border:0;background:transparent;color:#64748b;padding:10px 16px;font-weight:700;cursor:pointer;">Maybe later</button>
+ </div>
+</div>
+<script>
+(function(){
+ let installEvent=null;const modal=document.getElementById('installPrompt');const btn=document.getElementById('installNow');const help=document.getElementById('installHelp');
+ const close=()=>{modal.style.display='none';sessionStorage.setItem('ccInstallDismissed','1');};
+ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvent=e;btn.textContent='Install CIVIL CAREER';help.style.display='none';});
+ window.addEventListener('appinstalled',()=>{modal.style.display='none';sessionStorage.setItem('ccInstalled','1');});
+ document.getElementById('installClose').addEventListener('click',close);document.getElementById('installLater').addEventListener('click',close);
+ btn.addEventListener('click',async()=>{if(installEvent){installEvent.prompt();const result=await installEvent.userChoice;installEvent=null;if(result.outcome==='accepted'){modal.style.display='none';sessionStorage.setItem('ccInstalled','1');}return;}
+ help.style.display='block';const ua=navigator.userAgent;
+ if(/iphone|ipad|ipod/i.test(ua)){help.textContent='iPhone/iPad: Tap the Share button in Safari, then choose “Add to Home Screen”.';}
+ else if(/android/i.test(ua)){help.textContent='Android: Open the browser menu (⋮) and choose “Install app” or “Add to Home screen”.';}
+ else{help.textContent='Desktop: In Chrome or Edge, click the Install icon in the address bar, or open the browser menu (⋮) and choose “Install CIVIL CAREER” / “Create shortcut”.';}
+ });
+ if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/static/service-worker.js').catch(()=>{}));}
+ const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+ if(!standalone&&!sessionStorage.getItem('ccInstallDismissed')&&!sessionStorage.getItem('ccInstalled'))setTimeout(()=>modal.style.display='flex',1200);
+})();
+</script>
 </body>
 
 </html>

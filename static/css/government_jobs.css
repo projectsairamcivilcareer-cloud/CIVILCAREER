@@ -623,3 +623,97 @@
   .search-row input, .search-row select, .search-row button { grid-column:auto; }
   .section-heading-row > div:last-child { justify-content:flex-start; }
 }
+
+
+/* Refined government jobs layout and reading order */
+.dashboard-section { margin-bottom: 28px; }
+.civil-job-categories .job-search-box,
+.recruitment-calendar .job-search-box { margin-bottom: 18px; }
+.civil-job-categories .verified-job-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.civil-job-categories .verified-job-card,
+.recruitment-calendar .verified-job-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, .045);
+}
+.civil-job-categories .job-facts { grid-template-columns: 1fr; gap: 10px; }
+.civil-job-categories .job-facts span {
+  display: block;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 9px;
+  line-height: 1.55;
+}
+.verified-jobs-section { padding: 28px; }
+.verified-jobs-section .section-heading-row { align-items: center; margin-bottom: 22px; }
+.verified-jobs-section .section-heading-row > div:last-child { gap: 12px; }
+.verified-job-list { gap: 18px; }
+.verified-jobs-section .verified-job-card {
+  background: #fff;
+  padding: 24px;
+  border: 1px solid #dbe3ee;
+  border-radius: 15px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, .045);
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.verified-jobs-section .verified-job-card:hover {
+  border-color: #bfdbfe;
+  box-shadow: 0 10px 26px rgba(37, 99, 235, .08);
+  transform: translateY(-2px);
+}
+.verified-jobs-section .job-card-heading {
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e9eef5;
+}
+.verified-jobs-section .job-card-heading h3 { color: #172554; font-size: 19px; line-height: 1.35; }
+.verified-jobs-section .job-card-heading p { font-size: 15px; line-height: 1.5; margin-top: 5px; }
+.verified-jobs-section .job-tag { margin-bottom: 3px; background: #eff6ff; color: #1d4ed8; font-size: 11px; }
+.verified-jobs-section .job-facts {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 0;
+}
+.verified-jobs-section .job-facts span {
+  display: block;
+  padding: 17px 14px 14px 0;
+  min-width: 0;
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.verified-jobs-section .job-facts span:nth-child(4n) { padding-right: 0; }
+.verified-jobs-section .job-facts b {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  margin-bottom: 6px;
+}
+.verified-jobs-section .job-facts .job-role-preview { grid-column: span 2; }
+.job-card-actions { padding-top: 16px; border-top: 1px solid #e9eef5; }
+.job-card-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 10px 16px; font-size: 13px; }
+.job-card-actions a:last-child { background: #1d4ed8; }
+.job-card-actions a:nth-child(2) { border: 1px solid #dbe3ee; }
+.recruitment-calendar .verified-job-card p { color: #475569; line-height: 1.65; margin-top: 12px; }
+@media (max-width: 1100px) {
+  .verified-jobs-section .job-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .verified-jobs-section .job-facts span:nth-child(4n) { padding-right: 14px; }
+  .verified-jobs-section .job-facts span:nth-child(2n) { padding-right: 0; }
+  .civil-job-categories .verified-job-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .verified-jobs-section { padding: 18px; }
+  .verified-jobs-section .verified-job-card { padding: 18px; }
+  .verified-jobs-section .job-facts { grid-template-columns: 1fr; }
+  .verified-jobs-section .job-facts span,
+  .verified-jobs-section .job-facts span:nth-child(4n),
+  .verified-jobs-section .job-facts span:nth-child(2n) { padding: 13px 0; border-bottom: 1px solid #f1f5f9; }
+  .verified-jobs-section .job-facts .job-role-preview { grid-column: auto; }
+  .job-card-actions { display: grid; grid-template-columns: 1fr; }
+  .job-card-actions a { width: 100%; box-sizing: border-box; }
+}

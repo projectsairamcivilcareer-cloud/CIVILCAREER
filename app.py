@@ -62,7 +62,7 @@ app.secret_key = os.environ.get(
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-app.config["PERMANENT_SESSION_LIFETIME"] = 600
+app.config["PERMANENT_SESSION_LIFETIME"] = 1800
 app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 
 
@@ -72,7 +72,7 @@ def enforce_session_idle_timeout():
         return None
     now = int(time.time())
     last_activity = int(session.get("last_activity", now))
-    if now - last_activity >= 600:
+    if now - last_activity >= 1800:
         session.clear()
         return redirect(url_for("login", expired=1))
     if request.endpoint != "static":

@@ -1968,7 +1968,7 @@ def notifications():
         try:
             parsed_created = datetime.fromisoformat(str(raw_created).replace("Z", "+00:00"))
             if parsed_created.tzinfo is None:
-                parsed_created = parsed_created.replace(tzinfo=timezone.utc)
+                parsed_created = parsed_created.replace(tzinfo=ZoneInfo('UTC'))
             alert_dict["created_at_display"] = parsed_created.astimezone(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y, %I:%M %p IST")
         except (ValueError, TypeError):
             alert_dict["created_at_display"] = "Date unavailable"

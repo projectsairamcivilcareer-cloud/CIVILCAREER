@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Government Jobs | Civil Career</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/government_jobs.css') }}?v=20260924d">
+  <style>
+    .all-jobs-wrap{max-width:1400px;margin:0 auto;padding:26px}
+    .all-jobs-hero{padding:26px;border-radius:18px;background:linear-gradient(120deg,#eff6ff,#f8fafc);border:1px solid #dbeafe;margin-bottom:22px}
+    .all-jobs-hero h2{margin:0 0 8px;color:#0f2747}.all-jobs-hero p{margin:0;color:#52647a;line-height:1.6}
+    .archive-nav{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px}
+    .archive-nav a{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;text-decoration:none;font-weight:750;background:#e8eef7;color:#18365c}
+    .archive-nav a.active,.archive-nav a.primary{background:#2563eb;color:#fff}
+    .archive-counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:20px 0}
+    .archive-counts div{padding:16px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;display:flex;flex-direction:column;gap:5px}
+    .archive-counts strong{font-size:24px;color:#12345a}.archive-counts span{font-size:13px;color:#64748b}
+    .archive-filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;margin:20px 0}
+    .archive-filters input,.archive-filters select{min-width:0;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:white}
+    .archive-filters button{border:0;border-radius:10px;padding:12px 20px;background:#2563eb;color:#fff;font-weight:750;cursor:pointer}
+    .archive-job{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin:14px 0;box-shadow:0 4px 15px rgba(15,23,42,.04)}
+    .archive-job-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    .archive-job h3{margin:8px 0 5px;color:#16365d;font-size:20px}.archive-job .post{margin:0;color:#64748b;font-size:16px}
+    .archive-status{display:inline-block;border-radius:20px;padding:7px 12px;background:#e2e8f0;color:#334155;font-size:12px;font-weight:800;white-space:nowrap}
+    .archive-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}
+    .archive-facts div{min-width:0;color:#334155;line-height:1.45;overflow-wrap:anywhere}.archive-facts b{display:block;font-size:12px;color:#64748b;margin-bottom:5px}
+    .archive-dates{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .archive-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .archive-actions a{display:inline-block;text-decoration:none;padding:11px 16px;border-radius:9px;background:#2563eb;color:white;font-weight:750;font-size:14px}
+    .archive-actions a.secondary{background:#e8eef7;color:#1e3a5f}
+    .archive-empty{padding:28px;border:1px dashed #cbd5e1;border-radius:14px;text-align:center;color:#64748b}
+    @media(max-width:900px){.archive-filters{grid-template-columns:1fr 1fr}.archive-facts{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.all-jobs-wrap{padding:15px}.archive-filters,.archive-facts,.archive-dates{grid-template-columns:1fr}.archive-job{padding:16px}}
+  </style>
+</head>
+<body>
+<main class="dashboard-main">
+  <div class="all-jobs-wrap">
+    <header class="topbar">
+      <div><h1>All Civil Engineering Government Jobs</h1><p>Complete verified register of Civil Engineering recruitment notices.</p></div>
+      <div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div>
+    </header>
+    <section class="all-jobs-hero">
+      <h2>📚 All Notifications & Recruitment History</h2>
+      <p>Browse current, upcoming and closed notifications together. Application dates and eligibility are taken from each listed notice; always confirm details with the official recruitment authority.</p>
+    </section>
+    <nav class="archive-nav" aria-label="Government jobs navigation">
+      <a href="{{ url_for('government_jobs') }}">🟢 Current / Open Jobs</a>
+      <a href="{{ url_for('government_jobs_all') }}" class="active">📋 All Jobs & Previous Notices</a>
+    </nav>
+    <section class="archive-counts">
+      <div><strong>{{ counts.get('NEW',0) }}</strong><span>New</span></div>
+      <div><strong>{{ counts.get('OPEN',0) }}</strong><span>Open</span></div>
+      <div><strong>{{ counts.get('CLOSING SOON',0) }}</strong><span>Closing Soon</span></div>
+      <div><strong>{{ counts.get('EXAM DATE ANNOUNCED',0) }}</strong><span>Exam Date Announced</span></div>
+      <div><strong>{{ counts.get('CLOSED',0) }}</strong><span>Closed / Past</span></div>
+    </section>
+    <form method="GET" class="archive-filters">
+      <input name="search" value="{{ filters.search }}" placeholder="Search post, organization or department">
+      <select name="qualification"><option value="">All Qualifications</option>{% for value in ['Diploma','B.E.','B.Tech','M.E.','M.Tech'] %}<option value="{{ value }}" {% if filters.qualification == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select>
+      <select name="job_type"><option value="">All Job Types</option>{% for value in ['Central Government','State Government','PSU','Railway','Defence','SSC','UPSC','State PSC'] %}<option value="{{ value }}" {% if filters.job_type == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select>
+      <select name="status"><option value="">All Statuses</option>{% for value in ['NEW','OPEN','CLOSING SOON','EXAM DATE ANNOUNCED','CLOSED'] %}<option value="{{ value }}" {% if filters.status == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select>
+      <button type="submit">Filter</button>
+    </form>
+    {% if jobs %}
+      {% for job in jobs %}
+      <article class="archive-job">
+        <div class="archive-job-head">
+          <div><span class="job-tag">{{ job.job_type }}</span><h3>{{ job.organization }}</h3><p class="post">{{ job.post_name }}</p></div>
+          <span class="archive-status">{{ job.display_status }}</span>
+        </div>
+        <div class="archive-facts">
+          <div><b>Vacancies</b>{{ job.vacancies }}</div>
+          <div><b>Qualification / Branch</b>{{ job.qualification }}{% if job.branch %} · {{ job.branch }}{% endif %}</div>
+          <div><b>Salary / Pay</b>{{ job.salary or job.pay_level }}</div>
+          <div><b>Application Fee</b>{{ job.application_fee }}</div>
+          <div class="archive-dates"><div><b>Application Start</b>{{ job.application_start }}</div><div><b>Last Date & Time</b>{{ job.application_last_datetime }}</div></div>
+          <div><b>Age Limit</b>{{ job.age_limit or 'As per official notification' }}{% if job.age_relaxation %}<br>Relaxation: {{ job.age_relaxation }}{% endif %}</div>
+          <div><b>Job Role</b>{{ job.job_role_responsibilities }}</div>
+          <div><b>Selection Process</b>{{ job.selection_process or 'As per official notification' }}</div>
+          <div><b>Location</b>{{ job.job_location or 'As notified' }}</div>
+          <div><b>Source / Verified</b>{{ job.source }} · {{ job.last_verified or 'Date not listed' }}</div>
+        </div>
+        <div class="archive-actions">
+          <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>
+          <a class="secondary" href="{{ job.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notification ↗</a>
+          <a href="{{ job.apply_url }}" target="_blank" rel="noopener noreferrer">Official Application ↗</a>
+        </div>
+      </article>
+      {% endfor %}
+    {% else %}
+      <div class="archive-empty"><strong>No verified notices match these filters.</strong><p>Try clearing the filters or check the Current / Open Jobs page.</p></div>
+    {% endif %}
+  </div>
+</main>
+</body>
+</html>

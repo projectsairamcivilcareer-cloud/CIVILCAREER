@@ -24,7 +24,24 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f1f5f9;color:#0
  .login-container{padding:28px 20px}
 }
 </style>
-</head>
+<style>
+.verification-card{border:1px solid #dbe3ee;border-radius:14px;padding:20px;margin:18px 0;background:#fff}
+.verification-card.verified{border-color:#86efac;background:#f0fdf4}
+.verification-card-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:16px}
+.verification-card h2{margin:0 0 5px;font-size:19px;color:#0f172a}
+.verification-card p{margin:0;color:#64748b;word-break:break-word}
+.verification-status{white-space:nowrap;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.status-verified{background:#dcfce7;color:#166534}
+.status-pending{background:#fef3c7;color:#92400e}
+.resend-form{margin-top:10px}
+.verified-box{padding:12px;border-radius:9px;background:#dcfce7;color:#166534;font-weight:600}
+.all-verified{padding:14px;border-radius:10px;background:#dcfce7;color:#166534;text-align:center;font-weight:800;margin-top:18px}
+@media(max-width:600px){
+ .verification-card{padding:16px}
+ .verification-card-head{flex-direction:column}
+ .verification-status{align-self:flex-start}
+}
+</style></head>
 <body>
 <nav class="navbar">
 <div class="logo">🏗️ CIVIL CAREER</div>
@@ -35,29 +52,81 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f1f5f9;color:#0
 <div class="login-header">
 <div class="login-icon">🔐</div>
 <h1>Verify Your Account</h1>
-<p>Email and mobile verification are required.</p>
+<p>Verify your email and mobile number separately.</p>
 </div>
+
 {% if error %}<div class="login-error">{{ error }}</div>{% endif %}
 {% if message %}<div class="verify-message">{{ message }}</div>{% endif %}
+
 <div class="verify-note">
-Verification codes are sent separately to your registered email address and mobile number. Each code expires after 10 minutes.
+Email and mobile verification are separate. Complete both verifications to continue to My Profile.
 </div>
+
+<div class="verification-card {% if email_verified %}verified{% endif %}">
+<div class="verification-card-head">
+<div>
+<h2>📧 Email Verification</h2>
+<p>{{ email }}</p>
+</div>
+<span class="verification-status {% if email_verified %}status-verified{% else %}status-pending{% endif %}">
+{% if email_verified %}✓ Verified{% else %}⚠ Not Verified{% endif %}
+</span>
+</div>
+
+{% if not email_verified %}
 <form method="POST" action="{{ url_for('verify_account') }}">
 <input type="hidden" name="email" value="{{ email }}">
+<input type="hidden" name="verification_type" value="email">
 <div class="verify-group">
 <label for="email_code">Email Verification Code</label>
-<input id="email_code" name="email_code" inputmode="numeric" maxlength="6" placeholder="6-digit email code" required>
+<input id="email_code" name="verification_code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit email code" required>
 </div>
+<button type="submit" class="login-button">VERIFY EMAIL</button>
+</form>
+<form method="POST" action="{{ url_for('resend_verification') }}" class="resend-form">
+<input type="hidden" name="email" value="{{ email }}">
+<input type="hidden" name="verification_type" value="email">
+<button type="submit" class="verify-secondary">Resend Email Code</button>
+</form>
+{% else %}
+<div class="verified-box">Your email address has been verified successfully.</div>
+{% endif %}
+</div>
+
+<div class="verification-card {% if mobile_verified %}verified{% endif %}">
+<div class="verification-card-head">
+<div>
+<h2>📱 Mobile Verification</h2>
+<p>Your registered mobile number</p>
+</div>
+<span class="verification-status {% if mobile_verified %}status-verified{% else %}status-pending{% endif %}">
+{% if mobile_verified %}✓ Verified{% else %}⚠ Not Verified{% endif %}
+</span>
+</div>
+
+{% if not mobile_verified %}
+<form method="POST" action="{{ url_for('verify_account') }}">
+<input type="hidden" name="email" value="{{ email }}">
+<input type="hidden" name="verification_type" value="mobile">
 <div class="verify-group">
 <label for="mobile_code">Mobile Verification Code</label>
-<input id="mobile_code" name="mobile_code" inputmode="numeric" maxlength="6" placeholder="6-digit SMS code" required>
+<input id="mobile_code" name="verification_code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit SMS code" required>
 </div>
-<button type="submit" class="login-button">VERIFY & CONTINUE</button>
+<button type="submit" class="login-button">VERIFY MOBILE NUMBER</button>
 </form>
-<form method="POST" action="{{ url_for('resend_verification') }}" style="margin-top:12px">
+<form method="POST" action="{{ url_for('resend_verification') }}" class="resend-form">
 <input type="hidden" name="email" value="{{ email }}">
-<button type="submit" class="verify-secondary">Resend Verification Codes</button>
+<input type="hidden" name="verification_type" value="mobile">
+<button type="submit" class="verify-secondary">Resend Mobile Code</button>
 </form>
+{% else %}
+<div class="verified-box">Your mobile number has been verified successfully.</div>
+{% endif %}
+</div>
+
+{% if email_verified and mobile_verified %}
+<div class="all-verified">✓ Email and mobile number verified. Continuing to your profile...</div>
+{% endif %}
 </div>
 </main>
 </body>

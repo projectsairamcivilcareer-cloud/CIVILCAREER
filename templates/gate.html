@@ -44,7 +44,7 @@
         <p>Current preparation information for GATE 2027.</p>
     </div>
     <div class="student-info">
-        <div class="student-avatar">👤</div>
+        <div class="student-avatar">{% if profile_photo %}<img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Profile photo">{% else %}👤{% endif %}</div>
         <div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div>
     </div>
 </header>

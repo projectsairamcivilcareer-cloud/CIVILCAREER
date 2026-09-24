@@ -89,6 +89,14 @@
             button.setAttribute("aria-expanded", String(open));
         }
 
+        // Always start each page load with the navigation collapsed.
+        setOpen(false);
+
+        // Browsers may restore a page from the back-forward cache with old UI state.
+        window.addEventListener("pageshow", function () {
+            setOpen(false);
+        });
+
         button.addEventListener("click", function () {
             setOpen(!document.body.classList.contains("cc-menu-open"));
         });

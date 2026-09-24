@@ -93,53 +93,54 @@ def add_global_navigation(response):
     )
     html = html.replace("</head>", assets + "</head>", 1)
 
-    # Add the logged-in student's saved photo to every authenticated HTML page.
-    # The photo itself remains private behind the existing session-protected route.
-    try:
-        conn = get_db_connection()
-        student = conn.execute(
-            "SELECT name, profile_photo FROM students WHERE id=?",
-            (session["student_id"],)
-        ).fetchone()
-        conn.close()
-        if student:
-            photo_name = student["profile_photo"]
-            display_name = escape(str(student["name"] or "Student"))
-            if photo_name:
-                photo_url = "/profile-photo/" + __import__("urllib.parse", fromlist=["quote"]).quote(str(photo_name), safe="")
-                avatar = (
-                    '<a id="cc-global-profile" href="/profile" aria-label="Open my profile">'
-                    f'<img src="{photo_url}" alt="{display_name} profile photo">'
-                    f'<span>{display_name}</span></a>'
+    # Dashboard and Profile already show the student's photo and name.
+    # Avoid duplicate profile chips on those pages.
+    if request.path.rstrip("/") not in ("/dashboard", "/profile"):
+        try:
+            conn = get_db_connection()
+            student = conn.execute(
+                "SELECT name, profile_photo FROM students WHERE id=?",
+                (session["student_id"],)
+            ).fetchone()
+            conn.close()
+            if student:
+                photo_name = student["profile_photo"]
+                display_name = escape(str(student["name"] or "Student"))
+                if photo_name:
+                    photo_url = "/profile-photo/" + __import__("urllib.parse", fromlist=["quote"]).quote(str(photo_name), safe="")
+                    avatar = (
+                        '<a id="cc-global-profile" href="/profile" aria-label="Open my profile">'
+                        f'<img src="{photo_url}" alt="{display_name} profile photo">'
+                        f'<span>{display_name}</span></a>'
+                    )
+                else:
+                    avatar = (
+                        '<a id="cc-global-profile" href="/profile" aria-label="Complete my profile">'
+                        f'<span class="cc-global-profile-placeholder">👤</span><span>{display_name}</span></a>'
+                    )
+                profile_css = (
+                    '<style>'
+                    '#cc-global-profile{position:fixed;top:16px;right:18px;z-index:9999;'
+                    'display:flex;align-items:center;gap:9px;max-width:calc(100vw - 90px);'
+                    'padding:6px 12px 6px 6px;border-radius:30px;background:#fff;'
+                    'color:#172033;text-decoration:none;font:600 14px Arial,sans-serif;'
+                    'box-shadow:0 4px 18px rgba(15,23,42,.16);}'
+                    '#cc-global-profile img{width:42px;height:42px;flex:0 0 42px;'
+                    'border-radius:50%;object-fit:cover;object-position:center;display:block;}'
+                    '#cc-global-profile span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}'
+                    '.cc-global-profile-placeholder{width:42px;height:42px;flex:0 0 42px;'
+                    'display:flex;align-items:center;justify-content:center;border-radius:50%;'
+                    'background:#e2e8f0;font-size:25px;}'
+                    '@media(max-width:480px){#cc-global-profile{right:10px;top:12px;gap:6px;'
+                    'padding:4px 9px 4px 4px;font-size:12px;}'
+                    '#cc-global-profile img,.cc-global-profile-placeholder{width:36px;height:36px;flex-basis:36px;}}'
+                    '</style>'
                 )
-            else:
-                avatar = (
-                    '<a id="cc-global-profile" href="/profile" aria-label="Complete my profile">'
-                    f'<span class="cc-global-profile-placeholder">👤</span><span>{display_name}</span></a>'
-                )
-            profile_css = (
-                '<style>'
-                '#cc-global-profile{position:fixed;top:16px;right:18px;z-index:9999;'
-                'display:flex;align-items:center;gap:9px;max-width:calc(100vw - 90px);'
-                'padding:6px 12px 6px 6px;border-radius:30px;background:#fff;'
-                'color:#172033;text-decoration:none;font:600 14px Arial,sans-serif;'
-                'box-shadow:0 4px 18px rgba(15,23,42,.16);}'
-                '#cc-global-profile img{width:42px;height:42px;flex:0 0 42px;'
-                'border-radius:50%;object-fit:cover;object-position:center;display:block;}'
-                '#cc-global-profile span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}'
-                '.cc-global-profile-placeholder{width:42px;height:42px;flex:0 0 42px;'
-                'display:flex;align-items:center;justify-content:center;border-radius:50%;'
-                'background:#e2e8f0;font-size:25px;}'
-                '@media(max-width:480px){#cc-global-profile{right:10px;top:12px;gap:6px;'
-                'padding:4px 9px 4px 4px;font-size:12px;}'
-                '#cc-global-profile img,.cc-global-profile-placeholder{width:36px;height:36px;flex-basis:36px;}}'
-                '</style>'
-            )
-            html = html.replace("</head>", profile_css + "</head>", 1)
-            html = re.sub(r"(<body\b[^>]*>)", lambda match: match.group(1) + avatar, html, count=1, flags=re.I)
-    except Exception:
-        # Keep the page available even if profile display lookup fails.
-        app.logger.exception("Could not inject global profile photo")
+                html = html.replace("</head>", profile_css + "</head>", 1)
+                html = re.sub(r"(<body\b[^>]*>)", lambda match: match.group(1) + avatar, html, count=1, flags=re.I)
+            except Exception:
+            # Keep the page available even if profile display lookup fails.
+            app.logger.exception("Could not inject global profile photo")
 
     response.set_data(html)
     return response

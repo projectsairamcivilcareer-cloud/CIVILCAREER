@@ -13,6 +13,7 @@ import os
 import secrets
 import smtplib
 import urllib.request
+import urllib.error
 from email.message import EmailMessage
 from datetime import date, datetime, timedelta
 from io import BytesIO
@@ -754,8 +755,8 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
         "It expires in 10 minutes."
     )
 
-    # Railway-friendly HTTPS email delivery. Resend uses HTTPS instead
-    # of direct SMTP, which avoids SMTP egress restrictions on Railway.
+    # Railway-friendly HTTPS delivery. If Resend is configured, use ONLY
+    # Resend so a failed API call does not hang for ~20-60 seconds on SMTP.
     resend_api_key = (os.environ.get("RESEND_API_KEY") or "").strip()
     resend_from = (
         os.environ.get("RESEND_FROM")
@@ -763,7 +764,15 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
         or ""
     ).strip()
 
-    if resend_api_key and resend_from:
+    if resend_api_key or resend_from:
+        if not resend_api_key or not resend_from:
+            print(
+                "[EMAIL OTP ERROR] Resend configuration incomplete: "
+                "RESEND_API_KEY and RESEND_FROM are both required.",
+                flush=True,
+            )
+            return False
+
         try:
             payload = json.dumps({
                 "from": resend_from,
@@ -783,7 +792,7 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
                 method="POST",
             )
 
-            with urllib.request.urlopen(resend_request, timeout=20) as response:
+            with urllib.request.urlopen(resend_request, timeout=15) as response:
                 response_body = response.read().decode("utf-8", errors="replace")
                 if 200 <= response.status < 300:
                     print(
@@ -797,21 +806,27 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
                     f"{response_body[:500]}",
                     flush=True,
                 )
+                return False
 
+        except urllib.error.HTTPError as exc:
+            try:
+                error_body = exc.read().decode("utf-8", errors="replace")
+            except Exception:
+                error_body = ""
+            print(
+                f"[EMAIL OTP ERROR] Resend HTTP {exc.code}: "
+                f"{error_body[:500]}",
+                flush=True,
+            )
+            return False
         except Exception as exc:
             print(
                 f"[EMAIL OTP ERROR] Resend {type(exc).__name__}: {exc}",
                 flush=True,
             )
-    elif resend_api_key or resend_from:
-        print(
-            "[EMAIL OTP] Resend configuration incomplete: "
-            "RESEND_API_KEY and RESEND_FROM are required.",
-            flush=True,
-        )
+            return False
 
-    # SMTP remains as a fallback for environments where outbound SMTP
-    # is available. On Railway Free/Trial/Hobby, HTTPS email is preferred.
+    # SMTP fallback is used only when Resend is not configured.
     host = (os.environ.get("SMTP_HOST") or "").strip()
     username = (os.environ.get("SMTP_USERNAME") or "").strip()
     password = os.environ.get("SMTP_PASSWORD") or ""
@@ -834,7 +849,7 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
 
     if missing:
         print(
-            "[EMAIL OTP] No usable email delivery configured. "
+            "[EMAIL OTP ERROR] No usable email delivery configured. "
             "Configure RESEND_API_KEY + RESEND_FROM on Railway.",
             flush=True,
         )
@@ -848,11 +863,11 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
 
     try:
         if port == 465:
-            with smtplib.SMTP_SSL(host, port, timeout=20) as smtp:
+            with smtplib.SMTP_SSL(host, port, timeout=10) as smtp:
                 smtp.login(username, password)
                 smtp.send_message(message)
         else:
-            with smtplib.SMTP(host, port, timeout=20) as smtp:
+            with smtplib.SMTP(host, port, timeout=10) as smtp:
                 smtp.ehlo()
                 smtp.starttls()
                 smtp.ehlo()
@@ -868,7 +883,6 @@ def _send_verification_email(email, code, subject="Civil Career - Email Verifica
             flush=True,
         )
         return False
-
 
 def _send_verification_sms(country_code, mobile, code):
     sid = os.environ.get("TWILIO_ACCOUNT_SID")

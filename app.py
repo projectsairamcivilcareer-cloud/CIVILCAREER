@@ -6619,7 +6619,7 @@ def resend_verification():
         # Never send the user back to Create Account from the Resend button.
         session["verification_email"] = email
         session["pending_verification_student_id"] = student["id"]
-        session["verification_mobile"] = f"{student["mobile_country_code"]} {student["mobile_number"]}"
+        session["verification_mobile"] = f"{student['mobile_country_code']} {student['mobile_number']}"
         return render_template(
             "verify_account.html",
             error=(

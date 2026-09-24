@@ -163,6 +163,40 @@
             <div><strong>{{ counts['CLOSING SOON'] }}</strong><span>Closing Soon</span></div>
         </section>
 
+        <section class="dashboard-section civil-job-categories">
+            <div class="job-search-box">
+                <h2>🎓 Civil Engineering Government Job Categories</h2>
+                <p>Explore common recruitment routes by qualification. Exact eligibility, branch codes, age limits and accepted qualifications are controlled by each official notification.</p>
+            </div>
+            <div class="verified-job-list">
+                {% for category in civil_job_categories %}
+                <article class="verified-job-card">
+                    <div class="job-card-heading"><div><span class="job-tag">Qualification</span><h3>{{ category.title }}</h3></div></div>
+                    <div class="job-facts">
+                        <span class="job-role-preview"><b>Common posts</b> {{ category.posts }}</span>
+                        <span class="job-role-preview"><b>Recruiting organizations</b> {{ category.recruiters }}</span>
+                        <span class="job-role-preview"><b>Recruitment timing</b> {{ category.months }}</span>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="dashboard-section recruitment-calendar">
+            <div class="job-search-box">
+                <h2>🗓️ Recruitment Calendar – Month-wise Guidance</h2>
+                <p>Indicative monitoring calendar only—not confirmed vacancy dates. Government recruitment schedules change by year, state, department and court/administrative decisions. Check the official notification for every post.</p>
+            </div>
+            <div class="verified-job-list">
+                {% for item in recruitment_month_notes %}
+                <article class="verified-job-card">
+                    <div class="job-card-heading"><div><h3>{{ item.period }}</h3></div><span class="verified-badge">Indicative</span></div>
+                    <p>{{ item.note }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
         <section class="dashboard-section">
             <div class="job-search-box">
                 <h2>🔎 Find Verified Civil Engineering Jobs</h2>

@@ -6632,6 +6632,66 @@ def logout():
     return redirect(url_for("logout_feedback"))
 
 
+
+@app.route("/government-jobs/other")
+def government_jobs_other():
+    """Civil-eligible non-core and general government career paths."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    filters = {key: request.args.get(key, "").strip() for key in ("search", "qualification", "status")}
+    connection = get_db_connection()
+    rows = connection.execute("""
+        SELECT * FROM government_jobs
+        WHERE notification_url != '' AND apply_url != '' AND source != ''
+          AND vacancies != '' AND qualification != ''
+          AND job_role_responsibilities != ''
+          AND application_start IS NOT NULL AND application_start != ''
+          AND application_last_datetime != ''
+          AND (salary != '' OR pay_level != '')
+          AND application_fee != ''
+        ORDER BY application_last_datetime ASC, organization ASC
+    """).fetchall()
+    connection.close()
+
+    # Show only notices whose titles/departments indicate non-core or general
+    # government recruitment. Eligibility must still be checked in the official notice.
+    non_core_terms = (
+        "civil service", "ias", "ips", "ifs", "state psc", "group 1", "group-i",
+        "group 2", "group-ii", "group 3", "group-iii", "group 4", "group-iv",
+        "administrative", "accounts", "audit", "bank", "insurance", "general duty",
+        "general graduate", "graduate level", "steno", "clerical", "assistant",
+        "officer", "management trainee", "teaching", "lecturer", "faculty",
+        "forest", "environment", "disaster management", "planning"
+    )
+    jobs = []
+    counts = {"NEW": 0, "OPEN": 0, "CLOSING SOON": 0, "EXAM DATE ANNOUNCED": 0, "CLOSED": 0}
+    for row in rows:
+        job = dict(row)
+        haystack = " ".join(str(job.get(k) or "") for k in ("organization","post_name","department","job_type")).lower()
+        if not any(term in haystack for term in non_core_terms):
+            continue
+        job["display_status"] = government_job_status(
+            job.get("application_last_date"), job.get("exam_date"), job.get("status"),
+            job.get("application_last_datetime")
+        )
+        if filters["search"] and filters["search"].lower() not in haystack:
+            continue
+        if filters["qualification"] and filters["qualification"].lower() not in str(job.get("qualification") or "").lower():
+            continue
+        if filters["status"] and filters["status"] != job["display_status"]:
+            continue
+        jobs.append(job)
+        counts[job["display_status"]] = counts.get(job["display_status"], 0) + 1
+
+    return render_template(
+        "government_jobs_other.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", ""),
+        jobs=jobs, counts=counts, filters=filters
+    )
+
+
 # =========================================================
 # START APPLICATION
 # =========================================================

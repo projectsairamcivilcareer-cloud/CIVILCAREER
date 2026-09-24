@@ -71,6 +71,26 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 # sidebar on every page.
 # =========================================================
 
+@app.context_processor
+def inject_current_profile_photo():
+    """Make the logged-in student's saved photo available to page templates."""
+    if "student_id" not in session:
+        return {"profile_photo": None}
+    connection = None
+    try:
+        connection = get_db_connection()
+        row = connection.execute(
+            "SELECT profile_photo FROM students WHERE id=?",
+            (session["student_id"],)
+        ).fetchone()
+        return {"profile_photo": row["profile_photo"] if row else None}
+    except Exception:
+        return {"profile_photo": None}
+    finally:
+        if connection:
+            connection.close()
+
+
 @app.after_request
 def add_global_navigation(response):
     if (

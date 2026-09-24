@@ -1954,11 +1954,25 @@ def notifications():
         (session["student_id"],)
     ).fetchall()
 
+    alert_dicts = []
     unread_count = connection.execute(
         "SELECT COUNT(*) AS count FROM notification_alerts WHERE user_id=? AND is_read=0",
         (session["student_id"],)
     ).fetchone()["count"]
     connection.close()
+
+    # Convert database UTC timestamps to readable Indian Standard Time.
+    for alert in alerts:
+        alert_dict = dict(alert)
+        raw_created = alert_dict.get("created_at")
+        try:
+            parsed_created = datetime.fromisoformat(str(raw_created).replace("Z", "+00:00"))
+            if parsed_created.tzinfo is None:
+                parsed_created = parsed_created.replace(tzinfo=timezone.utc)
+            alert_dict["created_at_display"] = parsed_created.astimezone(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y, %I:%M %p IST")
+        except (ValueError, TypeError):
+            alert_dict["created_at_display"] = "Date unavailable"
+        alert_dicts.append(alert_dict)
 
     notification_jobs = []
     for row in rows:
@@ -1979,7 +1993,7 @@ def notifications():
         student_name=session["student_name"],
         student_education=session["student_education"],
         notification_jobs=notification_jobs,
-        notification_alerts=[dict(row) for row in alerts],
+        notification_alerts=alert_dicts,
         unread_count=unread_count
     )
 

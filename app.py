@@ -1464,7 +1464,7 @@ def get_matching_jobs(student_id, limit=3):
           AND application_last_datetime != ''
           AND (salary != '' OR pay_level != '')
           AND application_fee != ''
-        ORDER BY application_last_date IS NULL, application_last_date ASC
+        ORDER BY application_last_datetime IS NULL, application_last_datetime ASC
         """
     ).fetchall()
     connection.close()
@@ -1859,6 +1859,13 @@ def notifications():
         WHERE notification_url != ''
           AND apply_url != ''
           AND source != ''
+          AND vacancies != ''
+          AND qualification != ''
+          AND job_role_responsibilities != ''
+          AND application_start IS NOT NULL AND application_start != ''
+          AND application_last_datetime != ''
+          AND (salary != '' OR pay_level != '')
+          AND application_fee != ''
         ORDER BY notification_date DESC, id DESC
         LIMIT 20
         """

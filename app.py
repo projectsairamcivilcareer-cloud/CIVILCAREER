@@ -16,6 +16,7 @@ import urllib.request
 import urllib.error
 from email.message import EmailMessage
 from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from io import BytesIO
 from html import escape
 from werkzeug.utils import secure_filename
@@ -1268,7 +1269,7 @@ def government_job_status(last_date, exam_date, stored_status, last_datetime=Non
     if stored_status in {"RESULT", "ADMIT CARD", "CANCELLED"}:
         return stored_status
 
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
     today = now.date()
 
     try:
@@ -1278,7 +1279,9 @@ def government_job_status(last_date, exam_date, stored_status, last_datetime=Non
             raw_deadline = str(last_datetime).strip()
             for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M", "%Y-%m-%dT%H:%M:%S"):
                 try:
-                    deadline = datetime.strptime(raw_deadline, fmt)
+                    deadline = datetime.strptime(raw_deadline, fmt).replace(
+                        tzinfo=ZoneInfo("Asia/Kolkata")
+                    )
                     break
                 except ValueError:
                     continue
@@ -1289,8 +1292,8 @@ def government_job_status(last_date, exam_date, stored_status, last_datetime=Non
                 if deadline <= now + timedelta(days=7):
                     return "CLOSING SOON"
 
-        # Backward-compatible fallback for older records that only have a date.
-        if not last_datetime and last_date:
+        # Backward-compatible fallback for older records or malformed datetime values.
+        if last_date and (not last_datetime or deadline is None):
             closing = datetime.strptime(str(last_date).strip(), "%Y-%m-%d").date()
             if closing < today:
                 return "CLOSED"

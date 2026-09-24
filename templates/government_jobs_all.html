@@ -48,6 +48,7 @@
     <nav class="archive-nav" aria-label="Government jobs navigation">
       <a href="{{ url_for('government_jobs') }}">🟢 Current / Open Jobs</a>
       <a href="{{ url_for('government_jobs_all') }}" class="active">📋 All Jobs & Previous Notices</a>
+      <a href="{{ url_for('government_jobs_other') }}">🧭 Non-Core & Other Jobs</a>
     </nav>
     <section class="archive-counts">
       <div><strong>{{ counts.get('NEW',0) }}</strong><span>New</span></div>

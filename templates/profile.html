@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Profile | Civil Career</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<style>.verification-status{display:block;font-size:12px;margin-top:4px}.verification-status.verified{color:#15803d;font-weight:700}</style>
 </head>
 <body>
 <main class="profile-page">
@@ -18,7 +19,7 @@
   {% if required_profile and not profile_complete %}
   <section class="profile-required-banner">
     <strong>⚠️ Complete your profile</strong>
-    <p>Before continuing to Civil Career, please fill all required personal details and upload your profile photo.</p>
+    <p>Please fill all required personal details and upload your profile photo.</p>
   </section>
   {% endif %}
 
@@ -56,8 +57,8 @@
     <div class="personal-data-grid">
       <div class="data-item"><label>User ID</label><strong>{{ user_id }}</strong></div>
       <div class="data-item"><label>Name</label><strong>{{ student_name }}</strong></div>
-      <div class="data-item"><label>Email</label><strong>{{ student_email }}</strong></div>
-      <div class="data-item"><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong></div>
+      <div class="data-item"><label>Email</label><strong>{{ student_email }}</strong><span class="verification-status verified">✓ Verified</span></div>
+      <div class="data-item"><label>Mobile</label><strong>{{ mobile_country_code }} {{ mobile_number }}</strong><span class="verification-status verified">✓ Verified</span></div>
     </div>
 
     <div class="profile-options">

@@ -437,3 +437,26 @@ body {
     object-position: center;
     border-radius: 50%;
 }
+
+
+/* Keep student name and education on separate lines */
+.student-info .student-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+    line-height: 1.35;
+}
+
+.student-info .student-details strong {
+    display: block;
+    line-height: 1.35;
+    white-space: normal;
+}
+
+.student-info .student-details small {
+    display: block !important;
+    margin-top: 4px;
+    line-height: 1.3;
+}

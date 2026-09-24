@@ -5972,6 +5972,7 @@ def register():
 
         if not email_sent or not sms_sent:
             return render_template("register.html", error="Email/SMS verification is not configured on Civil Career yet.")
+        session["verification_email"] = email
         return redirect(url_for("verify_account", email=email))
 
     return render_template("register.html")
@@ -6190,6 +6191,7 @@ def profile_change_mobile():
 
     if not email_sent or not sms_sent:
         return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
+    session["verification_email"] = email
     return redirect(url_for("verify_account", email=email))
 
 

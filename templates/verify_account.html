@@ -83,10 +83,10 @@ Email and mobile verification are separate. Complete both verifications to conti
 </div>
 <button type="submit" class="login-button">VERIFY EMAIL</button>
 </form>
-<form method="POST" action="{{ url_for('resend_verification') }}" class="resend-form">
+<form method="POST" action="{{ url_for('resend_verification') }}" class="resend-form" onsubmit="return resendCode(this);">
 <input type="hidden" name="email" value="{{ email }}">
 <input type="hidden" name="verification_type" value="email">
-<button type="submit" class="verify-secondary">Resend Email Code</button>
+<button type="submit" class="verify-secondary" id="resend-email-btn">Resend Email Code</button>
 </form>
 {% else %}
 <div class="verified-box">Your email address has been verified successfully.</div>
@@ -114,10 +114,10 @@ Email and mobile verification are separate. Complete both verifications to conti
 </div>
 <button type="submit" class="login-button">VERIFY MOBILE NUMBER</button>
 </form>
-<form method="POST" action="{{ url_for('resend_verification') }}" class="resend-form">
+<form method="POST" action="{{ url_for('resend_verification') }}" class="resend-form" onsubmit="return resendCode(this);">
 <input type="hidden" name="email" value="{{ email }}">
 <input type="hidden" name="verification_type" value="mobile">
-<button type="submit" class="verify-secondary">Resend Mobile Code</button>
+<button type="submit" class="verify-secondary" id="resend-mobile-btn">Resend Mobile Code</button>
 </form>
 {% else %}
 <div class="verified-box">Your mobile number has been verified successfully.</div>
@@ -131,3 +131,13 @@ Email and mobile verification are separate. Complete both verifications to conti
 </main>
 </body>
 </html>
+<script>
+function resendCode(form){
+  const button=form.querySelector('button[type="submit"]');
+  if(button){
+    button.disabled=true;
+    button.textContent='Sending...';
+  }
+  return true;
+}
+</script>

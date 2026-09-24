@@ -5961,7 +5961,15 @@ def register():
             connection.rollback()
             connection.close()
             return render_template("register.html", error="This email is already registered.")
+        student_row = connection.execute(
+            "SELECT id FROM students WHERE lower(trim(email))=? LIMIT 1",
+            (email,)
+        ).fetchone()
+        pending_student_id = student_row["id"] if student_row else None
         connection.close()
+
+        if not pending_student_id:
+            return render_template("register.html", error="Registration could not be completed. Please try again.")
 
         try:
             email_sent = _send_verification_email(email, email_code)
@@ -5973,6 +5981,7 @@ def register():
         if not email_sent or not sms_sent:
             return render_template("register.html", error="Email/SMS verification is not configured on Civil Career yet.")
         session["verification_email"] = email
+        session["pending_verification_student_id"] = pending_student_id
         return redirect(url_for("verify_account", email=email))
 
     return render_template("register.html")
@@ -5989,10 +5998,32 @@ def verify_account():
         email_code = str(request.form.get("email_code", "")).strip()
         mobile_code = str(request.form.get("mobile_code", "")).strip()
         connection = get_db_connection()
-        student = connection.execute("SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+
+        pending_id = session.get("pending_verification_student_id") or session.get("student_id")
+        student = None
+
+        if pending_id:
+            student = connection.execute(
+                "SELECT * FROM students WHERE id=? LIMIT 1",
+                (pending_id,)
+            ).fetchone()
+
+        if not student and email:
+            student = connection.execute(
+                "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
+                (email,)
+            ).fetchone()
+
         if not student:
             connection.close()
-            return render_template("verify_account.html", error="Account not found.", email=email)
+            return render_template(
+                "verify_account.html",
+                error="Verification session expired. Please register again or request verification from your account.",
+                email=email
+            )
+
+        # Always use the database record as the source of truth.
+        email = str(student["email"] or "").strip().lower()
 
         expires = student["verification_expires_at"]
         if not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow():
@@ -6016,6 +6047,7 @@ def verify_account():
         session["student_email"] = student["email"]
         session["student_education"] = student["education"]
         session.pop("verification_email", None)
+        session.pop("pending_verification_student_id", None)
         return redirect(url_for("profile", required=1))
 
     email = str(
@@ -6034,10 +6066,31 @@ def resend_verification():
         or session.get("student_email", "")
     ).strip().lower()
     connection = get_db_connection()
-    student = connection.execute("SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+
+    pending_id = session.get("pending_verification_student_id") or session.get("student_id")
+    student = None
+
+    if pending_id:
+        student = connection.execute(
+            "SELECT * FROM students WHERE id=? LIMIT 1",
+            (pending_id,)
+        ).fetchone()
+
+    if not student and email:
+        student = connection.execute(
+            "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
+            (email,)
+        ).fetchone()
+
     if not student:
         connection.close()
-        return render_template("verify_account.html", error="Account not found.", email=email)
+        return render_template(
+            "verify_account.html",
+            error="Verification session expired. Please register again or request verification.",
+            email=email
+        )
+
+    email = str(student["email"] or "").strip().lower()
 
     email_code = str(secrets.randbelow(900000) + 100000)
     mobile_code = str(secrets.randbelow(900000) + 100000)
@@ -6056,6 +6109,9 @@ def resend_verification():
         email_sent = sms_sent = False
     if not email_sent or not sms_sent:
         return render_template("verify_account.html", error="Email/SMS verification is not configured.", email=email)
+
+    session["verification_email"] = email
+    session["pending_verification_student_id"] = student["id"]
     return render_template("verify_account.html", message="New verification codes sent.", email=email)
 
 

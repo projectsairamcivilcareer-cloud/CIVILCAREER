@@ -1094,9 +1094,6 @@ def login():
             session["student_email"] = student["email"]
             session["student_education"] = student["education"]
 
-            if _verification_required(student):
-                return redirect(url_for("verify_account"))
-
             if not student["user_id"]:
                 generated_id = _generate_user_id(connection, student["name"])
                 connection.execute("UPDATE students SET user_id=? WHERE id=?", (generated_id, student["id"]))
@@ -6232,10 +6229,6 @@ def register():
         if len(mobile) < 7 or len(mobile) > 15:
             return render_template("register.html", error="Enter a valid mobile number.")
 
-        email_code = str(secrets.randbelow(900000) + 100000)
-        mobile_code = str(secrets.randbelow(900000) + 100000)
-        expires = _verification_expiry()
-
         connection = get_db_connection()
         try:
             connection.execute(
@@ -6243,76 +6236,38 @@ def register():
                 (name, email, education, password, user_id, mobile_country_code, mobile_number,
                  email_verified, mobile_verified, email_verification_code,
                  mobile_verification_code, verification_expires_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)""",
-                (name, email, education, generate_password_hash(password),
-                 _generate_user_id(connection, name), country_code, mobile,
-                 email_code, mobile_code, expires)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 1, 1, NULL, NULL, NULL)""",
+                (
+                    name,
+                    email,
+                    education,
+                    generate_password_hash(password),
+                    _generate_user_id(connection, name),
+                    country_code,
+                    mobile,
+                )
             )
             connection.commit()
         except psycopg_errors.UniqueViolation:
             connection.rollback()
             connection.close()
             return render_template("register.html", error="This email is already registered.")
-        student_row = connection.execute(
-            "SELECT id FROM students WHERE lower(trim(email))=? LIMIT 1",
+
+        student = connection.execute(
+            "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
             (email,)
         ).fetchone()
-        pending_student_id = student_row["id"] if student_row else None
         connection.close()
 
-        if not pending_student_id:
+        if not student:
             return render_template("register.html", error="Registration could not be completed. Please try again.")
 
-        try:
-            email_sent = _send_verification_email(email, email_code)
-        except Exception as exc:
-            print(f"[VERIFICATION EMAIL ERROR] {type(exc).__name__}: {exc}", flush=True)
-            email_sent = False
+        session["student_id"] = student["id"]
+        session["student_name"] = student["name"]
+        session["student_email"] = student["email"]
+        session["student_education"] = student["education"]
 
-        try:
-            sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
-        except Exception as exc:
-            print(f"[VERIFICATION SMS ERROR] {type(exc).__name__}: {exc}", flush=True)
-            sms_sent = False
-
-        # Keep the account and OTPs even when an external delivery provider is
-        # unavailable. The verification page can then use the generated code
-        # through the local fallback until email/SMS delivery is configured.
-        session["verification_email"] = email
-        session["pending_verification_student_id"] = pending_student_id
-        session["verification_fallback_email_code"] = email_code if not email_sent else ""
-        session["verification_fallback_mobile_code"] = mobile_code if not sms_sent else ""
-
-        failed_services = []
-        if not email_sent:
-            failed_services.append("email")
-        if not sms_sent:
-            failed_services.append("mobile SMS")
-
-        if failed_services:
-            failed = " and ".join(failed_services)
-            connection = get_db_connection()
-            connection.execute(
-                """UPDATE students
-                   SET email_verification_code=NULL,
-                       mobile_verification_code=NULL,
-                       verification_expires_at=NULL
-                   WHERE id=?""",
-                (student_id,)
-            )
-            connection.commit()
-            connection.close()
-            session.pop("verification_fallback_email_code", None)
-            session.pop("verification_fallback_mobile_code", None)
-            return render_template(
-                "register.html",
-                error=(
-                    f"Verification could not be sent to your {failed}. "
-                    "Please check the email/SMS delivery configuration and try registration again."
-                )
-            )
-
-        return redirect(url_for("verify_account", email=email))
+        return redirect(url_for("profile", required=1))
 
     return render_template("register.html")
 
@@ -6371,276 +6326,20 @@ def verify_account():
             connection.close()
             return render_template(
                 "verify_account.html",
-                error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code expired. Please resend the code.",
-                email=email,
-                email_verified=bool(student["email_verified"]),
-                mobile_verified=bool(student["mobile_verified"]),
-                fallback_email_code=session.get("verification_fallback_email_code", ""),
-                fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
-            )
-
-        if verification_type == "email":
-            if int(student["email_verified"] or 0) == 1:
-                connection.close()
-                return render_template(
-                    "verify_account.html",
-                    message="Email is already verified.",
-                    email=email,
-                    email_verified=True,
-                    mobile_verified=bool(student["mobile_verified"]),
-                    fallback_email_code=session.get("verification_fallback_email_code", ""),
-                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
-                )
-
-            if code != str(student["email_verification_code"] or ""):
-                connection.close()
-                return render_template(
-                    "verify_account.html",
-                    error="Incorrect email verification code.",
-                    email=email,
-                    email_verified=False,
-                    mobile_verified=bool(student["mobile_verified"]),
-                    fallback_email_code=session.get("verification_fallback_email_code", ""),
-                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
-                )
-
-            connection.execute(
-                """UPDATE students
-                   SET email_verified=1, email_verification_code=NULL
-                   WHERE id=?""",
-                (student["id"],)
-            )
-            session["verification_fallback_email_code"] = ""
-            email_verified = True
-            mobile_verified = bool(student["mobile_verified"])
-
-        else:
-            if int(student["mobile_verified"] or 0) == 1:
-                connection.close()
-                return render_template(
-                    "verify_account.html",
-                    message="Mobile number is already verified.",
-                    email=email,
-                    email_verified=bool(student["email_verified"]),
-                    mobile_verified=True
-                )
-
-            if code != str(student["mobile_verification_code"] or ""):
-                connection.close()
-                return render_template(
-                    "verify_account.html",
-                    error="Incorrect mobile verification code.",
-                    email=email,
-                    email_verified=bool(student["email_verified"]),
-                    mobile_verified=False,
-                    fallback_email_code=session.get("verification_fallback_email_code", ""),
-                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
-                )
-
-            connection.execute(
-                """UPDATE students
-                   SET mobile_verified=1, mobile_verification_code=NULL
-                   WHERE id=?""",
-                (student["id"],)
-            )
-            session["verification_fallback_mobile_code"] = ""
-            email_verified = bool(student["email_verified"])
-            mobile_verified = True
-
-        # Keep the expiry until both verifications are complete.
-        if email_verified and mobile_verified:
-            connection.execute(
-                "UPDATE students SET verification_expires_at=NULL WHERE id=?",
-                (student["id"],)
-            )
-
-        connection.commit()
-        connection.close()
-
-        if email_verified and mobile_verified:
-            session["student_id"] = student["id"]
-            session["student_name"] = student["name"]
-            session["student_email"] = student["email"]
-            session["student_education"] = student["education"]
-            session.pop("verification_email", None)
-            session.pop("pending_verification_student_id", None)
-            session.pop("verification_fallback_email_code", None)
-            session.pop("verification_fallback_mobile_code", None)
-            return redirect(url_for("profile", required=1))
-
-        return render_template(
-            "verify_account.html",
-            message=f"{'Email' if verification_type == 'email' else 'Mobile number'} verified successfully. Please verify the other one.",
-            email=email,
-            email_verified=email_verified,
-            mobile_verified=mobile_verified,
-            fallback_email_code=session.get("verification_fallback_email_code", ""),
-            fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
-        )
-
-    email = str(
-        request.args.get("email", "")
-        or session.get("verification_email", "")
-        or session.get("student_email", "")
-    ).strip().lower()
-
-    connection = get_db_connection()
-    pending_id = session.get("pending_verification_student_id") or session.get("student_id")
-    student = None
-    if pending_id:
-        student = connection.execute(
-            "SELECT email,email_verified,mobile_verified FROM students WHERE id=? LIMIT 1",
-            (pending_id,)
-        ).fetchone()
-    if not student and email:
-        student = connection.execute(
-            "SELECT email,email_verified,mobile_verified FROM students WHERE lower(trim(email))=? LIMIT 1",
-            (email,)
-        ).fetchone()
-    connection.close()
-
-    if student:
-        email = str(student["email"] or "").strip().lower()
-
-    fallback_email_code = session.get("verification_fallback_email_code", "")
-    fallback_mobile_code = session.get("verification_fallback_mobile_code", "")
-
-    return render_template(
-        "verify_account.html",
-        email=email,
-        mobile_number=session.get("verification_mobile", ""),
-        email_verified=bool(student and student["email_verified"]),
-        mobile_verified=bool(student and student["mobile_verified"]),
-        fallback_email_code=fallback_email_code,
-        fallback_mobile_code=fallback_mobile_code
-    )
+                error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code expired. Please resend the c@app.route("/verify-account", methods=["GET", "POST"])
+def verify_account():
+    # Account verification is no longer required.
+    if "student_id" in session:
+        return redirect(url_for("profile", required=1))
+    return redirect(url_for("login"))
 
 
 @app.route("/verify-account/resend", methods=["POST"])
 def resend_verification():
-    email = str(
-        request.form.get("email", "")
-        or session.get("verification_email", "")
-        or session.get("student_email", "")
-    ).strip().lower()
-    verification_type = str(request.form.get("verification_type", "")).strip().lower()
-
-    if verification_type not in {"email", "mobile"}:
-        return render_template(
-            "verify_account.html",
-            error="Select email or mobile verification.",
-            email=email
-        )
-
-    connection = get_db_connection()
-    pending_id = session.get("pending_verification_student_id") or session.get("student_id")
-    student = None
-
-    if pending_id:
-        student = connection.execute(
-            "SELECT * FROM students WHERE id=? LIMIT 1",
-            (pending_id,)
-        ).fetchone()
-
-    if not student and email:
-        student = connection.execute(
-            "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
-            (email,)
-        ).fetchone()
-
-    if not student:
-        connection.close()
-        return render_template(
-            "verify_account.html",
-            error="Verification session expired. Please register again or request verification.",
-            email=email
-        )
-
-    email = str(student["email"] or "").strip().lower()
-    code = str(secrets.randbelow(900000) + 100000)
-    expires = _verification_expiry()
-
-    if verification_type == "email":
-        connection.execute(
-            """UPDATE students
-               SET email_verification_code=?, verification_expires_at=?
-               WHERE id=?""",
-            (code, expires, student["id"])
-        )
-    else:
-        connection.execute(
-            """UPDATE students
-               SET mobile_verification_code=?, verification_expires_at=?
-               WHERE id=?""",
-            (code, expires, student["id"])
-        )
-
-    connection.commit()
-    connection.close()
-
-    try:
-        if verification_type == "email":
-            sent = _send_verification_email(email, code)
-        else:
-            sent = _send_verification_sms(
-                student["mobile_country_code"],
-                student["mobile_number"],
-                code
-            )
-    except Exception as exc:
-        print(f"[VERIFICATION RESEND ERROR] {type(exc).__name__}: {exc}", flush=True)
-        sent = False
-
-    session["verification_email"] = email
-    session["pending_verification_student_id"] = student["id"]
-    session["verification_mobile"] = f"{student['mobile_country_code']} {student['mobile_number']}"
-
-    if not sent:
-        # Delivery failed: invalidate the newly generated OTP and never
-        # expose it on the website. The user can retry Resend later.
-        connection = get_db_connection()
-        if verification_type == "email":
-            connection.execute(
-                "UPDATE students SET email_verification_code=NULL WHERE id=?",
-                (student["id"],)
-            )
-        else:
-            connection.execute(
-                "UPDATE students SET mobile_verification_code=NULL WHERE id=?",
-                (student["id"],)
-            )
-        connection.commit()
-        connection.close()
-
-        channel = "email" if verification_type == "email" else "mobile SMS"
-        session.pop("verification_fallback_email_code", None)
-        session.pop("verification_fallback_mobile_code", None)
-        # Keep the user on the verification page when a resend fails.
-        # Never send the user back to Create Account from the Resend button.
-        session["verification_email"] = email
-        session["pending_verification_student_id"] = student["id"]
-        session["verification_mobile"] = f"{student['mobile_country_code']} {student['mobile_number']}"
-        return render_template(
-            "verify_account.html",
-            error=(
-                f"Unable to send the new {channel} verification code. "
-                "No verification code is shown for security. Please try Resend again later."
-            ),
-            email=email,
-            mobile_number=session.get("verification_mobile", ""),
-            email_verified=bool(student["email_verified"]),
-            mobile_verified=bool(student["mobile_verified"])
-        )
-
-    return render_template(
-        "verify_account.html",
-        message=f"New {'email' if verification_type == 'email' else 'mobile'} verification code sent successfully.",
-        email=email,
-        mobile_number=session.get("verification_mobile", ""),
-        email_verified=bool(student["email_verified"]),
-        mobile_verified=bool(student["mobile_verified"])
-    )
-
+    # Account verification is no longer required.
+    if "student_id" in session:
+        return redirect(url_for("profile", required=1))
+    return redirect(url_for("login"))
 
 
 # =========================================================
@@ -6685,6 +6384,7 @@ def profile_change_password():
 def profile_change_email():
     if "student_id" not in session:
         return redirect(url_for("login"))
+
     new_email = str(request.form.get("new_email", "")).strip().lower()
     if not new_email:
         return redirect(url_for("profile", error="Enter a new email address"))
@@ -6696,7 +6396,6 @@ def profile_change_email():
     ).fetchone()
     current_email = str(current_student["email"] or "").strip().lower() if current_student else ""
 
-    # Do not treat the user's existing email as a duplicate.
     if new_email == current_email:
         connection.close()
         return redirect(url_for("profile", message="This is already your current email address."))
@@ -6709,72 +6408,38 @@ def profile_change_email():
         connection.close()
         return redirect(url_for("profile", error="That email address is already in use. Please use another email address."))
 
-    email_code = str(secrets.randbelow(900000) + 100000)
-    mobile_code = str(secrets.randbelow(900000) + 100000)
     connection.execute(
-        """UPDATE students SET email=?, email_verified=0, mobile_verified=0,
-           email_verification_code=?, mobile_verification_code=?,
-           verification_expires_at=? WHERE id=?""",
-        (new_email, email_code, mobile_code, _verification_expiry(), session["student_id"])
+        "UPDATE students SET email=?, email_verified=1 WHERE id=?",
+        (new_email, session["student_id"])
     )
     connection.commit()
     connection.close()
 
-    # Re-send verification for the changed email and existing mobile.
-    read_connection = get_db_connection()
-    student = read_connection.execute(
-        "SELECT mobile_country_code,mobile_number FROM students WHERE id=?",
-        (session["student_id"],)
-    ).fetchone()
-    read_connection.close()
-    try:
-        email_sent = _send_verification_email(new_email, email_code)
-        sms_sent = _send_verification_sms(student["mobile_country_code"], student["mobile_number"], mobile_code)
-    except Exception as exc:
-        print("[EMAIL CHANGE VERIFICATION ERROR]", type(exc).__name__, exc, flush=True)
-        email_sent = sms_sent = False
-
-    if not email_sent or not sms_sent:
-        return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
     session["student_email"] = new_email
-    session["verification_email"] = new_email
-    return redirect(url_for("verify_account", email=new_email))
+    return redirect(url_for("profile", message="Email address changed successfully."))
 
 
 @app.route("/profile/change-mobile", methods=["POST"])
 def profile_change_mobile():
     if "student_id" not in session:
         return redirect(url_for("login"))
+
     country_code = str(request.form.get("mobile_country_code", "")).strip()
     mobile = re.sub(r"\D", "", str(request.form.get("mobile_number", "")))
     if not country_code or len(mobile) < 7 or len(mobile) > 15:
         return redirect(url_for("profile", error="Enter a valid country code and mobile number"))
 
     connection = get_db_connection()
-    email = connection.execute("SELECT email FROM students WHERE id=?", (session["student_id"],)).fetchone()["email"]
-    email_code = str(secrets.randbelow(900000) + 100000)
-    mobile_code = str(secrets.randbelow(900000) + 100000)
     connection.execute(
-        """UPDATE students SET mobile_country_code=?, mobile_number=?,
-           email_verified=0, mobile_verified=0,
-           email_verification_code=?, mobile_verification_code=?,
-           verification_expires_at=? WHERE id=?""",
-        (country_code, mobile, email_code, mobile_code, _verification_expiry(), session["student_id"])
+        """UPDATE students
+           SET mobile_country_code=?, mobile_number=?, mobile_verified=1
+           WHERE id=?""",
+        (country_code, mobile, session["student_id"])
     )
     connection.commit()
     connection.close()
 
-    try:
-        email_sent = _send_verification_email(email, email_code)
-        sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
-    except Exception as exc:
-        print("[MOBILE CHANGE VERIFICATION ERROR]", type(exc).__name__, exc, flush=True)
-        email_sent = sms_sent = False
-
-    if not email_sent or not sms_sent:
-        return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
-    session["verification_email"] = email
-    return redirect(url_for("verify_account", email=email))
+    return redirect(url_for("profile", message="Mobile number changed successfully."))
 
 
 # =========================================================

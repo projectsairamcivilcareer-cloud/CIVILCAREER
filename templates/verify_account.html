@@ -93,8 +93,7 @@ Email and mobile verification are separate. Complete both verifications to conti
 </form>
 {% if fallback_email_code %}
 <div class="fallback-code">
-<strong>{{ fallback_email_code }}</strong>
-<span class="fallback-note">Email delivery is unavailable right now. This newly generated code can be used to complete email verification.</span>
+<span class="fallback-note">Email delivery is temporarily unavailable. Please check your email service configuration and use Resend Email Code after delivery is restored.</span>
 </div>
 {% endif %}
 {% else %}
@@ -106,7 +105,7 @@ Email and mobile verification are separate. Complete both verifications to conti
 <div class="verification-card-head">
 <div>
 <h2>📱 Mobile Verification</h2>
-<p>Your registered mobile number</p>
+<p>{% if mobile_number %}{{ mobile_number }}{% else %}Your registered mobile number{% endif %}</p>
 </div>
 <span class="verification-status {% if mobile_verified %}status-verified{% else %}status-pending{% endif %}">
 {% if mobile_verified %}✓ Verified{% else %}⚠ Not Verified{% endif %}
@@ -130,8 +129,7 @@ Email and mobile verification are separate. Complete both verifications to conti
 </form>
 {% if fallback_mobile_code %}
 <div class="fallback-code">
-<strong>{{ fallback_mobile_code }}</strong>
-<span class="fallback-note">SMS delivery is unavailable right now. This newly generated code can be used to complete mobile verification.</span>
+<span class="fallback-note">SMS delivery is temporarily unavailable. Please check the mobile SMS service configuration and use Resend Mobile Code after delivery is restored.</span>
 </div>
 {% endif %}
 {% else %}

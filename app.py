@@ -5980,7 +5980,11 @@ def register():
 @app.route("/verify-account", methods=["GET", "POST"])
 def verify_account():
     if request.method == "POST":
-        email = str(request.form.get("email", "")).strip().lower()
+        email = str(
+            request.form.get("email", "")
+            or session.get("verification_email", "")
+            or session.get("student_email", "")
+        ).strip().lower()
         email_code = str(request.form.get("email_code", "")).strip()
         mobile_code = str(request.form.get("mobile_code", "")).strip()
         connection = get_db_connection()
@@ -6010,13 +6014,24 @@ def verify_account():
         session["student_name"] = student["name"]
         session["student_email"] = student["email"]
         session["student_education"] = student["education"]
+        session.pop("verification_email", None)
         return redirect(url_for("profile", required=1))
-    return render_template("verify_account.html", email=str(request.args.get("email", "")).strip().lower())
+
+    email = str(
+        request.args.get("email", "")
+        or session.get("verification_email", "")
+        or session.get("student_email", "")
+    ).strip().lower()
+    return render_template("verify_account.html", email=email)
 
 
 @app.route("/verify-account/resend", methods=["POST"])
 def resend_verification():
-    email = str(request.form.get("email", "")).strip().lower()
+    email = str(
+        request.form.get("email", "")
+        or session.get("verification_email", "")
+        or session.get("student_email", "")
+    ).strip().lower()
     connection = get_db_connection()
     student = connection.execute("SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
     if not student:
@@ -6139,6 +6154,7 @@ def profile_change_email():
     if not email_sent or not sms_sent:
         return redirect(url_for("profile", error="Verification could not be sent. Check SMTP/SMS settings."))
     session["student_email"] = new_email
+    session["verification_email"] = new_email
     return redirect(url_for("verify_account", email=new_email))
 
 

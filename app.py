@@ -6090,32 +6090,38 @@ def register():
 
         try:
             email_sent = _send_verification_email(email, email_code)
+        except Exception as exc:
+            print(f"[VERIFICATION EMAIL ERROR] {type(exc).__name__}: {exc}", flush=True)
+            email_sent = False
+
+        try:
             sms_sent = _send_verification_sms(country_code, mobile, mobile_code)
         except Exception as exc:
-            print(f"[VERIFICATION ERROR] {type(exc).__name__}: {exc}", flush=True)
-            email_sent = sms_sent = False
+            print(f"[VERIFICATION SMS ERROR] {type(exc).__name__}: {exc}", flush=True)
+            sms_sent = False
 
-        if not email_sent or not sms_sent:
-            failed_services = []
-            if not email_sent:
-                failed_services.append("email")
-            if not sms_sent:
-                failed_services.append("mobile SMS")
-
-            cleanup = get_db_connection()
-            cleanup.execute("DELETE FROM students WHERE id=?", (pending_student_id,))
-            cleanup.commit()
-            cleanup.close()
-
-            if len(failed_services) == 1:
-                message = f"{failed_services[0].title()} verification could not be sent. Please try again after the service is configured."
-            else:
-                message = "Email and mobile verification codes could not be sent. Please try again after the services are configured."
-
-            return render_template("register.html", error=message)
-
+        # Keep the account and OTPs even when an external delivery provider is
+        # unavailable. The verification page can then use the generated code
+        # through the local fallback until email/SMS delivery is configured.
         session["verification_email"] = email
         session["pending_verification_student_id"] = pending_student_id
+        session["verification_fallback_email_code"] = email_code if not email_sent else ""
+        session["verification_fallback_mobile_code"] = mobile_code if not sms_sent else ""
+
+        failed_services = []
+        if not email_sent:
+            failed_services.append("email")
+        if not sms_sent:
+            failed_services.append("mobile SMS")
+
+        if failed_services:
+            message = (
+                "Verification codes were generated. "
+                + ", ".join(failed_services)
+                + " delivery is currently unavailable, so the generated code is shown below for verification."
+            )
+            return redirect(url_for("verify_account", email=email, fallback=1))
+
         return redirect(url_for("verify_account", email=email))
 
     return render_template("register.html")
@@ -6178,7 +6184,9 @@ def verify_account():
                 error=f"{'Email' if verification_type == 'email' else 'Mobile'} verification code expired. Please resend the code.",
                 email=email,
                 email_verified=bool(student["email_verified"]),
-                mobile_verified=bool(student["mobile_verified"])
+                mobile_verified=bool(student["mobile_verified"]),
+                fallback_email_code=session.get("verification_fallback_email_code", ""),
+                fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
             )
 
         if verification_type == "email":
@@ -6189,7 +6197,9 @@ def verify_account():
                     message="Email is already verified.",
                     email=email,
                     email_verified=True,
-                    mobile_verified=bool(student["mobile_verified"])
+                    mobile_verified=bool(student["mobile_verified"]),
+                    fallback_email_code=session.get("verification_fallback_email_code", ""),
+                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
                 )
 
             if code != str(student["email_verification_code"] or ""):
@@ -6199,7 +6209,9 @@ def verify_account():
                     error="Incorrect email verification code.",
                     email=email,
                     email_verified=False,
-                    mobile_verified=bool(student["mobile_verified"])
+                    mobile_verified=bool(student["mobile_verified"]),
+                    fallback_email_code=session.get("verification_fallback_email_code", ""),
+                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
                 )
 
             connection.execute(
@@ -6208,6 +6220,7 @@ def verify_account():
                    WHERE id=?""",
                 (student["id"],)
             )
+            session["verification_fallback_email_code"] = ""
             email_verified = True
             mobile_verified = bool(student["mobile_verified"])
 
@@ -6229,7 +6242,9 @@ def verify_account():
                     error="Incorrect mobile verification code.",
                     email=email,
                     email_verified=bool(student["email_verified"]),
-                    mobile_verified=False
+                    mobile_verified=False,
+                    fallback_email_code=session.get("verification_fallback_email_code", ""),
+                    fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
                 )
 
             connection.execute(
@@ -6238,6 +6253,7 @@ def verify_account():
                    WHERE id=?""",
                 (student["id"],)
             )
+            session["verification_fallback_mobile_code"] = ""
             email_verified = bool(student["email_verified"])
             mobile_verified = True
 
@@ -6258,6 +6274,8 @@ def verify_account():
             session["student_education"] = student["education"]
             session.pop("verification_email", None)
             session.pop("pending_verification_student_id", None)
+            session.pop("verification_fallback_email_code", None)
+            session.pop("verification_fallback_mobile_code", None)
             return redirect(url_for("profile", required=1))
 
         return render_template(
@@ -6265,7 +6283,9 @@ def verify_account():
             message=f"{'Email' if verification_type == 'email' else 'Mobile number'} verified successfully. Please verify the other one.",
             email=email,
             email_verified=email_verified,
-            mobile_verified=mobile_verified
+            mobile_verified=mobile_verified,
+            fallback_email_code=session.get("verification_fallback_email_code", ""),
+            fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
         )
 
     email = str(
@@ -6292,11 +6312,16 @@ def verify_account():
     if student:
         email = str(student["email"] or "").strip().lower()
 
+    fallback_email_code = session.get("verification_fallback_email_code", "")
+    fallback_mobile_code = session.get("verification_fallback_mobile_code", "")
+
     return render_template(
         "verify_account.html",
         email=email,
         email_verified=bool(student and student["email_verified"]),
-        mobile_verified=bool(student and student["mobile_verified"])
+        mobile_verified=bool(student and student["mobile_verified"]),
+        fallback_email_code=fallback_email_code,
+        fallback_mobile_code=fallback_mobile_code
     )
 
 
@@ -6375,25 +6400,37 @@ def resend_verification():
         print(f"[VERIFICATION RESEND ERROR] {type(exc).__name__}: {exc}", flush=True)
         sent = False
 
+    session["verification_email"] = email
+    session["pending_verification_student_id"] = student["id"]
+
+    if verification_type == "email":
+        session["verification_fallback_email_code"] = code if not sent else ""
+    else:
+        session["verification_fallback_mobile_code"] = code if not sent else ""
+
     if not sent:
         channel = "email" if verification_type == "email" else "mobile SMS"
         return render_template(
             "verify_account.html",
-            error=f"{channel.title()} verification code could not be sent. Please check the {channel} service configuration.",
+            message=(
+                f"New {channel} verification code was generated. "
+                f"{channel.title()} delivery is currently unavailable, so use the generated code shown below."
+            ),
             email=email,
             email_verified=bool(student["email_verified"]),
-            mobile_verified=bool(student["mobile_verified"])
+            mobile_verified=bool(student["mobile_verified"]),
+            fallback_email_code=session.get("verification_fallback_email_code", ""),
+            fallback_mobile_code=session.get("verification_fallback_mobile_code", "")
         )
-
-    session["verification_email"] = email
-    session["pending_verification_student_id"] = student["id"]
 
     return render_template(
         "verify_account.html",
         message=f"New {'email' if verification_type == 'email' else 'mobile'} verification code sent.",
         email=email,
         email_verified=bool(student["email_verified"]),
-        mobile_verified=bool(student["mobile_verified"])
+        mobile_verified=bool(student["mobile_verified"]),
+        fallback_email_code="",
+        fallback_mobile_code=""
     )
 
 

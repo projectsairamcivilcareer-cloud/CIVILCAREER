@@ -13,6 +13,9 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/dashboard.css', v='20260924b') }}">
 
+    <link rel="icon" type="image/svg+xml" href="/static/images/civil-career-icon.svg?v=20260924">
+    <link rel="apple-touch-icon" href="/static/images/civil-career-icon.svg?v=20260924">
+    <link rel="manifest" href="/static/site.webmanifest">
 </head>
 
 <body>
@@ -21,14 +24,8 @@
 
     <aside class="sidebar">
 
-        <div class="dashboard-logo">
-
-            🏗️
-
-            <span>
-                CIVIL CAREER
-            </span>
-
+        <div class="dashboard-logo" style="display:flex;align-items:center;gap:10px;">
+            <img src="/static/images/civil-career-horizontal.svg" alt="CIVIL CAREER" style="display:block;width:220px;max-width:100%;height:auto;object-fit:contain;">
         </div>
 
 

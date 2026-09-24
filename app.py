@@ -89,7 +89,7 @@ def add_global_navigation(response):
     asset_version = "20260901"
     assets = (
         f'<link rel="stylesheet" href="/static/css/global-menu.css?v=20260924">'
-        f'<script defer src="/static/js/global-menu.js?v=20260924"></script>'
+        f'<script defer src="/static/js/global-menu.js?v=20260924b"></script>'
     )
     html = html.replace("</head>", assets + "</head>", 1)
 

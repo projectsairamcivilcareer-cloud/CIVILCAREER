@@ -6488,6 +6488,7 @@ def verify_account():
     return render_template(
         "verify_account.html",
         email=email,
+        mobile_number=session.get("verification_mobile", ""),
         email_verified=bool(student and student["email_verified"]),
         mobile_verified=bool(student and student["mobile_verified"]),
         fallback_email_code=fallback_email_code,
@@ -6572,6 +6573,7 @@ def resend_verification():
 
     session["verification_email"] = email
     session["pending_verification_student_id"] = student["id"]
+    session["verification_mobile"] = f"{student['mobile_country_code']} {student['mobile_number']}"
 
     if verification_type == "email":
         session["verification_fallback_email_code"] = code if not sent else ""

@@ -183,7 +183,7 @@
                     </select>
                     <select name="status">
                         <option value="">All Statuses</option>
-                        {% for value in ['NEW', 'OPEN', 'CLOSING SOON', 'EXAM DATE ANNOUNCED', 'CLOSED'] %}
+                        {% for value in ['NEW', 'OPEN', 'CLOSING SOON', 'EXAM DATE ANNOUNCED'] %}
                         <option value="{{ value }}" {% if filters.status == value %}selected{% endif %}>{{ value }}</option>
                         {% endfor %}
                     </select>
@@ -220,7 +220,10 @@
                         <span><b>Qualification</b> {{ job.qualification }}</span>
                         <span><b>Last Date (with time)</b> {{ job.application_last_datetime }}</span>
                         <span><b>Salary / Pay</b> {{ job.salary or job.pay_level }}</span>
-                        <span><b>Registration Fee</b> {{ job.application_fee }}</span><span><b>Start Date</b> {{ job.application_start }}</span><span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
+                        <span><b>Registration Fee</b> {{ job.application_fee }}</span>
+                        <span><b>Start Date</b> {{ job.application_start }}</span>
+                        <span class="job-role-preview"><b>Job Role & Responsibilities</b> {{ job.job_role_responsibilities }}</span>
+                        <span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
                     </div>
                     <div class="job-card-actions">
                         <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>

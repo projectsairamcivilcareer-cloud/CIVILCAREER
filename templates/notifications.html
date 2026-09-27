@@ -115,8 +115,9 @@
                     <strong>{{ job.organization }}</strong>
                     <h3>{{ job.post_name }}</h3>
                     <p>Status: {{ job.display_status }}
-                    {% if job.application_last_date %} · Last date: {{ job.application_last_date }}{% endif %}
-                    {% if job.exam_date %} · Exam: {{ job.exam_date }}{% endif %}</p>
+                    {% if job.application_start %} · Start: {{ job.application_start|date_dmy }}{% endif %}
+                    {% if job.application_last_datetime or job.application_last_date %} · Last date: {{ (job.application_last_datetime or job.application_last_date)|date_dmy }}{% endif %}
+                    {% if job.exam_date %} · Exam: {{ job.exam_date|date_dmy }}{% endif %}</p>
                 </div>
                 <div class="notification-actions">
                     <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>

@@ -96,10 +96,10 @@
             </div>
 
 
-                        <a href="/notifications" class="dashboard-notification-bell" aria-label="Open notifications" title="Notifications" style="position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 52px;width:52px;height:52px;border-radius:15px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(15,23,42,.08);text-decoration:none;color:#0f172a;font-size:26px;">
+                        <a href="/notifications" class="dashboard-notification-bell" aria-label="Notifications{% if unread_notifications_count|int > 0 %}, {{ unread_notifications_count }} unread{% endif %}" title="Notifications" style="position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 52px;width:52px;height:52px;border-radius:15px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(15,23,42,.08);text-decoration:none;color:#0f172a;font-size:26px;">
                     <span aria-hidden="true">🔔</span>
-                    {% if job_counts and job_counts.NEW|int > 0 %}
-                    <span style="position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;background:#ef4444;color:#fff;border:2px solid #f1f5f9;font:700 12px/18px Arial,sans-serif;text-align:center;box-sizing:border-box;">{{ job_counts.NEW }}</span>
+                    {% if unread_notifications_count|int > 0 %}
+                    <span style="position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;background:#ef4444;color:#fff;border:2px solid #f1f5f9;font:700 12px/18px Arial,sans-serif;text-align:center;box-sizing:border-box;">{{ '99+' if unread_notifications_count|int > 99 else unread_notifications_count }}</span>
                     {% endif %}
                 </a>
         </header>

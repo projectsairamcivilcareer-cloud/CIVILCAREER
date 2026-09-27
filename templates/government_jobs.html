@@ -190,13 +190,13 @@
                         <span><b>Vacancies</b> {{ job.vacancies }}</span>
                         <span><b>Qualification</b> {{ job.qualification }}</span>
                         <div class="application-dates">
-                            <span><b>Start Date</b> {{ job.application_start }}</span>
-                            <span><b>Last Date (with time)</b> {{ job.application_last_datetime }}</span>
+                            <span><b>Start Date</b> {{ job.application_start|date_dmy }}</span>
+                            <span><b>Last Date (with time)</b> {{ job.application_last_datetime|date_dmy }}</span>
                         </div>
                         <span><b>Salary / Pay</b> {{ job.salary or job.pay_level }}</span>
                         <span><b>Registration Fee</b> {{ job.application_fee }}</span>
                         <span class="job-role-preview"><b>Job Role & Responsibilities</b> {{ job.job_role_responsibilities }}</span>
-                        <span><b>Source</b> {{ job.source }} · Verified {{ job.last_verified or '—' }}</span>
+                        <span><b>Source</b> {{ job.source }} · Verified {{ (job.last_verified or '—')|date_dmy }}</span>
                     </div>
                     <div class="job-card-actions">
                         <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>

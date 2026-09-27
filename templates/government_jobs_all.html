@@ -71,12 +71,12 @@
           <div><b>Qualification / Branch</b>{{ job.qualification }}{% if job.branch %} · {{ job.branch }}{% endif %}</div>
           <div><b>Salary / Pay</b>{{ job.salary or job.pay_level }}</div>
           <div><b>Application Fee</b>{{ job.application_fee }}</div>
-          <div class="archive-dates"><div><b>Application Start</b>{{ job.application_start }}</div><div><b>Last Date & Time</b>{{ job.application_last_datetime }}</div></div>
+          <div class="archive-dates"><div><b>Application Start</b>{{ job.application_start|date_dmy }}</div><div><b>Last Date & Time</b>{{ job.application_last_datetime|date_dmy }}</div></div>
           <div><b>Age Limit</b>{{ job.age_limit or 'As per official notification' }}{% if job.age_relaxation %}<br>Relaxation: {{ job.age_relaxation }}{% endif %}</div>
           <div><b>Job Role</b>{{ job.job_role_responsibilities }}</div>
           <div><b>Selection Process</b>{{ job.selection_process or 'As per official notification' }}</div>
           <div><b>Location</b>{{ job.job_location or 'As notified' }}</div>
-          <div><b>Source / Verified</b>{{ job.source }} · {{ job.last_verified or 'Date not listed' }}</div>
+          <div><b>Source / Verified</b>{{ job.source }} · {{ (job.last_verified or 'Date not listed')|date_dmy }}</div>
         </div>
         <div class="archive-actions">
           <a href="{{ url_for('government_job_detail', job_id=job.id) }}">View Details</a>

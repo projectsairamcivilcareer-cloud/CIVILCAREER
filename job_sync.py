@@ -21,6 +21,7 @@ OFFICIAL_SOURCES = [
     ("SSC", "https://ssc.gov.in/", "https://ssc.gov.in/"),
     ("APPSC", "https://psc.ap.gov.in/", "https://psc.ap.gov.in/"),
     ("TGPSC", "https://www.tgpsc.gov.in/", "https://www.tgpsc.gov.in/"),
+    ("RRB", "https://rrb.indianrailways.gov.in/", "https://rrb.indianrailways.gov.in/"),
     ("IBPS", "https://www.ibps.in/", "https://www.ibps.in/"),
     ("NHAI", "https://nhai.gov.in/nhai/taxonomy/term/248", "https://nhai.gov.in/"),
     ("UPSC Recruitment", "https://www.upsc.gov.in/recruitment/criteria-adopted", "https://upsconline.nic.in/"),
@@ -68,7 +69,7 @@ def discover(source_name, listing_url, apply_url):
         elif source_name == "UPSC Recruitment":
             if not civil_relevant(title):
                 continue
-        elif source_name in ("SSC", "IBPS"):
+        elif source_name in ("SSC", "IBPS", "RRB"):
             # Capture official exam/recruitment notices for the Non-Core page too.
             # Do not treat general portal navigation links as job notices.
             notice_text = (title + " " + clean(a.parent.get_text(" ", strip=True))).lower()
@@ -159,6 +160,13 @@ def enrich_item(item):
             "job_type": "State Government / State PSC",
             "branch": "Civil Engineering" if civil_relevant(title) else "General / Non-Core",
             "selection_process": "As specified in the official TGPSC notification.",
+        })
+    elif item["organization"] == "RRB":
+        item.update({
+            "department": "Railway Recruitment Boards, Ministry of Railways",
+            "job_type": "Railway / Central Government",
+            "branch": "Civil Engineering" if civil_relevant(title) else "General / Non-Core",
+            "selection_process": "As specified in the official RRB Centralized Employment Notification (CEN).",
         })
     elif item["organization"] == "IBPS":
         item.update({

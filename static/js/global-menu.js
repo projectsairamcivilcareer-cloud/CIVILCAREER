@@ -124,10 +124,19 @@
 
         document.querySelectorAll(".cc-menu-link[data-cc-path]").forEach(function (link) {
             const target = link.getAttribute("data-cc-path");
-            if (
-                path === target ||
-                (target !== "/dashboard" && path.startsWith(target + "/"))
-            ) {
+            // Mark only the exact destination as active. In particular,
+            // /government-jobs must not also highlight /government-jobs/other.
+            const allowNestedActive = [
+                "/exams",
+                "/syllabus",
+                "/materials",
+                "/notifications",
+                "/practice",
+                "/profile",
+                "/non-government-jobs"
+            ].includes(target);
+
+            if (path === target || (allowNestedActive && path.startsWith(target + "/"))) {
                 link.classList.add("active");
             }
 

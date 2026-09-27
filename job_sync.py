@@ -13,9 +13,15 @@ from app import get_db_connection
 USER_AGENT = "CivilCareer-OfficialJobSync/1.0"
 TIMEOUT = 25
 
+# Official recruitment portals monitored by the sync job. These are source
+# entry points; some authorities publish notices as PDFs or client-rendered pages,
+# so users must always confirm the latest details on the linked official portal.
 OFFICIAL_SOURCES = [
     ("UPSC", "https://www.upsc.gov.in/recruitment/recruitment-advertisement", "https://upsconline.nic.in/"),
     ("SSC", "https://ssc.gov.in/", "https://ssc.gov.in/"),
+    ("APPSC", "https://psc.ap.gov.in/", "https://psc.ap.gov.in/"),
+    ("TGPSC", "https://www.tgpsc.gov.in/", "https://www.tgpsc.gov.in/"),
+    ("IBPS", "https://www.ibps.in/", "https://www.ibps.in/"),
     ("NHAI", "https://nhai.gov.in/nhai/taxonomy/term/248", "https://nhai.gov.in/"),
     ("UPSC Recruitment", "https://www.upsc.gov.in/recruitment/criteria-adopted", "https://upsconline.nic.in/"),
 ]
@@ -61,6 +67,15 @@ def discover(source_name, listing_url, apply_url):
                 continue
         elif source_name == "UPSC Recruitment":
             if not civil_relevant(title):
+                continue
+        elif source_name in ("SSC", "IBPS"):
+            # Capture official exam/recruitment notices for the Non-Core page too.
+            # Do not treat general portal navigation links as job notices.
+            notice_text = (title + " " + clean(a.parent.get_text(" ", strip=True))).lower()
+            if not re.search(r"recruit|examination|exam|notice|advertisement|vacanc|calendar|result|admit|apply|notification", notice_text):
+                continue
+        elif source_name in ("APPSC", "TGPSC"):
+            if not re.search(r"recruit|notification|vacanc|group|engineer|assistant|exam|direct recruitment|advt", (title + " " + clean(a.parent.get_text(" ", strip=True))).lower()):
                 continue
         elif not civil_relevant(title + " " + clean(a.parent.get_text(" ", strip=True))):
             continue
@@ -118,13 +133,39 @@ def enrich_item(item):
             "status": "CLOSED",
         })
 
-    if item["organization"] == "SSC" and "junior engineer" in low and "2025" in low:
+    if item["organization"] == "SSC":
         item.update({
             "department": "Staff Selection Commission",
-            "job_type": "Central Government",
-            "branch": "Civil Engineering",
-            "selection_process": "SSC Junior Engineer Examination 2025; check official SSC notices for current stage",
-            "status": "CLOSED",
+            "job_type": "Central Government / SSC",
+            "branch": "Civil Engineering" if civil_relevant(title) else "General / Non-Core",
+            "selection_process": "As specified in the official SSC examination/recruitment notice.",
+        })
+        if "junior engineer" in low and "2025" in low:
+            item.update({
+                "branch": "Civil Engineering",
+                "selection_process": "SSC Junior Engineer Examination 2025; check official SSC notices for current stage",
+                "status": "CLOSED",
+            })
+    elif item["organization"] == "APPSC":
+        item.update({
+            "department": "Andhra Pradesh Public Service Commission",
+            "job_type": "State Government / State PSC",
+            "branch": "Civil Engineering" if civil_relevant(title) else "General / Non-Core",
+            "selection_process": "As specified in the official APPSC notification.",
+        })
+    elif item["organization"] == "TGPSC":
+        item.update({
+            "department": "Telangana Public Service Commission",
+            "job_type": "State Government / State PSC",
+            "branch": "Civil Engineering" if civil_relevant(title) else "General / Non-Core",
+            "selection_process": "As specified in the official TGPSC notification.",
+        })
+    elif item["organization"] == "IBPS":
+        item.update({
+            "department": "Institute of Banking Personnel Selection",
+            "job_type": "Central Public Sector / Banking",
+            "branch": "General / Non-Core",
+            "selection_process": "As specified in the official IBPS recruitment notification.",
         })
 
     if item["organization"] == "UPSC Recruitment":

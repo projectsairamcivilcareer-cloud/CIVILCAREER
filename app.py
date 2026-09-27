@@ -6680,6 +6680,18 @@ def logout():
 
 
 
+@app.route("/jobs")
+def jobs_hub():
+    """Landing page for the three separate Civil Career job sections."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    return render_template(
+        "jobs.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", "")
+    )
+
+
 @app.route("/non-government-jobs")
 def non_government_jobs():
     """Show private-sector and non-government career paths for Civil Engineering qualifications."""

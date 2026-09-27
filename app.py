@@ -30,6 +30,18 @@ from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_
 
 app = Flask(__name__)
 
+@app.after_request
+def add_site_date_formatter(response):
+    """Load the date display formatter on all HTML pages without changing stored/input dates."""
+    if response.mimetype == "text/html":
+        html = response.get_data(as_text=True)
+        script_tag = '<script src="/static/js/date-format.js?v=20260927a" defer></script>'
+        if "</body>" in html and "date-format.js" not in html:
+            html = html.replace("</body>", script_tag + "</body>")
+            response.set_data(html)
+    return response
+
+
 
 @app.template_filter("date_dmy")
 def format_date_dmy(value):

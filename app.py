@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, send_file, jsonify
 import json
 import time
 import sqlite3
@@ -2143,6 +2143,38 @@ def materials():
 # ==============================
 # NOTIFICATIONS
 # ==============================
+
+@app.route("/api/notifications/unread-count")
+def api_notification_unread_count():
+    """Return the current student's unread notification count and latest alert for live bell updates."""
+    if "student_id" not in session:
+        return jsonify({"authenticated": False, "count": 0}), 401
+
+    connection = get_db_connection()
+    try:
+        count_row = connection.execute(
+            "SELECT COUNT(*) AS count FROM notification_alerts WHERE user_id=? AND is_read=0",
+            (session["student_id"],)
+        ).fetchone()
+        latest = connection.execute(
+            """
+            SELECT id, category, title, message, link_url, created_at
+            FROM notification_alerts
+            WHERE user_id=? AND is_read=0
+            ORDER BY created_at DESC, id DESC
+            LIMIT 1
+            """,
+            (session["student_id"],)
+        ).fetchone()
+        latest_alert = dict(latest) if latest else None
+        return jsonify({
+            "authenticated": True,
+            "count": int(count_row["count"] or 0),
+            "latest": latest_alert
+        })
+    finally:
+        connection.close()
+
 
 @app.route("/notifications")
 def notifications():

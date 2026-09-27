@@ -19,11 +19,12 @@ TIMEOUT = 25
 OFFICIAL_SOURCES = [
     ("UPSC", "https://www.upsc.gov.in/recruitment/recruitment-advertisement", "https://upsconline.nic.in/"),
     ("SSC", "https://ssc.gov.in/", "https://ssc.gov.in/"),
-    ("APPSC", "https://psc.ap.gov.in/", "https://psc.ap.gov.in/"),
+    ("APPSC", "https://portal-psc.ap.gov.in/HomePages/RecruitmentNotifications", "https://portal-psc.ap.gov.in/"),
     ("TGPSC", "https://www.tgpsc.gov.in/", "https://www.tgpsc.gov.in/"),
-    ("RRB", "https://rrb.indianrailways.gov.in/", "https://rrb.indianrailways.gov.in/"),
+    ("RRB", "https://rrbsecunderabad.gov.in/employment-notice/", "https://www.rrbapply.gov.in/"),
     ("IBPS", "https://www.ibps.in/", "https://www.ibps.in/"),
     ("NHAI", "https://nhai.gov.in/nhai/taxonomy/term/248", "https://nhai.gov.in/"),
+    ("Employment News", "https://employmentnews.gov.in/newemp/AllJobs.aspx?k=All", "https://employmentnews.gov.in/"),
     ("UPSC Recruitment", "https://www.upsc.gov.in/recruitment/criteria-adopted", "https://upsconline.nic.in/"),
 ]
 
@@ -76,7 +77,10 @@ def discover(source_name, listing_url, apply_url):
             if not re.search(r"recruit|examination|exam|notice|advertisement|vacanc|calendar|result|admit|apply|notification", notice_text):
                 continue
         elif source_name in ("APPSC", "TGPSC"):
-            if not re.search(r"recruit|notification|vacanc|group|engineer|assistant|exam|direct recruitment|advt", (title + " " + clean(a.parent.get_text(" ", strip=True))).lower()):
+            if not re.search(r"recruit|notification|vacanc|group|engineer|assistant|exam|direct recruitment|advt|draughtsman", (title + " " + clean(a.parent.get_text(" ", strip=True))).lower()):
+                continue
+        elif source_name == "Employment News":
+            if not civil_relevant(title + " " + clean(a.parent.get_text(" ", strip=True))):
                 continue
         elif not civil_relevant(title + " " + clean(a.parent.get_text(" ", strip=True))):
             continue

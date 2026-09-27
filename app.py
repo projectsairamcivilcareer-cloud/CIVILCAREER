@@ -696,6 +696,62 @@ def create_database():
             "CLOSED"
         ),
         (
+            "Andhra Pradesh Public Service Commission",
+            "Assistant Environmental Engineer – Notification No. 08/2026 (Upcoming)",
+            "A.P. Pollution Control Board",
+            "State Government / APPSC",
+            "Detailed notification pending. Confirm whether Civil, Environmental or allied engineering degrees are accepted before applying.",
+            "Civil / Environmental Engineering – verify detailed eligibility",
+            "As per detailed notification",
+            "As per detailed notification",
+            "",
+            "",
+            "As per detailed notification",
+            "2026-10-06",
+            "2026-10-27",
+            "2026-10-27 23:59",
+            "",
+            "As per detailed notification",
+            "Environmental engineering, pollution control, inspection, compliance and technical duties only as described in the detailed APPSC notification.",
+            "As per detailed APPSC notification",
+            "Andhra Pradesh",
+            "https://portal-psc.ap.gov.in/HomePages/RecruitmentNotifications",
+            "https://portal-psc.ap.gov.in/",
+            "APPSC",
+            "APPSC-08-2026-AEE",
+            "2026-09-15",
+            "2026-09-27",
+            "NEW"
+        ),
+        (
+            "Andhra Pradesh Public Service Commission",
+            "Draughtsman Grade-II (Technical Assistant) – Notification No. 15/2026 (Upcoming)",
+            "A.P. Forest Subordinate Service",
+            "State Government / APPSC",
+            "Detailed notification pending. Verify accepted diploma/ITI/engineering qualifications and whether Civil Draughtsman is eligible before applying.",
+            "Civil Drafting / Technical Assistant – eligibility pending detailed notification",
+            "20 (as stated in the official brief notification; confirm in detailed notification)",
+            "As per detailed notification",
+            "",
+            "",
+            "As per detailed notification",
+            "2026-10-16",
+            "2026-11-05",
+            "2026-11-05 23:59",
+            "",
+            "As per detailed notification",
+            "Technical drafting and drawing-related duties as prescribed by the APPSC detailed notification.",
+            "As per detailed APPSC notification",
+            "Andhra Pradesh",
+            "https://portal-psc.ap.gov.in/HomePages/RecruitmentNotifications",
+            "https://portal-psc.ap.gov.in/",
+            "APPSC",
+            "APPSC-15-2026-DRAUGHTSMAN",
+            "2026-09-15",
+            "2026-09-27",
+            "NEW"
+        ),
+        (
             "Union Public Service Commission",
             "Assistant Professor, Civil Engineering (Structural)",
             "College of Military Engineering",
@@ -776,6 +832,18 @@ def create_database():
               OR LOWER(COALESCE(department,'')) LIKE '%%gate 2025%%'
           )
     """
+    )
+
+    # Correct UPSC's published ESE 2027 application cutoff to 6:00 PM IST.
+    connection.execute(
+        """
+        UPDATE government_jobs
+        SET application_last_datetime='2026-10-06 18:00',
+            application_last_date='2026-10-06',
+            last_verified='2026-09-27',
+            status='OPEN'
+        WHERE notification_number='ESE-2027'
+        """
     )
 
     # Backfill mandatory fields for the built-in official job records.

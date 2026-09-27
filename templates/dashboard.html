@@ -96,11 +96,9 @@
             </div>
 
 
-                        <a href="/notifications" class="dashboard-notification-bell" aria-label="Notifications{% if unread_notifications_count|int > 0 %}, {{ unread_notifications_count }} unread{% endif %}" title="Notifications" style="position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 52px;width:52px;height:52px;border-radius:15px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(15,23,42,.08);text-decoration:none;color:#0f172a;font-size:26px;">
+                        <a href="/notifications" id="dashboard-notification-bell" class="dashboard-notification-bell" aria-label="Notifications{% if unread_notifications_count|int > 0 %}, {{ unread_notifications_count }} unread{% endif %}" title="Notifications" style="position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 52px;width:52px;height:52px;border-radius:15px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(15,23,42,.08);text-decoration:none;color:#0f172a;font-size:26px;">
                     <span aria-hidden="true">🔔</span>
-                    {% if unread_notifications_count|int > 0 %}
-                    <span style="position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;background:#ef4444;color:#fff;border:2px solid #f1f5f9;font:700 12px/18px Arial,sans-serif;text-align:center;box-sizing:border-box;">{{ '99+' if unread_notifications_count|int > 99 else unread_notifications_count }}</span>
-                    {% endif %}
+                    <span id="dashboard-notification-badge" aria-live="polite" aria-atomic="true" {% if unread_notifications_count|int <= 0 %}hidden{% endif %} style="position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;background:#ef4444;color:#fff;border:2px solid #f1f5f9;font:700 12px/18px Arial,sans-serif;text-align:center;box-sizing:border-box;">{{ '99+' if unread_notifications_count|int > 99 else unread_notifications_count }}</span>
                 </a>
         </header>
 
@@ -322,6 +320,92 @@
  if(!standalone&&!sessionStorage.getItem('ccInstallDismissed')&&!sessionStorage.getItem('ccInstalled'))setTimeout(()=>modal.style.display='flex',1200);
 })();
 </script>
+<script>
+(() => {
+    const bell = document.getElementById("dashboard-notification-bell");
+    const badge = document.getElementById("dashboard-notification-badge");
+    if (!bell || !badge) return;
+
+    let currentCount = Number({{ unread_notifications_count|int }}) || 0;
+    let newestKnownId = "";
+    let refreshHandle = null;
+    const pollEveryMs = 45000;
+
+    function updateBadge(count) {
+        const safeCount = Math.max(0, Number(count) || 0);
+        badge.textContent = safeCount > 99 ? "99+" : String(safeCount);
+        badge.hidden = safeCount === 0;
+        bell.setAttribute("aria-label", safeCount ? "Notifications, " + safeCount + " unread" : "Notifications");
+        bell.classList.toggle("has-unread", safeCount > 0);
+    }
+
+    async function refreshNotificationCount() {
+        if (document.hidden || !navigator.onLine) return;
+        try {
+            const response = await fetch("/api/notifications/unread-count", {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.status === 401) return;
+            if (!response.ok) throw new Error("Notification count request failed");
+            const data = await response.json();
+            if (!data.authenticated) return;
+
+            const latest = data.latest;
+            if (latest && String(latest.id) !== newestKnownId) {
+                const newAlertArrived = newestKnownId !== "" && Number(data.count) > currentCount;
+                newestKnownId = String(latest.id);
+                if (newAlertArrived && "Notification" in window && Notification.permission === "granted") {
+                    try {
+                        const notice = new Notification(latest.title || "Civil Career update", {
+                            body: latest.message || "You have a new Civil Career notification.",
+                            icon: "/static/images/civil-career-icon.svg",
+                            tag: "civil-career-alert-" + latest.id
+                        });
+                        notice.onclick = () => {
+                            window.focus();
+                            window.location.href = latest.link_url || "/notifications";
+                        };
+                    } catch (e) { /* In-page bell remains available if browser alerts are blocked. */ }
+                }
+            }
+            currentCount = Math.max(0, Number(data.count) || 0);
+            updateBadge(currentCount);
+        } catch (error) {
+            // Keep the last server-rendered count visible if the network is unavailable.
+        }
+    }
+
+    function schedulePoll() {
+        clearInterval(refreshHandle);
+        refreshHandle = setInterval(refreshNotificationCount, pollEveryMs);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) refreshNotificationCount();
+    });
+    window.addEventListener("online", refreshNotificationCount);
+    window.addEventListener("pageshow", refreshNotificationCount);
+    refreshNotificationCount();
+    schedulePoll();
+})();
+</script>
+<style>
+.dashboard-notification-bell { flex-shrink: 0; transition: transform .15s ease, box-shadow .15s ease; }
+.dashboard-notification-bell:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,99,235,.18) !important; }
+.dashboard-notification-bell.has-unread { border-color: #fecaca !important; }
+.dashboard-notification-bell [hidden] { display: none !important; }
+@media (max-width: 650px) {
+  .topbar { width: 100%; flex-direction: row !important; align-items: center !important; justify-content: space-between !important; gap: 12px !important; }
+  .topbar > div { min-width: 0; }
+  .topbar h1 { font-size: clamp(21px, 5vw, 28px); }
+  .topbar p { font-size: 13px; line-height: 1.4; }
+  .dashboard-notification-bell { width: 46px !important; height: 46px !important; flex-basis: 46px !important; font-size: 23px !important; margin-left: auto; }
+  #dashboard-notification-badge { top: -5px !important; right: -5px !important; }
+}
+</style>
 </body>
 
 </html>

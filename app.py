@@ -1773,6 +1773,20 @@ def government_jobs():
         job["display_status"] = government_job_status(
             job["application_last_date"], job["exam_date"], job["status"]
         )
+        # Core page must contain Civil/technical engineering recruitment only.
+        core_civil_terms = (
+            "civil", "junior engineer", "assistant engineer", "executive engineer",
+            "engineering services", "structural", "geotechnical", "survey",
+            "roads", "highway", "irrigation", "water resources", "public works",
+            "pwd", "nhai", "cpwd", "bro", "cwc", "ssc je", "rrb je",
+            "civil engineering", "construction", "municipal engineer",
+            "sub engineer", "overseer", "work inspector", "draftsman"
+        )
+        civil_haystack = " ".join(str(job.get(k) or "") for k in (
+            "organization", "post_name", "department", "qualification", "branch"
+        )).lower()
+        if not any(term in civil_haystack for term in core_civil_terms):
+            continue
         # Government Jobs page shows only active/open/ongoing notifications.
         if job["display_status"] == "CLOSED":
             continue
@@ -1802,10 +1816,12 @@ def government_jobs():
         matching_jobs=matching_jobs,
         user_preferences=user_preferences,
         civil_job_categories=[
-            {"title":"Diploma Civil Engineering", "posts":"Junior Engineer (JE), Work Inspector, Overseer, Draftsman (Civil), Surveyor, Junior Technical Assistant, Sub-Engineer", "recruiters":"State R&B/PWD, Irrigation/Water Resources, Municipalities, Panchayat/Rural Engineering, PHED, Railways (eligible technical posts), SSC JE where diploma is accepted", "months":"Vacancy-driven; check throughout the year. State JE/overseer notices often vary by department and state."},
-            {"title":"B.E. / B.Tech Civil Engineering", "posts":"Assistant Engineer (AE), Assistant Executive Engineer (AEE), Graduate Engineer Trainee (GET), Engineering Services, Project/Planning Engineer, Junior Engineer (where degree holders are eligible)", "recruiters":"UPSC Engineering Services (ESE), State PSC/Engineering Services, SSC JE, RRB/Metro, CPWD, BRO, NHAI, CWC, CPHEEO-linked departments, state PWD and Irrigation", "months":"UPSC ESE calendar is usually published annually; application/exam dates change each year. State PSC, SSC, PSU and department vacancies are irregular—monitor official portals monthly."},
-            {"title":"M.E. / M.Tech Civil Engineering", "posts":"Specialist/Research Engineer, Scientist/Technical Officer (where Civil specializations are accepted), Assistant Professor/Lecturer (as per applicable eligibility), Senior/Project Engineer, PSU specialist roles", "recruiters":"CSIR/DRDO/ISRO or other research bodies when Civil disciplines are notified, IITs/NITs/central universities, state technical education departments, PSUs and project authorities", "months":"No fixed annual month across organizations; openings are vacancy/project-based. Check official recruitment and institute career pages throughout the year."},
-            {"title":"All Civil qualifications – common routes", "posts":"SSC JE, State JE/AE, Railways/Metro, PSU recruitment, Defence engineering organizations, municipal and water-resource departments", "recruiters":"SSC, RRBs, State PSCs, state recruitment boards, CPWD, BRO, PSUs, municipal and water-resource bodies", "months":"Notification dates are not guaranteed. Use the official annual exam calendar where available and verify each live notification."},
+            {"title":"Diploma – Civil Engineering", "posts":"Junior Engineer (Civil), Sub-Engineer, Work Inspector, Overseer, Civil Draughtsman, Surveyor, Technical Assistant and diploma-level site/works posts (only where diploma is accepted)", "recruiters":"APPSC, TGPSC, other State PSCs/Recruitment Boards, State PWD/R&B, Irrigation/Water Resources, Panchayat Raj/Rural Water Supply, Municipalities, PHED, SSC JE and RRB JE (as per notice)", "months":"No single fixed month. State JE/Overseer notices are vacancy-based; check state PSC/board calendars monthly. SSC/RRB publish their own annual or revised calendars."},
+            {"title":"B.E. / B.Tech – Civil Engineering", "posts":"Assistant Engineer (Civil), AEE, Engineering Services, Graduate Engineer Trainee, Civil Project/Planning Engineer, Junior Engineer where degree holders qualify, technical officer and works/quality-control posts", "recruiters":"UPSC Engineering Services (ESE), APPSC, TGPSC and other State PSCs, SSC JE, RRB JE/technical posts, CPWD, BRO, NHAI, CWC, state PWD/R&B, Irrigation and eligible central departments", "months":"UPSC/SSC/RRB calendars may be annual but dates change. APPSC/TGPSC and other state AE/JE recruitments depend on vacancies and official notifications. Monitor monthly."},
+            {"title":"M.E. / M.Tech – Civil Engineering", "posts":"Specialist Engineer, Structural/Geotechnical/Transportation/Water Resources roles, Scientist/Technical Officer where Civil specializations are named, Assistant Professor/Lecturer and research/project posts", "recruiters":"PSUs and infrastructure authorities, CSIR/DRDO/other research bodies when Civil is specifically listed, IITs/NITs/central universities, APPSC/TGPSC and other state technical education departments", "months":"No common annual month. Faculty, research and specialist openings are institution- or project-based; check official career pages throughout the year."},
+            {"title":"PSU & Central Government – Civil", "posts":"Graduate Engineer Trainee, Deputy Manager/Assistant Manager (Civil), Junior Engineer, Assistant Engineer, technical/works officer and project engineering roles", "recruiters":"NHAI, NBCC, RVNL, IRCON, RITES, NHPC, NTPC, Power Grid, SJVN, THDC, BHEL, IOCL, ONGC, CPWD, BRO and other PSUs/departments when Civil is explicitly eligible", "months":"PSU notices are released independently and sometimes use GATE scores. No guaranteed month; monitor each official careers page and GATE-based recruitment notices."},
+            {"title":"APPSC / TGPSC / State PSC – Civil", "posts":"AE, AEE, JE, Technical Officer, Assistant Professor and departmental engineering posts based on the recruitment rules", "recruiters":"Andhra Pradesh Public Service Commission (APPSC), Telangana Public Service Commission (TGPSC), and other state PSCs/recruitment boards", "months":"State-wise and vacancy-driven. Track official annual calendars, recruitment notifications, corrigenda and application deadlines."},
+            {"title":"Railways & SSC – Civil Technical", "posts":"SSC Junior Engineer (Civil), RRB Junior Engineer (Civil/P-Way/Works), and other railway technical posts only where the exact qualification/branch is accepted", "recruiters":"Staff Selection Commission (SSC), Railway Recruitment Boards (RRBs), Metro rail corporations and relevant official recruiting bodies", "months":"Check SSC/RRB annual calendars and notices throughout the year. Exam dates and vacancies may be revised; use the official notice."},
         ],
         recruitment_month_notes=[
             {"period":"January–March","note":"Check annual exam calendars, UPSC/SSC notices, state budget-year recruitment announcements and PSU career pages; dates vary."},
@@ -6688,12 +6704,16 @@ def government_jobs_other():
     # Show only notices whose titles/departments indicate non-core or general
     # government recruitment. Eligibility must still be checked in the official notice.
     non_core_terms = (
-        "civil service", "ias", "ips", "ifs", "state psc", "group 1", "group-i",
-        "group 2", "group-ii", "group 3", "group-iii", "group 4", "group-iv",
+        "civil service", "ias", "ips", "ifs", "state psc", "appsc group", "tgpsc group",
+        "group 1", "group-i", "group 2", "group-ii", "group 3", "group-iii",
+        "group 4", "group-iv", "ssc cgl", "ssc chsl", "ssc cpo", "ssc mts",
+        "ssc gd", "combined graduate", "combined higher secondary", "rrb ntpc",
+        "rrb group d", "railway protection force", "railway recruitment",
         "administrative", "accounts", "audit", "bank", "insurance", "general duty",
-        "general graduate", "graduate level", "steno", "clerical", "assistant",
-        "officer", "management trainee", "teaching", "lecturer", "faculty",
-        "forest", "environment", "disaster management", "planning"
+        "general graduate", "graduate level", "steno", "clerical", "data entry",
+        "assistant", "officer", "management trainee", "teaching", "lecturer",
+        "faculty", "forest", "environment", "disaster management", "planning",
+        "central government", "state government", "non technical", "non-technical"
     )
     jobs = []
     counts = {"NEW": 0, "OPEN": 0, "CLOSING SOON": 0, "EXAM DATE ANNOUNCED": 0, "CLOSED": 0}

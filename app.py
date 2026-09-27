@@ -178,7 +178,7 @@ def add_global_navigation(response):
         f'<link rel="apple-touch-icon" href="/static/images/civil-career-icon.svg?v=20260924">'
         f'<link rel="stylesheet" href="/static/css/global-menu.css?v=20260924c">'
         f'<link rel="stylesheet" href="/static/css/mobile.css?v=20260924a">'
-        f'<script defer src="/static/js/global-menu.js?v=20260927b"></script>'
+        f'<script defer src="/static/js/global-menu.js?v=20260927c"></script>'
         f'<script defer src="/static/js/session-timeout.js?v=20260924b"></script>'
     )
     html = html.replace("</head>", assets + "</head>", 1)

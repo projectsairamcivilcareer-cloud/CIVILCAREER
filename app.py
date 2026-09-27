@@ -33,11 +33,11 @@ app = Flask(__name__)
 
 @app.template_filter("date_dmy")
 def format_date_dmy(value):
-    """Display stored ISO dates as DD-MM-YYYY, preserving time when present."""
+    """Display dates as DD-MM-YYYY and times in 12-hour format with AM/PM."""
     if value is None or value == "":
         return "Not announced"
     if isinstance(value, datetime):
-        return value.strftime("%d-%m-%Y %H:%M") if (value.hour or value.minute or value.second) else value.strftime("%d-%m-%Y")
+        return value.strftime("%d-%m-%Y %I:%M %p") if (value.hour or value.minute or value.second) else value.strftime("%d-%m-%Y")
     if isinstance(value, date):
         return value.strftime("%d-%m-%Y")
     text_value = str(value).strip()

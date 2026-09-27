@@ -45,12 +45,6 @@
       <h2>📋 All Government Recruitment – Notices & History</h2>
       <p>Browse the full verified government-job register across Civil technical, PSU, non-core, central, state and other categories. Use the filters to narrow by qualification, recruiting type and status. Confirm eligibility and dates in the official notification.</p>
     </section>
-    <nav class="archive-nav" aria-label="Government jobs navigation">
-      <a href="{{ url_for('government_jobs') }}">🏗️ Core Civil Govt Jobs</a>
-      <a href="{{ url_for('government_jobs_other') }}">🧭 Non-Core Govt Jobs</a>
-      <a href="{{ url_for('non_government_jobs') }}">🏢 Private / Non-Govt Jobs</a>
-      <a class="active" href="{{ url_for('government_jobs_all') }}">📋 All Verified Notices</a>
-    </nav>
     <section class="archive-counts">
       <div><strong>{{ counts.get('NEW',0) }}</strong><span>New</span></div>
       <div><strong>{{ counts.get('OPEN',0) }}</strong><span>Open</span></div>

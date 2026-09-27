@@ -55,9 +55,6 @@
                     <a class="cc-menu-link" href="/materials" data-cc-path="/materials">
                         <span class="cc-menu-icon">📚</span><span>Materials</span>
                     </a>
-                    <a class="cc-menu-link" href="/notifications" data-cc-path="/notifications">
-                        <span class="cc-menu-icon">🔔</span><span>Notifications</span>
-                    </a>
                     <a class="cc-menu-link" href="/practice" data-cc-path="/practice">
                         <span class="cc-menu-icon">🎯</span><span>Practice</span>
                     </a>
@@ -124,7 +121,6 @@
                 "/exams",
                 "/syllabus",
                 "/materials",
-                "/notifications",
                 "/practice",
                 "/profile",
                 "/jobs",

@@ -126,7 +126,6 @@ def add_global_navigation(response):
         "/pyqs",
         "/mock-tests",
         "/mock-test/",
-        "/mock-test-history/",
     )
     current_path = request.path.rstrip("/") or "/"
     if any(

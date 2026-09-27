@@ -134,7 +134,7 @@
                 "/non-government-jobs"
             ].includes(target);
 
-            if (path === target || (allowNestedActive && path.startsWith(target + "/"))) {
+            if (path === target || (allowNestedActive && path.startsWith(target + "/")) || (target === "/jobs" && ["/government-jobs", "/government-jobs/other", "/government-jobs/all", "/non-government-jobs"].includes(path))) {
                 link.classList.add("active");
             }
 

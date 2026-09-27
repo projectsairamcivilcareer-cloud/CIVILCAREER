@@ -6731,7 +6731,15 @@ def government_jobs_other():
     counts = {"NEW": 0, "OPEN": 0, "CLOSING SOON": 0, "EXAM DATE ANNOUNCED": 0, "CLOSED": 0}
     for row in rows:
         job = dict(row)
-        haystack = " ".join(str(job.get(k) or "") for k in ("organization","post_name","department","job_type")).lower()
+        haystack = " ".join(str(job.get(k) or "") for k in ("organization","post_name","department","job_type","branch")).lower()
+        # Keep Civil technical engineering posts on the Core Civil page only.
+        core_civil_markers = (
+            "civil engineering", "junior engineer (civil)", "assistant engineer (civil)",
+            "civil works", "civil branch", "civil discipline", "ssc je civil",
+            "rrb je civil", "civil - structural", "civil – structural"
+        )
+        if any(term in haystack for term in core_civil_markers):
+            continue
         if not any(term in haystack for term in non_core_terms):
             continue
         job["display_status"] = government_job_status(

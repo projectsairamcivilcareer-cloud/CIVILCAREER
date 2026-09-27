@@ -1321,6 +1321,10 @@ def dashboard():
         WHERE notification_url != '' AND apply_url != '' AND source != ''
         """
     ).fetchall()
+    unread_notifications_count = connection.execute(
+        "SELECT COUNT(*) AS count FROM notification_alerts WHERE user_id=? AND is_read=0",
+        (session["student_id"],)
+    ).fetchone()["count"]
     connection.close()
     job_counts = {"NEW": 0, "OPEN": 0, "CLOSING SOON": 0}
     for job in verified_jobs:
@@ -1365,6 +1369,7 @@ def dashboard():
         student_education=student_education,
         profile_photo=profile_check["profile_photo"] if profile_check else None,
         job_counts=job_counts,
+        unread_notifications_count=unread_notifications_count,
         matching_jobs=matching_jobs,
         overall_progress=overall_progress,
     )

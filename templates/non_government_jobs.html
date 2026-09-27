@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Non-Govt Jobs | Civil Career</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/government_jobs.css') }}?v=20260927a">
+<style>
+.ng-wrap{max-width:1400px;margin:auto;padding:26px}.ng-hero{padding:26px;border-radius:18px;background:linear-gradient(120deg,#eff6ff,#f0fdf4);border:1px solid #dbeafe;margin:20px 0}.ng-hero h2{margin:0 0 8px;color:#12345a}.ng-hero p{margin:0;color:#52647a;line-height:1.65}.ng-nav{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.ng-nav a{padding:11px 16px;border-radius:10px;text-decoration:none;font-weight:750;background:#e8eef7;color:#18365c}.ng-nav a.active{background:#2563eb;color:#fff}.ng-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:18px 0 28px}.ng-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:22px;box-shadow:0 4px 15px rgba(15,23,42,.04)}.ng-card h3{margin:0 0 10px;color:#16365d}.ng-card p{margin:0;color:#52647a;line-height:1.6}.ng-card .qual{display:inline-block;background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:5px 10px;font-size:12px;font-weight:800;margin-bottom:12px}.ng-note{padding:16px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;line-height:1.6}@media(max-width:600px){.ng-wrap{padding:14px}}
+</style>
+</head>
+<body>
+<main class="dashboard-main"><div class="ng-wrap">
+<header class="topbar"><div><h1>Non-Govt Jobs for Civil Engineers</h1><p>Private companies, construction, infrastructure and other non-government career paths.</p></div><div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div></header>
+<nav class="ng-nav" aria-label="Career jobs navigation">
+<a href="{{ url_for('government_jobs') }}">🏗️ Core Govt Jobs</a>
+<a href="{{ url_for('non_government_jobs') }}" class="active">🏢 Non-Govt Jobs</a>
+<a href="{{ url_for('government_jobs_other') }}">🧭 Non-Core Govt Jobs</a>
+<a href="{{ url_for('government_jobs_all') }}">📚 Core Govt Previous Notices</a>
+</nav>
+<section class="ng-hero"><h2>Explore private-sector career categories</h2><p>Opportunities may be available for Diploma, B.E./B.Tech and M.E./M.Tech Civil Engineering candidates. Hiring, qualification requirements, experience, salary and location vary by employer. Verify each employer's official careers page before applying.</p></section>
+<h2>Career categories</h2>
+<section class="ng-grid">
+<article class="ng-card"><span class="qual">Diploma / Degree</span><h3>Site & Construction Engineer</h3><p>Site Engineer, Site Supervisor, Civil Site In-charge, Billing Engineer and execution roles with contractors and construction companies.</p></article>
+<article class="ng-card"><span class="qual">Diploma / Degree</span><h3>Structural & Design</h3><p>Structural Design Engineer, CAD/BIM Technician, Rebar Detailer and design-office roles. Software skills and design experience may be required.</p></article>
+<article class="ng-card"><span class="qual">Diploma / Degree</span><h3>Planning, Quantity & Contracts</h3><p>Planning Engineer, Quantity Surveyor, Estimation Engineer, Tendering Engineer and Contracts/Billing roles.</p></article>
+<article class="ng-card"><span class="qual">Diploma / Degree</span><h3>Infrastructure & Transportation</h3><p>Highways, bridges, metro, rail infrastructure, airports, ports and urban infrastructure project roles.</p></article>
+<article class="ng-card"><span class="qual">Degree / M.Tech</span><h3>Geotechnical, Water & Environment</h3><p>Geotechnical Engineer, Hydraulics/Water Resources Engineer, Environmental Engineer and testing/consultancy roles.</p></article>
+<article class="ng-card"><span class="qual">Diploma / Degree / M.Tech</span><h3>Quality, Safety & Materials</h3><p>QA/QC Engineer, Quality Control Lab Engineer, Materials Engineer and site safety/quality coordination roles.</p></article>
+<article class="ng-card"><span class="qual">Degree / M.Tech</span><h3>BIM, GIS & Digital Construction</h3><p>BIM Modeler/Coordinator, Revit Technician, GIS/CAD Analyst and digital construction roles.</p></article>
+<article class="ng-card"><span class="qual">Degree / M.Tech</span><h3>Consultancy, Research & Teaching</h3><p>Private consultancy, project research, lecturer/trainer and technical content roles; eligibility varies by institution and position.</p></article>
+</section>
+<div class="ng-note"><strong>Important:</strong> This page currently provides job categories and career guidance, not live verified vacancy listings. Do not treat any category as an active opening. Apply only through the employer's official careers portal and confirm the current vacancy, eligibility, salary and deadline there.</div>
+</div></main>
+</body></html>

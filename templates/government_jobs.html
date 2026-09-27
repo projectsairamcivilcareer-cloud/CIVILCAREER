@@ -94,13 +94,6 @@
 
         </section>
 
-        <nav class="gov-job-tabs" aria-label="Government jobs sections">
-            <a class="active" href="{{ url_for('government_jobs') }}">🏗️ Core Civil Govt Jobs</a>
-            <a href="{{ url_for('government_jobs_other') }}">🧭 Non-Core & Other Govt Jobs</a>
-            <a href="{{ url_for('non_government_jobs') }}">🏢 Private / Non-Govt Jobs</a>
-            <a href="{{ url_for('government_jobs_all') }}">📋 All Verified Notices</a>
-        </nav>
-
         <section class="job-status-grid" aria-label="Government job status summary">
             <div><strong>{{ counts.NEW }}</strong><span>New</span></div>
             <div><strong>{{ counts.OPEN }}</strong><span>Open</span></div>

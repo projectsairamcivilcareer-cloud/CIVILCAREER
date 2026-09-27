@@ -6633,6 +6633,19 @@ def logout():
 
 
 
+
+@app.route("/non-government-jobs")
+def non_government_jobs():
+    """Show private-sector and non-government career paths for Civil Engineering qualifications."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    return render_template(
+        "non_government_jobs.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", "")
+    )
+
+
 @app.route("/government-jobs/other")
 def government_jobs_other():
     """Civil-eligible non-core and general government career paths."""

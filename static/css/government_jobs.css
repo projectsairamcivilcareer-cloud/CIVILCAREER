@@ -786,3 +786,38 @@ body:has(.gov-job-tabs) .dashboard-main {
   .gov-job-tabs { display:grid; grid-template-columns:1fr; }
   body:has(.gov-job-tabs) .dashboard-main { padding: 16px !important; }
 }
+
+
+/* Professional page spacing: keep the fixed menu control clear of the heading. */
+body:has(.gov-job-tabs) .dashboard-main {
+  padding: 86px 30px 32px !important;
+  box-sizing: border-box;
+}
+body:has(.gov-job-tabs) .topbar {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+body:has(.gov-job-tabs) .topbar > div:first-child { min-width: 0; }
+body:has(.gov-job-tabs) .topbar h1 {
+  color: #172554;
+  font-size: clamp(25px, 2.4vw, 32px);
+  line-height: 1.25;
+  margin: 0 0 6px;
+  overflow-wrap: anywhere;
+}
+body:has(.gov-job-tabs) .topbar p {
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+body:has(.gov-job-tabs) .dashboard-section { min-width: 0; }
+@media(max-width:700px) {
+  body:has(.gov-job-tabs) .dashboard-main { padding: 76px 16px 24px !important; }
+  body:has(.gov-job-tabs) .topbar { gap: 12px; margin-bottom: 20px; }
+  body:has(.gov-job-tabs) .student-info { margin-left: 0; }
+}

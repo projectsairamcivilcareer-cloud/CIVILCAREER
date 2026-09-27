@@ -1785,6 +1785,18 @@ def government_jobs():
         civil_haystack = " ".join(str(job.get(k) or "") for k in (
             "organization", "post_name", "department", "qualification", "branch"
         )).lower()
+        non_core_exclusions = (
+            "civil services", "civil service examination", "ias", "ips", "ifs",
+            "group-i", "group-ii", "group 1", "group 2", "ssc cgl", "ssc chsl",
+            "ssc mts", "ssc cpo", "ssc gd", "rrb ntpc", "group d", "bank po"
+        )
+        is_general_service = any(term in civil_haystack for term in non_core_exclusions)
+        has_explicit_civil_engineering = any(term in civil_haystack for term in (
+            "civil engineering", "junior engineer (civil)", "assistant engineer (civil)",
+            "civil works", "civil branch", "civil discipline", "civil -"
+        ))
+        if is_general_service and not has_explicit_civil_engineering:
+            continue
         if not any(term in civil_haystack for term in core_civil_terms):
             continue
         # Government Jobs page shows only active/open/ongoing notifications.

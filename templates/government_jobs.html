@@ -20,70 +20,7 @@
 <body>
 
 
-    <!-- SIDEBAR -->
-
-    <aside class="sidebar">
-
-        <div class="dashboard-logo">
-
-            🏗️
-
-            <span>CIVIL CAREER</span>
-
-        </div>
-
-
-        <nav class="sidebar-menu">
-
-            <a href="/dashboard">
-                📊 Dashboard
-            </a>
-
-            <a href="/exams">
-                📚 Exams
-            </a>
-
-            <a href="/government-jobs" class="active">
-                🏛️ Government Jobs
-            </a>
-
-            <a href="{{ url_for('syllabus') }}">
-                📖 Syllabus
-            </a>
-
-            <a href="{{ url_for('materials') }}">
-                📚 Materials
-            </a>
-
-            <a href="{{ url_for('notifications') }}">
-                🔔 Notifications
-            </a>
-
-            <a href="{{ url_for('practice') }}">
-                🎯 Practice
-            </a>
-
-            <a href="{{ url_for('profile') }}">
-                👤 Profile
-            </a>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-            <a href="/">
-                🏠 Home
-            </a>
-
-            <a href="/logout">
-                🚪 Logout
-            </a>
-
-        </div>
-
-    </aside>
-
+    <!-- Navigation is provided by the global drawer on standard app pages. -->
 
     <!-- MAIN CONTENT -->
 
@@ -157,6 +94,11 @@
 
         </section>
 
+        <nav class="gov-job-tabs" aria-label="Government jobs sections">
+            <a class="active" href="{{ url_for('government_jobs') }}">🏗️ Core Civil Govt Jobs</a>
+            <a href="{{ url_for('government_jobs_other') }}">🧭 Non-Core & Other Govt Jobs</a>
+            <a href="{{ url_for('government_jobs_all') }}">📋 All Verified Notices</a>
+        </nav>
 
         <section class="job-status-grid" aria-label="Government job status summary">
             <div><strong>{{ counts.NEW }}</strong><span>New</span></div>

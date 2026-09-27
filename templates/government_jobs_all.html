@@ -38,17 +38,18 @@
 <main class="dashboard-main">
   <div class="all-jobs-wrap">
     <header class="topbar">
-      <div><h1>Core Government Jobs – Civil Engineering</h1><p>Current and previous core Civil Engineering government recruitment notices.</p></div>
+      <div><h1>All Verified Government Job Notices</h1><p>Current, closed and previous notices across core Civil, non-core and other government recruitment categories.</p></div>
       <div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div>
     </header>
     <section class="all-jobs-hero">
-      <h2>🏗️ Core Government Jobs – Notifications & History</h2>
-      <p>Browse current, upcoming and previous core engineering government notifications together. Application dates and eligibility are taken from each listed notice; always confirm details with the official recruitment authority.</p>
+      <h2>📋 All Government Recruitment – Notices & History</h2>
+      <p>Browse the full verified government-job register across Civil technical, PSU, non-core, central, state and other categories. Use the filters to narrow by qualification, recruiting type and status. Confirm eligibility and dates in the official notification.</p>
     </section>
     <nav class="archive-nav" aria-label="Government jobs navigation">
-      <a href="{{ url_for('government_jobs') }}">🏗️ Core Govt Jobs</a>
-      <a href="{{ url_for('non_government_jobs') }}">🏢 Non-Govt Jobs</a>
+      <a href="{{ url_for('government_jobs') }}">🏗️ Core Civil Govt Jobs</a>
       <a href="{{ url_for('government_jobs_other') }}">🧭 Non-Core Govt Jobs</a>
+      <a href="{{ url_for('non_government_jobs') }}">🏢 Private / Non-Govt Jobs</a>
+      <a class="active" href="{{ url_for('government_jobs_all') }}">📋 All Verified Notices</a>
     </nav>
     <section class="archive-counts">
       <div><strong>{{ counts.get('NEW',0) }}</strong><span>New</span></div>

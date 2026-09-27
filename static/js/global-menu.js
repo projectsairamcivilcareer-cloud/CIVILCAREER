@@ -52,6 +52,9 @@
                     <a class="cc-menu-link" href="/government-jobs/other" data-cc-path="/government-jobs/other">
                         <span class="cc-menu-icon">🧭</span><span>Non-Core Govt Jobs</span>
                     </a>
+                    <a class="cc-menu-link" href="/non-government-jobs" data-cc-path="/non-government-jobs">
+                        <span class="cc-menu-icon">🏢</span><span>Non-Govt Jobs</span>
+                    </a>
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
                         <span class="cc-menu-icon">📖</span><span>Syllabus</span>
                     </a>

@@ -46,14 +46,8 @@
                     <a class="cc-menu-link" href="/exams" data-cc-path="/exams">
                         <span class="cc-menu-icon">📚</span><span>Exams</span>
                     </a>
-                    <a class="cc-menu-link" href="/government-jobs" data-cc-path="/government-jobs">
-                        <span class="cc-menu-icon">🏗️</span><span>Core Govt Jobs</span>
-                    </a>
-                    <a class="cc-menu-link" href="/government-jobs/other" data-cc-path="/government-jobs/other">
-                        <span class="cc-menu-icon">🧭</span><span>Non-Core Govt Jobs</span>
-                    </a>
-                    <a class="cc-menu-link" href="/non-government-jobs" data-cc-path="/non-government-jobs">
-                        <span class="cc-menu-icon">🏢</span><span>Non-Govt Jobs</span>
+                    <a class="cc-menu-link" href="/jobs" data-cc-path="/jobs">
+                        <span class="cc-menu-icon">💼</span><span>Jobs</span>
                     </a>
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
                         <span class="cc-menu-icon">📖</span><span>Syllabus</span>
@@ -133,6 +127,10 @@
                 "/notifications",
                 "/practice",
                 "/profile",
+                "/jobs",
+                "/government-jobs",
+                "/government-jobs/other",
+                "/government-jobs/all",
                 "/non-government-jobs"
             ].includes(target);
 

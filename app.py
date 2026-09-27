@@ -30,6 +30,26 @@ from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_
 
 app = Flask(__name__)
 
+
+@app.template_filter("date_dmy")
+def format_date_dmy(value):
+    """Display stored ISO dates as DD-MM-YYYY, preserving time when present."""
+    if value is None or value == "":
+        return "Not announced"
+    if isinstance(value, datetime):
+        return value.strftime("%d-%m-%Y %H:%M") if (value.hour or value.minute or value.second) else value.strftime("%d-%m-%Y")
+    if isinstance(value, date):
+        return value.strftime("%d-%m-%Y")
+    text_value = str(value).strip()
+    if not text_value:
+        return "Not announced"
+    try:
+        parsed = datetime.fromisoformat(text_value.replace("Z", "+00:00"))
+        has_time = "T" in text_value or " " in text_value
+        return parsed.strftime("%d-%m-%Y %H:%M") if has_time else parsed.strftime("%d-%m-%Y")
+    except (TypeError, ValueError):
+        return text_value
+
 WEBSITE_URL = os.environ.get(
     "WEBSITE_URL",
     "https://civilcareer.up.railway.app"

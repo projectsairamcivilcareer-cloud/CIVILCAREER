@@ -11,6 +11,7 @@
       acceptNode(node) {
         const parent = node.parentElement;
         if (!parent || excluded.has(parent.tagName) || parent.closest("[data-keep-iso]")) return NodeFilter.FILTER_REJECT;
+        datePattern.lastIndex = 0;
         return datePattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
       }
     });

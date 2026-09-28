@@ -46,6 +46,24 @@
       "url": "https://ssc.gov.in/",
       "officiality": "official-commission-website-homepage-notice-monitor",
       "enabled": true
+    },
+    {
+      "id": "rrb-official-railway-recruitment",
+      "title": "Railway Recruitment Boards — official Indian Railways recruitment portal",
+      "authority": "Railway Recruitment Boards, Ministry of Railways, Government of India",
+      "category": "competitive-notification-syllabus",
+      "url": "https://www.rrbcdg.gov.in/",
+      "officiality": "official-regional-rrb-website",
+      "enabled": true
+    },
+    {
+      "id": "appsc-official-recruitment-notifications",
+      "title": "Andhra Pradesh Public Service Commission — official notifications and examinations",
+      "authority": "Andhra Pradesh Public Service Commission, Government of Andhra Pradesh",
+      "category": "competitive-notification-syllabus",
+      "url": "https://psc.ap.gov.in/",
+      "officiality": "official-commission-website",
+      "enabled": true
     }
   ]
 }

@@ -6939,6 +6939,110 @@ def government_jobs_other():
     )
 
 
+
+# =========================================================
+# SYLLABUS-ALIGNED SUBJECT LEARNING, QUIZ AND STUDY PDF
+# =========================================================
+SUBJECT_LEARNING = {
+    "strength-of-materials": {
+        "title": "Strength of Materials",
+        "topics": [
+            ("Simple stress and strain", "Normal stress = axial load / cross-sectional area. Normal strain = change in length / original length. Within the linear elastic range, Hooke's law gives σ = Eε.", "5-mark: A 20 kN tensile load acts on a 500 mm² bar. Find normal stress. Answer: σ = 20,000/500 = 40 N/mm² = 40 MPa."),
+            ("Elastic constants", "Young's modulus E, shear modulus G and Poisson's ratio ν describe elastic response. For an isotropic, linear-elastic material: E = 2G(1+ν) and E = 3K(1−2ν).", "5-mark: If G = 80 GPa and ν = 0.25, E = 2×80×1.25 = 200 GPa."),
+            ("Shear force and bending moment", "Shear force at a section is the algebraic sum of transverse forces on one side. Bending moment is the algebraic sum of moments about the section. For a simply supported beam with central point load P, maximum BM = PL/4.", "10-mark: A simply supported beam of span 6 m carries a central 20 kN point load. Reactions are 10 kN each; maximum BM = 20×6/4 = 30 kN·m at midspan."),
+            ("Bending and torsion", "For elastic bending, M/I = σ/y = E/R. For a circular shaft in elastic torsion, T/J = τ/r = Gθ/L.", "5-mark: State the flexure formula and define M, I, σ, y, E and R.")
+        ]
+    },
+    "concrete-technology": {
+        "title": "Concrete Technology",
+        "topics": [
+            ("Cement and hydration", "Portland cement reacts with water (hydration) to form binding products. Heat evolution, setting and strength development depend on cement composition, fineness, temperature and curing.", "5-mark: Explain hydration and list two factors affecting strength development."),
+            ("Fresh concrete and workability", "Workability is the ease of mixing, placing, compacting and finishing concrete without harmful segregation. Slump test is a field indicator of consistency; it is not a direct strength test.", "5-mark: Describe the slump test and state what its result indicates."),
+            ("Water-cement ratio and strength", "For given materials and adequate compaction/curing, a lower water-cement ratio generally reduces capillary porosity and improves strength and durability. The required ratio must follow the approved mix design and exposure requirements.", "10-mark: Explain how water-cement ratio, compaction and curing influence concrete strength and durability."),
+            ("Concrete testing and quality", "Fresh concrete tests include slump and workability checks. Hardened concrete compressive strength is commonly assessed using standard specimens and a calibrated compression testing machine, following the applicable IS standard and project specification.", "5-mark: Outline the steps in a concrete cube compressive-strength test and name the main reported measurement.")
+        ]
+    },
+    "engineering-mathematics": {
+        "title": "Engineering Mathematics",
+        "topics": [
+            ("Differential calculus", "For y=xⁿ, dy/dx=nxⁿ⁻¹. Derivatives represent rate of change and are used in maxima/minima, curve analysis and engineering models.", "5-mark: Differentiate y=3x³−4x²+2x−7. Answer: dy/dx=9x²−8x+2."),
+            ("Integral calculus", "Integration is the inverse operation of differentiation (up to a constant). ∫xⁿdx=xⁿ⁺¹/(n+1)+C for n≠−1.", "5-mark: Evaluate ∫(2x+3)dx. Answer: x²+3x+C."),
+            ("Matrices and linear systems", "A square matrix has equal rows and columns. For a nonsingular matrix A, the system Ax=b has the unique solution x=A⁻¹b.", "5-mark: State the condition for a square matrix to have an inverse: det(A)≠0."),
+            ("Probability and statistics", "For mutually exclusive events, P(A∪B)=P(A)+P(B). For independent events, P(A∩B)=P(A)P(B).", "5-mark: If independent events have probabilities 0.4 and 0.5, their joint probability is 0.4×0.5=0.20.")
+        ]
+    }
+}
+LEARNING_QUESTIONS = {
+    "strength-of-materials": [
+        ("A 30 kN axial load acts on an area of 600 mm². Normal stress is:", ["25 MPa","50 MPa","180 MPa","500 MPa"], "B", "Stress = P/A = 30,000/600 = 50 N/mm² = 50 MPa."),
+        ("Strain is:", ["Measured in N","Dimensionless","Measured in Pa","Measured in metres"], "B", "Strain is the ratio of change in length to original length, so units cancel."),
+        ("A simply supported beam with a central point load P and span L has maximum BM:", ["PL/2","PL/4","PL/8","P/L"], "B", "The support reactions are P/2; maximum BM at midspan is (P/2)(L/2)=PL/4."),
+        ("The SI unit of Young's modulus is:", ["N","N/m","Pa","J"], "C", "Young's modulus is stress divided by strain; strain is dimensionless, so the unit is Pa.")
+    ],
+    "concrete-technology": [
+        ("The slump test is primarily an indicator of:", ["Compressive strength","Consistency/workability","Cement fineness","Aggregate impact value"], "B", "Slump indicates consistency/workability of fresh concrete; it does not directly measure strength."),
+        ("The process of maintaining moisture and temperature for cement hydration is:", ["Curing","Segregation","Bleeding","Sieving"], "A", "Curing supports continued hydration and strength development."),
+        ("The approximate specific gravity of ordinary Portland cement is:", ["1.0","2.0","3.15","4.5"], "C", "A commonly used approximate value is 3.15; use the value specified for the actual material."),
+        ("For otherwise comparable concrete, excessive mixing water generally:", ["Always improves strength","Can increase porosity and reduce strength","Has no effect","Eliminates curing"], "B", "Excess water can leave capillary pores after hardening and reduce strength/durability.")
+    ],
+    "engineering-mathematics": [
+        ("d(x³)/dx equals:", ["x²","2x","3x²","3x"], "C", "Apply the power rule: d(xⁿ)/dx=nxⁿ⁻¹."),
+        ("∫2x dx equals:", ["2+C","x²+C","2x²+C","x+C"], "B", "The antiderivative of 2x is x² plus the constant of integration."),
+        ("A matrix with the same number of rows and columns is:", ["Diagonal only","Square","Row matrix","Rectangular only"], "B", "A square matrix has equal row and column counts."),
+        ("For independent events A and B, P(A∩B) is:", ["P(A)+P(B)","P(A)−P(B)","P(A)P(B)","P(A)/P(B)"], "C", "Independence means the joint probability is the product of the probabilities.")
+    ]
+}
+
+@app.route("/learn/<subject_slug>")
+def subject_learning(subject_slug):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    data = SUBJECT_LEARNING.get(subject_slug)
+    questions = LEARNING_QUESTIONS.get(subject_slug, [])
+    if not data:
+        # Fall back to existing question bank, without inventing an unrelated subject.
+        existing = SUBJECT_QUESTIONS.get(subject_slug, [])
+        if not existing:
+            return "Subject learning content is being prepared from its official syllabus.", 404
+        data = {"title": subject_slug.replace("-", " ").title(), "topics": [
+            ("Core concepts and revision", "Review the subject fundamentals and consult the applicable board/university syllabus for the prescribed unit sequence.", "5-mark: Define the principal terms in this subject and explain one engineering application.")
+        ]}
+        questions = [(q.get("question",""), [q.get("option_a",""),q.get("option_b",""),q.get("option_c",""),q.get("option_d","")],q.get("correct_answer","A"),"Review the related concept and verify against your prescribed textbook or standard.") for q in existing]
+    count = request.args.get("count", default=5, type=int)
+    count = max(5, min(count, 20))
+    mode = request.args.get("mode", "quiz")
+    if mode not in {"quiz","practice"}: mode="quiz"
+    return render_template("subject_learning.html", student_name=session.get("student_name",""),
+        student_education=session.get("student_education",""), subject_slug=subject_slug,
+        learning=data, questions=questions[:count], question_count=min(count,len(questions)), mode=mode)
+
+@app.route("/learn/<subject_slug>/notes.pdf")
+def subject_notes_pdf(subject_slug):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    data=SUBJECT_LEARNING.get(subject_slug)
+    if not data:
+        return "Verified notes for this subject are not yet available.", 404
+    buffer=BytesIO()
+    doc=SimpleDocTemplate(buffer,pagesize=A4,rightMargin=18*mm,leftMargin=18*mm,topMargin=25*mm,bottomMargin=22*mm,title=data["title"]+" Study Notes",author="Civil Career")
+    styles=getSampleStyleSheet()
+    title=ParagraphStyle("CCLearnTitle",parent=styles["Title"],textColor=colors.HexColor("#12355B"),fontSize=23,leading=28,spaceAfter=10)
+    heading=ParagraphStyle("CCLearnHeading",parent=styles["Heading2"],textColor=colors.HexColor("#12355B"),fontSize=14,leading=18,spaceBefore=14,spaceAfter=6)
+    body=ParagraphStyle("CCLearnBody",parent=styles["BodyText"],fontSize=10,leading=15,spaceAfter=8,textColor=colors.HexColor("#334155"))
+    story=[Paragraph("CIVIL CAREER",heading),Paragraph(escape(data["title"])+" — Study Notes",title),Paragraph("Subject-wise learning resource | Use with the current syllabus prescribed by your board, university or examination authority.",body),Spacer(1,8)]
+    for topic,concept,example in data["topics"]:
+        story += [Paragraph(escape(topic),heading),Paragraph(escape(concept),body),Paragraph("<b>Practice / solved example:</b> "+escape(example),body)]
+    story += [Spacer(1,12),Paragraph("Academic note: These are original learning notes for revision. They are not a substitute for the current official syllabus, codes, standards or institution-issued study material. Verify applicable editions and specifications.",body)]
+    def chrome(canvas,doc):
+        canvas.saveState();w,h=A4
+        canvas.setStrokeColor(colors.HexColor("#D9E2EC"));canvas.line(18*mm,h-17*mm,w-18*mm,h-17*mm)
+        canvas.setFont("Helvetica-Bold",8);canvas.setFillColor(colors.HexColor("#12355B"));canvas.drawString(18*mm,h-12*mm,"CIVIL CAREER")
+        canvas.line(18*mm,15*mm,w-18*mm,15*mm);canvas.setFont("Helvetica",8);canvas.drawString(18*mm,9*mm,"Study resource • Verify current official syllabus");canvas.drawRightString(w-18*mm,9*mm,str(doc.page));canvas.restoreState()
+    doc.build(story,onFirstPage=chrome,onLaterPages=chrome)
+    buffer.seek(0)
+    return send_file(buffer,mimetype="application/pdf",as_attachment=True,download_name=subject_slug+"-civil-career-notes.pdf")
+
+
 # =========================================================
 # START APPLICATION
 # =========================================================

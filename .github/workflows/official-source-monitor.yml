@@ -1,6 +1,11 @@
 name: Monitor official syllabus sources
 
 on:
+  push:
+    paths:
+      - 'data/official_sources.json'
+      - 'scripts/official_source_sync.py'
+      - '.github/workflows/official-source-monitor.yml'
   workflow_dispatch:
   schedule:
     - cron: "17 2 * * *"

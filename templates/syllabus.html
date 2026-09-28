@@ -142,33 +142,13 @@
 
 
 <section class="content-box" id="official-syllabus">
-<h2>Find your exact syllabus</h2><p>Select a category and continue through the selections. Results will display here in Civil Career, not redirect you to another website.</p>
-<div class="syllabus-select-grid">
-<form method="get" action="/syllabus" class="syllabus-form">
-<h3>🎓 Diploma</h3>
-<label>State</label><select name="state" required><option value="">Select state</option><option value="andhra-pradesh" {% if selected_state=='andhra-pradesh' %}selected{% endif %}>Andhra Pradesh</option><option value="telangana" {% if selected_state=='telangana' %}selected{% endif %}>Telangana</option><option value="other" {% if selected_state=='other' %}selected{% endif %}>Other state</option></select>
-<label>Board / Scheme</label><select name="scheme" required><option value="">Select scheme</option><option value="C-23" {% if selected_scheme=='C-23' %}selected{% endif %}>SBTET AP — C-23</option><option value="C-24" {% if selected_scheme=='C-24' %}selected{% endif %}>SBTET Telangana — C-24</option><option value="other" {% if selected_scheme=='other' %}selected{% endif %}>Other / older scheme</option></select>
-<label>Year / Semester</label><select name="semester" required><option value="">Select year / semester</option><option>First Year</option><option>Third Semester</option><option>Fourth Semester</option><option>Fifth Semester</option><option>Sixth Semester</option></select>
-<input type="hidden" name="kind" value="diploma"><button type="submit">Show Diploma syllabus</button>
-</form>
-<form method="get" action="/syllabus" class="syllabus-form">
-<h3>🏛️ B.Tech Civil</h3>
-<label>University / College type</label><select name="university" required><option value="">Select university / type</option><option value="JNTUK">JNTUK affiliated</option><option value="JNTU-GV">JNTU-GV affiliated</option><option value="autonomous">Autonomous college</option><option value="other">Other university</option></select>
-<label>Regulation / Admission batch</label><select name="regulation" required><option value="">Select regulation</option><option>R23</option><option>R20</option><option>R19</option><option>R16</option><option>Specify autonomous regulation</option></select>
-<label>Year / Semester</label><select name="semester" required><option value="">Select year / semester</option><option>I Year - I Semester</option><option>I Year - II Semester</option><option>II Year - I Semester</option><option>II Year - II Semester</option><option>III Year - I Semester</option><option>III Year - II Semester</option><option>IV Year - I Semester</option><option>IV Year - II Semester</option></select>
-<input type="hidden" name="kind" value="btech"><button type="submit">Show B.Tech syllabus</button>
-</form>
-<form method="get" action="/syllabus" class="syllabus-form">
-<h3>🏆 GATE / Government exams</h3>
-<label>Exam</label><select name="exam" required><option value="">Select exam</option><option>GATE Civil Engineering</option><option>SSC JE Civil</option><option>UPSC ESE Civil</option><option>State JE / AE</option></select>
-<label>Exam year / notification</label><input name="exam_year" placeholder="Year / notification number" required>
-<input type="hidden" name="kind" value="competitive"><button type="submit">Show exam syllabus</button>
-</form></div>
-{% if syllabus_result %}
-<section class="syllabus-result"><h2>{{ syllabus_result.title }}</h2><p class="source-status">{{ syllabus_result.status }}</p>
-{% if syllabus_result.semesters %}{% for sem in syllabus_result.semesters %}<details open><summary>{{ sem.name }}</summary><div class="syllabus-subject-list">{% for subject in sem.courses %}<article><b>{{ subject.code }}</b><span>{{ subject.title }}</span><small>{{ subject.kind }}</small></article>{% endfor %}</div></details>{% endfor %}
-{% elif syllabus_result.message %}<p>{{ syllabus_result.message }}</p>{% endif %}
-</section>{% endif %}
+  <div class="category-heading"><span class="section-kicker">SYLLABUS LIBRARY</span><h2>Choose your syllabus category</h2><p>Each category opens its own dedicated page with filters, subject-wise syllabus display and PDF download.</p></div>
+  <div class="syllabus-category-grid">
+    <a class="syllabus-category-card" href="/syllabus/diploma"><span class="category-icon">🎓</span><span class="category-tag">DIPLOMA</span><h3>Diploma Engineering</h3><p>Choose state board, scheme, Civil Engineering year/semester and view available verified syllabus.</p><span class="category-action">Open Diploma syllabus →</span></a>
+    <a class="syllabus-category-card" href="/syllabus/btech"><span class="category-icon">🏛️</span><span class="category-tag">B.TECH</span><h3>B.Tech Civil Engineering</h3><p>Choose university or autonomous college, regulation and semester to see the corresponding curriculum.</p><span class="category-action">Open B.Tech syllabus →</span></a>
+    <a class="syllabus-category-card" href="/syllabus/gate"><span class="category-icon">🏆</span><span class="category-tag">GATE</span><h3>GATE Civil Engineering</h3><p>Choose exam year and explore the relevant GATE Civil Engineering syllabus.</p><span class="category-action">Open GATE syllabus →</span></a>
+    <a class="syllabus-category-card" href="/syllabus/competitive"><span class="category-icon">📋</span><span class="category-tag">COMPETITIVE</span><h3>Government / Competitive Exams</h3><p>Choose recruiting authority, exam and notification year for the applicable syllabus.</p><span class="category-action">Open Competitive syllabus →</span></a>
+  </div>
 </section>
         <!-- STUDY FLOW -->
 

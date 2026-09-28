@@ -2073,7 +2073,8 @@ def syllabus_category(category):
                 result = {"title":"Syllabus not yet verified for this selection","status":"No verified record loaded for this exact state and scheme.","message":"This selected board/scheme has not been fully transcribed and checked yet. To avoid fabricated syllabus data, Civil Career will not substitute another state's or scheme's syllabus."}
         elif category == "btech":
             uni=request.args.get("university",""); reg=request.args.get("regulation",""); sem=request.args.get("semester","")
-            result={"title":f"{uni} Civil Engineering — {reg} — {sem or 'Course structure'}","status":"Selected syllabus is not available as verified in-site unit data yet.","message":"JNTUK R23 Civil Engineering IV Year-I Semester official subject and unit-wise syllabus has not yet been transcribed into Civil Career. We will not substitute another university's syllabus or create fake topics.","download_available":False}
+            if uni == "JNTUK" and reg == "R23" and sem == "IV Year - I Semester":
+                result={"title":"JNTUK Civil Engineering — R23 — IV Year - I Semester","status":"Verified R23 IV Year-I semester course structure transcribed in Civil Career. The source curriculum specifies course categories and credits for this semester; it does not assign fixed subject names to the elective/core slots in this common course-structure table. Subject-specific unit syllabi will be displayed only when the matching Civil branch document is verified.","sections":[{"title":"Theory / elective course structure","items":["Professional Core — 3-0-0-3 (Course 1)","Professional Core — 3-0-0-3 (Course 2)","Management Course-II — 2-0-0-2","Professional Elective-IV — 3-0-0-3","Professional Elective-V — 3-0-0-3","Open Elective-IV — 3-0-0-3"]},{"title":"Laboratory / skill / audit / internship","items":["Professional Core Lab — 0-0-2-1 (Lab 1)","Professional Core Lab — 0-0-2-1 (Lab 2)","Skill Enhancement Course — 0-1-2-2","Audit Course: Constitution of India — 2-0-0 (non-credit)","Internship Evaluation of Industry Internship — 2 credits"]},{"title":"Semester total","items":["19 lecture hours + 1 tutorial hour + 6 practical hours; 23 total credits (as stated in the R23 common course structure)."]}],"download_available":True}
         elif category == "gate":
             year=request.args.get("year","2027")
             gate_data=GATE_SYLLABI.get(year,{})
@@ -2102,7 +2103,8 @@ def download_syllabus_category_pdf(category):
         abort(404)
     # Never generate a placeholder PDF that could be mistaken for an official syllabus.
     if category == "btech":
-        abort(404, description="The exact university/regulation syllabus is not yet verified and transcribed. A placeholder PDF is disabled.")
+        if not (request.args.get("university") == "JNTUK" and request.args.get("regulation") == "R23" and request.args.get("semester") == "IV Year - I Semester"):
+            abort(404, description="The exact university/regulation syllabus is not yet verified and transcribed. A placeholder PDF is disabled.")
     if category == "competitive":
         abort(404, description="The exact recruitment-notification syllabus is not yet verified. A placeholder PDF is disabled.")
     # Reuse the selected in-site result by reconstructing the exact selection.

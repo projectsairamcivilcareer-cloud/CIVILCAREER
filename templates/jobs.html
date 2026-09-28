@@ -1,4 +1,112 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Jobs | Civil Career</title><link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css', v='20260928audit2') }}"><style>
-.jobs-hub{width:100%;max-width:1400px;margin:0 auto;padding:clamp(20px,3vw,42px);box-sizing:border-box}.jobs-hub *{box-sizing:border-box}.jobs-hub-hero{padding:30px;border:1px solid #dbeafe;border-radius:20px;background:linear-gradient(125deg,#eff6ff,#f8fafc 58%,#f0fdf4);margin:22px 0 28px}.jobs-hub-hero h2{margin:0 0 10px;color:#12345a;font-size:clamp(22px,3vw,30px)}.jobs-hub-hero p{margin:0;color:#52647a;line-height:1.7;max-width:850px}.jobs-hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,24px)}.jobs-hub-card{display:flex;flex-direction:column;min-width:0;padding:25px;border:1px solid #e2e8f0;border-radius:18px;background:#fff;text-decoration:none;box-shadow:0 6px 22px rgba(15,23,42,.06);transition:transform .18s ease,box-shadow .18s ease}.jobs-hub-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(15,23,42,.11)}.jobs-hub-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:16px;background:#eff6ff;font-size:29px;margin-bottom:18px}.jobs-hub-card h3{margin:0 0 10px;color:#17365c;font-size:21px;line-height:1.35}.jobs-hub-card p{margin:0 0 22px;color:#64748b;line-height:1.65;flex:1}.jobs-hub-action{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;padding:11px 17px;border-radius:10px;background:#2563eb;color:white;font-weight:800}.jobs-hub-note{margin-top:24px;padding:17px 20px;border:1px solid #fed7aa;border-radius:14px;background:#fff7ed;color:#9a3412;line-height:1.6}@media(max-width:950px){.jobs-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.jobs-hub{padding:16px}.jobs-hub-hero{padding:21px;margin:16px 0 22px}.jobs-hub-grid{grid-template-columns:1fr}.jobs-hub-card{padding:21px}}
-</style></head><body><main class="dashboard-main"><div class="jobs-hub"><header class="topbar"><div><h1>Jobs</h1><p>Choose a job category to view its dedicated page.</p></div><div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div></header><section class="jobs-hub-hero"><h2>Find Civil Engineering Career Opportunities</h2><p>All three job categories are grouped here under one Jobs menu. Open any category to see its separate page, eligibility guidance, recruitment information and available verified notices.</p></section><section class="jobs-hub-grid" aria-label="Job categories"><a class="jobs-hub-card" href="{{ url_for('government_jobs') }}"><span class="jobs-hub-icon">🏗️</span><h3>Core Govt Jobs</h3><p>Civil Engineering technical posts such as Junior Engineer, Assistant Engineer, engineering services, civil posts in PSUs, railways and state departments.</p><span class="jobs-hub-action">Open Core Govt Jobs →</span></a><a class="jobs-hub-card" href="{{ url_for('government_jobs_other') }}"><span class="jobs-hub-icon">🧭</span><h3>Non-Core Govt Jobs</h3><p>General government recruitment, central and state services, SSC, PSC, banking, administration and other roles where the official notice accepts your qualification.</p><span class="jobs-hub-action">Open Non-Core Govt Jobs →</span></a><a class="jobs-hub-card" href="{{ url_for('non_government_jobs') }}"><span class="jobs-hub-icon">🏢</span><h3>Non-Govt Jobs</h3><p>Private-sector civil careers in construction, site execution, design, planning, quantity surveying, BIM, infrastructure and consultancy.</p><span class="jobs-hub-action">Open Non-Govt Jobs →</span></a></section><div class="jobs-hub-note"><strong>Note:</strong> Job eligibility, application dates, salary and selection process vary by employer and notification. Verify current details through the official recruiting organization before applying.</div></div></main></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civil Career | Jobs & Career Paths</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=20260928jobspro">
+<style>
+/* Jobs hub — full-width layout compatible with the app's global navigation drawer */
+.dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
+.jobs-page{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
+.jobs-page *{box-sizing:border-box}
+.jobs-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
+.jobs-top h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
+.jobs-top p{color:#64748b;line-height:1.6;margin:0}
+.jobs-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
+.jobs-student .student-avatar{width:40px;height:40px}
+.jobs-student small{display:block;color:#64748b;margin-top:3px}
+.jobs-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,.7fr);gap:24px;align-items:center;padding:clamp(24px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#101f43 0%,#173f7a 58%,#146b78 100%);color:#fff;box-shadow:0 14px 34px rgba(18,49,93,.17);margin-bottom:26px}
+.jobs-hero:after{content:"";position:absolute;width:300px;height:300px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-90px;top:-140px;box-shadow:0 0 0 35px rgba(255,255,255,.035),0 0 0 75px rgba(255,255,255,.025);pointer-events:none}
+.jobs-kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#a5f3fc;margin-bottom:13px}
+.jobs-hero h2{font-size:clamp(26px,3.5vw,40px);line-height:1.16;letter-spacing:-.8px;margin:0 0 14px;max-width:740px}
+.jobs-hero p{font-size:16px;line-height:1.75;color:#dbeafe;margin:0;max-width:750px}
+.jobs-hero-art{position:relative;z-index:1;justify-self:center;display:grid;place-items:center;width:clamp(130px,16vw,190px);aspect-ratio:1;border:1px solid rgba(255,255,255,.22);border-radius:32px;background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.06));font-size:clamp(64px,8vw,94px);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 18px 38px rgba(0,0,0,.12);transform:rotate(3deg)}
+.jobs-section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:30px 0 16px}
+.jobs-section-head h2{font-size:clamp(20px,2.5vw,25px);color:#102747;margin:0 0 6px}
+.jobs-section-head p{color:#64748b;line-height:1.6;margin:0}
+.jobs-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.jobs-category{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;padding:25px;border:1px solid #e1e8f2;border-radius:20px;background:#fff;text-decoration:none;color:inherit;box-shadow:0 5px 18px rgba(15,35,68,.045);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.jobs-category:hover{transform:translateY(-5px);border-color:#93c5fd;box-shadow:0 15px 32px rgba(15,35,68,.1)}
+.jobs-category:focus-visible{outline:3px solid #60a5fa;outline-offset:3px}
+.jobs-category-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.jobs-category-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;font-size:29px;background:#eff6ff}
+.jobs-category:nth-child(2) .jobs-category-icon{background:#f5f3ff}
+.jobs-category:nth-child(3) .jobs-category-icon{background:#ecfdf5}
+.jobs-pill{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:7px 10px;border-radius:30px;background:#f1f5f9;color:#475569}
+.jobs-category h3{font-size:21px;line-height:1.35;color:#102747;margin:0 0 10px}
+.jobs-category p{font-size:14px;line-height:1.75;color:#64748b;margin:0 0 20px;flex:1}
+.jobs-examples{padding:14px 15px;border-radius:13px;background:#f8fafc;border:1px solid #eef2f7;margin-bottom:20px}
+.jobs-examples strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:7px}
+.jobs-examples span{font-size:13px;line-height:1.7;color:#334155}
+.jobs-open{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:800;color:#1d4ed8;font-size:14px;margin-top:auto}
+.jobs-open b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#eff6ff;font-size:19px;transition:transform .2s}
+.jobs-category:hover .jobs-open b{transform:translateX(4px)}
+.jobs-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:28px 0}
+.jobs-guide-step{display:flex;align-items:flex-start;gap:14px;padding:20px;border-radius:16px;background:#fff;border:1px solid #e2e8f0}
+.jobs-step-number{flex:0 0 36px;display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:#eaf2ff;color:#1d4ed8;font-weight:900}
+.jobs-guide-step h3{font-size:15px;margin:2px 0 6px;color:#17365c}
+.jobs-guide-step p{font-size:13px;line-height:1.65;color:#64748b;margin:0}
+.jobs-caution{display:flex;align-items:flex-start;gap:14px;padding:19px 22px;border:1px solid #fed7aa;border-radius:16px;background:#fff7ed;color:#9a3412;line-height:1.7;margin-top:24px}
+.jobs-caution-icon{font-size:22px}
+.jobs-caution strong{display:block;margin-bottom:4px}
+.jobs-caution p{margin:0;font-size:14px}
+@media(max-width:1000px){.jobs-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.jobs-hero{grid-template-columns:minmax(0,1fr) 150px}.jobs-guide{grid-template-columns:1fr}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.jobs-top{align-items:flex-start;flex-direction:column}.jobs-student{white-space:normal}.jobs-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.jobs-hero-art{display:none}.jobs-category-grid{grid-template-columns:1fr}.jobs-category{padding:21px}.jobs-section-head{align-items:flex-start;flex-direction:column}.jobs-guide-step{padding:17px}.jobs-caution{padding:16px}}
+@media(prefers-reduced-motion:reduce){.jobs-category,.jobs-open b{transition:none}.jobs-category:hover{transform:none}}
+</style>
+</head>
+<body>
+<main class="dashboard-main">
+<div class="jobs-page">
+<header class="jobs-top">
+<div><h1>Jobs & Career Paths</h1><p>Find opportunities that match your civil engineering qualification and career goal.</p></div>
+<div class="jobs-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div>
+</header>
+
+<section class="jobs-hero" aria-labelledby="jobs-hero-title">
+<div><span class="jobs-kicker">🧭 Your career starts here</span><h2 id="jobs-hero-title">One place. Three career directions.</h2><p>Choose the path that fits you. Explore government technical posts, other government recruitment, or private-sector civil engineering roles—all explained in simple terms.</p></div>
+<div class="jobs-hero-art" aria-hidden="true">🏗️</div>
+</section>
+
+<section aria-labelledby="jobs-path-title">
+<div class="jobs-section-head"><div><h2 id="jobs-path-title">Choose your job category</h2><p>Not sure where to start? Read the short description and select “Explore jobs”.</p></div></div>
+<div class="jobs-category-grid">
+<a class="jobs-category" href="{{ url_for('government_jobs') }}" aria-label="Explore core civil engineering government jobs">
+<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏛️</span><span class="jobs-pill">Civil technical</span></div>
+<h3>Core Government Jobs</h3>
+<p>Government jobs where civil engineering knowledge is directly used in construction, design, public works and infrastructure.</p>
+<div class="jobs-examples"><strong>Examples</strong><span>Junior Engineer (JE) · Assistant Engineer (AE) · Civil Engineering Services · PSU technical posts</span></div>
+<span class="jobs-open">Explore core jobs <b aria-hidden="true">→</b></span>
+</a>
+<a class="jobs-category" href="{{ url_for('government_jobs_other') }}" aria-label="Explore non-core government jobs">
+<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">📋</span><span class="jobs-pill">General recruitment</span></div>
+<h3>Other Government Jobs</h3>
+<p>Government roles that may accept different degrees or qualifications, including some posts not limited to civil engineering.</p>
+<div class="jobs-examples"><strong>Examples</strong><span>SSC · State PSC · Administrative and clerical posts · Other notified vacancies</span></div>
+<span class="jobs-open">Explore other govt jobs <b aria-hidden="true">→</b></span>
+</a>
+<a class="jobs-category" href="{{ url_for('non_government_jobs') }}" aria-label="Explore private sector civil engineering jobs">
+<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏢</span><span class="jobs-pill">Private sector</span></div>
+<h3>Private-Sector Jobs</h3>
+<p>Work with construction companies, consultants, infrastructure firms and design teams in India or abroad.</p>
+<div class="jobs-examples"><strong>Examples</strong><span>Site Engineer · Quantity Surveyor · BIM/Revit · Planning · QA/QC · Structural Design</span></div>
+<span class="jobs-open">Explore private jobs <b aria-hidden="true">→</b></span>
+</a>
+</div>
+</section>
+
+<section aria-labelledby="jobs-how-title">
+<div class="jobs-section-head"><div><h2 id="jobs-how-title">How to use this page</h2><p>Three simple steps to find relevant opportunities.</p></div></div>
+<div class="jobs-guide">
+<div class="jobs-guide-step"><span class="jobs-step-number">1</span><div><h3>Choose your qualification</h3><p>Check whether the notice accepts Diploma, B.E./B.Tech, M.Tech or another qualification.</p></div></div>
+<div class="jobs-guide-step"><span class="jobs-step-number">2</span><div><h3>Open a career category</h3><p>Use the cards above to view job types, recruitment details and relevant official links.</p></div></div>
+<div class="jobs-guide-step"><span class="jobs-step-number">3</span><div><h3>Verify before applying</h3><p>Read the official notification for eligibility, dates, fees, selection process and application instructions.</p></div></div>
+</div>
+</section>
+
+<aside class="jobs-caution" role="note"><span class="jobs-caution-icon" aria-hidden="true">⚠️</span><div><strong>Important: Check the official notification</strong><p>Vacancies, eligibility, age limits, salary, application dates and selection methods change by recruiting organization and recruitment cycle. Information on this site is for guidance; confirm all details on the official recruiting website before paying fees or submitting an application.</p></div></aside>
+</div>
+</main>
+</body>
+</html>

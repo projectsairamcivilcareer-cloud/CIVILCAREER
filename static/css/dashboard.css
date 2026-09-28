@@ -634,3 +634,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
     *, *:before, *:after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* CIVIL CAREER premium dashboard layout */
+body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 95% 0%,#e6efff 0,transparent 34%),#f3f6fb}
+.dashboard-main{width:calc(100% - 260px);max-width:none;margin-left:260px;padding:clamp(22px,3vw,44px)}
+.topbar{padding-bottom:20px;border-bottom:1px solid #dce5f0}
+.topbar h1{font-size:clamp(26px,2.2vw,36px);letter-spacing:-.035em;color:#10213b}
+.welcome-card{border:1px solid rgba(255,255,255,.25);border-radius:22px;box-shadow:0 16px 38px rgba(29,78,216,.2);padding:clamp(24px,3vw,40px)}
+.dashboard-card,.progress-container{border:1px solid #dce5f0;border-radius:17px;box-shadow:0 8px 24px rgba(15,35,70,.06);transition:transform .2s ease,box-shadow .2s ease}
+.dashboard-card:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(37,99,235,.12)}
+.dashboard-section{margin-top:28px}
+.dashboard-section h2{font-size:clamp(19px,1.5vw,24px);color:#10213b}
+@media(max-width:900px){.dashboard-main{width:100%;margin-left:0;padding:20px 16px}.sidebar{position:static;width:100%;height:auto}.sidebar-bottom{position:static}}

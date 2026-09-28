@@ -1384,16 +1384,10 @@ def dashboard():
 
 @app.route("/exams")
 def exams():
-
+    """Legacy URL: send students directly to the dashboard; keep all exam sub-pages."""
     if "student_id" not in session:
-
         return redirect(url_for("login"))
-
-    return render_template(
-        "exams.html",
-        student_name=session["student_name"],
-        student_education=session["student_education"]
-    )
+    return redirect(url_for("dashboard"))
 
 # ==============================
 # DIPLOMA EXAMS

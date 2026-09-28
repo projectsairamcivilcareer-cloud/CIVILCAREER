@@ -2132,6 +2132,15 @@ def download_syllabus_category_pdf(category):
                 table=Table([["Code","Subject / Course"]]+[[code,name] for code,name in rows],colWidths=[35*mm,130*mm],repeatRows=1)
                 table.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,0),colors.HexColor("#12366b")),("TEXTCOLOR",(0,0),(-1,0),colors.white),("GRID",(0,0),(-1,-1),.4,colors.grey),("VALIGN",(0,0),(-1,-1),"TOP"),("PADDING",(0,0),(-1,-1),7)]))
                 story.append(table);story.append(Spacer(1,10))
+    elif category=="btech" and args.get("university")=="JNTUK" and args.get("regulation")=="R23" and args.get("semester")=="IV Year - I Semester":
+        story.append(Paragraph("JNTUK B.Tech R23 — Civil Engineering — IV Year I Semester",styles["Heading2"]))
+        story.append(Paragraph("Verified course structure from the JNTUK B.Tech R23 Engineering Curriculum 2023. The common course-structure table lists course categories and credits, not the Civil-specific course titles or unit-wise content for these slots.",styles["BodyText"]))
+        rows=[["Course / component","L-T-P-C / credits"],["Professional Core 1","3-0-0-3"],["Professional Core 2","3-0-0-3"],["Management Course-II","2-0-0-2"],["Professional Elective-IV","3-0-0-3"],["Professional Elective-V","3-0-0-3"],["Open Elective-IV","3-0-0-3"],["Professional Core Lab 1","0-0-2-1"],["Professional Core Lab 2","0-0-2-1"],["Skill Enhancement Course","0-1-2-2"],["Audit Course: Constitution of India","2-0-0 (non-credit)"],["Internship Evaluation of Industry Internship","2 credits"],["Semester total","19 lecture + 1 tutorial + 6 practical hours; 23 credits"]]
+        table=Table(rows,colWidths=[105*mm,60*mm],repeatRows=1)
+        table.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,0),colors.HexColor("#12366b")),("TEXTCOLOR",(0,0),(-1,0),colors.white),("GRID",(0,0),(-1,-1),.4,colors.grey),("VALIGN",(0,0),(-1,-1),"TOP"),("PADDING",(0,0),(-1,-1),7)]))
+        story.append(table)
+        story.append(Spacer(1,12))
+        story.append(Paragraph("Source: JNTUK B.Tech R23 Engineering Curriculum 2023, IV Year-I semester course-structure section (page 27 in the PDF edition reviewed).",styles["Italic"]))
     else:
         story.append(Paragraph("Verified syllabus content for this exact selection has not yet been added. This PDF is a status sheet, not a substitute syllabus.",styles["Heading2"]))
     output=BytesIO()

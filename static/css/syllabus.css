@@ -592,3 +592,18 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0
 .hero,.content-box,.subject-card,.syllabus-card{border:1px solid #dce5f0;border-radius:18px;box-shadow:0 8px 24px rgba(15,35,70,.06)}
 .subject-card,.syllabus-card{transition:transform .2s,box-shadow .2s}.subject-card:hover,.syllabus-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(37,99,235,.1)}
 @media(max-width:900px){.main{width:100%;margin-left:0;padding:20px 16px}.sidebar{position:static;width:100%;height:auto}.bottom-menu{position:static}}
+
+
+/* Cascading in-site syllabus selector */
+.syllabus-select-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:22px 0}
+.syllabus-form{background:#fff;border:1px solid #dbe5f0;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 24px rgba(15,40,75,.06)}
+.syllabus-form h3{margin:0 0 8px;color:#15365f}.syllabus-form label{font-size:13px;font-weight:700;color:#334155}
+.syllabus-form select,.syllabus-form input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:#f8fafc;color:#172b4d;font:inherit}
+.syllabus-form button{margin-top:8px;padding:13px;border:0;border-radius:10px;background:#1d4ed8;color:white;font-weight:800;cursor:pointer}
+.syllabus-result{margin-top:24px;padding:24px;background:#f8fbff;border:1px solid #cbdcf2;border-radius:18px}
+.source-status{padding:12px 15px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:8px;color:#92400e;line-height:1.6}
+.syllabus-result details{margin:12px 0;background:#fff;border:1px solid #dbe5f0;border-radius:12px;overflow:hidden}
+.syllabus-result summary{padding:16px 18px;background:#eff6ff;font-weight:800;cursor:pointer;color:#173b69}
+.syllabus-subject-list{padding:10px 16px}.syllabus-subject-list article{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:12px 4px;border-bottom:1px solid #e2e8f0}.syllabus-subject-list article:last-child{border-bottom:0}.syllabus-subject-list b{color:#1d4ed8}.syllabus-subject-list small{color:#64748b}
+@media(max-width:1000px){.syllabus-select-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.syllabus-select-grid{grid-template-columns:1fr}.syllabus-subject-list article{grid-template-columns:1fr;gap:4px}}

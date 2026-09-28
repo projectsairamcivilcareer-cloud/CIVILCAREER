@@ -2100,6 +2100,11 @@ def download_syllabus_category_pdf(category):
         return redirect(url_for("login"))
     if category not in {"diploma","btech","gate","competitive"}:
         abort(404)
+    # Never generate a placeholder PDF that could be mistaken for an official syllabus.
+    if category == "btech":
+        abort(404, description="The exact university/regulation syllabus is not yet verified and transcribed. A placeholder PDF is disabled.")
+    if category == "competitive":
+        abort(404, description="The exact recruitment-notification syllabus is not yet verified. A placeholder PDF is disabled.")
     # Reuse the selected in-site result by reconstructing the exact selection.
     args=request.args
     title=f"{category.title()} Civil Engineering Syllabus"

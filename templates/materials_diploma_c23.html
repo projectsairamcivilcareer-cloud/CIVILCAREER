@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AP SBTET C-23 Diploma Civil Materials | Civil Career</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/materials.css', v='20260928c25') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/materials.css', v='20260928c26') }}">
   <style>
     .c23-wrap{max-width:1100px;margin:auto}.c23-hero{background:linear-gradient(120deg,#10294c,#1d4e89);color:#fff;padding:30px;border-radius:20px;margin-bottom:22px}.c23-hero p{color:#dbeafe;line-height:1.7}.c23-form{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:end;background:#fff;padding:24px;border:1px solid #dbe4ef;border-radius:16px;margin:20px 0}.c23-form label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}.c23-form select{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-size:15px}.c23-btn{border:0;border-radius:10px;padding:14px 20px;background:#2563eb;color:white;font-weight:700;text-decoration:none;cursor:pointer;display:inline-block}.c23-status{padding:22px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;color:#7c2d12;line-height:1.7}.c23-links{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}.c23-secondary{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}.c23-small{font-size:13px;color:#64748b;line-height:1.6}@media(max-width:700px){.c23-form{grid-template-columns:1fr}.c23-hero{padding:22px}}
   </style>
@@ -34,15 +34,17 @@
           <option value="FY" {% if semester == "FY" %}selected{% endif %}>First Year (Year-wise)</option>
           {% for n in range(3,7) %}<option value="{{ n }}" {% if semester == n|string %}selected{% endif %}>{{ n }}{% if n == 3 %}rd{% else %}th{% endif %} Semester</option>{% endfor %}
         </select></div>
-        <div><label for="subject">Subject code (as printed in C-23 PDF)</label><input id="subject" name="subject" value="{{ subject_code }}" placeholder="Enter exact subject code" maxlength="30" pattern="[A-Za-z0-9-]+" title="Use only the subject code printed in the C-23 curriculum" style="width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px" required></div>
+        <div><label for="subject">Subject (C-23 catalogue)</label><select id="subject" name="subject" required {% if not semester_courses %}disabled{% endif %}><option value="">Select subject</option>{% for course in semester_courses %}<option value="{{ course.code }}" {% if subject_code == course.code %}selected{% endif %}>{{ course.code }} — {{ course.title }} ({{ course.type }})</option>{% endfor %}</select></div>
         <button class="c23-btn" type="submit">Find materials</button>
       </form>
-      {% if semester and subject_code %}
-      <div class="c23-status"><strong>Subject verification required</strong><br>
-        Your search: C-23 · {{ 'First Year (Year-wise)' if semester == 'FY' else 'Semester ' ~ semester }} · Subject code {{ subject_code }}. This code has not yet been matched to a verified subject entry in Civil Career. No subject name, syllabus units, notes, practice questions or downloads are being inferred from the code. Please compare it with the curriculum PDF below.
+      {% if selected_subject %}
+      <div class="c23-status"><strong>{{ selected_subject.code }} — {{ selected_subject.title }}</strong><br>
+        <strong>Unit-wise mapping:</strong> Pending official PDF verification. Unit titles, topic lists, practical experiments and assessment details will be added only after checking the curriculum text. No syllabus content has been guessed.
       </div>
+      {% elif semester %}
+      <p class="c23-small">Choose a subject from the selected term's catalogue. If your subject is not listed, compare the curriculum PDF and report the exact code/title.</p>
       {% else %}
-      <p class="c23-small">Select First Year or the applicable semester and copy the exact subject code from the C-23 curriculum document. Until the official subject-code mapping is checked, the library will not guess subject names or syllabus units.</p>
+      <p class="c23-small">Select First Year or the applicable semester first; the matching subject list will then appear.</p>
       {% endif %}
     </section>
     <section class="content-box">

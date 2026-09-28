@@ -987,6 +987,10 @@ def create_database():
 
 @app.route("/")
 def home():
+    # Authenticated students must end their session before viewing the public home page.
+    if "student_id" in session:
+        session.clear()
+        return redirect(url_for("login", logged_out=1))
 
     return render_template("index.html")
 

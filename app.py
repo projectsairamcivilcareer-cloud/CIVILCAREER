@@ -2421,7 +2421,7 @@ def diploma_c23_materials():
 
     semester = request.args.get("semester", "").strip()
     subject_code = request.args.get("subject", "").strip()
-    valid_semesters = {"1", "2", "3", "4", "5", "6"}
+    valid_semesters = {"FY", "3", "4", "5", "6"}
     if semester not in valid_semesters:
         semester = ""
 

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ page_title }} | Civil Career</title><link rel="stylesheet" href="{{ url_for('static',filename='css/syllabus.css') }}?v=categorypages2"><link rel="stylesheet" href="{{ url_for('static',filename='css/global-menu.css') }}?v=categorypages2"></head>
+<body>
+<aside class="sidebar"><div class="logo">🏗️ CIVIL CAREER</div><nav><a href="/dashboard">📊 Dashboard</a><a href="/jobs">💼 Jobs</a><a href="/syllabus" class="active">📖 Syllabus</a><a href="/materials">📚 Materials</a><a href="/notifications">🔔 Notifications</a><a href="/practice">🎯 Practice</a><a href="/profile">👤 Profile</a></nav><div class="bottom-menu"><a href="/auto-logout">🏠 Home (Logout)</a><a href="/logout">🚪 Logout</a></div></aside>
+<main class="main">
+<header class="header"><div><a href="/syllabus" class="back-link">← All syllabus categories</a><h1>{{ page_title }}</h1><p>{{ page_subtitle }}</p></div><div class="user"><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></header>
+<section class="category-hero"><div class="hero-badge">{{ category_label }}</div><h2>{{ hero_title }}</h2><p>{{ hero_text }}</p></section>
+{% if category in ['diploma','btech','gate','competitive'] %}
+<form method="get" action="{{ url_for('syllabus_category',category=category) }}" class="category-filter">
+{% if category=='diploma' %}
+<div><label>State</label><select name="state" required><option value="">Select state</option><option value="andhra-pradesh" {% if request.args.get('state')=='andhra-pradesh' %}selected{% endif %}>Andhra Pradesh</option><option value="telangana" {% if request.args.get('state')=='telangana' %}selected{% endif %}>Telangana</option><option value="other" {% if request.args.get('state')=='other' %}selected{% endif %}>Other state</option></select></div>
+<div><label>Board scheme</label><select name="scheme" required><option value="">Select scheme</option><option value="C-23">AP SBTET C-23</option><option value="C-24">Telangana SBTET C-24</option><option value="other">Other / older scheme</option></select></div>
+<div><label>Year / semester</label><select name="semester"><option value="">All available</option><option>First Year</option><option>Third Semester</option><option>Fourth Semester</option><option>Fifth Semester</option><option>Sixth Semester</option></select></div>
+{% elif category=='btech' %}
+<div><label>University / college type</label><select name="university" required><option value="">Choose university</option><option>JNTUK</option><option>JNTUA</option><option>JNTU-GV</option><option>JNTUH</option><option>Autonomous college</option><option>Other university</option></select></div>
+<div><label>Regulation</label><select name="regulation" required><option value="">Choose regulation</option><option>R25</option><option>R23</option><option>R20</option><option>R19</option><option>R16</option><option>College-specific</option></select></div>
+<div><label>Year / semester</label><select name="semester"><option value="">All available</option><option>I Year - I Semester</option><option>I Year - II Semester</option><option>II Year - I Semester</option><option>II Year - II Semester</option><option>III Year - I Semester</option><option>III Year - II Semester</option><option>IV Year - I Semester</option><option>IV Year - II Semester</option></select></div>
+{% elif category=='gate' %}
+<div><label>Exam year</label><select name="year"><option>2027</option><option>2026</option><option>2025</option></select></div>
+<div><label>Paper</label><select name="paper"><option value="CE">Civil Engineering (CE)</option></select></div>
+{% else %}
+<div><label>Recruiting authority</label><select name="authority" required><option value="">Choose authority</option><option>SSC</option><option>UPSC</option><option>Andhra Pradesh</option><option>Telangana</option><option>Other State / Department</option></select></div>
+<div><label>Exam</label><select name="exam" required><option value="">Choose exam</option><option>SSC JE Civil</option><option>UPSC ESE Civil</option><option>State JE Civil</option><option>State AE Civil</option><option>Departmental Civil Engineering recruitment</option></select></div>
+<div><label>Notification year / number</label><input name="notification" placeholder="e.g. 2026 / notification no." required></div>
+{% endif %}
+<button type="submit">Show syllabus</button></form>
+{% endif %}
+{% if syllabus_result %}
+<section class="category-results"><div class="results-top"><div><span class="category-tag">SYLLABUS RESULT</span><h2>{{ syllabus_result.title }}</h2><p class="source-status">{{ syllabus_result.status }}</p></div><a class="download-pdf" href="{{ url_for('download_syllabus_category_pdf',category=category,**request.args) }}">⬇ Download PDF</a></div>
+{% if syllabus_result.semesters %}{% for sem in syllabus_result.semesters %}<details open class="semester-block"><summary>{{ sem.name }}</summary><div class="subject-table"><div class="subject-row subject-head"><b>Course code</b><b>Subject / course</b><b>Type</b></div>{% for subject in sem.courses %}<div class="subject-row"><span>{{ subject.code or '—' }}</span><strong>{{ subject.title }}</strong><span>{{ subject.kind or 'Course' }}</span></div>{% endfor %}</div></details>{% endfor %}
+{% elif syllabus_result.sections %}{% for section in syllabus_result.sections %}<details open class="semester-block"><summary>{{ section.title }}</summary><div class="section-content">{% for item in section.items %}<p>{{ item }}</p>{% endfor %}</div></details>{% endfor %}
+{% else %}<div class="pending-card"><h3>Verified syllabus document required</h3><p>{{ syllabus_result.message }}</p></div>{% endif %}
+</section>
+{% else %}<section class="category-empty"><div class="empty-icon">📚</div><h2>Choose the details above</h2><p>The syllabus for your exact board/university/exam and regulation will appear here. PDF download becomes available for the selected syllabus record.</p></section>{% endif %}
+</main>
+<script src="{{ url_for('static',filename='js/global-menu.js') }}?v=categorypages2" defer></script></body></html>

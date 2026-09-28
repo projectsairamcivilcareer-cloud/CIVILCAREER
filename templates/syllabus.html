@@ -11,7 +11,7 @@
     <title>Syllabus | Civil Career</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/syllabus.css', v='20260928audit2') }}?v=20260923b">
+          href="{{ url_for('static', filename='css/syllabus.css', v='20260928cascade1') }}?v=20260923b">
 
 </head>
 
@@ -141,50 +141,35 @@
         </section>
 
 
-        <section class="content-box" id="official-syllabus">
-          <span class="section-kicker">OFFICIAL CURRICULUM DIRECTORY</span>
-          <h2>Choose your board, university or examination</h2>
-          <p>Choose the exact regulation and institution. Civil Career links to the issuing authority; it does not label generic topic lists as an official syllabus.</p>
-          <div class="cards">
-            <a class="card" href="#diploma-official"><div class="card-icon">🎓</div><span class="tag">DIPLOMA</span><h3>State SBTET</h3><p>Select state and scheme/regulation, then open the board's official curriculum.</p><strong>Select state →</strong></a>
-            <a class="card" href="#btech-official"><div class="card-icon">🏛️</div><span class="tag">B.TECH</span><h3>University / Autonomous</h3><p>Select affiliating university, college status, regulation and branch.</p><strong>Select university →</strong></a>
-            <a class="card" href="#gate-official"><div class="card-icon">🏆</div><span class="tag">GATE</span><h3>GATE Civil Engineering</h3><p>Use the official GATE organizing institute syllabus and paper information.</p><strong>Official GATE source →</strong></a>
-            <a class="card" href="#recruitment-official"><div class="card-icon">📢</div><span class="tag">RECRUITMENT</span><h3>JE / AE / ESE / SSC JE</h3><p>Use the syllabus from the specific recruitment notification and year.</p><strong>Choose exam →</strong></a>
-          </div>
-        </section>
-        <section class="content-box" id="diploma-official">
-          <h2>🎓 Diploma — State Board syllabus</h2>
-          <p>Do not mix state boards or curriculum schemes. Open the official board site and select Civil Engineering, scheme/regulation and semester.</p>
-          <div class="exam-link-grid">
-            <a class="exam-link-card" href="#official-syllabus" ><span>🇮🇳</span><div><h3>Andhra Pradesh SBTET</h3><p>Official board portal — select curriculum / C- and scheme-specific Civil Engineering documents.</p><strong>View inside Civil Career</strong></div></a>
-            <a class="exam-link-card" href="#official-syllabus" ><span>🇮🇳</span><div><h3>Telangana SBTET</h3><p>Official board portal — choose the applicable scheme and semester syllabus.</p><strong>View inside Civil Career</strong></div></a>
-          </div>
-          <p class="note">Other states: choose the state technical education board's official portal. No state-specific subject list is displayed until the board/scheme is confirmed.</p>
-        </section>
-        <section class="content-box" id="btech-official">
-          <h2>🏛️ B.Tech — University and autonomous colleges</h2>
-          <p>Affiliated colleges follow the relevant university regulation; autonomous colleges may publish a separate approved curriculum. Confirm your regulation and college before using any subject list.</p>
-          <div class="exam-link-grid">
-            <a class="exam-link-card" href="#official-syllabus" ><span>📘</span><div><h3>JNTU-GV — Official syllabus archives</h3><p>Official DAAP portal provides approved R25, R23, R20 and earlier syllabus archives.</p><strong>View inside Civil Career</strong></div></a>
-            <a class="exam-link-card" href="#official-syllabus" ><span>📘</span><div><h3>JNTUK</h3><p>Use the university's official academics/notifications section for the current Civil Engineering regulation.</p><strong>View inside Civil Career</strong></div></a>
-            <div class="exam-link-card"><span>🏫</span><div><h3>Autonomous college</h3><p>Use the college's approved syllabus for your admission batch. Add the college name and regulation to verify the correct curriculum.</p><strong>College-specific source required</strong></div></div>
-          </div>
-        </section>
-        <section class="content-box" id="gate-official">
-          <h2>🏆 GATE Civil Engineering</h2>
-          <p>GATE syllabus is year-specific. Check the official organizing institute site for the chosen exam year and CE paper.</p>
-          <a class="exam-link-card" href="#official-syllabus" ><span>🔗</span><div><h3>GATE 2026 — Official papers and syllabus</h3><p>Organizing institute's official syllabus and exam-paper information.</p><strong>View inside Civil Career</strong></div></a>
-          <p>For another exam year, use that year's official GATE website. Older-year content should not be treated as the current-year syllabus.</p>
-        </section>
-        <section class="content-box" id="recruitment-official">
-          <h2>📢 Competitive exams — notification-specific syllabus</h2>
-          <p>SSC JE, UPSC ESE, state JE/AE and department recruitments can have different papers, topics, eligibility and amendments. No universal combined syllabus is shown here.</p>
-          <div class="exam-link-grid">
-            <a class="exam-link-card" href="#official-syllabus" ><span>📄</span><div><h3>SSC JE</h3><p>Open the current official notice and use its examination scheme and Civil Engineering syllabus.</p><strong>View in Civil Career</strong></div></a>
-            <a class="exam-link-card" href="#official-syllabus" ><span>📄</span><div><h3>UPSC ESE</h3><p>Use the Engineering Services Examination notice for the relevant year.</p><strong>View in Civil Career</strong></div></a>
-            <div class="exam-link-card"><span>🏢</span><div><h3>State JE / AE / department jobs</h3><p>Choose the recruiting authority and notification number/year. Syllabus is not published as verified until the exact notice is identified.</p><strong>Notification-specific</strong></div></div>
-          </div>
-        </section>
+<section class="content-box" id="official-syllabus">
+<h2>Find your exact syllabus</h2><p>Select a category and continue through the selections. Results will display here in Civil Career, not redirect you to another website.</p>
+<div class="syllabus-select-grid">
+<form method="get" action="/syllabus" class="syllabus-form">
+<h3>🎓 Diploma</h3>
+<label>State</label><select name="state" required><option value="">Select state</option><option value="andhra-pradesh" {% if selected_state=='andhra-pradesh' %}selected{% endif %}>Andhra Pradesh</option><option value="telangana" {% if selected_state=='telangana' %}selected{% endif %}>Telangana</option><option value="other" {% if selected_state=='other' %}selected{% endif %}>Other state</option></select>
+<label>Board / Scheme</label><select name="scheme" required><option value="">Select scheme</option><option value="C-23" {% if selected_scheme=='C-23' %}selected{% endif %}>SBTET AP — C-23</option><option value="C-24" {% if selected_scheme=='C-24' %}selected{% endif %}>SBTET Telangana — C-24</option><option value="other" {% if selected_scheme=='other' %}selected{% endif %}>Other / older scheme</option></select>
+<label>Year / Semester</label><select name="semester" required><option value="">Select year / semester</option><option>First Year</option><option>Second Semester</option><option>Third Semester</option><option>Fourth Semester</option><option>Fifth Semester</option><option>Sixth Semester</option></select>
+<input type="hidden" name="kind" value="diploma"><button type="submit">Show Diploma syllabus</button>
+</form>
+<form method="get" action="/syllabus" class="syllabus-form">
+<h3>🏛️ B.Tech Civil</h3>
+<label>University / College type</label><select name="university" required><option value="">Select university / type</option><option value="JNTUK">JNTUK affiliated</option><option value="JNTU-GV">JNTU-GV affiliated</option><option value="autonomous">Autonomous college</option><option value="other">Other university</option></select>
+<label>Regulation / Admission batch</label><select name="regulation" required><option value="">Select regulation</option><option>R23</option><option>R20</option><option>R19</option><option>R16</option><option>Specify autonomous regulation</option></select>
+<label>Year / Semester</label><select name="semester" required><option value="">Select year / semester</option><option>I Year - I Semester</option><option>I Year - II Semester</option><option>II Year - I Semester</option><option>II Year - II Semester</option><option>III Year - I Semester</option><option>III Year - II Semester</option><option>IV Year - I Semester</option><option>IV Year - II Semester</option></select>
+<input type="hidden" name="kind" value="btech"><button type="submit">Show B.Tech syllabus</button>
+</form>
+<form method="get" action="/syllabus" class="syllabus-form">
+<h3>🏆 GATE / Government exams</h3>
+<label>Exam</label><select name="exam" required><option value="">Select exam</option><option>GATE Civil Engineering</option><option>SSC JE Civil</option><option>UPSC ESE Civil</option><option>State JE / AE</option></select>
+<label>Exam year / notification</label><input name="exam_year" placeholder="Year / notification number" required>
+<input type="hidden" name="kind" value="competitive"><button type="submit">Show exam syllabus</button>
+</form></div>
+{% if syllabus_result %}
+<section class="syllabus-result"><h2>{{ syllabus_result.title }}</h2><p class="source-status">{{ syllabus_result.status }}</p>
+{% if syllabus_result.semesters %}{% for sem in syllabus_result.semesters %}<details open><summary>{{ sem.name }}</summary><div class="syllabus-subject-list">{% for subject in sem.courses %}<article><b>{{ subject.code }}</b><span>{{ subject.title }}</span><small>{{ subject.kind }}</small></article>{% endfor %}</div></details>{% endfor %}
+{% elif syllabus_result.message %}<p>{{ syllabus_result.message }}</p>{% endif %}
+</section>{% endif %}
+</section>
         <!-- STUDY FLOW -->
 
         <section class="content-box">

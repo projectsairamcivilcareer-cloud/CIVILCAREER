@@ -1,0 +1,344 @@
+{
+  "scheme": "AP SBTET C-23",
+  "effective_from": "2023-24",
+  "source_url": "https://polytechnic.aec.edu.in/docs/syllabus/C_23/CE.pdf",
+  "source_note": "Course codes and titles transcribed from the user's supplied list; unit-wise syllabus and practical experiment lists must be verified against the linked C-23 curriculum before publishing as official mapping.",
+  "courses": [
+    {
+      "code": "C-101",
+      "title": "English",
+      "type": "Theory",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-102",
+      "title": "Engineering Mathematics – I",
+      "type": "Theory",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-103",
+      "title": "Engineering Physics",
+      "type": "Theory",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-104",
+      "title": "Engineering Chemistry and Environmental Studies",
+      "type": "Theory",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-105",
+      "title": "Engineering Mechanics",
+      "type": "Theory",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-106",
+      "title": "Surveying-I",
+      "type": "Theory",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-107",
+      "title": "Engineering Drawing",
+      "type": "Practical",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-108",
+      "title": "Surveying-I Practice & Plotting",
+      "type": "Practical",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-109",
+      "title": "Physics Laboratory",
+      "type": "Practical",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-110",
+      "title": "Chemistry Laboratory",
+      "type": "Practical",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-111",
+      "title": "Computer Fundamentals Practice",
+      "type": "Practical",
+      "term": "First Year",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-301",
+      "title": "Engineering Mathematics – II",
+      "type": "Theory",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-302",
+      "title": "Mechanics of Solids & Theory of Structures",
+      "type": "Theory",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-303",
+      "title": "Hydraulics",
+      "type": "Theory",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-304",
+      "title": "Surveying-II",
+      "type": "Theory",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-305",
+      "title": "Construction Materials",
+      "type": "Theory",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-306",
+      "title": "Civil Engineering Drawing-I",
+      "type": "Practical",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-307",
+      "title": "CAD Practice-I",
+      "type": "Practical",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-308",
+      "title": "Surveying-II Practice & Plotting",
+      "type": "Practical",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-309",
+      "title": "Material Testing Practice",
+      "type": "Practical",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-310",
+      "title": "Hydraulics Practice",
+      "type": "Practical",
+      "term": "3",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-401",
+      "title": "Construction Technology & Valuation",
+      "type": "Theory",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-402",
+      "title": "Design and Detailing of R.C. Structures",
+      "type": "Theory",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-403",
+      "title": "Construction Practice",
+      "type": "Theory",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-404",
+      "title": "Transportation Engineering",
+      "type": "Theory",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-405",
+      "title": "Irrigation Engineering",
+      "type": "Theory",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-406",
+      "title": "Civil Engineering Drawing-II",
+      "type": "Practical",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-407",
+      "title": "Concrete & Soil Testing Practice",
+      "type": "Practical",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-408",
+      "title": "Communication Skills",
+      "type": "Practical",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-409",
+      "title": "Surveying-III Practice",
+      "type": "Practical",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-410",
+      "title": "CAD Practice-II",
+      "type": "Practical",
+      "term": "4",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-501",
+      "title": "Steel Structures",
+      "type": "Theory",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-502",
+      "title": "Environmental Engineering",
+      "type": "Theory",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-503",
+      "title": "Quantity Surveying",
+      "type": "Theory",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-504",
+      "title": "Advanced Civil Engineering Technologies",
+      "type": "Theory",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-505",
+      "title": "Construction Management & Entrepreneurship",
+      "type": "Theory",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-506",
+      "title": "Structural Engineering Drawing",
+      "type": "Practical",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-507",
+      "title": "Field Practices",
+      "type": "Practical",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-508",
+      "title": "Life Skills",
+      "type": "Practical",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-509",
+      "title": "Computer Applications in Civil Engineering",
+      "type": "Practical",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "C-510",
+      "title": "Project Work",
+      "type": "Practical",
+      "term": "5",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    },
+    {
+      "code": "—",
+      "title": "Industrial Training (6 months)",
+      "type": "Industrial Training",
+      "term": "6",
+      "units_status": "pending_official_unit_verification",
+      "units": []
+    }
+  ]
+}

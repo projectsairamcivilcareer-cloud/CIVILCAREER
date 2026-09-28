@@ -33,12 +33,12 @@
           <option value="">Select semester</option>
           {% for n in range(1,7) %}<option value="{{ n }}" {% if semester == n|string %}selected{% endif %}>{{ n }}{% if n == 1 %}st{% elif n == 2 %}nd{% elif n == 3 %}rd{% else %}th{% endif %} Semester</option>{% endfor %}
         </select></div>
-        <div><label for="subject">Subject code (as printed in C-23 PDF)</label><input id="subject" name="subject" value="{{ subject_code }}" placeholder="Enter exact subject code" style="width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px" required></div>
+        <div><label for="subject">Subject code (as printed in C-23 PDF)</label><input id="subject" name="subject" value="{{ subject_code }}" placeholder="Enter exact subject code" maxlength="30" pattern="[A-Za-z0-9-]+" title="Use only the subject code printed in the C-23 curriculum" style="width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px" required></div>
         <button class="c23-btn" type="submit">Find materials</button>
       </form>
       {% if semester and subject_code %}
       <div class="c23-status"><strong>Subject verification required</strong><br>
-        We have recorded your selection: C-23 · Semester {{ semester }} · Subject code {{ subject_code }}. The subject name and unit/topic list are not yet verified in this resource catalogue, so notes, practice questions and downloadable study files are intentionally not generated for this code. This prevents material from another scheme or semester being shown by mistake.
+        Your search: C-23 · Semester {{ semester }} · Subject code {{ subject_code }}. This code has not yet been matched to a verified subject entry in Civil Career. No subject name, syllabus units, notes, practice questions or downloads are being inferred from the code. Please compare it with the curriculum PDF below.
       </div>
       {% else %}
       <p class="c23-small">Select the semester and copy the exact subject code from the C-23 curriculum document. Until the official subject-code mapping is checked, the library will not guess subject names or syllabus units.</p>
@@ -46,8 +46,8 @@
     </section>
     <section class="content-box">
       <h2>Official curriculum references</h2>
-      <p>Use these sources to confirm the scheme, subject code, semester and prescribed units before studying or sharing notes.</p>
-      <div class="c23-links"><a class="c23-btn" href="{{ official_curriculum_url }}" target="_blank" rel="noopener">Open C-23 Civil Curriculum PDF ↗</a><a class="c23-btn c23-secondary" href="{{ official_board_url }}" target="_blank" rel="noopener">Open AP SBTET portal ↗</a><a class="c23-btn c23-secondary" href="{{ url_for('syllabus') }}">Back to Syllabus</a></div>
+      <p>Use the curriculum PDF copy to confirm the scheme, subject code, semester and prescribed units. The linked PDF is hosted by an educational institution; check the AP SBTET portal for board-issued updates.</p>
+      <div class="c23-links"><a class="c23-btn" href="{{ official_curriculum_url }}" target="_blank" rel="noopener">View C-23 Civil Curriculum PDF copy ↗</a><a class="c23-btn c23-secondary" href="{{ official_board_url }}" target="_blank" rel="noopener">Open AP SBTET portal ↗</a><a class="c23-btn c23-secondary" href="{{ url_for('syllabus') }}">Back to Syllabus</a></div>
       <p class="c23-small"><strong>Content standard:</strong> Notes will be original student-friendly explanations with checked calculations and clearly named references. They will be labeled as Civil Career study notes, not official SBTET handouts. IS-code clauses, editions and design values must be checked against the applicable current standard and project context.</p>
     </section>
   </div>

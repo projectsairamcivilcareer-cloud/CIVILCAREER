@@ -2036,6 +2036,104 @@ def syllabus():
     )
 
 
+
+@app.route("/syllabus/<category>")
+def syllabus_category(category):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    allowed = {"diploma", "btech", "gate", "competitive"}
+    if category not in allowed:
+        abort(404)
+
+    page_config = {
+        "diploma": ("Diploma Syllabus", "State board-wise Diploma Civil Engineering curriculum", "DIPLOMA", "Choose your state, board scheme and semester. Verified curriculum records display here."),
+        "btech": ("B.Tech Civil Syllabus", "University and autonomous college curriculum", "B.TECH", "Choose university, regulation and semester. Only the exact verified Civil Engineering curriculum is shown."),
+        "gate": ("GATE Civil Engineering", "Year-wise GATE CE syllabus and topic structure", "GATE CE", "Choose the exam year to view syllabus topics for Civil Engineering."),
+        "competitive": ("Competitive Exam Syllabus", "Recruitment-notification-specific Civil Engineering syllabus", "COMPETITIVE", "Choose authority, exam and notification year. Syllabi are not merged across different recruitment notices.")
+    }
+    title, subtitle, label, hero = page_config[category]
+    result = None
+
+    if request.args:
+        if category == "diploma":
+            state = request.args.get("state", "")
+            scheme = request.args.get("scheme", "")
+            semester = request.args.get("semester", "")
+            if state == "andhra-pradesh" and scheme == "C-23":
+                records = [
+                    {"name":"First Year","courses":[{"code":"C-101","title":"English","kind":"Theory"},{"code":"C-102","title":"Engineering Mathematics – I","kind":"Theory"},{"code":"C-103","title":"Engineering Physics","kind":"Theory"},{"code":"C-104","title":"Engineering Chemistry and Environmental Studies","kind":"Theory"},{"code":"C-105","title":"Engineering Mechanics","kind":"Theory"},{"code":"C-106","title":"Surveying-I","kind":"Theory"},{"code":"C-107","title":"Engineering Drawing","kind":"Practical"},{"code":"C-108","title":"Surveying-I Practice & Plotting","kind":"Practical"},{"code":"C-109","title":"Physics Laboratory","kind":"Practical"},{"code":"C-110","title":"Chemistry Laboratory","kind":"Practical"},{"code":"C-111","title":"Computer Fundamentals Practice","kind":"Practical"}]},
+                    {"name":"Third Semester","courses":[{"code":"C-301","title":"Engineering Mathematics – II","kind":"Theory"},{"code":"C-302","title":"Mechanics of Solids & Theory of Structures","kind":"Theory"},{"code":"C-303","title":"Hydraulics","kind":"Theory"},{"code":"C-304","title":"Surveying-II","kind":"Theory"},{"code":"C-305","title":"Construction Materials","kind":"Theory"},{"code":"C-306","title":"Civil Engineering Drawing-I","kind":"Practical"},{"code":"C-307","title":"CAD Practice-I","kind":"Practical"},{"code":"C-308","title":"Surveying-II Practice & Plotting","kind":"Practical"},{"code":"C-309","title":"Material Testing Practice","kind":"Practical"},{"code":"C-310","title":"Hydraulics Practice","kind":"Practical"}]},
+                    {"name":"Fourth Semester","courses":[{"code":"C-401","title":"Construction Technology & Valuation","kind":"Theory"},{"code":"C-402","title":"Design and Detailing of R.C. Structures","kind":"Theory"},{"code":"C-403","title":"Construction Practice","kind":"Theory"},{"code":"C-404","title":"Transportation Engineering","kind":"Theory"},{"code":"C-405","title":"Irrigation Engineering","kind":"Theory"},{"code":"C-406","title":"Civil Engineering Drawing-II","kind":"Practical"},{"code":"C-407","title":"Concrete & Soil Testing Practice","kind":"Practical"},{"code":"C-408","title":"Communication Skills","kind":"Practical"},{"code":"C-409","title":"Surveying-III Practice","kind":"Practical"},{"code":"C-410","title":"CAD Practice-II","kind":"Practical"}]},
+                    {"name":"Fifth Semester","courses":[{"code":"C-501","title":"Steel Structures","kind":"Theory"},{"code":"C-502","title":"Environmental Engineering","kind":"Theory"},{"code":"C-503","title":"Quantity Surveying","kind":"Theory"},{"code":"C-504","title":"Advanced Civil Engineering Technologies","kind":"Theory"},{"code":"C-505","title":"Construction Management & Entrepreneurship","kind":"Theory"},{"code":"C-506","title":"Structural Engineering Drawing","kind":"Practical"},{"code":"C-507","title":"Field Practices","kind":"Practical"},{"code":"C-508","title":"Life Skills","kind":"Practical"},{"code":"C-509","title":"Computer Applications in Civil Engineering","kind":"Practical"},{"code":"C-510","title":"Project Work","kind":"Practical"}]},
+                    {"name":"Sixth Semester","courses":[{"code":"","title":"Industrial Training (6 months)","kind":"Industrial Training"}]}
+                ]
+                chosen = [x for x in records if not semester or x["name"] == semester]
+                result = {"title":f"AP SBTET Civil Engineering — C-23 — {semester or 'Course Structure'}","status":"Course codes and titles transcribed from the AP SBTET Curriculum-2023 scheme. This is the scheme/course structure, not the detailed unit-wise syllabus; unit detail must be verified from the official subject pages before being labeled complete.","semesters":chosen}
+            else:
+                result = {"title":"Syllabus not yet verified for this selection","status":"No verified record loaded for this exact state and scheme.","message":"This selected board/scheme has not been fully transcribed and checked yet. To avoid fabricated syllabus data, Civil Career will not substitute another state's or scheme's syllabus."}
+        elif category == "btech":
+            uni=request.args.get("university",""); reg=request.args.get("regulation",""); sem=request.args.get("semester","")
+            result={"title":f"{uni} Civil Engineering — {reg} — {sem or 'Course structure'}","status":"University/regulation selected. The complete approved branch-specific syllabus has not yet been fully transcribed into the in-site database.","message":"The page is reserved for the matching university and regulation. Until all branch-specific subject and unit data are verified, no generic or cross-university syllabus is presented as official."}
+        elif category == "gate":
+            year=request.args.get("year","2027")
+            gate_data=GATE_SYLLABI.get(year,{})
+            sections=[]
+            if isinstance(gate_data,dict):
+                for key,value in gate_data.items():
+                    if isinstance(value,(list,tuple)):
+                        sections.append({"title":str(key).replace("_"," ").title(),"items":[str(x) for x in value]})
+                    elif isinstance(value,dict):
+                        sections.append({"title":str(key).replace("_"," ").title(),"items":[f"{k}: {v}" for k,v in value.items()]})
+                    elif isinstance(value,str):
+                        sections.append({"title":str(key).replace("_"," ").title(),"items":[value]})
+            result={"title":f"GATE Civil Engineering — {year}","status":"GATE syllabus data loaded from the configured year record in Civil Career. Verify current-year scope before exam use.","sections":sections,"message":"No formatted syllabus topics were found in the configured year record."}
+        elif category == "competitive":
+            authority=request.args.get("authority",""); exam=request.args.get("exam",""); notification=request.args.get("notification","")
+            result={"title":f"{exam} — {authority} — {notification}","status":"Notification-specific syllabus not yet transcribed and verified for this exact recruitment.","message":"Please select the exact recruitment details. Until its notification syllabus is verified and entered, this page will not invent or merge topics from other exams."}
+
+    return render_template("syllabus_category.html",category=category,page_title=title,page_subtitle=subtitle,category_label=label,hero_title=title,hero_text=hero,syllabus_result=result,student_name=session.get("student_name","Student"),student_education=session.get("student_education",""))
+
+
+@app.route("/syllabus/<category>/download.pdf")
+def download_syllabus_category_pdf(category):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    if category not in {"diploma","btech","gate","competitive"}:
+        abort(404)
+    # Reuse the selected in-site result by reconstructing the exact selection.
+    args=request.args
+    title=f"{category.title()} Civil Engineering Syllabus"
+    story=[]
+    styles=getSampleStyleSheet()
+    story.append(Paragraph("CIVIL CAREER",styles["Title"]))
+    story.append(Paragraph(escape(title),styles["Heading1"]))
+    story.append(Paragraph("Selection: "+escape(" | ".join(f"{k}: {v}" for k,v in args.items())),styles["Normal"]))
+    story.append(Spacer(1,12))
+    story.append(Paragraph("This PDF is generated from the syllabus content available for the selected category in Civil Career. Where the exact official document has not been verified and transcribed, the PDF states that limitation instead of inventing syllabus details.",styles["BodyText"]))
+    if category=="diploma" and args.get("state")=="andhra-pradesh" and args.get("scheme")=="C-23":
+        subjects={
+          "First Year":[("C-101","English"),("C-102","Engineering Mathematics – I"),("C-103","Engineering Physics"),("C-104","Engineering Chemistry and Environmental Studies"),("C-105","Engineering Mechanics"),("C-106","Surveying-I"),("C-107","Engineering Drawing"),("C-108","Surveying-I Practice & Plotting"),("C-109","Physics Laboratory"),("C-110","Chemistry Laboratory"),("C-111","Computer Fundamentals Practice")],
+          "Third Semester":[("C-301","Engineering Mathematics – II"),("C-302","Mechanics of Solids & Theory of Structures"),("C-303","Hydraulics"),("C-304","Surveying-II"),("C-305","Construction Materials"),("C-306","Civil Engineering Drawing-I"),("C-307","CAD Practice-I"),("C-308","Surveying-II Practice & Plotting"),("C-309","Material Testing Practice"),("C-310","Hydraulics Practice")],
+          "Fourth Semester":[("C-401","Construction Technology & Valuation"),("C-402","Design and Detailing of R.C. Structures"),("C-403","Construction Practice"),("C-404","Transportation Engineering"),("C-405","Irrigation Engineering"),("C-406","Civil Engineering Drawing-II"),("C-407","Concrete & Soil Testing Practice"),("C-408","Communication Skills"),("C-409","Surveying-III Practice"),("C-410","CAD Practice-II")],
+          "Fifth Semester":[("C-501","Steel Structures"),("C-502","Environmental Engineering"),("C-503","Quantity Surveying"),("C-504","Advanced Civil Engineering Technologies"),("C-505","Construction Management & Entrepreneurship"),("C-506","Structural Engineering Drawing"),("C-507","Field Practices"),("C-508","Life Skills"),("C-509","Computer Applications in Civil Engineering"),("C-510","Project Work")],
+          "Sixth Semester":[("","Industrial Training (6 months)")]
+        }
+        selected=args.get("semester","")
+        for sem,rows in subjects.items():
+            if not selected or selected==sem:
+                story.append(Paragraph(escape(sem),styles["Heading2"]))
+                table=Table([["Code","Subject / Course"]]+[[code,name] for code,name in rows],colWidths=[35*mm,130*mm],repeatRows=1)
+                table.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,0),colors.HexColor("#12366b")),("TEXTCOLOR",(0,0),(-1,0),colors.white),("GRID",(0,0),(-1,-1),.4,colors.grey),("VALIGN",(0,0),(-1,-1),"TOP"),("PADDING",(0,0),(-1,-1),7)]))
+                story.append(table);story.append(Spacer(1,10))
+    else:
+        story.append(Paragraph("Verified syllabus content for this exact selection has not yet been added. This PDF is a status sheet, not a substitute syllabus.",styles["Heading2"]))
+    output=BytesIO()
+    doc=SimpleDocTemplate(output,pagesize=A4,rightMargin=18*mm,leftMargin=18*mm,topMargin=18*mm,bottomMargin=18*mm,title=title)
+    doc.build(story)
+    output.seek(0)
+    return send_file(output,as_attachment=True,download_name=f"civilcareer_{category}_syllabus.pdf",mimetype="application/pdf")
+
+
 @app.route("/syllabus/gate/<year>/download")
 def download_gate_syllabus(year):
 

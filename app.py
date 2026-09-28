@@ -2073,7 +2073,7 @@ def syllabus_category(category):
                 result = {"title":"Syllabus not yet verified for this selection","status":"No verified record loaded for this exact state and scheme.","message":"This selected board/scheme has not been fully transcribed and checked yet. To avoid fabricated syllabus data, Civil Career will not substitute another state's or scheme's syllabus."}
         elif category == "btech":
             uni=request.args.get("university",""); reg=request.args.get("regulation",""); sem=request.args.get("semester","")
-            result={"title":f"{uni} Civil Engineering — {reg} — {sem or 'Course structure'}","status":"University/regulation selected. The complete approved branch-specific syllabus has not yet been fully transcribed into the in-site database.","message":"The page is reserved for the matching university and regulation. Until all branch-specific subject and unit data are verified, no generic or cross-university syllabus is presented as official."}
+            result={"title":f"{uni} Civil Engineering — {reg} — {sem or 'Course structure'}","status":"Selected syllabus is not available as verified in-site unit data yet.","message":"JNTUK R23 Civil Engineering IV Year-I Semester official subject and unit-wise syllabus has not yet been transcribed into Civil Career. We will not substitute another university's syllabus or create fake topics.","download_available":False}
         elif category == "gate":
             year=request.args.get("year","2027")
             gate_data=GATE_SYLLABI.get(year,{})

@@ -2411,31 +2411,42 @@ def materials():
 
 @app.route("/materials/diploma-c23")
 def diploma_c23_materials():
-    """Syllabus-linked AP SBTET C-23 Diploma Civil materials.
-
-    Keep subject/topic content unpublished until the exact syllabus section is
-    transcribed and checked against the issuing board's curriculum document.
-    """
+    """C-23 subject catalogue with explicit pending status for unverified units."""
     if "student_id" not in session:
         return redirect(url_for("login"))
 
     semester = request.args.get("semester", "").strip()
-    subject_code = request.args.get("subject", "").strip()
+    subject_code = request.args.get("subject", "").strip().upper()
     valid_semesters = {"FY", "3", "4", "5", "6"}
     if semester not in valid_semesters:
         semester = ""
 
-    # Official C-23 curriculum document hosted by an AP polytechnic.
-    # The page explicitly labels this as a curriculum copy, not the board's
-    # live portal. No unverified subject mapping is generated here.
-    official_curriculum_url = "https://sanketikapolytechnic.edu.in/Departments/Civil/C-23-Civil%20Engineering.pdf"
-    official_board_url = "https://sbtet.ap.gov.in/"
+    catalogue_path = os.path.join(app.root_path, "data", "ap_sbtet_c23_civil_subjects.json")
+    catalogue = {"courses": []}
+    try:
+        with open(catalogue_path, "r", encoding="utf-8") as catalogue_file:
+            catalogue = json.load(catalogue_file)
+    except (OSError, json.JSONDecodeError) as exc:
+        app.logger.error("Could not load C-23 subject catalogue: %s", exc)
 
-    selected_subject = None
-    if subject_code:
-        # Subject entries will be added only after exact semester/code/name
-        # transcription and cross-checking against the official C-23 PDF.
-        selected_subject = None
+    term_key = "First Year" if semester == "FY" else semester
+    semester_courses = [
+        course for course in catalogue.get("courses", [])
+        if course.get("term") == term_key
+    ] if semester else []
+
+    selected_subject = next(
+        (course for course in semester_courses if course.get("code", "").upper() == subject_code),
+        None
+    )
+    if not selected_subject:
+        subject_code = ""
+
+    official_curriculum_url = catalogue.get(
+        "source_url",
+        "https://polytechnic.aec.edu.in/docs/syllabus/C_23/CE.pdf"
+    )
+    official_board_url = "https://sbtet.ap.gov.in/"
 
     return render_template(
         "materials_diploma_c23.html",
@@ -2443,6 +2454,7 @@ def diploma_c23_materials():
         student_education=session.get("student_education", ""),
         semester=semester,
         subject_code=subject_code,
+        semester_courses=semester_courses,
         selected_subject=selected_subject,
         official_curriculum_url=official_curriculum_url,
         official_board_url=official_board_url

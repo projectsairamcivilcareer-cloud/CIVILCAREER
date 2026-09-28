@@ -2068,7 +2068,7 @@ def syllabus_category(category):
                     {"name":"Sixth Semester","courses":[{"code":"","title":"Industrial Training (6 months)","kind":"Industrial Training"}]}
                 ]
                 chosen = [x for x in records if not semester or x["name"] == semester]
-                result = {"title":f"AP SBTET Civil Engineering — C-23 — {semester or 'Course Structure'}","status":"Course codes and titles transcribed from the AP SBTET Curriculum-2023 scheme. This is the scheme/course structure, not the detailed unit-wise syllabus; unit detail must be verified from the official subject pages before being labeled complete.","semesters":chosen}
+                result = {"title":f"AP SBTET Civil Engineering — C-23 — {semester or 'Course Structure'}","status":"Course codes and titles transcribed from the AP SBTET Curriculum-2023 scheme. This is the scheme/course structure, not the detailed unit-wise syllabus; unit detail must be verified from the official subject pages before being labeled complete.","semesters":chosen,"download_available":bool(chosen)}
             else:
                 result = {"title":"Syllabus not yet verified for this selection","status":"No verified record loaded for this exact state and scheme.","message":"This selected board/scheme has not been fully transcribed and checked yet. To avoid fabricated syllabus data, Civil Career will not substitute another state's or scheme's syllabus."}
         elif category == "btech":

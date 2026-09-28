@@ -19,6 +19,33 @@
       "url": "https://polytechnic.aec.edu.in/docs/syllabus/C_23/CE.pdf",
       "officiality": "official-board-document-on-institutional-mirror",
       "enabled": true
+    },
+    {
+      "id": "gate-2027-official-syllabus",
+      "title": "GATE 2027 Test Papers and Syllabus — official IIT Madras site",
+      "authority": "GATE 2027 Organizing Institute, IIT Madras",
+      "category": "gate-syllabus",
+      "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+      "officiality": "official-organizing-institute-site",
+      "enabled": true
+    },
+    {
+      "id": "upsc-ese-2027-notification",
+      "title": "Engineering Services (Preliminary) Examination 2027 — UPSC official exam page",
+      "authority": "Union Public Service Commission",
+      "category": "competitive-notification-syllabus",
+      "url": "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
+      "officiality": "official-commission-exam-page",
+      "enabled": true
+    },
+    {
+      "id": "ssc-je-official-notices",
+      "title": "SSC official website — Junior Engineer recruitment notices",
+      "authority": "Staff Selection Commission",
+      "category": "competitive-notification-syllabus",
+      "url": "https://ssc.gov.in/",
+      "officiality": "official-commission-website-homepage-notice-monitor",
+      "enabled": true
     }
   ]
 }

@@ -643,3 +643,11 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0
 
 /* Pending exact-notification syllabus state */
 .pending-topic-label{padding:14px 16px;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;color:#9a3412;margin:18px 0}.pending-topic-label span:last-child{background:#ffedd5;color:#9a3412;padding:7px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:0}.pending-card h3{color:#9a3412}.pending-card{background:linear-gradient(145deg,#fffaf3,#fff);border:1px solid #fed7aa;text-align:left;padding:26px}.pending-card p{line-height:1.75;color:#7c4a20}
+
+
+/* Pending syllabus status layout: keep heading and status badge separated */
+.pending-topic-label{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px;line-height:1.5;min-width:0}
+.pending-topic-label span{display:block;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.pending-topic-label span:first-child{font-size:12px;font-weight:900;letter-spacing:1px;color:#9a3412}
+.pending-topic-label span:last-child{display:inline-flex;align-items:center;white-space:normal;margin:0;line-height:1.4}
+.pending-card{margin-top:16px}

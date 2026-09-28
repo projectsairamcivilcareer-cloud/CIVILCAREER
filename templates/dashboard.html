@@ -16,6 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="/static/images/civil-career-icon.svg?v=20260924">
     <link rel="apple-touch-icon" href="/static/images/civil-career-icon.svg?v=20260924">
     <link rel="manifest" href="/static/site.webmanifest">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/global-menu.css', v='20260928menu3') }}">
 </head>
 
 <body>
@@ -365,43 +366,8 @@
   #dashboard-notification-badge { top: -5px !important; right: -5px !important; }
 }
 </style>
-<script id="cc-sidebar-drawer">
-(function(){
- function initCivilCareerMenu(){
-  const sidebar=document.querySelector('.sidebar');
-  if(!sidebar)return;
-  let button=document.querySelector('.cc-nav-trigger');
-  let overlay=document.querySelector('.cc-nav-overlay');
-  if(!button){button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';document.body.appendChild(button);}
-  if(!overlay){overlay=document.createElement('div');overlay.className='cc-nav-overlay';document.body.appendChild(overlay);}
-  document.body.classList.add('cc-nav-ready');
-  // Apply styles inline with priority so older mobile/desktop CSS cannot override the drawer.
-  Object.assign(button.style,{position:'fixed',left:'14px',top:'14px',zIndex:'2147483002',width:'50px',height:'50px',border:'0',borderRadius:'14px',background:'#0f172a',color:'#fff',fontSize:'25px',fontWeight:'800',cursor:'pointer',display:'grid',placeItems:'center',boxShadow:'0 8px 22px rgba(15,23,42,.25)'});
-  Object.assign(sidebar.style,{position:'fixed',left:'0',top:'0',bottom:'0',width:'min(290px,86vw)',height:'100vh',height:'100dvh',overflowY:'auto',zIndex:'2147483001',transition:'transform .25s ease',transform:'translateX(-105%)',visibility:'visible',pointerEvents:'none',background:'#0b1730'});
-  Object.assign(overlay.style,{position:'fixed',inset:'0',zIndex:'2147483000',background:'rgba(2,6,23,.48)',display:'none',opacity:'0',pointerEvents:'none'});
-  let opened=false;
-  function render(){
-   sidebar.style.transform=opened?'translateX(0)':'translateX(-105%)';
-   sidebar.style.pointerEvents=opened?'auto':'none';
-   overlay.style.display=opened?'block':'none';
-   overlay.style.opacity=opened?'1':'0';
-   overlay.style.pointerEvents=opened?'auto':'none';
-   button.textContent=opened?'×':'☰';
-   button.setAttribute('aria-expanded',String(opened));
-   button.setAttribute('aria-label',opened?'Close navigation menu':'Open navigation menu');
-   document.body.style.overflow=opened?'hidden':'';
-  }
-  // Replace handlers by cloning to avoid duplicate listeners after reloads/navigation.
-  const fresh=button.cloneNode(true);button.replaceWith(fresh);button=fresh;
-  button.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();opened=!opened;render();});
-  overlay.addEventListener('click',function(){opened=false;render();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'){opened=false;render();}});
-  sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',function(){opened=false;render();}));
-  render();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initCivilCareerMenu,{once:true});else initCivilCareerMenu();
-})();
-</script>
+
+<script src="{{ url_for('static', filename='js/global-menu.js', v='20260928menu3') }}" defer></script>
 </body>
 
 </html>

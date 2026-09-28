@@ -367,22 +367,39 @@
 </style>
 <script id="cc-sidebar-drawer">
 (function(){
- const sidebar=document.querySelector('.sidebar');
- if(!sidebar)return;
- /* Always initialize in the closed state; prevent a stale open class dimming the page. */
- document.body.classList.add('cc-nav-ready');
- document.body.classList.remove('cc-nav-open');
- let overlay=document.querySelector('.cc-nav-overlay');
- if(!overlay){overlay=document.createElement('div');overlay.className='cc-nav-overlay';document.body.appendChild(overlay);}
- let button=document.querySelector('.cc-nav-trigger');
- if(!button){button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';document.body.appendChild(button);}
- button.textContent='☰';button.setAttribute('aria-label','Open navigation menu');button.setAttribute('aria-expanded','false');
- overlay.setAttribute('aria-hidden','true');
- function close(){document.body.classList.remove('cc-nav-open');button.textContent='☰';button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation menu');overlay.setAttribute('aria-hidden','true');}
- function toggle(){const isOpen=!document.body.classList.contains('cc-nav-open');document.body.classList.toggle('cc-nav-open',isOpen);button.textContent=isOpen?'×':'☰';button.setAttribute('aria-expanded',String(isOpen));button.setAttribute('aria-label',isOpen?'Close navigation menu':'Open navigation menu');overlay.setAttribute('aria-hidden',String(!isOpen));}
- button.addEventListener('click',toggle);overlay.addEventListener('click',close);
- document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
- sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+ function initCivilCareerMenu(){
+  const sidebar=document.querySelector('.sidebar');
+  if(!sidebar)return;
+  let button=document.querySelector('.cc-nav-trigger');
+  let overlay=document.querySelector('.cc-nav-overlay');
+  if(!button){button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';document.body.appendChild(button);}
+  if(!overlay){overlay=document.createElement('div');overlay.className='cc-nav-overlay';document.body.appendChild(overlay);}
+  document.body.classList.add('cc-nav-ready');
+  // Apply styles inline with priority so older mobile/desktop CSS cannot override the drawer.
+  Object.assign(button.style,{position:'fixed',left:'14px',top:'14px',zIndex:'2147483002',width:'50px',height:'50px',border:'0',borderRadius:'14px',background:'#0f172a',color:'#fff',fontSize:'25px',fontWeight:'800',cursor:'pointer',display:'grid',placeItems:'center',boxShadow:'0 8px 22px rgba(15,23,42,.25)'});
+  Object.assign(sidebar.style,{position:'fixed',left:'0',top:'0',bottom:'0',width:'min(290px,86vw)',height:'100vh',height:'100dvh',overflowY:'auto',zIndex:'2147483001',transition:'transform .25s ease',transform:'translateX(-105%)',visibility:'visible',pointerEvents:'none',background:'#0b1730'});
+  Object.assign(overlay.style,{position:'fixed',inset:'0',zIndex:'2147483000',background:'rgba(2,6,23,.48)',display:'none',opacity:'0',pointerEvents:'none'});
+  let opened=false;
+  function render(){
+   sidebar.style.transform=opened?'translateX(0)':'translateX(-105%)';
+   sidebar.style.pointerEvents=opened?'auto':'none';
+   overlay.style.display=opened?'block':'none';
+   overlay.style.opacity=opened?'1':'0';
+   overlay.style.pointerEvents=opened?'auto':'none';
+   button.textContent=opened?'×':'☰';
+   button.setAttribute('aria-expanded',String(opened));
+   button.setAttribute('aria-label',opened?'Close navigation menu':'Open navigation menu');
+   document.body.style.overflow=opened?'hidden':'';
+  }
+  // Replace handlers by cloning to avoid duplicate listeners after reloads/navigation.
+  const fresh=button.cloneNode(true);button.replaceWith(fresh);button=fresh;
+  button.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();opened=!opened;render();});
+  overlay.addEventListener('click',function(){opened=false;render();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){opened=false;render();}});
+  sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',function(){opened=false;render();}));
+  render();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initCivilCareerMenu,{once:true});else initCivilCareerMenu();
 })();
 </script>
 </body>

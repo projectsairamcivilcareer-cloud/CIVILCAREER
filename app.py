@@ -2409,6 +2409,46 @@ def materials():
     )
 
 
+@app.route("/materials/diploma-c23")
+def diploma_c23_materials():
+    """Syllabus-linked AP SBTET C-23 Diploma Civil materials.
+
+    Keep subject/topic content unpublished until the exact syllabus section is
+    transcribed and checked against the issuing board's curriculum document.
+    """
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    semester = request.args.get("semester", "").strip()
+    subject_code = request.args.get("subject", "").strip()
+    valid_semesters = {"1", "2", "3", "4", "5", "6"}
+    if semester not in valid_semesters:
+        semester = ""
+
+    # Official C-23 curriculum document hosted by an AP polytechnic.
+    # The page explicitly labels this as a curriculum copy, not the board's
+    # live portal. No unverified subject mapping is generated here.
+    official_curriculum_url = "https://sanketikapolytechnic.edu.in/Departments/Civil/C-23-Civil%20Engineering.pdf"
+    official_board_url = "https://sbtet.ap.gov.in/"
+
+    selected_subject = None
+    if subject_code:
+        # Subject entries will be added only after exact semester/code/name
+        # transcription and cross-checking against the official C-23 PDF.
+        selected_subject = None
+
+    return render_template(
+        "materials_diploma_c23.html",
+        student_name=session.get("student_name", "Student"),
+        student_education=session.get("student_education", ""),
+        semester=semester,
+        subject_code=subject_code,
+        selected_subject=selected_subject,
+        official_curriculum_url=official_curriculum_url,
+        official_board_url=official_board_url
+    )
+
+
 @app.route("/materials/<category>")
 def materials_category(category):
     """Separate category pages; syllabus details are linked to their issuing authority."""

@@ -1961,13 +1961,78 @@ def syllabus():
     if syllabus_year not in GATE_SYLLABI:
         syllabus_year = "2026"
 
+    # In-site cascading syllabus selection. Only course structure transcribed from the
+    # identified SBTET AP C-23 Civil curriculum is shown as verified here.
+    selected_state = request.args.get("state", "")
+    selected_scheme = request.args.get("scheme", "")
+    syllabus_result = None
+    kind = request.args.get("kind", "")
+
+    ap_c23 = {
+        "authority": "SBTET Andhra Pradesh",
+        "version": "Curriculum-2023 (C-23)",
+        "status": "Course titles/codes shown from the SBTET AP C-23 Civil curriculum scheme. Unit-wise detail is being verified from the subject syllabus pages; this list is not a unit-wise syllabus.",
+        "semesters": [
+            {"name":"First Year","courses":[
+                {"code":"C-101","title":"English","kind":"Theory"},{"code":"C-102","title":"Engineering Mathematics – I","kind":"Theory"},
+                {"code":"C-103","title":"Engineering Physics","kind":"Theory"},{"code":"C-104","title":"Engineering Chemistry and Environmental Studies","kind":"Theory"},
+                {"code":"C-105","title":"Engineering Mechanics","kind":"Theory"},{"code":"C-106","title":"Surveying-I","kind":"Theory"},
+                {"code":"C-107","title":"Engineering Drawing","kind":"Practical"},{"code":"C-108","title":"Surveying-I Practice & Plotting","kind":"Practical"},
+                {"code":"C-109","title":"Physics Laboratory","kind":"Practical"},{"code":"C-110","title":"Chemistry Laboratory","kind":"Practical"},
+                {"code":"C-111","title":"Computer Fundamentals Practice","kind":"Practical"}]},
+            {"name":"Third Semester","courses":[
+                {"code":"C-301","title":"Engineering Mathematics – II","kind":"Theory"},{"code":"C-302","title":"Mechanics of Solids & Theory of Structures","kind":"Theory"},
+                {"code":"C-303","title":"Hydraulics","kind":"Theory"},{"code":"C-304","title":"Surveying-II","kind":"Theory"},
+                {"code":"C-305","title":"Construction Materials","kind":"Theory"},{"code":"C-306","title":"Civil Engineering Drawing-I","kind":"Practical"},
+                {"code":"C-307","title":"CAD Practice-I","kind":"Practical"},{"code":"C-308","title":"Surveying-II Practice & Plotting","kind":"Practical"},
+                {"code":"C-309","title":"Material Testing Practice","kind":"Practical"},{"code":"C-310","title":"Hydraulics Practice","kind":"Practical"}]},
+            {"name":"Fourth Semester","courses":[
+                {"code":"C-401","title":"Construction Technology & Valuation","kind":"Theory"},{"code":"C-402","title":"Design and Detailing of R.C. Structures","kind":"Theory"},
+                {"code":"C-403","title":"Construction Practice","kind":"Theory"},{"code":"C-404","title":"Transportation Engineering","kind":"Theory"},
+                {"code":"C-405","title":"Irrigation Engineering","kind":"Theory"},{"code":"C-406","title":"Civil Engineering Drawing-II","kind":"Practical"},
+                {"code":"C-407","title":"Concrete & Soil Testing Practice","kind":"Practical"},{"code":"C-408","title":"Communication Skills","kind":"Practical"},
+                {"code":"C-409","title":"Surveying-III Practice","kind":"Practical"},{"code":"C-410","title":"CAD Practice-II","kind":"Practical"}]},
+            {"name":"Fifth Semester","courses":[
+                {"code":"C-501","title":"Steel Structures","kind":"Theory"},{"code":"C-502","title":"Environmental Engineering","kind":"Theory"},
+                {"code":"C-503","title":"Quantity Surveying","kind":"Theory"},{"code":"C-504","title":"Advanced Civil Engineering Technologies","kind":"Theory"},
+                {"code":"C-505","title":"Construction Management & Entrepreneurship","kind":"Theory"},{"code":"C-506","title":"Structural Engineering Drawing","kind":"Practical"},
+                {"code":"C-507","title":"Field Practices","kind":"Practical"},{"code":"C-508","title":"Life Skills","kind":"Practical"},
+                {"code":"C-509","title":"Computer Applications in Civil Engineering","kind":"Practical"},{"code":"C-510","title":"Project Work","kind":"Practical"}]},
+            {"name":"Sixth Semester","courses":[{"code":"","title":"Industrial Training (6 months)","kind":"Industrial Training"}]}
+        ]
+    }
+
+    if kind == "diploma":
+        if selected_state == "andhra-pradesh" and selected_scheme == "C-23":
+            sem = request.args.get("semester", "")
+            selected = next((x for x in ap_c23["semesters"] if x["name"] == sem), None)
+            if selected:
+                syllabus_result = {"title":f"AP SBTET Civil Engineering — C-23 — {sem}", "status":ap_c23["status"], "semesters":[selected]}
+            else:
+                syllabus_result = {"title":"AP SBTET Civil Engineering — C-23", "status":ap_c23["status"], "semesters":ap_c23["semesters"]}
+        elif selected_state == "telangana":
+            syllabus_result = {"title":"Telangana SBTET — Civil Engineering", "status":"The state and scheme selection is recognized, but the exact Civil Engineering scheme and subject-wise document must be verified before publishing subject rows. No AP syllabus is substituted.", "message":"Choose the current scheme and academic year from your Telangana board documents; this in-site syllabus record is pending exact scheme verification."}
+        else:
+            syllabus_result = {"title":"Diploma syllabus — verification required", "status":"No verified state/scheme-specific curriculum is loaded for this selection.", "message":"Select Andhra Pradesh + C-23 for the verified course structure currently available. Other states/schemes will remain unpublished until their exact official curriculum is verified."}
+    elif kind == "btech":
+        uni = request.args.get("university","")
+        reg = request.args.get("regulation","")
+        syllabus_result = {"title":f"{uni} Civil Engineering — {reg}", "status":"Branch-specific official course structure and subject-wise syllabus have not yet been fully verified for this university/regulation. No generic or other-university subject list is shown.", "message":"This selection is captured, but the approved Civil Engineering curriculum must be verified for the exact university, regulation and semester before showing subject or unit data."}
+    elif kind == "competitive":
+        exam = request.args.get("exam","")
+        exam_year = request.args.get("exam_year","")
+        syllabus_result = {"title":f"{exam} — {exam_year}", "status":"The exact year/notification-specific syllabus must be verified before displaying its contents.", "message":"No generic competitive syllabus is substituted. This selected exam is awaiting the matching official notification's syllabus text."}
+
     return render_template(
         "syllabus.html",
         student_name=session["student_name"],
         student_education=session["student_education"],
         gate_syllabus=GATE_SYLLABI[syllabus_year],
         gate_syllabi=GATE_SYLLABI,
-        syllabus_year=syllabus_year
+        syllabus_year=syllabus_year,
+        selected_state=selected_state,
+        selected_scheme=selected_scheme,
+        syllabus_result=syllabus_result
     )
 
 

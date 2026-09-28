@@ -2304,6 +2304,46 @@ def download_gate_syllabus(year):
 # MATERIALS
 # ==============================
 
+@app.route("/official-sources")
+def official_sources():
+    """In-site dashboard for official syllabus and recruitment-source monitoring."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    registry_path = os.path.join(app.root_path, "data", "official_sources.json")
+    state_path = os.path.join(app.root_path, "data", "official_source_state.json")
+    try:
+        with open(registry_path, "r", encoding="utf-8") as source_file:
+            registry = json.load(source_file)
+    except (OSError, json.JSONDecodeError):
+        registry = {"sources": []}
+    try:
+        with open(state_path, "r", encoding="utf-8") as state_file:
+            state = json.load(state_file)
+    except (OSError, json.JSONDecodeError):
+        state = {"sources": {}, "last_run_at": None}
+    cards = []
+    for source in registry.get("sources", []):
+        if not source.get("enabled", True):
+            continue
+        status = state.get("sources", {}).get(source.get("id", ""), {})
+        cards.append({
+            "title": source.get("title", "Official source"),
+            "authority": source.get("authority", ""),
+            "category": source.get("category", ""),
+            "url": source.get("url", ""),
+            "status": status.get("status", "waiting_for_first_check"),
+            "checked_at": status.get("checked_at"),
+            "review_status": status.get("review_status", "not_yet_archived"),
+            "last_error": status.get("last_error")
+        })
+    return render_template(
+        "official_sources.html", sources=cards,
+        last_run_at=state.get("last_run_at"),
+        student_name=session.get("student_name", "Student"),
+        student_education=session.get("student_education", "")
+    )
+
+
 @app.route("/materials")
 def materials():
     if "student_id" not in session:

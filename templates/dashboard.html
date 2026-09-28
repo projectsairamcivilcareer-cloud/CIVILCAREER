@@ -120,6 +120,7 @@
 
             </div>
 
+        </section>
 
         {% if matching_jobs %}
         <section class="dashboard-section dashboard-matching-jobs">
@@ -243,15 +244,13 @@
                         Overall Progress
                     </span>
 
-                    <strong>
-                        0%
-                    </strong>
+                    <strong>{{ overall_progress|default(0)|int }}%</strong>
 
                 </div>
 
                 <div class="progress-bar">
 
-                    <div class="progress-fill" style="width: {{ overall_progress }}%;"></div>
+                    <div class="progress-fill" style="width: {{ overall_progress|default(0)|int }}%;"></div>
 
                 </div>
 

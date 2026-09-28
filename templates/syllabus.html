@@ -148,7 +148,7 @@
 <h3>🎓 Diploma</h3>
 <label>State</label><select name="state" required><option value="">Select state</option><option value="andhra-pradesh" {% if selected_state=='andhra-pradesh' %}selected{% endif %}>Andhra Pradesh</option><option value="telangana" {% if selected_state=='telangana' %}selected{% endif %}>Telangana</option><option value="other" {% if selected_state=='other' %}selected{% endif %}>Other state</option></select>
 <label>Board / Scheme</label><select name="scheme" required><option value="">Select scheme</option><option value="C-23" {% if selected_scheme=='C-23' %}selected{% endif %}>SBTET AP — C-23</option><option value="C-24" {% if selected_scheme=='C-24' %}selected{% endif %}>SBTET Telangana — C-24</option><option value="other" {% if selected_scheme=='other' %}selected{% endif %}>Other / older scheme</option></select>
-<label>Year / Semester</label><select name="semester" required><option value="">Select year / semester</option><option>First Year</option><option>Second Semester</option><option>Third Semester</option><option>Fourth Semester</option><option>Fifth Semester</option><option>Sixth Semester</option></select>
+<label>Year / Semester</label><select name="semester" required><option value="">Select year / semester</option><option>First Year</option><option>Third Semester</option><option>Fourth Semester</option><option>Fifth Semester</option><option>Sixth Semester</option></select>
 <input type="hidden" name="kind" value="diploma"><button type="submit">Show Diploma syllabus</button>
 </form>
 <form method="get" action="/syllabus" class="syllabus-form">

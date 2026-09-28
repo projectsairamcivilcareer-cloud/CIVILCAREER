@@ -1,0 +1,33 @@
+name: Monitor official syllabus sources
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check configured official sources
+        run: python scripts/official_source_sync.py
+      - name: Commit source snapshots and monitoring state
+        run: |
+          git config user.name "civilcareer-source-monitor"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/official_source_state.json data/official_source_archive
+          if git diff --cached --quiet; then
+            echo "No source changes to commit."
+          else
+            git commit -m "chore: archive official source updates"
+            git push
+          fi

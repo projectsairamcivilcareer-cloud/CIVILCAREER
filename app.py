@@ -2079,15 +2079,42 @@ def syllabus_category(category):
             year=request.args.get("year","2027")
             gate_data=GATE_SYLLABI.get(year,{})
             sections=[]
-            if isinstance(gate_data,dict):
+            # Syllabus records may be a list of subject dictionaries or a keyed mapping.
+            if isinstance(gate_data,(list,tuple)):
+                for entry in gate_data:
+                    if isinstance(entry,dict):
+                        subject=entry.get("subject") or entry.get("title") or entry.get("name") or "Syllabus topics"
+                        topics=entry.get("topics") or entry.get("items") or entry.get("syllabus") or []
+                        if isinstance(topics,dict):
+                            items=[f"{k}: {v}" for k,v in topics.items()]
+                        elif isinstance(topics,(list,tuple)):
+                            items=[str(x) for x in topics]
+                        elif isinstance(topics,str):
+                            items=[topics]
+                        else:
+                            items=[]
+                        if items:
+                            sections.append({"title":str(subject),"items":items})
+                    elif isinstance(entry,str):
+                        sections.append({"title":"Syllabus","items":[entry]})
+            elif isinstance(gate_data,dict):
                 for key,value in gate_data.items():
                     if isinstance(value,(list,tuple)):
                         sections.append({"title":str(key).replace("_"," ").title(),"items":[str(x) for x in value]})
                     elif isinstance(value,dict):
-                        sections.append({"title":str(key).replace("_"," ").title(),"items":[f"{k}: {v}" for k,v in value.items()]})
+                        nested_title=value.get("subject") or value.get("title") or str(key).replace("_"," ").title()
+                        nested=value.get("topics") or value.get("items") or value.get("syllabus")
+                        if isinstance(nested,(list,tuple)):
+                            items=[str(x) for x in nested]
+                        elif isinstance(nested,dict):
+                            items=[f"{k}: {v}" for k,v in nested.items()]
+                        else:
+                            items=[f"{k}: {v}" for k,v in value.items() if k not in ("subject","title","name")]
+                        if items:
+                            sections.append({"title":str(nested_title),"items":items})
                     elif isinstance(value,str):
                         sections.append({"title":str(key).replace("_"," ").title(),"items":[value]})
-            result={"title":f"GATE Civil Engineering — {year}","status":"GATE syllabus data loaded from the configured year record in Civil Career. Verify current-year scope before exam use.","sections":sections,"message":"No formatted syllabus topics were found in the configured year record."}
+            result={"title":f"GATE Civil Engineering — {year}","status":f"Syllabus topics loaded from Civil Career's configured {year} record. Cross-check the official GATE {year} notification before exam use.","sections":sections,"message":"No formatted syllabus topics were found in the configured year record."}
         elif category == "competitive":
             authority=request.args.get("authority",""); exam=request.args.get("exam",""); notification=request.args.get("notification","")
             result={"title":f"{exam} — {authority} — {notification}","status":"Notification-specific syllabus not yet transcribed and verified for this exact recruitment.","message":"Please select the exact recruitment details. Until its notification syllabus is verified and entered, this page will not invent or merge topics from other exams."}

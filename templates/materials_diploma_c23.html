@@ -20,14 +20,14 @@
   <div class="bottom-menu"><a href="/auto-logout">🏠 Home (Logout)</a><a href="/logout">🚪 Logout</a></div>
 </aside>
 <main class="main">
-  <div class="header"><div><h1>Diploma Civil Materials</h1><p>AP SBTET · Curriculum C-23 · Semester-linked resource workspace</p></div><div class="user"><div class="avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div></div>
+  <div class="header"><div><h1>Diploma Civil Materials</h1><p>AP SBTET · Curriculum C-23 · Year-wise and semester-linked resource workspace</p></div><div class="user"><div class="avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div></div>
   <div class="c23-wrap">
     <section class="c23-hero">
       <span>AP SBTET · C-23</span><h2>Study from your prescribed curriculum</h2>
-      <p>Choose your semester and subject after checking the official C-23 curriculum. Materials will be organized as topic notes, worked examples, formula sheets and revision questions only when the matching subject and topic have been verified against the syllabus.</p>
+      <p>Choose your year/semester and subject after checking the official C-23 curriculum. Materials will be organized as topic notes, worked examples, formula sheets and revision questions only when the matching subject and topic have been verified against the syllabus.</p>
     </section>
     <section class="content-box">
-      <h2>Choose your semester</h2>
+      <h2>Choose your year / semester</h2>
       <form class="c23-form" method="get" action="{{ url_for('diploma_c23_materials') }}">
         <div><label for="semester">C-23 Semester</label><select id="semester" name="semester" required>
           <option value="">Select semester</option>
@@ -38,10 +38,10 @@
       </form>
       {% if semester and subject_code %}
       <div class="c23-status"><strong>Subject verification required</strong><br>
-        Your search: C-23 · Semester {{ semester }} · Subject code {{ subject_code }}. This code has not yet been matched to a verified subject entry in Civil Career. No subject name, syllabus units, notes, practice questions or downloads are being inferred from the code. Please compare it with the curriculum PDF below.
+        Your search: C-23 · {{ 'First Year (Year-wise)' if semester == 'FY' else 'Semester ' ~ semester }} · Subject code {{ subject_code }}. This code has not yet been matched to a verified subject entry in Civil Career. No subject name, syllabus units, notes, practice questions or downloads are being inferred from the code. Please compare it with the curriculum PDF below.
       </div>
       {% else %}
-      <p class="c23-small">Select the semester and copy the exact subject code from the C-23 curriculum document. Until the official subject-code mapping is checked, the library will not guess subject names or syllabus units.</p>
+      <p class="c23-small">Select First Year or the applicable semester and copy the exact subject code from the C-23 curriculum document. Until the official subject-code mapping is checked, the library will not guess subject names or syllabus units.</p>
       {% endif %}
     </section>
     <section class="content-box">

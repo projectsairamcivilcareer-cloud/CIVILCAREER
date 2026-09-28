@@ -19,9 +19,10 @@
 <div><label>Exam year</label><select name="year"><option>2027</option><option>2026</option><option>2025</option></select></div>
 <div><label>Paper</label><select name="paper"><option value="CE">Civil Engineering (CE)</option></select></div>
 {% else %}
-<div><label>Recruiting authority</label><select name="authority" required><option value="">Choose authority</option><option>SSC</option><option>UPSC</option><option>Andhra Pradesh</option><option>Telangana</option><option>Other State / Department</option></select></div>
-<div><label>Exam</label><select name="exam" required><option value="">Choose exam</option><option>SSC JE Civil</option><option>UPSC ESE Civil</option><option>State JE Civil</option><option>State AE Civil</option><option>Departmental Civil Engineering recruitment</option></select></div>
-<div><label>Notification year / number</label><input name="notification" placeholder="e.g. 2026 / notification no." required></div>
+<div><label for="authority">Recruiting authority</label><select id="authority" name="authority" required><option value="">Select authority</option>{% for a in ['SSC','UPSC','Andhra Pradesh','Telangana','Other State / Department'] %}<option value="{{ a }}" {% if request.args.get('authority')==a %}selected{% endif %}>{{ a }}</option>{% endfor %}</select></div>
+<div><label for="exam">Examination</label><select id="exam" name="exam" required><option value="">Select examination</option>{% for e in ['SSC JE Civil','UPSC ESE Civil','APPSC Assistant Executive Engineer (Civil)','APPSC Assistant Engineer (Civil)','TSPSC / TGPSC Assistant Executive Engineer (Civil)','State JE Civil','State AE Civil','Departmental Civil Engineering Recruitment'] %}<option value="{{ e }}" {% if request.args.get('exam')==e %}selected{% endif %}>{{ e }}</option>{% endfor %}</select></div>
+<div><label for="notification">Notification year</label><select id="notification" name="notification" required><option value="">Select year</option>{% for y in ['2027','2026','2025','2024','2023','2022','2021'] %}<option value="{{ y }}" {% if request.args.get('notification')==y %}selected{% endif %}>{{ y }}</option>{% endfor %}</select></div>
+<div class="filter-help">Choose the authority, exact exam and notification year. Only syllabus records verified for that specific recruitment notice should be displayed.</div>
 {% endif %}
 <button type="submit">Show syllabus</button></form>
 {% endif %}
@@ -33,4 +34,5 @@
 </section>
 {% else %}<section class="category-empty"><div class="empty-icon">📚</div><h2>Choose the details above</h2><p>The syllabus for your exact board/university/exam and regulation will appear here. PDF download becomes available for the selected syllabus record.</p></section>{% endif %}
 </main>
+<script>(()=>{const a=document.getElementById('authority'),e=document.getElementById('exam');if(!a||!e)return;const choices={SSC:['SSC JE Civil'],UPSC:['UPSC ESE Civil'],'Andhra Pradesh':['APPSC Assistant Executive Engineer (Civil)','APPSC Assistant Engineer (Civil)','State JE Civil','State AE Civil'],Telangana:['TSPSC / TGPSC Assistant Executive Engineer (Civil)','State JE Civil','State AE Civil'],'Other State / Department':['State JE Civil','State AE Civil','Departmental Civil Engineering Recruitment']};a.addEventListener('change',()=>{const old=e.value;e.replaceChildren(new Option('Select examination',''));(choices[a.value]||[]).forEach(v=>e.add(new Option(v,v)));if([...e.options].some(o=>o.value===old))e.value=old;});if(a.value){const selected=e.value;(choices[a.value]||[]).forEach(v=>{if(![...e.options].some(o=>o.value===v))e.add(new Option(v,v));});e.value=selected;}})();</script>
 <script src="{{ url_for('static',filename='js/global-menu.js') }}?v=categorypages2" defer></script></body></html>

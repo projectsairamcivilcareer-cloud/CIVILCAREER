@@ -4772,6 +4772,9 @@ def mock_test(exam_slug):
             )
         )
 
+        # Store the real start time for the downloadable result report.
+        session["mock_started_at_" + exam_slug] = int(time.time())
+
 
         # --------------------------------------
         # START AT QUESTION 1

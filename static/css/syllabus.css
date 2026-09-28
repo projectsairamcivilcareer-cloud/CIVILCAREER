@@ -583,3 +583,12 @@ section {
 .exam-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.exam-link-card{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:#0f172a;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px}.exam-link-card>span{font-size:25px}.exam-link-card h3{margin:0 0 5px;font-size:15px}.exam-link-card p{margin:0;color:#64748b;font-size:12px;line-height:1.5}.syllabus-year-links{flex-wrap:wrap}
 @media(max-width:1100px){.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exam-link-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.subject-grid,.course-detail-grid,.exam-link-grid{grid-template-columns:1fr}.content-box{padding:20px}.hero{padding:22px}}
+
+/* Course map responsive visual layer */
+body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0%,#e7efff 0,transparent 34%),#f4f7fc}
+.main{width:calc(100% - 240px);max-width:none;margin-left:240px;padding:clamp(22px,3vw,44px)}
+.header{padding-bottom:18px;border-bottom:1px solid #dce5f0}
+.header h1{font-size:clamp(26px,2.2vw,36px);letter-spacing:-.03em}
+.hero,.content-box,.subject-card,.syllabus-card{border:1px solid #dce5f0;border-radius:18px;box-shadow:0 8px 24px rgba(15,35,70,.06)}
+.subject-card,.syllabus-card{transition:transform .2s,box-shadow .2s}.subject-card:hover,.syllabus-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(37,99,235,.1)}
+@media(max-width:900px){.main{width:100%;margin-left:0;padding:20px 16px}.sidebar{position:static;width:100%;height:auto}.bottom-menu{position:static}}

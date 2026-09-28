@@ -2127,15 +2127,68 @@ def download_gate_syllabus(year):
 
 @app.route("/materials")
 def materials():
-
     if "student_id" not in session:
-
         return redirect(url_for("login"))
-
     return render_template(
         "materials.html",
         student_name=session["student_name"],
         student_education=session["student_education"]
+    )
+
+
+@app.route("/materials/<category>")
+def materials_category(category):
+    """Separate category pages; syllabus details are linked to their issuing authority."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    pages = {
+        "college": {
+            "title": "College Materials",
+            "subtitle": "Diploma / B.Tech college study resources, organized by official curriculum context.",
+            "contexts": [
+                {"icon":"🎓","tag":"DIPLOMA","title":"Diploma — State Board","description":"Select your state SBTET, scheme, semester and Civil Engineering subject from the official syllabus directory.","href":url_for("syllabus")+"#diploma-official","action":"Select board and syllabus"},
+                {"icon":"🏛️","tag":"B.TECH","title":"B.Tech — University","description":"Choose JNTU/university, regulation, semester and subject. Use autonomous college curriculum where applicable.","href":url_for("syllabus")+"#btech-official","action":"Select university"},
+                {"icon":"🏫","tag":"AUTONOMOUS","title":"Autonomous college","description":"Use the approved syllabus published for your college and admission batch; college-specific verification is required.","href":url_for("syllabus")+"#btech-official","action":"Find official curriculum"}
+            ]
+        },
+        "formulas": {
+            "title":"Formula Sheets",
+            "subtitle":"Formula resources must match the selected syllabus subject and topic.",
+            "contexts":[
+                {"icon":"📐","tag":"COLLEGE","title":"Diploma / B.Tech formulas","description":"Select the relevant board/university regulation and subject before using a formula sheet.","href":url_for("syllabus")+"#official-syllabus","action":"Choose syllabus"},
+                {"icon":"🏆","tag":"GATE CE","title":"GATE Civil formulas","description":"Use the official GATE CE syllabus for the selected year to determine included topics.","href":url_for("syllabus")+"#gate-official","action":"Check GATE syllabus"},
+                {"icon":"📄","tag":"JE / AE / ESE","title":"Recruitment-specific formulas","description":"Select the exact recruitment notice and year; scope can differ by authority and exam.","href":url_for("syllabus")+"#recruitment-official","action":"Check notification"}
+            ]
+        },
+        "competitive": {
+            "title":"Competitive Materials",
+            "subtitle":"Exam-specific resources linked to the current official syllabus or recruitment notification.",
+            "contexts":[
+                {"icon":"🏆","tag":"GATE","title":"GATE CE","description":"Select exam year and official CE syllabus before organizing subject notes.","href":url_for("syllabus")+"#gate-official","action":"Open official GATE source"},
+                {"icon":"📄","tag":"SSC","title":"SSC JE","description":"Use the current SSC notification's paper pattern and Civil Engineering syllabus.","href":url_for("syllabus")+"#recruitment-official","action":"Open SSC syllabus source"},
+                {"icon":"🏛️","tag":"ESE / JE / AE","title":"UPSC / State / Department","description":"Requires exact recruiting authority and notification number/year to verify syllabus scope.","href":url_for("syllabus")+"#recruitment-official","action":"Choose recruitment notice"}
+            ]
+        },
+        "notes": {
+            "title":"Subject Notes",
+            "subtitle":"Brief human-readable learning notes, grouped only after the official syllabus context is selected.",
+            "contexts":[
+                {"icon":"🎓","tag":"COLLEGE","title":"College subject notes","description":"Select board/university, regulation, semester and subject. Unverified curriculum mapping is not supplied.","href":url_for("syllabus")+"#official-syllabus","action":"Select syllabus"},
+                {"icon":"🏆","tag":"COMPETITIVE","title":"Exam topic notes","description":"Select the official exam year or recruitment notification and match notes to its topics.","href":url_for("syllabus")+"#recruitment-official","action":"Select exam source"}
+            ]
+        }
+    }
+    page = pages.get(category)
+    if not page:
+        abort(404)
+    return render_template(
+        "materials_section.html",
+        page_title=page["title"],
+        page_subtitle=page["subtitle"],
+        contexts=page["contexts"],
+        student_name=session.get("student_name","Student"),
+        student_education=session.get("student_education","")
     )
 
 # ==============================

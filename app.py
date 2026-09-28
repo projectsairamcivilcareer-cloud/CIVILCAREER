@@ -2296,14 +2296,37 @@ def mark_all_notifications_read():
 
 @app.route("/practice")
 def practice():
-
     if "student_id" not in session:
         return redirect(url_for("login"))
 
+    connection = get_db_connection()
+    try:
+        stats = connection.execute(
+            """
+            SELECT COUNT(*) AS tests_completed,
+                   COALESCE(SUM(total_questions - unanswered), 0) AS questions_attempted,
+                   COALESCE(SUM(correct), 0) AS correct_answers,
+                   COALESCE(SUM(wrong), 0) AS wrong_answers,
+                   COALESCE(MAX(percentage), 0) AS best_score
+            FROM mock_test_results WHERE student_id=?
+            """, (session["student_id"],)
+        ).fetchone()
+        stats = dict(stats or {})
+    finally:
+        connection.close()
+
+    attempted = int(stats.get("questions_attempted") or 0)
+    correct = int(stats.get("correct_answers") or 0)
+    wrong = int(stats.get("wrong_answers") or 0)
+    accuracy = round((correct / (correct + wrong)) * 100) if correct + wrong else 0
     return render_template(
-        "practice.html",
-        student_name=session["student_name"],
-        student_education=session["student_education"]
+        "practice.html", student_name=session["student_name"],
+        student_education=session["student_education"],
+        practice_stats={
+            "questions_attempted": attempted, "accuracy": accuracy,
+            "tests_completed": int(stats.get("tests_completed") or 0),
+            "best_score": round(float(stats.get("best_score") or 0))
+        }
     )
 
 

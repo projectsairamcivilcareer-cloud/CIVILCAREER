@@ -43,9 +43,7 @@
                     <a class="cc-menu-link" href="/dashboard" data-cc-path="/dashboard">
                         <span class="cc-menu-icon">📊</span><span>Dashboard</span>
                     </a>
-                    <a class="cc-menu-link" href="/exams" data-cc-path="/exams">
-                        <span class="cc-menu-icon">📚</span><span>Exams</span>
-                    </a>
+                    
                     <a class="cc-menu-link" href="/jobs" data-cc-path="/jobs">
                         <span class="cc-menu-icon">💼</span><span>Jobs</span>
                     </a>

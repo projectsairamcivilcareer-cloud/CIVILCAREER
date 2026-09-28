@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "description": "Add only verified official HTTPS pages or direct public documents. A detected change is archived for review and is not automatically published as syllabus text.",
+  "sources": []
+}

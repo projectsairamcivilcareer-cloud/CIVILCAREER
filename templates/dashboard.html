@@ -367,14 +367,19 @@
 </style>
 <script id="cc-sidebar-drawer">
 (function(){
- if(document.body.classList.contains('cc-nav-ready'))return;
+ const sidebar=document.querySelector('.sidebar');
+ if(!sidebar)return;
+ /* Always initialize in the closed state; prevent a stale open class dimming the page. */
  document.body.classList.add('cc-nav-ready');
- const sidebar=document.querySelector('.sidebar');if(!sidebar)return;
- const overlay=document.createElement('div');overlay.className='cc-nav-overlay';overlay.setAttribute('aria-hidden','true');
- const button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';button.textContent='☰';button.setAttribute('aria-label','Open navigation menu');button.setAttribute('aria-expanded','false');
- document.body.append(overlay,button);
- function close(){document.body.classList.remove('cc-nav-open');button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation menu');button.textContent='☰';}
- function toggle(){const open=document.body.classList.toggle('cc-nav-open');button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');button.textContent=open?'×':'☰';}
+ document.body.classList.remove('cc-nav-open');
+ let overlay=document.querySelector('.cc-nav-overlay');
+ if(!overlay){overlay=document.createElement('div');overlay.className='cc-nav-overlay';document.body.appendChild(overlay);}
+ let button=document.querySelector('.cc-nav-trigger');
+ if(!button){button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';document.body.appendChild(button);}
+ button.textContent='☰';button.setAttribute('aria-label','Open navigation menu');button.setAttribute('aria-expanded','false');
+ overlay.setAttribute('aria-hidden','true');
+ function close(){document.body.classList.remove('cc-nav-open');button.textContent='☰';button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation menu');overlay.setAttribute('aria-hidden','true');}
+ function toggle(){const isOpen=!document.body.classList.contains('cc-nav-open');document.body.classList.toggle('cc-nav-open',isOpen);button.textContent=isOpen?'×':'☰';button.setAttribute('aria-expanded',String(isOpen));button.setAttribute('aria-label',isOpen?'Close navigation menu':'Open navigation menu');overlay.setAttribute('aria-hidden',String(!isOpen));}
  button.addEventListener('click',toggle);overlay.addEventListener('click',close);
  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
  sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));

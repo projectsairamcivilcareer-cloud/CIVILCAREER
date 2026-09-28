@@ -1,5 +1,24 @@
 {
   "schema_version": 1,
-  "description": "Add only verified official HTTPS pages or direct public documents. A detected change is archived for review and is not automatically published as syllabus text.",
-  "sources": []
+  "description": "Public source monitoring. Sources are archived on change; do not automatically publish extracted syllabus text until source identity and content are validated.",
+  "sources": [
+    {
+      "id": "jntuk-r23-regulations",
+      "title": "JNTUK B.Tech R23 Regulations PDF",
+      "authority": "Jawaharlal Nehru Technological University Kakinada (document hosted by JNTUK University College of Engineering Narasaraopet)",
+      "category": "btech-regulations",
+      "url": "https://jntukucen.ac.in/wp-content/uploads/2023/11/R23-REGULATIONS.pdf",
+      "officiality": "university-hosted-official-document",
+      "enabled": true
+    },
+    {
+      "id": "ap-sbtet-c23-civil",
+      "title": "AP SBTET Curriculum-2023 Diploma in Civil Engineering (C-23)",
+      "authority": "State Board of Technical Education & Training, Andhra Pradesh (officially titled curriculum PDF; mirror hosted by Aditya Engineering College)",
+      "category": "diploma-syllabus",
+      "url": "https://polytechnic.aec.edu.in/docs/syllabus/C_23/CE.pdf",
+      "officiality": "official-board-document-on-institutional-mirror",
+      "enabled": true
+    }
+  ]
 }

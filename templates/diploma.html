@@ -20,4 +20,19 @@
 <a href="/subject-practice/construction-management" class="subject-card"><div class="subject-number">10</div><div class="subject-icon">📊</div><h3>Estimation & Construction Management</h3><p>Estimation, costing, planning, scheduling and site management.</p></a>
 </div></section>
 <section class="dashboard-section"><div class="core-subject-box"><h2>🎯 Diploma → Higher Study / Career</h2><p>Use your board's official curriculum for academic exams, then build additional preparation for B.Tech lateral entry, GATE eligibility where applicable, JE/technical recruitment and site careers.</p></div></section>
-</main></body></html>
+</main><script id="cc-sidebar-drawer">
+(function(){
+ if(document.body.classList.contains('cc-nav-ready'))return;
+ document.body.classList.add('cc-nav-ready');
+ const sidebar=document.querySelector('.sidebar');if(!sidebar)return;
+ const overlay=document.createElement('div');overlay.className='cc-nav-overlay';overlay.setAttribute('aria-hidden','true');
+ const button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';button.textContent='☰';button.setAttribute('aria-label','Open navigation menu');button.setAttribute('aria-expanded','false');
+ document.body.append(overlay,button);
+ function close(){document.body.classList.remove('cc-nav-open');button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation menu');button.textContent='☰';}
+ function toggle(){const open=document.body.classList.toggle('cc-nav-open');button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');button.textContent=open?'×':'☰';}
+ button.addEventListener('click',toggle);overlay.addEventListener('click',close);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+ sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+})();
+</script>
+</body></html>

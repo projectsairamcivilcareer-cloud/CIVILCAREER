@@ -2116,8 +2116,35 @@ def syllabus_category(category):
                         sections.append({"title":str(key).replace("_"," ").title(),"items":[value]})
             result={"title":f"GATE Civil Engineering — {year}","status":f"Syllabus topics loaded from Civil Career's configured {year} record. Cross-check the official GATE {year} notification before exam use.","sections":sections,"message":"No formatted syllabus topics were found in the configured year record."}
         elif category == "competitive":
-            authority=request.args.get("authority",""); exam=request.args.get("exam",""); notification=request.args.get("notification","")
-            result={"title":f"{exam} — {authority} — {notification}","status":"Notification-specific syllabus not yet transcribed and verified for this exact recruitment.","message":"Please select the exact recruitment details. Until its notification syllabus is verified and entered, this page will not invent or merge topics from other exams."}
+            authority=request.args.get("authority","").strip()
+            exam=request.args.get("exam","").strip()
+            notification=request.args.get("notification","").strip()
+            official_sources={
+                "SSC":"https://ssc.gov.in/",
+                "UPSC":"https://www.upsc.gov.in/",
+                "Andhra Pradesh":"https://psc.ap.gov.in/",
+                "Telangana":"https://www.tgpsc.gov.in/",
+            }
+            valid_selection=bool(authority and exam and notification and notification.isdigit() and len(notification)==4)
+            if valid_selection:
+                result={
+                    "title":f"{exam} | {authority} | Notification {notification}",
+                    "status":"Exact-notification record status: pending official document verification. No syllabus topics have been published for this selection yet.",
+                    "message":f"Civil Career has not yet verified and transcribed the official {notification} recruitment notification for {exam} ({authority}). Open the recruiting authority's official website and locate the matching notification, corrigenda and syllabus annexure. Topics will appear here only after the exact notice is checked; no other year's or exam's syllabus is substituted.",
+                    "source_url":official_sources.get(authority),
+                    "source_label":f"Visit {authority} official website",
+                    "selection":f"{authority} · {exam} · {notification}",
+                    "download_available":False,
+                    "sections":[]
+                }
+            else:
+                result={
+                    "title":"Complete the recruitment selection",
+                    "status":"Select an authority, examination and four-digit notification year to check its record.",
+                    "message":"The syllabus is tied to a specific recruitment notice. Choose all three filters above. Civil Career will not merge syllabus topics across authorities, exams or notification years.",
+                    "download_available":False,
+                    "sections":[]
+                }
 
     return render_template("syllabus_category.html",category=category,page_title=title,page_subtitle=subtitle,category_label=label,hero_title=title,hero_text=hero,syllabus_result=result,student_name=session.get("student_name","Student"),student_education=session.get("student_education",""))
 

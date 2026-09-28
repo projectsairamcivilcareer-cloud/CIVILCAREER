@@ -663,3 +663,11 @@ body.cc-nav-ready .sidebar{position:fixed!important;left:0!important;top:0!impor
 body.cc-nav-ready.cc-nav-open .sidebar{transform:translateX(0)}
 body.cc-nav-ready .dashboard-main{margin-left:0!important;width:100%!important}
 .cc-nav-trigger{position:fixed!important;left:14px!important;top:14px!important}
+
+/* Drawer state hardening: never dim dashboard unless user explicitly opens menu */
+body.cc-nav-ready .cc-nav-overlay{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+body.cc-nav-ready.cc-nav-open .cc-nav-overlay{display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important}
+body.cc-nav-ready .sidebar{visibility:visible!important}
+body.cc-nav-ready:not(.cc-nav-open) .sidebar{pointer-events:none}
+body.cc-nav-ready.cc-nav-open .sidebar{pointer-events:auto}
+body.cc-nav-ready .cc-nav-trigger{display:grid!important;align-items:center;justify-content:center}

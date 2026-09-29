@@ -26,7 +26,7 @@ h1{font-size:clamp(26px,4vw,36px);margin:0 0 8px;letter-spacing:-.7px}.sub{margi
 <body>
 <main>
 <header class="top">
-<a class="back" href="{{ url_for('mock_tests') }}">← Previous Page</a>
+<a class="back" href="#" onclick="if(history.length>1){history.back();return false;}window.location.href='/mock-tests';return false;">← Previous Page</a>
 
 </header>
 <h1>Mock Test History</h1>
@@ -51,7 +51,7 @@ h1{font-size:clamp(26px,4vw,36px);margin:0 0 8px;letter-spacing:-.7px}.sub{margi
 {% endfor %}
 </tbody></table></div>
 {% else %}
-<div class="empty"><div class="empty-icon">📝</div><h3>No mock tests completed yet</h3><p>After you submit a mock test, your attempt and score will appear here automatically.</p><a class="btn" href="{{ url_for('mock_tests') }}">Explore Mock Tests →</a></div>
+<div class="empty"><div class="empty-icon">📝</div><h3>No mock tests completed yet</h3><p>After you submit a mock test, your attempt and score will appear here automatically.</p><a class="btn" href="#" onclick="if(history.length>1){history.back();return false;}window.location.href='/mock-tests';return false;">Explore Mock Tests →</a></div>
 {% endif %}
 </section>
 </main>

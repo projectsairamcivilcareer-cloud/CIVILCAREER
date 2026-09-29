@@ -41,9 +41,9 @@
 
     <form method="POST" enctype="multipart/form-data" class="photo-form">
       <input type="hidden" name="action" value="photo">
-      <label for="profile-photo">Profile Picture <span class="required-star">*</span></label>
+      <div class="photo-form-heading"><label for="profile-photo">Profile Picture <span class="required-star">*</span></label><button type="submit">Update Photo</button></div>
       <input id="profile-photo" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" {% if not profile_photo %}required{% endif %}>
-      <button type="submit">Update Profile Picture</button>
+      <small class="photo-help">JPG, PNG or WebP · Choose a clear, square photo.</small>
     </form>
   </section>
 

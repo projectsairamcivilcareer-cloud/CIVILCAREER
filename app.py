@@ -2952,6 +2952,92 @@ def mock_test_history_list():
 # MOCK TEST HISTORY DETAILS
 # ==========================================
 
+@app.route("/mock-test-history/<int:result_id>/delete", methods=["POST"])
+def delete_mock_test_history(result_id):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    connection = get_db_connection()
+    try:
+        owned = connection.execute(
+            "SELECT id FROM mock_test_results WHERE id=? AND student_id=?",
+            (result_id, session["student_id"])
+        ).fetchone()
+        if owned is None:
+            abort(404)
+        connection.execute(
+            "DELETE FROM mock_test_attempt_reviews WHERE result_id=? AND student_id=?",
+            (result_id, session["student_id"])
+        )
+        connection.execute(
+            "DELETE FROM mock_test_results WHERE id=? AND student_id=?",
+            (result_id, session["student_id"])
+        )
+        connection.commit()
+    finally:
+        connection.close()
+    return redirect(url_for("mock_test_history_list"))
+
+
+@app.route("/mock-test-history/<int:result_id>/download")
+def download_mock_test_history(result_id):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    connection = get_db_connection()
+    try:
+        result = connection.execute(
+            """SELECT r.id,r.exam_name,r.total_questions,r.correct,r.wrong,
+                      r.unanswered,r.score,r.percentage,r.created_at,a.review_json
+               FROM mock_test_results r
+               LEFT JOIN mock_test_attempt_reviews a
+                 ON a.result_id=r.id AND a.student_id=r.student_id
+               WHERE r.id=? AND r.student_id=?""",
+            (result_id, session["student_id"])
+        ).fetchone()
+    finally:
+        connection.close()
+    if result is None:
+        abort(404)
+    try:
+        review = json.loads(result["review_json"]) if result["review_json"] else []
+    except (TypeError, ValueError):
+        review = []
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=18*mm, leftMargin=18*mm, topMargin=18*mm, bottomMargin=18*mm)
+    styles = getSampleStyleSheet()
+    story = [Paragraph("Civil Career — Mock Test Attempt Report", styles["Title"]), Spacer(1, 8)]
+    for label, value in [
+        ("Exam", result["exam_name"] or "Mock Test"),
+        ("Attempt ID", result["id"]),
+        ("Date", result["created_at"] or "-"),
+        ("Total questions", result["total_questions"] or 0),
+        ("Correct", result["correct"] or 0),
+        ("Wrong", result["wrong"] or 0),
+        ("Unanswered", result["unanswered"] or 0),
+        ("Score", result["score"] or 0),
+        ("Percentage", "%.1f%%" % float(result["percentage"] or 0)),
+    ]:
+        story.append(Paragraph("<b>%s:</b> %s" % (escape(str(label)), escape(str(value))), styles["BodyText"]))
+        story.append(Spacer(1, 4))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("Saved Answer Review", styles["Heading2"]))
+    if isinstance(review, list) and review:
+        for idx, item in enumerate(review, 1):
+            if not isinstance(item, dict):
+                story.append(Paragraph(escape(str(item)), styles["BodyText"]))
+                continue
+            question = item.get("question") or item.get("question_text") or "Question %s" % idx
+            story.append(Paragraph("<b>Q%s. %s</b>" % (idx, escape(str(question))), styles["BodyText"]))
+            for key, label in [("selected_answer","Your answer"),("user_answer","Your answer"),("correct_answer","Correct answer"),("explanation","Explanation")]:
+                if item.get(key) not in (None, ""):
+                    story.append(Paragraph("%s: %s" % (label, escape(str(item[key]))), styles["BodyText"]))
+            story.append(Spacer(1, 7))
+    else:
+        story.append(Paragraph("Answer-by-answer review was not saved for this attempt. Summary above is the saved result.", styles["BodyText"]))
+    doc.build(story)
+    buffer.seek(0)
+    return send_file(buffer, as_attachment=True, download_name="mock_attempt_%s.pdf" % result_id, mimetype="application/pdf")
+
+
 @app.route("/mock-test-history/<int:result_id>")
 def mock_test_history_detail(result_id):
 

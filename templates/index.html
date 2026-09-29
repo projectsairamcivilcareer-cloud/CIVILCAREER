@@ -108,5 +108,6 @@
  if(!standalone&&!sessionStorage.getItem('ccInstallDismissed')&&!sessionStorage.getItem('ccInstalled'))setTimeout(()=>modal.style.display='flex',1200);
 })();
 </script>
+<script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body>
 </html>

@@ -2094,16 +2094,36 @@ def syllabus_category(category):
             else:
                 result = {"title":"Syllabus not yet verified for this selection","status":"No verified record loaded for this exact state and scheme.","message":"This selected board/scheme has not been fully transcribed and checked yet. To avoid fabricated syllabus data, Civil Career will not substitute another state's or scheme's syllabus."}
         elif category == "btech":
-            uni=request.args.get("university",""); reg=request.args.get("regulation",""); sem=request.args.get("semester","")
-            if uni == "JNTUK" and reg == "R23" and sem == "IV Year - I Semester":
-                result={"title":"JNTUK Civil Engineering — R23 — IV Year - I Semester","status":"Verified R23 IV Year-I semester course structure transcribed in Civil Career. The source curriculum specifies course categories and credits for this semester; it does not assign fixed subject names to the elective/core slots in this common course-structure table. Subject-specific unit syllabi will be displayed only when the matching Civil branch document is verified.","sections":[{"title":"Theory / elective course structure","items":["Professional Core — 3-0-0-3 (Course 1)","Professional Core — 3-0-0-3 (Course 2)","Management Course-II — 2-0-0-2","Professional Elective-IV — 3-0-0-3","Professional Elective-V — 3-0-0-3","Open Elective-IV — 3-0-0-3"]},{"title":"Laboratory / skill / audit / internship","items":["Professional Core Lab — 0-0-2-1 (Lab 1)","Professional Core Lab — 0-0-2-1 (Lab 2)","Skill Enhancement Course — 0-1-2-2","Audit Course: Constitution of India — 2-0-0 (non-credit)","Internship Evaluation of Industry Internship — 2 credits"]},{"title":"Semester total","items":["19 lecture hours + 1 tutorial hour + 6 practical hours; 23 total credits (as stated in the R23 common course structure)."]}],"download_available":True}
-            else:
-                college_name=request.args.get("college_name","").strip()
-                university_label=f"{uni} — {college_name}" if uni=="Autonomous college" and college_name else uni
-                if uni=="Autonomous college" and not college_name:
-                    result={"title":"Autonomous college name required","status":"Select the exact autonomous college before loading its syllabus.","message":"Autonomous institutions can have college-specific syllabus and regulation variants. Enter the official college name; Civil Career will not assume that every autonomous college follows a single common syllabus.","semesters":[],"sections":[],"download_available":False}
-                elif uni and reg:
-                    result={"title":f"{university_label} Civil Engineering — {reg} — {sem or 'All semesters'}","status":"Exact university/college + regulation curriculum verification pending","message":"This exact university/college and regulation combination is not yet fully transcribed and verified in Civil Career. The official archive links below open the relevant university or college source. Subjects/topics and downloadable PDF will be enabled only after the matching official Civil Engineering syllabus is checked. No other university, regulation or college syllabus is substituted.","selection":f"{university_label} · {reg} · {sem or 'All semesters'}","semesters":[],"sections":[],"download_available":False}
+            uni=request.args.get("university","").strip()
+            reg=request.args.get("regulation","").strip()
+            sem=request.args.get("semester","").strip()
+            college_name=request.args.get("college_name","").strip()
+            university_label=f"{uni} — {college_name}" if uni=="Autonomous college" and college_name else uni
+            curriculum_data={}
+            syllabus_data_path=os.path.join(app.root_path,"data","btech_civil_syllabus.json")
+            try:
+                with open(syllabus_data_path,"r",encoding="utf-8") as syllabus_file:
+                    curriculum_data=json.load(syllabus_file)
+            except (OSError,json.JSONDecodeError):
+                curriculum_data={}
+            curricula=curriculum_data.get("curricula",[])
+            selected_record=next((record for record in curricula
+                if record.get("university")==uni
+                and record.get("regulation")==reg
+                and (uni!="Autonomous college" or record.get("college_name","").casefold()==college_name.casefold())),None)
+            if uni=="Autonomous college" and not college_name:
+                result={"title":"Autonomous college name required","status":"Enter the exact autonomous college name.","message":"Each autonomous college may publish a separate curriculum. Please enter its official name to look for the matching curriculum record.","semesters":[],"sections":[],"download_available":False}
+            elif selected_record:
+                all_semesters=selected_record.get("semesters",[])
+                selected_semesters=[item for item in all_semesters if not sem or item.get("name")==sem]
+                courses_count=sum(len(item.get("courses",[])) for item in selected_semesters)
+                has_topic_data=any(course.get("topics") for item in selected_semesters for course in item.get("courses",[]))
+                status=f"Official curriculum course structure loaded ({len(selected_semesters)} semester(s), {courses_count} course records)."
+                if has_topic_data:
+                    status+=" Subject-wise unit topics are available for the courses whose official unit text has been transcribed."
+                result={"title":f"{university_label} Civil Engineering — {reg} — {sem or 'All available semesters'}","status":status,"source_url":selected_record.get("source_url"),"source_label":"Official curriculum source","selection":f"{university_label} · {reg} · {sem or 'All available semesters'}","semesters":selected_semesters,"sections":[],"download_available":False,"message":"Click a subject to open its unit-wise topics. Where the official source currently provides only the course title/structure, the subject detail panel explicitly identifies that unit topics are not yet transcribed."}
+            elif uni and reg:
+                result={"title":f"{university_label} Civil Engineering — {reg} — {sem or 'All semesters'}","status":"This exact curriculum record has not yet been transcribed into Civil Career.","message":"No course list or topic outline has been loaded for this exact university/college and regulation yet. Civil Career will not fill it with another university's syllabus. The official source archive is available below; the matching official syllabus must be transcribed before topics can be represented as that curriculum.","selection":f"{university_label} · {reg} · {sem or 'All semesters'}","semesters":[],"sections":[],"download_available":False}
         elif category == "gate":
             year=request.args.get("year","2027")
             gate_data=GATE_SYLLABI.get(year,{})

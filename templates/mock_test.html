@@ -4222,14 +4222,46 @@
 
             if (event.key === "Escape") {
 
-                closeCalculator();
+                event.preventDefault();
+                event.stopPropagation();
 
-                closeSubmitConfirmation();
+                // ESC is treated as an exam exit: submit and close the attempt.
+                if (document.getElementById("startOverlay")?.classList.contains("active")) {
+                    window.location.href = {{ url_for("mock_tests")|tojson }};
+                } else {
+                    if (document.fullscreenElement && document.exitFullscreen) {
+                        document.exitFullscreen().catch(() => {});
+                    }
+                    submitTest();
+                }
             }
 
         }
     );
 
+
+    /* =========================================================
+       EXAM ANTI-COPY / PASTE / CONTEXT MENU
+    ========================================================= */
+    ["copy", "cut", "paste", "contextmenu", "selectstart", "dragstart"].forEach(function (eventName) {
+        document.addEventListener(eventName, function (event) {
+            if (document.getElementById("startOverlay")?.classList.contains("active")) return;
+            event.preventDefault();
+        }, true);
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (document.getElementById("startOverlay")?.classList.contains("active")) return;
+        const key = (event.key || "").toLowerCase();
+        if ((event.ctrlKey || event.metaKey) && ["c", "v", "x", "a", "p", "s", "u", "insert"].includes(key)) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        if (event.shiftKey && event.key === "Insert") {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
 
     /* =========================================================
        BEFORE LEAVE

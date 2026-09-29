@@ -97,6 +97,18 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PERMANENT_SESSION_LIFETIME"] = 1800
 app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 
+# Keep large mock-test answer/question state server-side. Flask's default
+# cookie session can exceed browser cookie limits, causing subsequent PDF
+# requests to lose the login session and redirect to the login HTML page.
+from flask_session import Session
+
+app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_FILE_DIR"] = os.path.join(DATA_DIR, "flask_sessions")
+app.config["SESSION_FILE_THRESHOLD"] = 1000
+app.config["SESSION_USE_SIGNER"] = True
+os.makedirs(app.config["SESSION_FILE_DIR"], exist_ok=True)
+Session(app)
+
 
 @app.before_request
 def enforce_session_idle_timeout():

@@ -50,3 +50,5 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0
 .data-item,.education-display{border-radius:14px;border-color:#dce5f0}
 .profile-option-button,.photo-form button,.profile-setting-panel button{transition:transform .15s,box-shadow .15s}
 .profile-option-button:hover,.photo-form button:hover,.profile-setting-panel button:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(37,99,235,.14)}
+
+.photo-form{max-width:460px;width:100%;margin:18px auto 0;display:flex;flex-direction:column;gap:9px;text-align:left}.photo-form-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.photo-form-heading label{font-size:14px;font-weight:700;color:#334155}.photo-form button{font-size:13px;padding:8px 13px;border-radius:8px;white-space:nowrap}.photo-form input[type=file]{font-size:13px;padding:8px;width:100%;min-width:0}.photo-help{font-size:12px;color:#64748b}@media(max-width:480px){.photo-form-heading{align-items:flex-start}.photo-form-heading label{font-size:13px}}

@@ -2960,41 +2960,32 @@ def mock_test_history(result_id):
 
     result = connection.execute(
         """
-        SELECT
-            id,
-            exam_slug,
-            exam_name,
-            total_questions,
-            correct,
-            wrong,
-            unanswered,
-            score,
-            percentage,
-            attempt_id,
-            created_at
-        FROM mock_test_results
-        WHERE id = ?
-          AND student_id = ?
+        SELECT r.id, r.exam_slug, r.exam_name, r.total_questions,
+               r.correct, r.wrong, r.unanswered, r.score, r.percentage,
+               r.attempt_id, r.created_at, a.review_json
+        FROM mock_test_results r
+        LEFT JOIN mock_test_attempt_reviews a
+          ON a.result_id = r.id AND a.student_id = r.student_id
+        WHERE r.id = ? AND r.student_id = ?
         """,
-        (
-            result_id,
-            session["student_id"]
-        )
+        (result_id, session["student_id"])
     ).fetchone()
-
     connection.close()
 
     if result is None:
         return "Mock test result not found", 404
 
+    try:
+        saved_review = json.loads(result["review_json"]) if result["review_json"] else []
+    except (TypeError, ValueError):
+        saved_review = []
+
     return render_template(
         "mock_history_details.html",
-
-        student_name=session["student_name"],
-
-        student_education=session["student_education"],
-
-        result=result
+        student_name=session.get("student_name", "Student"),
+        student_education=session.get("student_education", ""),
+        result=result,
+        review=saved_review
     )
 
 # ==============================

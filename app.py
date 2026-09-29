@@ -4393,6 +4393,36 @@ def pyq_exam_next(exam_slug):
         )
     )
 
+# =========================================================
+# MOCK TEST HISTORY
+# =========================================================
+@app.route("/mock-test-history")
+def mock_test_history():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    attempts = connection.execute(
+        """
+        SELECT id, exam_slug, exam_name, total_questions, correct,
+               wrong, unanswered, score, percentage, created_at, attempt_id
+        FROM mock_test_results
+        WHERE student_id = ?
+        ORDER BY created_at DESC, id DESC
+        LIMIT 200
+        """,
+        (session["student_id"],)
+    ).fetchall()
+    connection.close()
+
+    return render_template(
+        "mock_test_history.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", ""),
+        attempts=attempts,
+        total_attempts=len(attempts)
+    )
+
 # ==========================================#
 # MOCK TEST SELECTION
 # ==========================================

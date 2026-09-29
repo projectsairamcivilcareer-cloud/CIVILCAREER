@@ -517,6 +517,16 @@ def create_database():
     """)
 
     connection.execute("""
+        CREATE TABLE IF NOT EXISTS mock_test_attempt_reviews (
+            id BIGSERIAL PRIMARY KEY,
+            result_id BIGINT NOT NULL UNIQUE,
+            student_id INTEGER NOT NULL,
+            review_json TEXT NOT NULL,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    connection.execute("""
         CREATE TABLE IF NOT EXISTS mock_test_feedback (
             id BIGSERIAL PRIMARY KEY,
             student_id INTEGER NOT NULL,
@@ -6668,15 +6678,10 @@ def mock_test_result(exam_slug):
         connection = get_db_connection()
 
         existing_result = connection.execute(
-
             """
-            SELECT id
-            FROM mock_test_results
-            WHERE attempt_id = ?
+            SELECT id FROM mock_test_results WHERE attempt_id = ?
             """,
-
             (attempt_id,)
-
         ).fetchone()
 
         if existing_result is None:
@@ -6725,13 +6730,39 @@ def mock_test_result(exam_slug):
             )
 
             connection.commit()
+            saved_result = connection.execute(
+                "SELECT id FROM mock_test_results WHERE attempt_id = ?",
+                (attempt_id,)
+            ).fetchone()
+            if saved_result:
+                connection.execute(
+                    """
+                    INSERT INTO mock_test_attempt_reviews
+                        (result_id, student_id, review_json)
+                    VALUES (?, ?, ?)
+                    ON CONFLICT (result_id) DO NOTHING
+                    """,
+                    (saved_result["id"], session["student_id"], json.dumps(review))
+                )
+                connection.commit()
+
+        else:
+            # Backfill/update exact review for a result saved by an earlier
+            # version, only when no historical review row exists.
+            connection.execute(
+                """
+                INSERT INTO mock_test_attempt_reviews (result_id, student_id, review_json)
+                SELECT id, ?, ? FROM mock_test_results WHERE attempt_id = ?
+                ON CONFLICT (result_id) DO NOTHING
+                """,
+                (session["student_id"], json.dumps(review), attempt_id)
+            )
+            connection.commit()
 
         connection.close()
 
-    # The mock test remains locked behind the mandatory feedback form
-    # until the student submits feedback for this completed attempt.
-    if not feedback_submitted:
-        session["mock_feedback_pending_exam"] = exam_slug
+    # Feedback has been removed from the student mock-test workflow.
+    session.pop("mock_feedback_pending_exam", None)
 
     # =====================================================
     # SHOW RESULT PAGE

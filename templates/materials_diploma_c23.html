@@ -6,7 +6,33 @@
   <title>AP SBTET C-23 Diploma Civil Materials | Civil Career</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/materials.css', v='20260928c26') }}">
   <style>
-    .c23-wrap{max-width:1100px;margin:auto}.c23-hero{background:linear-gradient(120deg,#10294c,#1d4e89);color:#fff;padding:30px;border-radius:20px;margin-bottom:22px}.c23-hero p{color:#dbeafe;line-height:1.7}.c23-form{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:end;background:#fff;padding:24px;border:1px solid #dbe4ef;border-radius:16px;margin:20px 0}.c23-form label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}.c23-form select{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-size:15px}.c23-btn{border:0;border-radius:10px;padding:14px 20px;background:#2563eb;color:white;font-weight:700;text-decoration:none;cursor:pointer;display:inline-block}.c23-status{padding:22px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;color:#7c2d12;line-height:1.7}.c23-links{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}.c23-secondary{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}.c23-small{font-size:13px;color:#64748b;line-height:1.6}@media(max-width:700px){.c23-form{grid-template-columns:1fr}.c23-hero{padding:22px}}
+    .c23-wrap{width:100%;max-width:1120px;margin:0 auto}
+    .c23-hero{background:linear-gradient(125deg,#10294c 0%,#1d4e89 58%,#2563eb 100%);color:#fff;padding:clamp(24px,4vw,42px);border-radius:22px;margin:0 0 24px;box-shadow:0 16px 38px rgba(15,41,76,.16)}
+    .c23-hero .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #ffffff40;background:#ffffff12;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.04em;color:#eaf2ff}
+    .c23-hero h2{font-size:clamp(24px,3vw,34px);line-height:1.2;margin:18px 0 12px;color:#fff}
+    .c23-hero p{max-width:850px;margin:0;color:#e2ecff;line-height:1.8;font-size:15px}
+    .c23-panel{background:#fff;padding:clamp(20px,3vw,32px);border:1px solid #dce5f0;border-radius:20px;margin:0 0 24px;box-shadow:0 12px 30px rgba(15,35,70,.055)}
+    .c23-panel h2{margin:0 0 8px;font-size:clamp(21px,2vw,27px);color:#10213b}
+    .c23-intro{margin:0;color:#64748b;line-height:1.7}
+    .c23-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) auto;gap:18px;align-items:end;background:#f8faff;padding:22px;border:1px solid #e1e9f5;border-radius:16px;margin:22px 0 14px}
+    .c23-field{min-width:0}
+    .c23-form label{display:block;font-weight:750;font-size:14px;margin:0 0 9px;color:#243b5a}
+    .c23-form select{display:block;width:100%;min-height:50px;padding:12px 42px 12px 14px;border:1px solid #cbd5e1;border-radius:11px;background-color:#fff;color:#172b49;font:inherit;font-size:15px;line-height:1.4;box-shadow:0 1px 2px #0f172a08}
+    .c23-form select:focus{outline:3px solid #bfdbfe;border-color:#2563eb}
+    .c23-form select:disabled{background:#f1f5f9;color:#94a3b8;cursor:not-allowed}
+    .c23-btn{min-height:49px;border:0;border-radius:11px;padding:13px 20px;background:#2563eb;color:#fff;font-weight:750;font-size:14px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:normal;line-height:1.35;transition:background .2s,transform .2s}
+    .c23-btn:hover{background:#1d4ed8;transform:translateY(-1px)}
+    .c23-status{padding:22px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:15px;color:#14532d;line-height:1.8;overflow-wrap:anywhere}
+    .c23-status strong:first-child{font-size:17px}
+    .c23-pending{display:block;margin-top:8px;color:#166534}
+    .c23-links{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}
+    .c23-secondary{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+    .c23-secondary:hover{background:#dbeafe}
+    .c23-small{font-size:13px;color:#64748b;line-height:1.75;margin:12px 0 0}
+    .c23-reference{padding:16px 18px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;color:#475569;line-height:1.75}
+    .c23-reference p{margin:0}
+    @media(max-width:980px){.c23-form{grid-template-columns:1fr 1fr}.c23-form button{grid-column:1/-1;width:100%}}
+    @media(max-width:650px){.c23-form{grid-template-columns:1fr;padding:16px}.c23-form button{grid-column:auto}.c23-hero{border-radius:16px}.c23-links{flex-direction:column}.c23-links .c23-btn{width:100%}}
   </style>
 </head>
 <body>
@@ -23,33 +49,31 @@
   <div class="header"><div><h1>Diploma Civil Materials</h1><p>AP SBTET · Curriculum C-23 · Year-wise and semester-linked resource workspace</p></div><div class="user"><div class="avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div></div>
   <div class="c23-wrap">
     <section class="c23-hero">
-      <span>AP SBTET · C-23</span><h2>Study from your prescribed curriculum</h2>
+      <span class="eyebrow">🏗️ AP SBTET <span aria-hidden="true">·</span> CURRICULUM C-23</span><h2>Study from your prescribed curriculum</h2>
       <p>Select the C-23 year/semester and exact subject. Each subject resource will be mapped to its prescribed syllabus units, learning outcomes and assessment scheme. Study resources are being released only after the subject mapping and technical content are checked against the C-23 curriculum.</p>
     </section>
-    <section class="content-box">
-      <h2>Build your study plan</h2>
+    <section class="c23-panel">
+      <h2>Build your study plan</h2><p class="c23-intro">Choose your year or semester, then select the matching subject from the C-23 catalogue.</p>
       <form class="c23-form" method="get" action="{{ url_for('diploma_c23_materials') }}">
-        <div><label for="semester">C-23 Year / Semester</label><select id="semester" name="semester" required>
+        <div class="c23-field"><label for="semester">C-23 Year / Semester</label><select id="semester" name="semester" required>
           <option value="">Select year / semester</option>
           <option value="FY" {% if semester == "FY" %}selected{% endif %}>First Year (Year-wise)</option>
           {% for n in range(3,7) %}<option value="{{ n }}" {% if semester == n|string %}selected{% endif %}>{{ n }}{% if n == 3 %}rd{% else %}th{% endif %} Semester</option>{% endfor %}
         </select></div>
-        <div><label for="subject">Subject (C-23 catalogue)</label><select id="subject" name="subject" required {% if not semester_courses %}disabled{% endif %}><option value="">Select subject</option>{% for course in semester_courses %}<option value="{{ course.code }}" {% if subject_code == course.code %}selected{% endif %}>{{ course.code }} — {{ course.title }} ({{ course.type }})</option>{% endfor %}</select></div>
+        <div class="c23-field"><label for="subject">Subject (C-23 catalogue)</label><select id="subject" name="subject" required {% if not semester_courses %}disabled{% endif %}><option value="">Select subject</option>{% for course in semester_courses %}<option value="{{ course.code }}" {% if subject_code == course.code %}selected{% endif %}>{{ course.code }} — {{ course.title }} ({{ course.type }})</option>{% endfor %}</select></div>
         <button class="c23-btn" type="submit">Find materials</button>
       </form>
       {% if selected_subject %}
-      <div class="c23-status"><strong>{{ selected_subject.code }} — {{ selected_subject.title }}</strong><br>
-        <strong>Unit-wise mapping:</strong> Pending official PDF verification. Unit titles, topic lists, practical experiments and assessment details will be added only after checking the curriculum text. No syllabus content has been guessed.
-      </div>
+      <div class="c23-status"><strong>{{ selected_subject.code }} — {{ selected_subject.title }}</strong><span class="c23-pending"><strong>Unit-wise mapping:</strong> Awaiting verification against the curriculum PDF. Unit titles, topics, practical experiments and assessment details will be published after the curriculum text is checked. No syllabus content has been guessed.</span></div>
       {% elif semester %}
       <p class="c23-small">Choose a subject from the selected term's catalogue. If your subject is not listed, compare the curriculum PDF and report the exact code/title.</p>
       {% else %}
       <p class="c23-small">Select First Year or the applicable semester first; the matching subject list will then appear.</p>
       {% endif %}
     </section>
-    <section class="content-box">
+    <section class="c23-panel">
       <h2>Curriculum &amp; regulation references</h2>
-      <p>Reference: AP SBTET Curriculum-2023, Diploma in Civil Engineering (C-23), effective from academic year 2023–24. The PDF is hosted by an educational institution; use the AP SBTET portal to check for board-issued amendments or updates.</p>
+      <div class="c23-reference"><p><strong>Reference:</strong> AP SBTET Curriculum-2023, Diploma in Civil Engineering (C-23), effective from academic year 2023–24. The linked PDF is hosted by an educational institution, not the AP SBTET domain. Check the AP SBTET portal for any board-issued amendments or updates.</p></div>
       <div class="c23-links"><a class="c23-btn" href="{{ official_curriculum_url }}" target="_blank" rel="noopener">Open C-23 Civil Curriculum PDF ↗</a><a class="c23-btn c23-secondary" href="{{ official_board_url }}" target="_blank" rel="noopener">Open AP SBTET portal ↗</a><a class="c23-btn c23-secondary" href="{{ url_for('syllabus') }}">Back to Syllabus</a></div>
       <p class="c23-small"><strong>Content standard:</strong> Notes will be original student-friendly explanations with checked calculations and clearly named references. They will be labeled as Civil Career study notes, not official SBTET handouts. IS-code clauses, editions and design values must be checked against the applicable current standard and project context.</p>
     </section>

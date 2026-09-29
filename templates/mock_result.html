@@ -1987,6 +1987,7 @@
 
         <div class="buttons">
 
+            {% if feedback_submitted %}
             <button type="button" id="downloadResultPdf" class="primary" style="background:#0f766e;border:1px solid #0f766e;cursor:pointer">⬇ Download Result &amp; Answer Review PDF</button>
             <script>
             (function () {
@@ -2024,7 +2025,9 @@
                 });
             })();
             </script>
-
+            {% else %}
+            <button type="button" class="primary" disabled style="opacity:.55;cursor:not-allowed" title="Submit your feedback to enable PDF download">🔒 Submit feedback to enable PDF download</button>
+            {% endif %}
 
             <a
                 href="{{ url_for('mock_tests') }}"
@@ -2344,8 +2347,6 @@
 </script>
 
 
-<div style="text-align:center;margin:28px auto;padding:20px;">
-<a href="{{ url_for('mock_result_pdf', exam_slug=exam_slug) }}" style="display:inline-block;background:#12355b;color:#fff;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:700;">Download Result &amp; Answer Review PDF</a>
-</div>
+
 </body>
 </html>

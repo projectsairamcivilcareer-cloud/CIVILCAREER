@@ -6788,10 +6788,25 @@ def mock_result_pdf(exam_slug):
         canvas.drawRightString(w-18*mm, 10*mm, "Page " + str(document.page))
         canvas.restoreState()
 
+    # Build the PDF in memory and force a browser download (not inline preview).
     doc.build(story, onFirstPage=page_chrome, onLaterPages=page_chrome)
     buffer.seek(0)
-    return send_file(buffer, mimetype="application/pdf", as_attachment=True,
-                     download_name=exam_slug + "-mock-test-result.pdf")
+
+    filename = f"{exam_slug}-mock-test-result.pdf"
+    response = send_file(
+        buffer,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=filename,
+        conditional=False,
+        max_age=0
+    )
+    # Explicit headers help browsers/proxies treat this response as a file attachment.
+    response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 # ==============================

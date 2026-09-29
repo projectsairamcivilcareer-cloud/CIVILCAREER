@@ -4423,6 +4423,29 @@ def mock_test_history():
         total_attempts=len(attempts)
     )
 
+@app.route("/mock-test-history/<int:result_id>")
+def mock_test_history_detail(result_id):
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    item = connection.execute(
+        """
+        SELECT id, exam_slug, exam_name, total_questions, correct,
+               wrong, unanswered, score, percentage, created_at
+        FROM mock_test_results
+        WHERE id = ? AND student_id = ?
+        """,
+        (result_id, session["student_id"])
+    ).fetchone()
+    connection.close()
+
+    if not item:
+        abort(404)
+
+    return render_template("mock_test_history_detail.html", item=item)
+
+
 # ==========================================#
 # MOCK TEST SELECTION
 # ==========================================

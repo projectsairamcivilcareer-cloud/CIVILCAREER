@@ -171,16 +171,16 @@
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    width: 260px !important;
-    max-width: min(42vw, 260px) !important;
+    width: 340px !important;
+    max-width: min(60vw, 340px) !important;
     height: auto !important;
     min-height: 54px;
     object-fit: contain;
 }
 @media (max-width: 600px) {
     .navbar .logo img {
-        width: 190px !important;
-        max-width: 48vw !important;
-        min-height: 44px;
+        width: 240px !important;
+        max-width: 58vw !important;
+        min-height: 58px;
     }
 }

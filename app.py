@@ -5872,6 +5872,12 @@ def mock_test_result(exam_slug):
             feedback_submitted = True
             session[feedback_key] = True
 
+            # Release the site-wide feedback redirect after valid submission.
+            # Without clearing this key, every other page is redirected back
+            # to the mock result page for the completed exam.
+            if session.get("mock_feedback_pending_exam") == exam_slug:
+                session.pop("mock_feedback_pending_exam", None)
+
     # =====================================================
     # LOAD QUESTIONS
     # =====================================================

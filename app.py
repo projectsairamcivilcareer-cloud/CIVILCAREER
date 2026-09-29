@@ -2914,7 +2914,7 @@ def mock_test_history_list():
           <td>{int(item['wrong'] or 0)}</td>
           <td><strong>{escape(str(item['score'] or 0))}</strong></td>
           <td>{float(item['percentage'] or 0):.1f}%</td>
-          <td><a class="view" href="/mock-test-history/{int(item['id'])}">View details →</a></td>
+          <td><div class="history-menu-wrap"><button type="button" class="history-menu-btn" aria-label="Attempt actions" aria-expanded="false" onclick="toggleAttemptMenu(this)">⋮</button><div class="history-menu"><a href="/mock-test-history/{int(item['id'])}">View</a><a href="/mock-test-history/{int(item['id'])}/download">Download PDF</a><form method="post" action="/mock-test-history/{int(item['id'])}/delete" onsubmit="return confirm('Delete this saved mock test attempt? This cannot be undone.');"><button type="submit" class="delete-action">Delete</button></form></div></div></td>
         </tr>"""
 
     if not rows:
@@ -2928,23 +2928,23 @@ def mock_test_history_list():
     *{box-sizing:border-box}body{margin:0;background:#f1f5f9;font-family:Inter,"Segoe UI",Arial,sans-serif;color:#0f172a}
     .wrap{max-width:1200px;margin:0 auto;padding:32px 22px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
     .back{color:#2563eb;text-decoration:none;font-weight:700}.title{font-size:clamp(25px,4vw,36px);margin:18px 0 6px}.sub{color:#64748b;margin:0}
-    .profile{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 18px}
-    .avatar{display:grid;place-items:center;width:44px;height:44px;background:#eff6ff;border-radius:50%;font-size:22px}
+    
+    
     .panel{background:#fff;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px #0f172a0a}
     .panelhead{padding:22px 24px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
     .pill{background:#eff6ff;color:#1d4ed8;padding:8px 13px;border-radius:99px;font-size:13px;font-weight:700}
     .tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:16px 18px;text-align:left;border-bottom:1px solid #f1f5f9;font-size:14px}th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tbody tr:hover{background:#f8fafc}.view{color:#2563eb;text-decoration:none;font-weight:700}.empty{text-align:center;padding:42px;color:#64748b}
-    .actions{display:flex;gap:10px}.btn{display:inline-block;text-decoration:none;padding:11px 16px;border-radius:10px;background:#2563eb;color:white;font-weight:700}.btn.secondary{background:#e2e8f0;color:#334155}
+    .actions{display:flex;gap:10px}.history-menu-wrap{position:relative;display:inline-block}.history-menu-btn{width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#0f172a;font-size:25px;line-height:1;cursor:pointer}.history-menu-btn:hover,.history-menu-btn[aria-expanded="true"]{background:#eff6ff;border-color:#93c5fd}.history-menu{display:none;position:absolute;right:0;top:43px;min-width:155px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 30px #0f172a24;padding:6px;z-index:30}.history-menu.open{display:block}.history-menu a,.history-menu form button{display:block;width:100%;padding:10px 12px;border:0;background:transparent;text-align:left;text-decoration:none;color:#1e293b;font:600 13px Arial;border-radius:8px;cursor:pointer}.history-menu a:hover,.history-menu form button:hover{background:#f1f5f9}.history-menu .delete-action{color:#b91c1c}.btn{display:inline-block;text-decoration:none;padding:11px 16px;border-radius:10px;background:#2563eb;color:white;font-weight:700}.btn.secondary{background:#e2e8f0;color:#334155}
     @media(max-width:600px){.wrap{padding:20px 12px}.panelhead{padding:18px}}
     </style></head><body><main class="wrap">
     <div class="top"><a class="back" href="/mock-tests">← Back to Mock Tests</a>
-    <div class="profile"><div class="avatar">👤</div><div><strong>__STUDENT__</strong><br><small>__EDUCATION__</small></div></div></div>
+    </div>
     <h1 class="title">Mock Test History</h1><p class="sub">Review your previous attempts, scores, and detailed performance.</p>
     <section class="panel" style="margin-top:24px"><div class="panelhead"><strong>📚 Your Attempts</strong><span class="pill">__COUNT__ attempt(s)</span></div>
     <div class="tablewrap"><table><thead><tr><th>Exam</th><th>Date &amp; Time</th><th>Questions</th><th>Correct</th><th>Wrong</th><th>Score</th><th>Percentage</th><th>Review</th></tr></thead><tbody>__ROWS__</tbody></table></div></section>
-    <div class="actions" style="margin-top:22px"><a class="btn" href="/mock-tests">Start a Mock Test</a><a class="btn secondary" href="/practice">Back to Practice</a></div></main></body></html>
+    <div class="actions" style="margin-top:22px"><a class="btn" href="/mock-tests">Start a Mock Test</a><a class="btn secondary" href="/practice">Back to Practice</a></div></main><script>function toggleAttemptMenu(btn){const menu=btn.nextElementSibling;document.querySelectorAll(".history-menu.open").forEach(m=>{if(m!==menu){m.classList.remove("open");m.previousElementSibling.setAttribute("aria-expanded","false")}});menu.classList.toggle("open");btn.setAttribute("aria-expanded",String(menu.classList.contains("open")));}document.addEventListener("click",e=>{if(!e.target.closest(".history-menu-wrap"))document.querySelectorAll(".history-menu.open").forEach(m=>{m.classList.remove("open");m.previousElementSibling.setAttribute("aria-expanded","false")})});</script></main></body></html>
     """
-    page = page.replace("__STUDENT__", escape(str(session.get("student_name", "Student")))).replace("__EDUCATION__", escape(str(session.get("student_education", "")))).replace("__COUNT__", str(len(results))).replace("__ROWS__", rows)
+    page = page.replace("__COUNT__", str(len(results))).replace("__ROWS__", rows)
     return page
 
 

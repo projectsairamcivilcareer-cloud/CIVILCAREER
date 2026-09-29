@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock Test History | Civil Career</title>
+<style>
+:root{--navy:#0f172a;--blue:#1d4ed8;--muted:#64748b;--line:#e2e8f0;--bg:#f1f5f9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--navy)}
+main{max-width:1120px;margin:0 auto;padding:30px 22px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--blue);text-decoration:none;font-weight:700;padding:10px 14px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:10px}
+.user{display:flex;align-items:center;gap:12px;background:#fff;padding:10px 16px;border:1px solid var(--line);border-radius:14px}
+.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#dbeafe;font-size:21px}
+.user strong,.user small{display:block}.user small{color:var(--muted);margin-top:3px}
+h1{font-size:clamp(26px,4vw,36px);margin:0 0 8px;letter-spacing:-.7px}.sub{margin:0;color:var(--muted);line-height:1.6}
+.summary{display:flex;align-items:center;gap:16px;background:linear-gradient(120deg,#1e3a8a,#2563eb);color:white;padding:24px;border-radius:18px;margin:24px 0;box-shadow:0 12px 28px #1e40af22}
+.summary-icon{font-size:30px;background:#ffffff20;width:58px;height:58px;display:grid;place-items:center;border-radius:15px}.summary strong{display:block;font-size:28px}.summary span{opacity:.85;font-size:13px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 5px 18px #0f172a08}
+.panel-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.panel-head h2{margin:0;font-size:19px}.count{font-size:12px;color:#1d4ed8;background:#eff6ff;padding:7px 10px;border-radius:20px;font-weight:700}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:16px 20px;border-bottom:1px solid #edf2f7;font-size:14px}th{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);background:#f8fafc}tbody tr:hover{background:#f8fafc}td strong{display:block}td small{display:block;color:var(--muted);margin-top:5px}.score{font-weight:800;color:#1d4ed8}.pill{display:inline-block;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700;background:#f1f5f9;color:#475569}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:9px;text-decoration:none;font-size:12px;font-weight:700;background:#1d4ed8;color:#fff;white-space:nowrap}.btn.secondary{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.empty{text-align:center;padding:54px 24px}.empty-icon{font-size:42px;margin-bottom:12px}.empty h3{margin:0 0 8px}.empty p{color:var(--muted);margin:0 auto 20px;max-width:430px;line-height:1.6}
+@media(max-width:600px){main{padding:20px 14px 40px}.summary{padding:20px}.panel-head{padding:18px}.user{width:100%}}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+<a class="back" href="{{ url_for('mock_tests') }}">← Back to Mock Tests</a>
+<div class="user"><div class="avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div>
+</header>
+<h1>Mock Test History</h1>
+<p class="sub">Track your completed attempts, scores, and progress across Civil Engineering exams.</p>
+<section class="summary"><div class="summary-icon">📈</div><div><strong>{{ total_attempts }}</strong><span>Saved mock test attempt{{ '' if total_attempts == 1 else 's' }}</span></div></section>
+<section class="panel">
+<div class="panel-head"><h2>All Attempts</h2><span class="count">Latest attempts first</span></div>
+{% if attempts %}
+<div class="table-wrap"><table>
+<thead><tr><th>Exam / Attempt</th><th>Date & Time</th><th>Score</th><th>Correct</th><th>Wrong</th><th>Unanswered</th><th>Action</th></tr></thead>
+<tbody>
+{% for item in attempts %}
+<tr>
+<td><strong>{{ item.exam_name }}</strong><small>Attempt #{{ item.id }}</small></td>
+<td>{{ item.created_at|date_dmy }}</td>
+<td><span class="score">{{ item.score }} pts</span><small>{{ '%.1f'|format(item.percentage or 0) }}% score</small></td>
+<td><span class="pill">{{ item.correct }}</span></td>
+<td><span class="pill">{{ item.wrong }}</span></td>
+<td><span class="pill">{{ item.unanswered }}</span></td>
+<td><div class="actions"><a class="btn" href="{{ url_for('mock_test_history_detail', result_id=item.id) }}">View Summary</a></div></td>
+</tr>
+{% endfor %}
+</tbody></table></div>
+{% else %}
+<div class="empty"><div class="empty-icon">📝</div><h3>No mock tests completed yet</h3><p>After you submit a mock test, your attempt and score will appear here automatically.</p><a class="btn" href="{{ url_for('mock_tests') }}">Explore Mock Tests →</a></div>
+{% endif %}
+</section>
+</main>
+</body>
+</html>

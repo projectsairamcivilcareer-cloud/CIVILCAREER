@@ -81,5 +81,6 @@
   </div>
 </main>
 <script>function toggleCivilMenu(force){const s=document.getElementById("civil-sidebar"),b=document.querySelector(".mobile-menu-toggle"),back=document.querySelector(".menu-backdrop");const open=typeof force==="boolean"?force:!s.classList.contains("menu-open");s.classList.toggle("menu-open",open);back.classList.toggle("show",open);b.setAttribute("aria-expanded",String(open));}document.querySelectorAll("#civil-sidebar a").forEach(a=>a.addEventListener("click",()=>toggleCivilMenu(false)));</script>
+<script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body>
 </html>

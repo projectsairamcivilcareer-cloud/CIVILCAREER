@@ -1987,7 +1987,43 @@
 
         <div class="buttons">
 
-            <a href="{{ url_for('mock_result_pdf', exam_slug=exam_slug) }}" class="primary" style="background:#0f766e;border:1px solid #0f766e" download>⬇ Download Result &amp; Answer Review PDF</a>
+            <button type="button" id="downloadResultPdf" class="primary" style="background:#0f766e;border:1px solid #0f766e;cursor:pointer">⬇ Download Result &amp; Answer Review PDF</button>
+            <script>
+            (function () {
+                const button = document.getElementById("downloadResultPdf");
+                if (!button) return;
+                button.addEventListener("click", async function () {
+                    const originalText = button.innerHTML;
+                    button.disabled = true;
+                    button.innerHTML = "Preparing PDF...";
+                    try {
+                        const response = await fetch({{ url_for('mock_result_pdf', exam_slug=exam_slug)|tojson }}, {
+                            method: "GET", credentials: "same-origin", cache: "no-store",
+                            headers: { "Accept": "application/pdf" }
+                        });
+                        if (!response.ok) throw new Error("Server returned " + response.status);
+                        const type = (response.headers.get("content-type") || "").toLowerCase();
+                        if (!type.includes("application/pdf")) {
+                            throw new Error("PDF endpoint returned a web page. Please log in again and retry.");
+                        }
+                        const blob = await response.blob();
+                        const objectUrl = URL.createObjectURL(blob);
+                        const link = document.createElement("a");
+                        link.href = objectUrl;
+                        link.download = {{ (exam_slug ~ "-mock-test-result.pdf")|tojson }};
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                        setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+                    } catch (error) {
+                        alert("PDF download failed: " + error.message + "\\nPlease refresh the result page, log in again if needed, and try once more.");
+                    } finally {
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    }
+                });
+            })();
+            </script>
 
 
             <a

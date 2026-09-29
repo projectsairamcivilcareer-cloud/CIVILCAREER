@@ -2903,16 +2903,18 @@ def mock_test_history_list():
 
     rows = ""
     for item in results:
+        safe_exam_name = escape(str(item["exam_name"] or "Mock Test"))
+        safe_created_at = escape(str(item["created_at"] or "-"))
         rows += f"""
         <tr>
-          <td>{item['exam_name'] or 'Mock Test'}</td>
-          <td>{item['created_at'] or '-'}</td>
-          <td>{item['total_questions'] or 0}</td>
-          <td>{item['correct'] or 0}</td>
-          <td>{item['wrong'] or 0}</td>
-          <td><strong>{item['score'] or 0}</strong></td>
+          <td>{safe_exam_name}</td>
+          <td>{safe_created_at}</td>
+          <td>{int(item['total_questions'] or 0)}</td>
+          <td>{int(item['correct'] or 0)}</td>
+          <td>{int(item['wrong'] or 0)}</td>
+          <td><strong>{escape(str(item['score'] or 0))}</strong></td>
           <td>{float(item['percentage'] or 0):.1f}%</td>
-          <td><a class="view" href="/mock-test-history/{item['id']}">View details →</a></td>
+          <td><a class="view" href="/mock-test-history/{int(item['id'])}">View details →</a></td>
         </tr>"""
 
     if not rows:
@@ -2942,7 +2944,7 @@ def mock_test_history_list():
     <div class="tablewrap"><table><thead><tr><th>Exam</th><th>Date &amp; Time</th><th>Questions</th><th>Correct</th><th>Wrong</th><th>Score</th><th>Percentage</th><th>Review</th></tr></thead><tbody>__ROWS__</tbody></table></div></section>
     <div class="actions" style="margin-top:22px"><a class="btn" href="/mock-tests">Start a Mock Test</a><a class="btn secondary" href="/practice">Back to Practice</a></div></main></body></html>
     """
-    page = page.replace("__STUDENT__", str(session.get("student_name", "Student"))).replace("__EDUCATION__", str(session.get("student_education", ""))).replace("__COUNT__", str(len(results))).replace("__ROWS__", rows)
+    page = page.replace("__STUDENT__", escape(str(session.get("student_name", "Student")))).replace("__EDUCATION__", escape(str(session.get("student_education", "")))).replace("__COUNT__", str(len(results))).replace("__ROWS__", rows)
     return page
 
 

@@ -1,0 +1,602 @@
+{
+  "schema_version": 1,
+  "source_note": "Transcribed from official JNTUH University College of Engineering, Science & Technology Hyderabad R25 B.Tech Civil Engineering Course Structure & Syllabus, applicable from AY 2025-26. Official PDF: https://jntuhcem.ac.in/web/notifications/470_R25CivilEngineering24JULY2025COURSESTRUCTURE.pdf. Only subject-unit detail reproduced where visible in source text; other course records intentionally contain no invented units.",
+  "curricula": [
+    {
+      "university": "JNTUH",
+      "college_name": "",
+      "regulation": "R25",
+      "branch": "Civil Engineering",
+      "applicable_from": "2025-26",
+      "source_url": "https://jntuhcem.ac.in/web/notifications/470_R25CivilEngineering24JULY2025COURSESTRUCTURE.pdf",
+      "semesters": [
+        {
+          "name": "I Year - I Semester",
+          "courses": [
+            {
+              "code": "BSC",
+              "title": "Matrices and Calculus",
+              "kind": "Theory",
+              "credits": 4
+            },
+            {
+              "code": "BSC",
+              "title": "Engineering Physics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "CSC",
+              "title": "C Programming and Data Structures",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "MEC",
+              "title": "Computer Aided Engineering Graphics",
+              "kind": "Theory / Practical",
+              "credits": 3
+            },
+            {
+              "code": "MEC",
+              "title": "Engineering Workshop",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "HSC",
+              "title": "English for Skill Enhancement",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "BSC",
+              "title": "Engineering Physics Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "CSC",
+              "title": "C Programming and Data Structures Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "HSC",
+              "title": "English Language and Communication Skills Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "",
+              "title": "Induction Program",
+              "kind": "Mandatory"
+            }
+          ]
+        },
+        {
+          "name": "I Year - II Semester",
+          "courses": [
+            {
+              "code": "BSC",
+              "title": "Ordinary Differential Equations and Vector Calculus",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "BSC",
+              "title": "Applied Chemistry",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "ESC",
+              "title": "Basic Electrical and Electronics Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Engineering Geology and Building Materials",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Geology and Building Materials Testing Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Engineering Mechanics",
+              "kind": "Theory",
+              "credits": 4
+            },
+            {
+              "code": "BSC",
+              "title": "Chemistry Laboratory for Engineers",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "CSC",
+              "title": "Python Programming Laboratory",
+              "kind": "Practical",
+              "credits": 2
+            },
+            {
+              "code": "ESC",
+              "title": "Basic Electrical Engineering Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "",
+              "title": "NSS",
+              "kind": "Mandatory"
+            }
+          ]
+        },
+        {
+          "name": "II Year - I Semester",
+          "courses": [
+            {
+              "code": "BSC",
+              "title": "Probability and Statistics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Building Planning and Construction",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Strength of Materials",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Surveying and Geomatics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Fluid Mechanics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "BSC",
+              "title": "Computational Mathematics Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Computer Aided Building Drafting Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Strength of Materials Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Surveying and Geomatics Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "SDC",
+              "title": "Design Thinking Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            }
+          ]
+        },
+        {
+          "name": "II Year - II Semester",
+          "courses": [
+            {
+              "code": "DC",
+              "title": "Concrete Technology",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Advanced Strength of Materials",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Environmental Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Hydraulics and Hydraulic Machinery",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Basic Structural Analysis",
+              "kind": "Theory",
+              "credits": 2,
+              "topics": [
+                {
+                  "title": "Unit I — Analysis of Perfect Frames",
+                  "items": [
+                    "Types of frames: perfect, imperfect and redundant pin-jointed plane frames.",
+                    "Analysis of determinate pin-jointed plane frames by method of joints, method of sections and tension coefficient method for vertical, horizontal and inclined loads."
+                  ]
+                },
+                {
+                  "title": "Unit II — Energy Theorems and Three-Hinged Arches",
+                  "items": [
+                    "Strain energy in linear elastic systems due to axial load, bending moment and shear force.",
+                    "Castigliano’s theorem and unit-load method; deflections of simple beams, pin-jointed plane frames and statically determinate bent frames.",
+                    "Three-hinged and two-hinged arches; linear arch and Eddy’s theorem; analysis of three-hinged arches for normal thrust, radial shear and bending moment.",
+                    "Geometrical properties of parabolic and circular arches; three-hinged arches with supports at different levels."
+                  ]
+                },
+                {
+                  "title": "Unit III — Propped Cantilever and Fixed Beams",
+                  "items": [
+                    "Static and kinematic indeterminacy of beams.",
+                    "Analysis of propped cantilever and fixed beams with constant or varying moment of inertia under UDL, point loads, UVL, couples and combinations.",
+                    "Shear-force and bending-moment diagrams, elastic curve and deflection; effects of support settlement and support rotation."
+                  ]
+                },
+                {
+                  "title": "Unit IV — Continuous Beams and Slope-Deflection Method",
+                  "items": [
+                    "Clapeyron’s theorem of three moments; continuous beams with constant and variable moment of inertia, fixed ends, overhangs and support settlement.",
+                    "Derivation and application of slope-deflection equations to continuous beams with and without support settlement.",
+                    "Static and kinematic indeterminacy of frames; single-bay, single-storey portal frames including sidesway; SFD, BMD and elastic curve."
+                  ]
+                },
+                {
+                  "title": "Unit V — Moving Loads and Influence Lines",
+                  "items": [
+                    "Maximum shear force and bending moment at a section and absolute maximum values due to concentrated loads, UDLs longer or shorter than the span, two point loads at fixed spacing and multiple point loads.",
+                    "Equivalent uniformly distributed load and focal length.",
+                    "Influence lines for shear force and bending moment; load positions for maximum SF and BM under point loads and UDLs."
+                  ]
+                }
+              ]
+            },
+            {
+              "code": "DC",
+              "title": "Innovation and Entrepreneurship",
+              "kind": "Theory",
+              "credits": 2
+            },
+            {
+              "code": "DC",
+              "title": "Environmental Engineering Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Concrete Technology Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Hydraulics and Hydraulic Machinery Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "SDC",
+              "title": "Digital Surveying and GIS Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "",
+              "title": "Environmental Science",
+              "kind": "Mandatory",
+              "credits": 0
+            },
+            {
+              "code": "DC",
+              "title": "Real Time / Field Based Project",
+              "kind": "Practical",
+              "credits": 1
+            }
+          ]
+        },
+        {
+          "name": "III Year - I Semester",
+          "courses": [
+            {
+              "code": "DC",
+              "title": "Reinforced Concrete Design",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Soil Mechanics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Estimation, Quantity Surveying & Valuation",
+              "kind": "Theory",
+              "credits": 2
+            },
+            {
+              "code": "PE",
+              "title": "Professional Elective-I",
+              "kind": "Elective",
+              "credits": 3
+            },
+            {
+              "code": "OE",
+              "title": "Open Elective-I",
+              "kind": "Elective",
+              "credits": 2
+            },
+            {
+              "code": "DC",
+              "title": "Water Resources Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Geotechnical Engineering Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Advanced English Communication Skills Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "SDC",
+              "title": "Project Management Software Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "",
+              "title": "Gender Sensitization Lab / Human Values and Professional Ethics",
+              "kind": "Mandatory",
+              "credits": 0
+            },
+            {
+              "code": "",
+              "title": "Yoga",
+              "kind": "Mandatory",
+              "credits": 0
+            }
+          ]
+        },
+        {
+          "name": "III Year - II Semester",
+          "courses": [
+            {
+              "code": "DC",
+              "title": "Foundation Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Design of Steel Structures",
+              "kind": "Theory",
+              "credits": 4
+            },
+            {
+              "code": "MS",
+              "title": "Business Economics and Financial Analysis",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "PE",
+              "title": "Professional Elective-II",
+              "kind": "Elective",
+              "credits": 3
+            },
+            {
+              "code": "OE",
+              "title": "Open Elective-II",
+              "kind": "Elective",
+              "credits": 2
+            },
+            {
+              "code": "DC",
+              "title": "Transportation Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Computer Aided Design Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Transportation Engineering Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "SDC",
+              "title": "Building Information Modelling Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "",
+              "title": "Indian Knowledge System",
+              "kind": "Mandatory",
+              "credits": 0
+            }
+          ]
+        },
+        {
+          "name": "IV Year - I Semester",
+          "courses": [
+            {
+              "code": "DC",
+              "title": "Railways, Waterways and Airport Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "DC",
+              "title": "Prestressed Concrete",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "MS",
+              "title": "Fundamentals of Management",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "PE",
+              "title": "Professional Elective-III",
+              "kind": "Elective",
+              "credits": 3
+            },
+            {
+              "code": "PE",
+              "title": "Professional Elective-IV",
+              "kind": "Elective",
+              "credits": 3
+            },
+            {
+              "code": "OE",
+              "title": "Open Elective-III",
+              "kind": "Elective",
+              "credits": 2
+            },
+            {
+              "code": "DC",
+              "title": "Civil Engineering Software Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DC",
+              "title": "Computational Laboratory",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "DCP",
+              "title": "Industry Oriented Mini Project / Summer Internship",
+              "kind": "Project / Internship",
+              "credits": 2
+            }
+          ]
+        },
+        {
+          "name": "IV Year - II Semester",
+          "courses": [
+            {
+              "code": "PE",
+              "title": "Professional Elective-V",
+              "kind": "Elective",
+              "credits": 3
+            },
+            {
+              "code": "PE",
+              "title": "Professional Elective-VI",
+              "kind": "Elective",
+              "credits": 3
+            },
+            {
+              "code": "DCP",
+              "title": "Project Work",
+              "kind": "Project",
+              "credits": 14
+            }
+          ]
+        }
+      ],
+      "electives": {
+        "Professional Elective-I": [
+          "Indeterminate Structural Analysis",
+          "Air Pollution and Control Measures",
+          "Green Building Technologies",
+          "Advanced Construction Technologies",
+          "Advanced Concrete Technology"
+        ],
+        "Professional Elective-II": [
+          "AI and ML Applications in Civil Engineering",
+          "Remote Sensing and GIS",
+          "Construction Planning and Management",
+          "Industrial Waste Water Treatment",
+          "EIA and Life Cycle Assessment"
+        ],
+        "Professional Elective-III": [
+          "Smart Cities and Urban Innovation",
+          "Big Data Analytics in Civil Engineering",
+          "Ground Improvement Techniques",
+          "Ground Water Hydrology",
+          "Pre-Engineered Buildings"
+        ],
+        "Professional Elective-IV": [
+          "Solid and Hazardous Waste Management",
+          "IoT Applications in Civil Engineering",
+          "Intelligent Transportation Systems",
+          "Elements of Earthquake Engineering",
+          "Hydraulic Structures"
+        ],
+        "Professional Elective-V": [
+          "Pavement Engineering",
+          "Digital Image Processing in Civil Engineering",
+          "Urban Hydrology",
+          "Earth Retaining Structures",
+          "Finite Element Analysis"
+        ],
+        "Professional Elective-VI": [
+          "Repair and Rehabilitation of Structures",
+          "Highway Construction and Practices",
+          "Sustainable Engineering Technologies",
+          "Climate Change Adaptation and Mitigation",
+          "Rock Mechanics"
+        ],
+        "Open Elective-I": [
+          "Disaster Management",
+          "Low Carbon Materials and Green Buildings"
+        ],
+        "Open Elective-II": [
+          "Building Science and Technology",
+          "Environmental Impact Assessment"
+        ],
+        "Open Elective-III": [
+          "Road Safety Engineering",
+          "Building Services Engineering"
+        ]
+      }
+    }
+  ]
+}

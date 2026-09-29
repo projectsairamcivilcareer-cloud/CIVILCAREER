@@ -36,7 +36,8 @@
   </style>
 </head>
 <body>
-<aside class="sidebar">
+<button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" onclick="toggleCivilMenu()">☰ Menu</button><div class="menu-backdrop" onclick="toggleCivilMenu(false)"></div>
+<aside class="sidebar" id="civil-sidebar">
   <div class="logo">🏗️ CIVIL CAREER</div>
   <nav>
     <a href="/dashboard">📊 Dashboard</a><a href="/jobs">💼 Jobs</a>
@@ -79,5 +80,6 @@
     </section>
   </div>
 </main>
+<script>function toggleCivilMenu(force){const s=document.getElementById("civil-sidebar"),b=document.querySelector(".mobile-menu-toggle"),back=document.querySelector(".menu-backdrop");const open=typeof force==="boolean"?force:!s.classList.contains("menu-open");s.classList.toggle("menu-open",open);back.classList.toggle("show",open);b.setAttribute("aria-expanded",String(open));}document.querySelectorAll("#civil-sidebar a").forEach(a=>a.addEventListener("click",()=>toggleCivilMenu(false)));</script>
 </body>
 </html>

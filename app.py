@@ -2934,10 +2934,10 @@ def mock_test_history_list():
     .panelhead{padding:22px 24px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
     .pill{background:#eff6ff;color:#1d4ed8;padding:8px 13px;border-radius:99px;font-size:13px;font-weight:700}
     .tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:16px 18px;text-align:left;border-bottom:1px solid #f1f5f9;font-size:14px}th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tbody tr:hover{background:#f8fafc}.view{color:#2563eb;text-decoration:none;font-weight:700}.empty{text-align:center;padding:42px;color:#64748b}
-    .actions{display:flex;gap:10px}.history-menu-wrap{position:relative;display:inline-block}.history-menu-btn{width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#0f172a;font-size:25px;line-height:1;cursor:pointer}.history-menu-btn:hover,.history-menu-btn[aria-expanded="true"]{background:#eff6ff;border-color:#93c5fd}.history-menu{display:none;position:absolute;right:0;top:43px;min-width:155px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 30px #0f172a24;padding:6px;z-index:30}.history-menu.open{display:block}.history-menu a,.history-menu form button{display:block;width:100%;padding:10px 12px;border:0;background:transparent;text-align:left;text-decoration:none;color:#1e293b;font:600 13px Arial;border-radius:8px;cursor:pointer}.history-menu a:hover,.history-menu form button:hover{background:#f1f5f9}.history-menu .delete-action{color:#b91c1c}.btn{display:inline-block;text-decoration:none;padding:11px 16px;border-radius:10px;background:#2563eb;color:white;font-weight:700}.btn.secondary{background:#e2e8f0;color:#334155}
+    .actions{display:flex;gap:10px}.history-menu-wrap{position:relative;display:inline-block}.history-menu-btn{width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#0f172a;font-size:25px;line-height:1;cursor:pointer}.history-menu-btn:hover,.history-menu-btn[aria-expanded="true"]{background:#eff6ff;border-color:#93c5fd}.history-menu{display:none;position:absolute;right:0;top:43px;min-width:155px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 30px #0f172a24;padding:6px;z-index:30}.history-menu.open{display:block}.history-menu a,.history-menu form button{display:block;width:100%;padding:10px 12px;border:0;background:transparent;text-align:left;text-decoration:none;color:#1e293b;font:600 13px Arial;border-radius:8px;cursor:pointer}.history-menu a:hover,.history-menu form button:hover{background:#f1f5f9}.history-menu .delete-action{color:#b91c1c}.btn{display:inline-block;text-decoration:none;padding:11px 16px;border-radius:10px;background:#2563eb;color:white;font-weight:700}.btn.secondary{background:#e2e8f0;color:#334155}.btn.danger-all{border:0;background:#dc2626;color:#fff;cursor:pointer;font-size:14px}.btn.danger-all:hover{background:#b91c1c}
     @media(max-width:600px){.wrap{padding:20px 12px}.panelhead{padding:18px}}
     </style></head><body><main class="wrap">
-    <div class="top"><a class="back" href="/mock-tests">← Back to Mock Tests</a>
+    <div class="top"><a class="back" href="/mock-tests">← Back to Mock Tests</a><form method="post" action="/mock-test-history/delete-all" onsubmit="return confirm('Delete ALL your saved mock test attempts and answer reviews? This cannot be undone.');"><button type="submit" class="btn danger-all">Delete All</button></form>
     </div>
     <h1 class="title">Mock Test History</h1><p class="sub">Review your previous attempts, scores, and detailed performance.</p>
     <section class="panel" style="margin-top:24px"><div class="panelhead"><strong>📚 Your Attempts</strong><span class="pill">__COUNT__ attempt(s)</span></div>
@@ -2946,6 +2946,27 @@ def mock_test_history_list():
     """
     page = page.replace("__COUNT__", str(len(results))).replace("__ROWS__", rows)
     return page
+
+
+@app.route("/mock-test-history/delete-all", methods=["POST"])
+def delete_all_mock_test_history():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    connection = get_db_connection()
+    try:
+        student_id = session["student_id"]
+        connection.execute(
+            "DELETE FROM mock_test_attempt_reviews WHERE student_id=?",
+            (student_id,)
+        )
+        connection.execute(
+            "DELETE FROM mock_test_results WHERE student_id=?",
+            (student_id,)
+        )
+        connection.commit()
+    finally:
+        connection.close()
+    return redirect(url_for("mock_test_history_list"))
 
 
 # ==========================================

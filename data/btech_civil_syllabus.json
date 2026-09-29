@@ -597,6 +597,327 @@
           "Building Services Engineering"
         ]
       }
+    },
+    {
+      "university": "JNTU-GV",
+      "college_name": "",
+      "regulation": "R23",
+      "branch": "Civil Engineering",
+      "applicable_from": "2023-24",
+      "source_url": "https://api.jntugv.edu.in/media/B.Tech-R23-CIVIL%20Engineering%20syllabus%2030-7-2024.pdf",
+      "semesters": [
+        {
+          "name": "II Year - I Semester",
+          "courses": [
+            {
+              "title": "Surveying",
+              "kind": "Theory",
+              "credits": 3,
+              "topics": [
+                {
+                  "title": "Unit I — Introduction and Basic Concepts",
+                  "items": [
+                    "Surveying objectives, classification, principles and accessories; compass, levelling and plane-table surveying; chain/tape distance measurement, ranging, tape corrections; compass bearings, included angles, local attraction, magnetic declination, dip, WCB and QB systems."
+                  ]
+                },
+                {
+                  "title": "Unit II — Levelling, Contouring, Areas and Volumes",
+                  "items": [
+                    "Types of levels and levelling methods; curvature and refraction; contour characteristics and methods; areas of regular/irregular boundaries; earthwork volumes in cutting/embankments and reservoir capacity."
+                  ]
+                },
+                {
+                  "title": "Unit III — Theodolite and Traversing",
+                  "items": [
+                    "Theodolite types and temporary adjustments; horizontal angles by repetition/reiteration; vertical angles and trigonometric levelling; traverse methods, computations, adjustments and omitted measurements."
+                  ]
+                },
+                {
+                  "title": "Unit IV — Curves and Modern Surveying",
+                  "items": [
+                    "Simple, compound and reverse curves; tacheometric surveying; EDM, total station applications, GPS, drone surveying and LiDAR."
+                  ]
+                },
+                {
+                  "title": "Unit V — Photogrammetry Surveying",
+                  "items": [
+                    "Aerial photograph geometry, relief/tilt displacement, terrestrial photogrammetry and flight planning; stereoscopy, ground control, aerial/radial triangulation, photographic mapping, stereo-plotting, mosaics and map substitutes."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Strength of Materials",
+              "kind": "Theory",
+              "credits": 3,
+              "topics": [
+                {
+                  "title": "Unit I — Simple Stresses and Strains",
+                  "items": [
+                    "Elasticity/plasticity; stress and strain types; Hooke's law; factor of safety; Poisson's ratio; elastic constant relationships; bars of varying section; composite bars."
+                  ]
+                },
+                {
+                  "title": "Unit II — Shear Force and Bending Moment",
+                  "items": [
+                    "Beam types, shear force, bending moment, point of contraflexure and relation to loading; SFD/BMD for cantilever, simply supported and overhanging beams under point loads, UDL, UVL, partial UDL and couples."
+                  ]
+                },
+                {
+                  "title": "Unit III — Flexural and Shear Stresses; Torsion",
+                  "items": [
+                    "Simple bending theory and equation; neutral axis, bending stresses, section modulus of rectangular, circular, I, T, angle and channel sections; simple beam design; shear stress distribution; circular shaft torsion."
+                  ]
+                },
+                {
+                  "title": "Unit IV — Deflection of Beams",
+                  "items": [
+                    "Double integration and Macaulay methods; slopes/deflections for cantilever, simply supported and overhanging beams under common loads; Mohr's theorems and moment-area method."
+                  ]
+                },
+                {
+                  "title": "Unit V — Columns and Cylindrical Shells",
+                  "items": [
+                    "Euler buckling, end conditions, equivalent length, slenderness ratio and critical stress; Rankine-Gordon, eccentric loading, secant and Perry formulas; thin/thick cylinders, hoop/longitudinal stresses, Lame's theory and compound cylinders."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Fluid Mechanics",
+              "kind": "Theory",
+              "credits": 3,
+              "topics": [
+                {
+                  "title": "Unit I — Basic Concepts",
+                  "items": [
+                    "Fluid/solid distinction; density, specific weight, specific gravity, viscosity and Newton's law; vapour pressure, boiling point, surface tension, capillarity, bulk modulus and compressibility."
+                  ]
+                },
+                {
+                  "title": "Unit II — Fluid Statics",
+                  "items": [
+                    "Pressure and Pascal's law; piezometers, manometers and gauges; hydrostatic forces on plane surfaces; buoyancy and stability of floating bodies."
+                  ]
+                },
+                {
+                  "title": "Unit III — Fluid Kinematics",
+                  "items": [
+                    "Flow classifications; streamlines, pathlines, streaklines, stream tubes; stream function, velocity potential and continuity equations."
+                  ]
+                },
+                {
+                  "title": "Unit IV — Fluid Dynamics",
+                  "items": [
+                    "Euler and Bernoulli equations; Venturimeter, orifice meter, Pitot tube; momentum principle, forces on pipe bends, vortex flow and dimensionless numbers."
+                  ]
+                },
+                {
+                  "title": "Unit V — Pipe Flow",
+                  "items": [
+                    "Darcy-Weisbach equation, pipeline energy losses, minor losses, hydraulic and energy grade lines, equivalent length, pipes in series and parallel."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "Numerical & Statistical Methods",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "title": "Universal Human Values — Understanding Harmony & Ethical Human Conduct",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "title": "Surveying Laboratory",
+              "kind": "Practical",
+              "credits": 1.5
+            },
+            {
+              "title": "Strength of Materials Laboratory",
+              "kind": "Practical",
+              "credits": 1.5
+            },
+            {
+              "title": "Building Planning and Drawing",
+              "kind": "Skill Enhancement",
+              "credits": 2
+            },
+            {
+              "title": "Environmental Science",
+              "kind": "Audit / Mandatory"
+            }
+          ]
+        },
+        {
+          "name": "I Year - I Semester",
+          "courses": [
+            {
+              "code": "R23BS01",
+              "title": "Linear Algebra & Calculus",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23BS04",
+              "title": "Engineering Chemistry",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23ES07",
+              "title": "Introduction to Programming",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23ES03",
+              "title": "Engineering Graphics",
+              "kind": "Theory / Practical",
+              "credits": 3
+            },
+            {
+              "code": "R23ES04",
+              "title": "Basic Electrical & Electronics Engineering",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23BS04",
+              "title": "Engineering Chemistry Lab",
+              "kind": "Practical",
+              "credits": 1
+            },
+            {
+              "code": "R23ES07",
+              "title": "Computer Programming Lab",
+              "kind": "Practical",
+              "credits": 1.5
+            },
+            {
+              "code": "R23ES05",
+              "title": "Electrical & Electronics Engineering Workshop",
+              "kind": "Practical",
+              "credits": 1.5
+            }
+          ]
+        },
+        {
+          "name": "I Year - II Semester",
+          "courses": [
+            {
+              "code": "R23BS02",
+              "title": "Differential Equations and Vector Calculus",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23BS03",
+              "title": "Engineering Physics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23HS01",
+              "title": "Communicative English",
+              "kind": "Theory",
+              "credits": 2
+            },
+            {
+              "code": "R23ES01",
+              "title": "Basic Civil & Mechanical Engineering",
+              "kind": "Theory",
+              "credits": 3,
+              "topics": [
+                {
+                  "title": "Unit I — Basics of Civil Engineering",
+                  "items": [
+                    "Role of civil engineers and major disciplines: structural, geotechnical and transportation engineering."
+                  ]
+                },
+                {
+                  "title": "Unit II — Surveying and Materials",
+                  "items": [
+                    "Introductory surveying; distance, angle and level measurement; basic civil materials and construction techniques."
+                  ]
+                },
+                {
+                  "title": "Unit III — Transportation Engineering",
+                  "items": [
+                    "Transportation and economic development; flexible and rigid pavements; introduction to harbour, tunnel, airport and railway engineering."
+                  ]
+                },
+                {
+                  "title": "Unit IV — Water Resources and Environment",
+                  "items": [
+                    "Water sources and quality; water quality specifications; introduction to hydrology and rainwater harvesting."
+                  ]
+                },
+                {
+                  "title": "Unit V — Water Storage and Conveyance",
+                  "items": [
+                    "Water storage and conveyance structures; introductory dams and reservoirs."
+                  ]
+                }
+              ]
+            },
+            {
+              "code": "R23PC01",
+              "title": "Engineering Mechanics",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "code": "R23PC01",
+              "title": "Engineering Mechanics & Building Practices Lab",
+              "kind": "Practical",
+              "credits": 1.5
+            }
+          ]
+        },
+        {
+          "name": "II Year - II Semester",
+          "courses": [
+            {
+              "title": "Managerial Economics and Financial Analysis",
+              "kind": "Theory",
+              "credits": 2
+            },
+            {
+              "title": "Engineering Geology",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "title": "Building Materials and Concrete Technology",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "title": "Hydraulics & Hydraulic Machinery",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "title": "Structural Analysis",
+              "kind": "Theory",
+              "credits": 3
+            },
+            {
+              "title": "Concrete Technology Laboratory",
+              "kind": "Practical",
+              "credits": 1.5
+            },
+            {
+              "title": "Engineering Geology Laboratory",
+              "kind": "Practical",
+              "credits": 1.5
+            }
+          ]
+        }
+      ]
     }
   ]
 }

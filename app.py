@@ -7289,23 +7289,9 @@ def profile_change_mobile():
 
 @app.before_request
 def enforce_mock_feedback():
-    if "student_id" not in session:
-        return None
-
-    pending_exam = session.get("mock_feedback_pending_exam")
-    if not pending_exam:
-        return None
-
-    allowed_endpoints = {
-        "static",
-        "mock_test_result",
-        "logout",
-        "logout_feedback",
-    }
-    if request.endpoint in allowed_endpoints:
-        return None
-
-    return redirect(url_for("mock_test_result", exam_slug=pending_exam))
+    """Feedback is optional/removed; never trap navigation on a result page."""
+    session.pop("mock_feedback_pending_exam", None)
+    return None
 
 
 # =========================================================
@@ -7314,39 +7300,9 @@ def enforce_mock_feedback():
 
 @app.route("/logout-feedback", methods=["GET", "POST"])
 def logout_feedback():
-    if "student_id" not in session:
-        return redirect(url_for("login"))
-
-    error = None
-
-    if request.method == "POST":
-        rating = request.form.get("rating", type=int)
-        comments = str(request.form.get("comments", "")).strip()
-
-        if rating not in range(1, 6):
-            error = "Please select a rating from 1 to 5."
-        elif not comments:
-            error = "Please enter your feedback before logging out."
-        else:
-            connection = get_db_connection()
-            connection.execute(
-                """
-                INSERT INTO mock_test_feedback
-                (student_id, exam_slug, rating, comments)
-                VALUES (?, ?, ?, ?)
-                """,
-                (session["student_id"], "logout", rating, comments)
-            )
-            connection.commit()
-            connection.close()
-            session.clear()
-            return redirect(url_for("login"))
-
-    return render_template(
-        "logout_feedback.html",
-        student_name=session.get("student_name", ""),
-        error=error
-    )
+    """Legacy URL: feedback page removed; safely sign out instead."""
+    session.clear()
+    return redirect(url_for("login"))
 
 
 # =========================================================
@@ -7361,10 +7317,8 @@ def auto_logout():
 
 @app.route("/logout")
 def logout():
-    if "student_id" not in session:
-        return redirect(url_for("login"))
-
-    return redirect(url_for("logout_feedback"))
+    session.clear()
+    return redirect(url_for("login"))
 
 
 

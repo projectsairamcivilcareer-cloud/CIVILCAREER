@@ -642,10 +642,10 @@
 
 
         <a
-            href="{{ url_for('profile') }}"
+            href="{{ url_for('mock_tests') }}"
             class="back-btn">
 
-            ← Back to Profile
+            ← Back to Mock Tests
 
         </a>
 
@@ -948,7 +948,7 @@
     <div class="actions">
 
         <a
-            href="{{ url_for('profile') }}"
+            href="{{ url_for('mock_tests') }}"
             class="btn btn-secondary">
 
             ← Back to Profile
@@ -971,6 +971,30 @@
     <!-- ==================================
          FOOTER
     ================================== -->
+
+    <section class="card" style="margin-top:24px">
+      <h2 style="margin:0 0 8px">📋 Answer Review</h2>
+      <p class="card-subtitle">Saved answers from this exact attempt.</p>
+      {% if review %}
+        {% for q in review %}
+        <article style="padding:18px 0;border-top:1px solid #e2e8f0">
+          <h3>Question {{ q.number }} · {{ q.marks }} mark(s) · {{ q.status|upper }}</h3>
+          <p style="white-space:pre-wrap;line-height:1.6">{{ q.question }}</p>
+          {% if q.option_a %}<p><b>A.</b> {{ q.option_a }}</p>{% endif %}
+          {% if q.option_b %}<p><b>B.</b> {{ q.option_b }}</p>{% endif %}
+          {% if q.option_c %}<p><b>C.</b> {{ q.option_c }}</p>{% endif %}
+          {% if q.option_d %}<p><b>D.</b> {{ q.option_d }}</p>{% endif %}
+          <p><b>Your answer:</b> {{ q.user_answer or 'Not Answered' }}</p>
+          <p><b>Correct answer:</b> {{ q.correct_answer or 'Not available' }}</p>
+          {% if q.subject or q.topic %}<p class="muted"><b>Topic:</b> {{ q.subject }}{% if q.topic %} / {{ q.topic }}{% endif %} · {{ q.difficulty_level }}</p>{% endif %}
+          {% if q.explanation %}<p><b>Explanation:</b> {{ q.explanation }}</p>{% endif %}
+          {% if q.solution %}<p><b>Solution:</b> {{ q.solution }}</p>{% endif %}
+        </article>
+        {% endfor %}
+      {% else %}
+        <p class="muted">Detailed answers are unavailable for this older attempt because it predates answer-history storage. New attempts save the full answer review.</p>
+      {% endif %}
+    </section>
 
     <div class="footer">
 

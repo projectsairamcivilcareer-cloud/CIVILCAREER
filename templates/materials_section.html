@@ -11,4 +11,5 @@
 </main>
 <script>
 (function(){const s=document.querySelector('.sidebar');if(!s)return;const b=document.createElement('button');b.type='button';b.textContent='☰';b.setAttribute('aria-label','Open menu');Object.assign(b.style,{position:'fixed',left:'14px',top:'14px',zIndex:'10003',width:'48px',height:'48px',border:0,borderRadius:'13px',background:'#0f172a',color:'#fff',fontSize:'24px',cursor:'pointer'});const o=document.createElement('div');Object.assign(o.style,{position:'fixed',inset:0,zIndex:10000,background:'rgba(2,6,23,.45)',display:'none'});Object.assign(s.style,{position:'fixed',left:0,top:0,bottom:0,width:'min(290px,86vw)',height:'100vh',overflowY:'auto',zIndex:10001,transform:'translateX(-105%)',transition:'transform .25s',background:'#0b1730'});let open=false;function render(){s.style.transform=open?'translateX(0)':'translateX(-105%)';s.style.pointerEvents=open?'auto':'none';o.style.display=open?'block':'none';b.textContent=open?'×':'☰';b.setAttribute('aria-label',open?'Close menu':'Open menu')}b.onclick=()=>{open=!open;render()};o.onclick=()=>{open=false;render()};document.body.append(o,b);s.querySelectorAll('a').forEach(a=>a.onclick=()=>{open=false;render()});render()})();
-</script></body></html>
+</script><script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
+</body></html>

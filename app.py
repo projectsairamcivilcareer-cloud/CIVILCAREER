@@ -2951,7 +2951,7 @@ def mock_test_history_list():
 # ==========================================
 
 @app.route("/mock-test-history/<int:result_id>")
-def mock_test_history(result_id):
+def mock_test_history_detail(result_id):
 
     if "student_id" not in session:
         return redirect(url_for("login"))
@@ -4393,59 +4393,6 @@ def pyq_exam_next(exam_slug):
             exam_slug=exam_slug
         )
     )
-
-# =========================================================
-# MOCK TEST HISTORY
-# =========================================================
-@app.route("/mock-test-history")
-def mock_test_history():
-    if "student_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_db_connection()
-    attempts = connection.execute(
-        """
-        SELECT id, exam_slug, exam_name, total_questions, correct,
-               wrong, unanswered, score, percentage, created_at, attempt_id
-        FROM mock_test_results
-        WHERE student_id = ?
-        ORDER BY created_at DESC, id DESC
-        LIMIT 200
-        """,
-        (session["student_id"],)
-    ).fetchall()
-    connection.close()
-
-    return render_template(
-        "mock_test_history.html",
-        student_name=session.get("student_name", ""),
-        student_education=session.get("student_education", ""),
-        attempts=attempts,
-        total_attempts=len(attempts)
-    )
-
-@app.route("/mock-test-history/<int:result_id>")
-def mock_test_history_detail(result_id):
-    if "student_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_db_connection()
-    item = connection.execute(
-        """
-        SELECT id, exam_slug, exam_name, total_questions, correct,
-               wrong, unanswered, score, percentage, created_at
-        FROM mock_test_results
-        WHERE id = ? AND student_id = ?
-        """,
-        (result_id, session["student_id"])
-    ).fetchone()
-    connection.close()
-
-    if not item:
-        abort(404)
-
-    return render_template("mock_test_history_detail.html", item=item)
-
 
 # ==========================================#
 # MOCK TEST SELECTION

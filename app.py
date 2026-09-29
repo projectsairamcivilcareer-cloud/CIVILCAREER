@@ -2870,6 +2870,73 @@ def profile():
 
 
 # ==========================================
+# STUDENT MOCK TEST HISTORY
+# ==========================================
+
+@app.route("/mock-test-history")
+def mock_test_history_list():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    results = connection.execute(
+        """
+        SELECT id, exam_name, total_questions, correct, wrong,
+               unanswered, score, percentage, created_at
+        FROM mock_test_results
+        WHERE student_id = ?
+        ORDER BY created_at DESC, id DESC
+        """,
+        (session["student_id"],)
+    ).fetchall()
+    connection.close()
+
+    rows = ""
+    for item in results:
+        rows += f"""
+        <tr>
+          <td>{item['exam_name'] or 'Mock Test'}</td>
+          <td>{item['created_at'] or '-'}</td>
+          <td>{item['total_questions'] or 0}</td>
+          <td>{item['correct'] or 0}</td>
+          <td>{item['wrong'] or 0}</td>
+          <td><strong>{item['score'] or 0}</strong></td>
+          <td>{float(item['percentage'] or 0):.1f}%</td>
+          <td><a class="view" href="/mock-test-history/{item['id']}">View details →</a></td>
+        </tr>"""
+
+    if not rows:
+        rows = '<tr><td colspan="8" class="empty">No mock-test attempts yet. Start a test to see your history here.</td></tr>'
+
+    page = """
+    <!doctype html><html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Mock Test History | Civil Career</title>
+    <style>
+    *{box-sizing:border-box}body{margin:0;background:#f1f5f9;font-family:Inter,"Segoe UI",Arial,sans-serif;color:#0f172a}
+    .wrap{max-width:1200px;margin:0 auto;padding:32px 22px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+    .back{color:#2563eb;text-decoration:none;font-weight:700}.title{font-size:clamp(25px,4vw,36px);margin:18px 0 6px}.sub{color:#64748b;margin:0}
+    .profile{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px 18px}
+    .avatar{display:grid;place-items:center;width:44px;height:44px;background:#eff6ff;border-radius:50%;font-size:22px}
+    .panel{background:#fff;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px #0f172a0a}
+    .panelhead{padding:22px 24px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+    .pill{background:#eff6ff;color:#1d4ed8;padding:8px 13px;border-radius:99px;font-size:13px;font-weight:700}
+    .tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:16px 18px;text-align:left;border-bottom:1px solid #f1f5f9;font-size:14px}th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tbody tr:hover{background:#f8fafc}.view{color:#2563eb;text-decoration:none;font-weight:700}.empty{text-align:center;padding:42px;color:#64748b}
+    .actions{display:flex;gap:10px}.btn{display:inline-block;text-decoration:none;padding:11px 16px;border-radius:10px;background:#2563eb;color:white;font-weight:700}.btn.secondary{background:#e2e8f0;color:#334155}
+    @media(max-width:600px){.wrap{padding:20px 12px}.panelhead{padding:18px}}
+    </style></head><body><main class="wrap">
+    <div class="top"><a class="back" href="/mock-tests">← Back to Mock Tests</a>
+    <div class="profile"><div class="avatar">👤</div><div><strong>__STUDENT__</strong><br><small>__EDUCATION__</small></div></div></div>
+    <h1 class="title">Mock Test History</h1><p class="sub">Review your previous attempts, scores, and detailed performance.</p>
+    <section class="panel" style="margin-top:24px"><div class="panelhead"><strong>📚 Your Attempts</strong><span class="pill">__COUNT__ attempt(s)</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Exam</th><th>Date &amp; Time</th><th>Questions</th><th>Correct</th><th>Wrong</th><th>Score</th><th>Percentage</th><th>Review</th></tr></thead><tbody>__ROWS__</tbody></table></div></section>
+    <div class="actions" style="margin-top:22px"><a class="btn" href="/mock-tests">Start a Mock Test</a><a class="btn secondary" href="/practice">Back to Practice</a></div></main></body></html>
+    """
+    page = page.replace("__STUDENT__", str(session.get("student_name", "Student"))).replace("__EDUCATION__", str(session.get("student_education", ""))).replace("__COUNT__", str(len(results))).replace("__ROWS__", rows)
+    return page
+
+
+# ==========================================
 # MOCK TEST HISTORY DETAILS
 # ==========================================
 

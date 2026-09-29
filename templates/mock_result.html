@@ -586,6 +586,171 @@
         }
 
         /* =====================================================
+           FEEDBACK
+           ===================================================== */
+
+        .feedback {
+            margin-top: 30px;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            background: #ffffff;
+            text-align: left;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .feedback-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #eff6ff;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
+
+        .feedback-header h2 {
+            margin: 0 0 5px;
+            font-size: 20px;
+            color: #0f172a;
+        }
+
+        .feedback-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .rating-title {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .feedback-rating {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-rating input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .feedback-rating label {
+            flex: 1;
+            min-width: 55px;
+            padding: 12px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #f8fafc;
+            color: #475569;
+            cursor: pointer;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .feedback-rating label:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .feedback-rating label:has(input:checked) {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.10);
+        }
+
+        .feedback-field {
+            margin-bottom: 15px;
+        }
+
+        .feedback-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .feedback textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #1e293b;
+            font: inherit;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .feedback textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .feedback textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .feedback-submit {
+            margin-top: 4px;
+            padding: 12px 20px;
+            border: 0;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .feedback-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .feedback-success {
+            margin-top: 28px;
+            padding: 18px 20px;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            background: #f0fdf4;
+            color: #166534;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .feedback-success small {
+            display: block;
+            margin-top: 5px;
+            color: #4d7c5b;
+            font-weight: normal;
+        }
+
+        /* =====================================================
            BUTTONS
            ===================================================== */
 
@@ -1080,7 +1245,7 @@
                         solve basic questions, and gradually move toward
                         higher difficulty levels.
 
-                    
+                    {% endif %}
 
                 </p>
 
@@ -1110,7 +1275,7 @@
                                     {{ (data.correct / data.total * 100)|round(0)|int }}%
                                 </li>
 
-                            
+                            {% endif %}
 
                         {% endfor %}
 
@@ -1138,7 +1303,7 @@
                                     {{ (data.correct / data.total * 100)|round(0)|int }}%
                                 </li>
 
-                            
+                            {% endif %}
 
                         {% endfor %}
 
@@ -1198,7 +1363,7 @@
 
                                 0%
 
-                            
+                            {% endif %}
 
                         </span>
 
@@ -1265,13 +1430,13 @@
 
                                     0%
 
-                                
+                                {% endif %}
 
                             </span>
 
                         </div>
 
-                        
+                        {% endif %}
 
                     {% endfor %}
 
@@ -1329,7 +1494,7 @@
 
                                 0%
 
-                            
+                            {% endif %}
 
                         </span>
 
@@ -1374,7 +1539,7 @@
                         your core Civil Engineering concepts before attempting
                         difficult mocks.
 
-                    
+                    {% endif %}
 
                 </p>
 
@@ -1428,7 +1593,7 @@
 
         </div>
 
-        
+        {% endif %}
 
 
         <!-- =================================================
@@ -1698,12 +1863,131 @@
 
 
         <!-- =================================================
+             FEEDBACK
+             ================================================= -->
+
+        {% if not feedback_submitted %}
+
+        <form
+            class="feedback"
+            method="POST"
+            action="{{ url_for('mock_test_result', exam_slug=exam_slug) }}"
+        >
+
+            <div class="feedback-header">
+
+                <div class="feedback-icon">
+                    ⭐
+                </div>
+
+                <div>
+
+                    <h2>
+                        How was your Mock Test?
+                    </h2>
+
+                    <p>
+                        Your feedback helps us improve the Civil Career
+                        mock-test experience for every student.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="feedback-field">
+
+                <label class="rating-title">
+                    Rate your test experience
+                </label>
+
+                <div class="feedback-rating">
+
+                    {% for rating in range(1, 6) %}
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="rating"
+                            value="{{ rating }}"
+                            required
+                        >
+
+                        <span>
+
+                            {% if rating == 1 %}
+                                ⭐ 1
+                            {% elif rating == 2 %}
+                                ⭐⭐ 2
+                            {% elif rating == 3 %}
+                                ⭐⭐⭐ 3
+                            {% elif rating == 4 %}
+                                ⭐⭐⭐⭐ 4
+                            {% else %}
+                                ⭐⭐⭐⭐⭐ 5
+                            {% endif %}
+
+                        </span>
+
+                    </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <div class="feedback-field">
+
+                <label for="feedback-comments">
+                    Tell us about your experience
+                </label>
+
+                <textarea
+                    id="feedback-comments"
+                    name="comments"
+                    placeholder="Was the difficulty appropriate? Were the questions useful? Tell us what you think..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="feedback-submit"
+            >
+                Submit Feedback →
+            </button>
+
+        </form>
+
+
+        {% else %}
+
+        <div class="feedback-success">
+
+            ✓ Thank you for your feedback!
+
+            <small>
+                Your response has been recorded successfully.
+            </small>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
              NAVIGATION BUTTONS
              ================================================= -->
 
         <div class="buttons">
 
-            
+            {% if feedback_submitted %}
             <button type="button" id="downloadResultPdf" class="primary" style="background:#0f766e;border:1px solid #0f766e;cursor:pointer">⬇ Download Result &amp; Answer Review PDF</button>
             <script>
             (function () {
@@ -1743,7 +2027,7 @@
             </script>
             {% else %}
             <button type="button" class="primary" disabled style="opacity:.55;cursor:not-allowed" title="Submit your feedback to enable PDF download">🔒 Submit feedback to enable PDF download</button>
-            
+            {% endif %}
 
             <a
                 href="{{ url_for('mock_tests') }}"
@@ -1796,7 +2080,7 @@
 
                 {{ item.marks }}
 
-                mark{% if item.marks != 1 %}s
+                mark{% if item.marks != 1 %}s{% endif %}
 
             </span>
 
@@ -1819,7 +2103,7 @@
                 — UNANSWERED
             </span>
 
-            
+            {% endif %}
 
         </div>
 
@@ -1842,10 +2126,10 @@
             answer-row
             {% if item.user_answer == 'A' %}
                 user-answer
-            
+            {% endif %}
             {% if item.correct_answer == 'A' %}
                 correct-answer
-            
+            {% endif %}
         ">
 
             <span class="answer-label">
@@ -1863,10 +2147,10 @@
             answer-row
             {% if item.user_answer == 'B' %}
                 user-answer
-            
+            {% endif %}
             {% if item.correct_answer == 'B' %}
                 correct-answer
-            
+            {% endif %}
         ">
 
             <span class="answer-label">
@@ -1884,10 +2168,10 @@
             answer-row
             {% if item.user_answer == 'C' %}
                 user-answer
-            
+            {% endif %}
             {% if item.correct_answer == 'C' %}
                 correct-answer
-            
+            {% endif %}
         ">
 
             <span class="answer-label">
@@ -1905,10 +2189,10 @@
             answer-row
             {% if item.user_answer == 'D' %}
                 user-answer
-            
+            {% endif %}
             {% if item.correct_answer == 'D' %}
                 correct-answer
-            
+            {% endif %}
         ">
 
             <span class="answer-label">
@@ -1936,7 +2220,7 @@
         </div>
 
 
-        
+        {% endif %}
 
 
         <!-- ANSWER SUMMARY -->
@@ -1959,7 +2243,7 @@
                     Not Answered
                 </span>
 
-            
+            {% endif %}
 
             &nbsp; | &nbsp;
 
@@ -1976,7 +2260,7 @@
 
                     {{ item.correct_answer }}
 
-                
+                {% endif %}
 
             </span>
 
@@ -1997,11 +2281,11 @@
 
             {% if item.topic %}
                 / {{ item.topic }}
-            
+            {% endif %}
 
             {% if item.difficulty_level %}
                 · {{ item.difficulty_level }}
-            
+            {% endif %}
 
             {% if item.explanation %}
 
@@ -2013,7 +2297,7 @@
 
                 {{ item.explanation }}
 
-            
+            {% endif %}
 
 
             {% if item.solution %}
@@ -2026,11 +2310,11 @@
 
                 {{ item.solution }}
 
-            
+            {% endif %}
 
         </div>
 
-        
+        {% endif %}
 
     </div>
 

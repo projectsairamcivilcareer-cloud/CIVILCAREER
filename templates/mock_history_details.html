@@ -642,7 +642,7 @@
 
 
         <a
-            href="{{ url_for('mock_tests') }}"
+            href="#" onclick="if(history.length>1){history.back();return false;}window.location.href='/mock-tests';return false;"
             class="back-btn">
 
             ← Previous Page
@@ -948,7 +948,7 @@
     <div class="actions">
 
         <a
-            href="{{ url_for('mock_tests') }}"
+            href="#" onclick="if(history.length>1){history.back();return false;}window.location.href='/mock-tests';return false;"
             class="btn btn-secondary">
 
             ← Back to Profile
@@ -957,7 +957,7 @@
 
 
         <a
-            href="{{ url_for('mock_tests') }}"
+            href="#" onclick="if(history.length>1){history.back();return false;}window.location.href='/mock-tests';return false;"
             class="btn btn-primary">
 
             Take Another Mock Test →

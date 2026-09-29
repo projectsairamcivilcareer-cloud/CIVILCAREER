@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ page_title }} | Civil Career</title><link rel="stylesheet" href="{{ url_for('static',filename='css/syllabus.css') }}?v=categorypages2"><link rel="stylesheet" href="{{ url_for('static',filename='css/global-menu.css') }}?v=categorypages2"><meta name="theme-color" content="#102b5e"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ page_title }} | Civil Career</title><link rel="stylesheet" href="{{ url_for('static',filename='css/syllabus.css') }}?v=categorypages3"><link rel="stylesheet" href="{{ url_for('static',filename='css/global-menu.css') }}?v=categorypages2"><meta name="theme-color" content="#102b5e"></head>
 <body>
 <aside class="sidebar"><div class="logo">🏗️ CIVIL CAREER</div><nav><a href="/dashboard">📊 Dashboard</a><a href="/jobs">💼 Jobs</a><a href="/syllabus" class="active">📖 Syllabus</a><a href="/materials">📚 Materials</a><a href="/notifications">🔔 Notifications</a><a href="/practice">🎯 Practice</a><a href="/profile">👤 Profile</a></nav><div class="bottom-menu"><a href="/auto-logout">🏠 Home (Logout)</a><a href="/logout">🚪 Logout</a></div></aside>
 <main class="main">
-<header class="header"><div><a href="/syllabus" class="back-link">← All syllabus categories</a><h1>{{ page_title }}</h1><p>{{ page_subtitle }}</p></div><div class="user"><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></header>
+<header class="header"><div><a href="/syllabus" class="back-link">← All syllabus categories</a><h1>{{ page_title }}</h1><p>{{ page_subtitle }}</p></div></header>
 <section class="category-hero"><div class="hero-badge">{{ category_label }}</div><h2>{{ hero_title }}</h2><p>{{ hero_text }}</p></section>
 {% if category in ['diploma','btech','gate','competitive'] %}
 <form method="get" action="{{ url_for('syllabus_category',category=category) }}" class="category-filter">

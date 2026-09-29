@@ -16,6 +16,8 @@
 </head>
 
 <body>
+<div class="menu-overlay" id="menuOverlay" onclick="toggleCivilMenu(false)"></div>
+<button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" onclick="toggleCivilMenu()">☰ <span>Menu</span></button>
 
 <aside class="sidebar">
 
@@ -459,7 +461,10 @@
     </section>
 
 </main>
-
+<script>
+function toggleCivilMenu(force){const side=document.querySelector('.sidebar');const overlay=document.getElementById('menuOverlay');const btn=document.querySelector('.mobile-menu-toggle');const open=typeof force==='boolean'?force:!side.classList.contains('mobile-open');side.classList.toggle('mobile-open',open);overlay.classList.toggle('visible',open);btn.setAttribute('aria-expanded',String(open));document.body.classList.toggle('menu-open',open);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')toggleCivilMenu(false)});
+</script>
 </body>
 
 </html>

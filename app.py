@@ -5215,6 +5215,7 @@ def mock_test(exam_slug):
     doubt_key = "mock_doubt_" + exam_slug
     fullscreen_key = "mock_fullscreen_started_" + exam_slug
     attempt_key = "mock_attempt_" + exam_slug
+    completed_result_key = "mock_completed_result_id_" + exam_slug
 
     mode_key = "mock_mode_" + exam_slug
     profile_key = "mock_profile_" + exam_slug
@@ -5282,7 +5283,10 @@ def mock_test(exam_slug):
     # DETERMINE NEW TEST
     # ==========================================
 
-    start_new = request.args.get("new") == "1"
+    start_new = (
+        request.args.get("new") == "1"
+        or bool(session.get(completed_result_key))
+    )
 
 
     # ==========================================
@@ -5347,6 +5351,9 @@ def mock_test(exam_slug):
         or order_key not in session
         or answers_key not in session
     ):
+
+        # A completed attempt must never be reused for a later test.
+        session.pop(completed_result_key, None)
 
         # --------------------------------------
         # TIMER = 180 MINUTES
@@ -6023,6 +6030,13 @@ def mock_test_result(exam_slug):
 
     if exam_slug not in MOCK_TEST_QUESTIONS:
         return "Mock test not available", 404
+
+    # A completed attempt is immutable. Re-opening its result page must
+    # show the database snapshot for that exact attempt instead of rebuilding
+    # a fresh/random question set (especially important for GATE).
+    completed_result_id = session.get("mock_completed_result_id_" + exam_slug)
+    if request.method == "GET" and completed_result_id:
+        return redirect(url_for("mock_test_history_detail", result_id=int(completed_result_id)))
 
     # =====================================================
     # FEEDBACK
@@ -6743,6 +6757,7 @@ def mock_test_result(exam_slug):
     # SAVE MOCK TEST RESULT
     # =====================================================
 
+    saved_result_id = None
     attempt_id = session.get(
         "mock_attempt_" + exam_slug
     )
@@ -6809,6 +6824,7 @@ def mock_test_result(exam_slug):
                 (attempt_id,)
             ).fetchone()
             if saved_result:
+                saved_result_id = saved_result["id"]
                 connection.execute(
                     """
                     INSERT INTO mock_test_attempt_reviews
@@ -6821,6 +6837,13 @@ def mock_test_result(exam_slug):
                 connection.commit()
 
         else:
+            existing_result = connection.execute(
+                "SELECT id FROM mock_test_results WHERE attempt_id = ?",
+                (attempt_id,)
+            ).fetchone()
+            if existing_result:
+                saved_result_id = existing_result["id"]
+
             # Backfill/update exact review for a result saved by an earlier
             # version, only when no historical review row exists.
             connection.execute(
@@ -6834,6 +6857,11 @@ def mock_test_result(exam_slug):
             connection.commit()
 
         connection.close()
+
+        if saved_result_id:
+            # Keep the saved result ID so refresh/back navigation cannot
+            # accidentally regenerate this attempt's questions/results.
+            session["mock_completed_result_id_" + exam_slug] = int(saved_result_id)
 
     # Feedback has been removed from the student mock-test workflow.
     session.pop("mock_feedback_pending_exam", None)

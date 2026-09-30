@@ -2955,7 +2955,7 @@ def mock_test_history_list():
     rows = ""
     for item in results:
         safe_exam_name = escape(str(item["exam_name"] or "Mock Test"))
-        safe_created_at = escape(str(item["created_at"] or "-"))
+        safe_created_at = escape(format_datetime_ist(item["created_at"], include_seconds=True))
         rows += f"""
         <tr>
           <td>{safe_exam_name}</td>
@@ -3214,28 +3214,36 @@ def download_mock_test_history(result_id):
     story.append(meta)
     story.append(Spacer(1, 5*mm))
 
+    # Two-row summary cards keep the four result metrics readable in every PDF viewer.
     summary_data = [
-        [Paragraph("<b>CORRECT</b><br/><font size='17'>%s</font>" % correct, styles["CCValue"]),
-         Paragraph("<b>WRONG</b><br/><font size='17'>%s</font>" % wrong, styles["CCValue"]),
-         Paragraph("<b>UNANSWERED</b><br/><font size='17'>%s</font>" % unanswered, styles["CCValue"]),
-         Paragraph("<b>PERCENTAGE</b><br/><font size='17'>%.1f%%</font>" % percentage, styles["CCValue"])]
+        [
+            Paragraph("<b>CORRECT</b><br/><font size='18'>%s</font>" % correct, styles["CCValue"]),
+            Paragraph("<b>WRONG</b><br/><font size='18'>%s</font>" % wrong, styles["CCValue"])
+        ],
+        [
+            Paragraph("<b>UNANSWERED</b><br/><font size='18'>%s</font>" % unanswered, styles["CCValue"]),
+            Paragraph("<b>PERCENTAGE</b><br/><font size='18'>%.1f%%</font>" % percentage, styles["CCValue"])
+        ]
     ]
-    summary = Table(summary_data, colWidths=[43.5*mm]*4)
+    summary = Table(summary_data, colWidths=[87*mm, 87*mm], rowHeights=[20*mm, 20*mm])
     summary.setStyle(TableStyle([
         ("BACKGROUND", (0,0), (0,0), GREEN_LIGHT),
         ("BACKGROUND", (1,0), (1,0), RED_LIGHT),
-        ("BACKGROUND", (2,0), (2,0), AMBER_LIGHT),
-        ("BACKGROUND", (3,0), (3,0), BLUE_LIGHT),
+        ("BACKGROUND", (0,1), (0,1), AMBER_LIGHT),
+        ("BACKGROUND", (1,1), (1,1), BLUE_LIGHT),
         ("BOX", (0,0), (-1,-1), 0.7, BORDER),
         ("INNERGRID", (0,0), (-1,-1), 0.5, BORDER),
         ("ALIGN", (0,0), (-1,-1), "CENTER"),
         ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
-        ("TOPPADDING", (0,0), (-1,-1), 4*mm),
-        ("BOTTOMPADDING", (0,0), (-1,-1), 4*mm),
+        ("LEFTPADDING", (0,0), (-1,-1), 4*mm),
+        ("RIGHTPADDING", (0,0), (-1,-1), 4*mm),
+        ("TOPPADDING", (0,0), (-1,-1), 3*mm),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 3*mm),
     ]))
     story.append(summary)
-    story.append(Spacer(1, 7*mm))
 
+    # Page 1 is a clean attempt summary. Detailed answer review always starts on page 2.
+    story.append(PageBreak())
     story.append(Paragraph("Saved Answer Review", styles["CCSection"]))
     story.append(HRFlowable(width="100%", thickness=1, color=TEAL, spaceAfter=7))
 
@@ -3369,7 +3377,7 @@ def download_mock_test_history(result_id):
             story.append(Spacer(1, 5*mm))
     else:
         story.append(Paragraph(
-            "Answer-by-answer review was not saved for this attempt. The summary above is the saved result.",
+            "No answer-by-answer review is stored for this historical attempt. The summary above is the saved result. New attempts save the complete question, selected answer, correct answer, status, marks, and explanations.",
             styles["CCBody"]
         ))
 

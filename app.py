@@ -587,6 +587,18 @@ def create_database():
         )
     """)
 
+    # SSC JE negative marking uses quarter marks. Keep all existing
+    # historical scores and widen only the score column to support REAL values.
+    try:
+        connection.execute("""
+            ALTER TABLE mock_test_results
+            ALTER COLUMN score TYPE REAL
+            USING score::double precision
+        """)
+        connection.commit()
+    except Exception:
+        connection.rollback()
+
     connection.execute("""
         CREATE TABLE IF NOT EXISTS mock_test_feedback (
             id BIGSERIAL PRIMARY KEY,
@@ -5460,6 +5472,64 @@ for exam_slug, exam_questions in MOCK_TEST_QUESTIONS.items():
     ]
 
 
+# SSC JE Civil CBT practice bank.
+# /pyqs/ssc-je remains the separate 5-question PYQ page.
+# This compact CBT uses 30 Civil Engineering MCQs; these added questions
+# are Civil Career practice questions, not labeled as official PYQs.
+SSC_JE_CBT_EXTRA = [
+    ("The standard Proctor test is used to determine the relationship between:", "Moisture content and dry density", "Stress and strain", "Flow and pressure", "Load and deflection", "A", "Geotechnical Engineering", "Compaction"),
+    ("Darcy's law is applicable to:", "Laminar flow through soil", "Turbulent flow in open channels", "Concrete mixing", "Steel welding", "A", "Geotechnical Engineering", "Permeability"),
+    ("The neutral axis of a homogeneous symmetrical rectangular beam passes through its:", "Top edge", "Bottom edge", "Centroid", "Corner", "C", "Strength of Materials", "Bending"),
+    ("The bending moment at an ideal simple support of a simply supported beam is:", "Zero", "Maximum", "Infinite", "Equal to shear force", "A", "Strength of Materials", "Bending Moment"),
+    ("The primary purpose of stirrups in an RCC beam is to resist:", "Shear", "Dead load only", "Temperature only", "Creep only", "A", "RCC", "Shear Reinforcement"),
+    ("The characteristic compressive strength of concrete is normally specified at an age of:", "3 days", "7 days", "28 days", "90 days", "C", "Concrete Technology", "Concrete Strength"),
+    ("The specific gravity of cement is approximately:", "1.0", "2.0", "3.15", "5.0", "C", "Construction Materials", "Cement"),
+    ("The initial setting time of ordinary Portland cement should not be less than:", "10 minutes", "30 minutes", "60 minutes", "120 minutes", "B", "Construction Materials", "Cement Setting"),
+    ("The instrument primarily used for measuring horizontal and vertical angles is:", "Theodolite", "Planimeter", "Rain gauge", "Proctor mould", "A", "Surveying", "Theodolite"),
+    ("A benchmark in surveying is a point of known:", "Bearing", "Reduced level", "Chainage only", "Area", "B", "Surveying", "Levelling"),
+    ("The hydraulic radius of an open channel is the ratio of flow area to:", "Wetted perimeter", "Top width", "Channel slope", "Hydraulic depth", "A", "Fluid Mechanics", "Open Channel Flow"),
+    ("Reynolds number is mainly used to identify the nature of:", "Soil", "Concrete", "Fluid flow", "Road pavement", "C", "Fluid Mechanics", "Flow Regime"),
+    ("Bernoulli's equation is based on conservation of:", "Mass", "Energy", "Momentum only", "Temperature", "B", "Fluid Mechanics", "Bernoulli Equation"),
+    ("BOD of wastewater is an indicator of:", "Biodegradable organic pollution", "Hardness only", "Chloride concentration only", "Turbidity only", "A", "Environmental Engineering", "Wastewater Characteristics"),
+    ("The pH of neutral water at about room temperature is approximately:", "2", "5", "7", "12", "C", "Environmental Engineering", "Water Quality"),
+    ("The main purpose of a foundation is to safely transfer structural load to:", "Roof", "Soil", "Plaster", "Ceiling", "B", "Geotechnical Engineering", "Foundations"),
+    ("A retaining wall is primarily constructed to retain:", "Soil", "Steel", "Timber", "Roof tiles", "A", "Geotechnical Engineering", "Earth Retaining Structures"),
+    ("The California Bearing Ratio (CBR) test is mainly used in:", "Pavement design", "Steel design", "Water treatment", "Concrete setting", "A", "Transportation Engineering", "Pavement Design"),
+    ("The primary function of a road pavement subgrade is to:", "Provide support to pavement layers", "Provide road markings", "Increase vehicle speed", "Store rainwater", "A", "Transportation Engineering", "Pavement Components"),
+    ("The critical path in a project network is the path having:", "Longest total duration", "Shortest duration", "Lowest cost only", "Fewest activities", "A", "Construction Management", "CPM"),
+    ("The main purpose of curing concrete is to provide suitable conditions for:", "Cement hydration", "Aggregate crushing", "Steel cutting", "Surface drying", "A", "Concrete Technology", "Curing"),
+    ("For a homogeneous isotropic material in the elastic range, Young's modulus is the ratio of:", "Normal stress to normal strain", "Shear stress to shear strain", "Load to moment", "Moment to area", "A", "Strength of Materials", "Elastic Constants"),
+    ("The process of removing entrapped air from freshly placed concrete is called:", "Compaction", "Curing", "Segregation", "Bleeding", "A", "Concrete Technology", "Compaction"),
+    ("The water-cement ratio is defined as the ratio of the weight of water to the weight of:", "Fine aggregate", "Cement", "Coarse aggregate", "Concrete", "B", "Concrete Technology", "Mix Proportioning"),
+    ("Superelevation on a horizontal road curve is provided mainly to counteract:", "Centrifugal force", "Vehicle weight only", "Rolling resistance only", "Wind pressure only", "A", "Transportation Engineering", "Superelevation"),
+]
+
+for row in SSC_JE_CBT_EXTRA:
+    question_text, option_a, option_b, option_c, option_d, correct, subject, topic = row
+    SSC_JE_MOCK_QUESTIONS = globals().get("SSC_JE_MOCK_QUESTIONS", [])
+    SSC_JE_MOCK_QUESTIONS.append({
+        "question": question_text,
+        "option_a": option_a,
+        "option_b": option_b,
+        "option_c": option_c,
+        "option_d": option_d,
+        "correct_answer": correct,
+        "subject": subject,
+        "topic": topic,
+        "explanation": "This Civil Career practice question checks the standard SSC JE Civil concept for this topic.",
+        "solution": "Select option %s." % correct,
+        "question_type": "mcq",
+        "marks": 1,
+    })
+
+# The first 5 are the existing SSC JE question set; the 25 above make the
+# compact CBT exactly 30 questions / 30 marks.
+SSC_JE_MOCK_QUESTIONS = MOCK_TEST_QUESTIONS["ssc-je"] + SSC_JE_MOCK_QUESTIONS
+for q in SSC_JE_MOCK_QUESTIONS:
+    q["marks"] = 1
+    q["question_type"] = "mcq"
+MOCK_TEST_QUESTIONS["ssc-je"] = SSC_JE_MOCK_QUESTIONS
+
 def answer_is_correct(question, user_answer):
 
     question_type = question.get("question_type", "mcq")
@@ -6570,8 +6640,9 @@ def mock_test_result(exam_slug):
 
             wrong += 1
 
-            # GATE negative marking applies only to MCQs.
-            # 1-mark MCQ: -1/3, 2-mark MCQ: -2/3.
+            # Negative marking:
+            # GATE: 1-mark MCQ = -1/3, 2-mark MCQ = -2/3.
+            # SSC JE Paper-I: -0.25 for every wrong MCQ.
             if (
                 exam_slug == "gate"
                 and question.get("question_type", "mcq") == "mcq"
@@ -6579,6 +6650,11 @@ def mock_test_result(exam_slug):
                 score -= (
                     question.get("marks", 1) / 3
                 )
+            elif (
+                exam_slug == "ssc-je"
+                and question.get("question_type", "mcq") == "mcq"
+            ):
+                score -= 0.25
 
             status = "wrong"
 
@@ -7215,7 +7291,7 @@ def mock_test_result(exam_slug):
 
         unanswered=unanswered,
 
-        score=score,
+        score=round(score, 2),
 
         percentage=percentage,
 

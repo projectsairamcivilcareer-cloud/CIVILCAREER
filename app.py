@@ -108,7 +108,7 @@ def format_date_dmy(value):
 
 WEBSITE_URL = os.environ.get(
     "WEBSITE_URL",
-    "https://civilcareer.up.railway.app"
+    "https://civilcareer.com"
 )
 
 DATA_DIR = os.environ.get(
@@ -3134,8 +3134,8 @@ def download_mock_test_history(result_id):
         pagesize=A4,
         rightMargin=15*mm,
         leftMargin=15*mm,
-        topMargin=16*mm,
-        bottomMargin=18*mm,
+        topMargin=25*mm,
+        bottomMargin=20*mm,
         title="Civil Career - Mock Test Attempt Report",
         author="Civil Career"
     )
@@ -7241,127 +7241,29 @@ def mock_test_result(exam_slug):
 # =========================================================
 @app.route("/mock-test/<exam_slug>/result.pdf")
 def mock_result_pdf(exam_slug):
+    """Download the immutable saved result for the student's latest completed attempt."""
     if "student_id" not in session:
         return redirect(url_for("login"))
     if exam_slug not in MOCK_TEST_QUESTIONS:
         return "Mock test not available", 404
 
-    if exam_slug == "gate":
-        questions = build_gate_mock(
-            session.get("mock_mode_" + exam_slug, "mixed"),
-            count=session.get("mock_count_" + exam_slug, 0) or 20,
-            profile=session.get("mock_profile_" + exam_slug, "full")
-                if session.get("mock_scope_" + exam_slug, "all") == "all" else None,
-            scope=session.get("mock_scope_" + exam_slug, "all")
-        )
-    else:
-        questions = MOCK_TEST_QUESTIONS[exam_slug]
+    connection = get_db_connection()
+    try:
+        result = connection.execute(
+            """SELECT id
+               FROM mock_test_results
+               WHERE student_id=? AND exam_slug=?
+               ORDER BY id DESC
+               LIMIT 1""",
+            (session["student_id"], exam_slug)
+        ).fetchone()
+    finally:
+        connection.close()
 
-    order = session.get("mock_order_" + exam_slug, list(range(len(questions))))
-    answers = session.get("mock_answers_" + exam_slug, {})
-    maximum = sum(questions[idx].get("marks", 1) for idx in order)
-    score = 0
-    correct = 0
-    wrong = 0
-    unanswered = 0
+    if result is None:
+        return "No saved mock-test result is available for this attempt.", 404
 
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=18*mm, leftMargin=18*mm,
-                            topMargin=22*mm, bottomMargin=20*mm,
-                            title="Civil Career Mock Test Result")
-    styles = getSampleStyleSheet()
-    title_style = ParagraphStyle("MockPdfTitle", parent=styles["Title"],
-                                 textColor=colors.HexColor("#12355B"), fontSize=19, leading=24)
-    section_style = ParagraphStyle("MockPdfSection", parent=styles["Heading2"],
-                                   textColor=colors.HexColor("#12355B"), spaceBefore=12, spaceAfter=6)
-    body_style = ParagraphStyle("MockPdfBody", parent=styles["BodyText"], fontSize=9, leading=13, spaceAfter=5)
-    story = [
-        Paragraph("CIVIL CAREER — MOCK TEST REPORT", title_style),
-        Spacer(1, 10),
-        Paragraph("<b>Test:</b> " + escape(exam_slug.replace("-", " ").upper()), body_style),
-        Paragraph("<b>Candidate:</b> " + escape(str(session.get("student_name", "Student"))), body_style),
-        Paragraph("<b>Student/User ID:</b> " + escape(str(session.get("student_id", "N/A"))), body_style),
-        Paragraph("<b>Total Questions:</b> " + str(len(order)), body_style),
-        Paragraph("<b>Maximum Marks:</b> " + str(maximum), body_style),
-    ]
-
-    for pos, qidx in enumerate(order):
-        q = questions[qidx]
-        user_answer = answers.get(str(pos))
-        correct_answer = q.get("correct_answer", q.get("answer", ""))
-        is_correct = bool(user_answer) and answer_is_correct(q, user_answer)
-        if is_correct:
-            correct += 1
-            score += q.get("marks", 1)
-        elif user_answer:
-            wrong += 1
-            if exam_slug == "gate" and q.get("question_type", "mcq") == "mcq":
-                score -= q.get("marks", 1) / 3
-        else:
-            unanswered += 1
-
-    duration_seconds = MOCK_TEST_DURATIONS.get(exam_slug, 1800)
-    started = session.get("mock_started_at_" + exam_slug)
-    elapsed = None
-    if started:
-        try:
-            elapsed = max(0, int(time.time() - float(started)))
-        except (TypeError, ValueError):
-            elapsed = None
-    duration_text = (str(elapsed // 3600) + "h " + str((elapsed % 3600) // 60) + "m")
-    if elapsed is None:
-        duration_text = str(round(duration_seconds / 60)) + " minutes (configured test duration)"
-
-    story += [
-        Paragraph("<b>Obtained Marks:</b> " + str(round(score, 2)) + " / " + str(maximum), body_style),
-        Paragraph("<b>Correct:</b> " + str(correct) + " &nbsp; <b>Wrong:</b> " + str(wrong) +
-                  " &nbsp; <b>Unanswered:</b> " + str(unanswered), body_style),
-        Paragraph("<b>Duration:</b> " + escape(duration_text), body_style),
-        Paragraph("Question Paper & Answer Review (original test order)", section_style)
-    ]
-
-    for pos, qidx in enumerate(order):
-        q = questions[qidx]
-        user_answer = answers.get(str(pos), "Not answered")
-        correct_answer = q.get("correct_answer", q.get("answer", "Not provided"))
-        story.append(Paragraph("<b>Q" + str(pos+1) + ".</b> " + escape(str(q.get("question", ""))), body_style))
-        for letter in ("a", "b", "c", "d"):
-            option = q.get("option_" + letter)
-            if option:
-                story.append(Paragraph(letter.upper() + ") " + escape(str(option)), body_style))
-        story.append(Paragraph("<b>Your answer:</b> " + escape(str(user_answer)) +
-                               " &nbsp; <b>Correct answer:</b> " + escape(str(correct_answer)), body_style))
-        explanation = q.get("explanation") or q.get("solution")
-        if explanation:
-            story.append(Paragraph("<b>Explanation:</b> " + escape(str(explanation)), body_style))
-        story.append(Spacer(1, 5))
-
-    def page_chrome(canvas, document):
-        draw_civilcareer_pdf_chrome(
-            canvas, document,
-            header_right=exam_slug.replace("-", " ").upper() + " MOCK TEST",
-            footer_label=exam_slug.replace("-", " ").upper() + " Mock Test Result"
-        )
-
-    # Build the PDF in memory and force a browser download (not inline preview).
-    doc.build(story, onFirstPage=page_chrome, onLaterPages=page_chrome)
-    buffer.seek(0)
-
-    filename = f"{exam_slug}-mock-test-result.pdf"
-    response = send_file(
-        buffer,
-        mimetype="application/pdf",
-        as_attachment=True,
-        download_name=filename,
-        conditional=False,
-        max_age=0
-    )
-    # Explicit headers help browsers/proxies treat this response as a file attachment.
-    response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
-    response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
-    return response
+    return redirect(url_for("download_mock_test_history", result_id=int(result["id"])))
 
 
 # ==============================

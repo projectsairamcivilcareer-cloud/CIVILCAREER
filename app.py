@@ -3182,7 +3182,7 @@ def download_mock_test_history(result_id):
         [Paragraph("<b>ATTEMPT ID</b><br/>%s" % escape(str(attempt_id)), styles["CCValue"]),
          Paragraph("<b>DATE & TIME</b><br/>%s" % escape(str(result["created_at"] or "-")), styles["CCValue"])],
         [Paragraph("<b>TOTAL QUESTIONS</b><br/>%s" % total, styles["CCValue"]),
-         Paragraph("<b>SCORE</b><br/>%s" % escape(str(score)), styles["CCValue"]))]
+         Paragraph("<b>SCORE</b><br/>%s" % escape(str(score)), styles["CCValue"])]
     ], colWidths=[87*mm, 87*mm])
     meta.setStyle(TableStyle([
         ("BACKGROUND", (0,0), (-1,-1), LIGHT),

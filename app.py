@@ -3073,11 +3073,98 @@ def download_mock_test_history(result_id):
             if not isinstance(item, dict):
                 story.append(Paragraph(escape(str(item)), styles["BodyText"]))
                 continue
+
             question = item.get("question") or item.get("question_text") or "Question %s" % idx
-            story.append(Paragraph("<b>Q%s. %s</b>" % (idx, escape(str(question))), styles["BodyText"]))
-            for key, label in [("selected_answer","Your answer"),("user_answer","Your answer"),("correct_answer","Correct answer"),("explanation","Explanation")]:
-                if item.get(key) not in (None, ""):
-                    story.append(Paragraph("%s: %s" % (label, escape(str(item[key]))), styles["BodyText"]))
+            story.append(
+                Paragraph("<b>Q%s. %s</b>" % (idx, escape(str(question))), styles["BodyText"])
+            )
+
+            # Show the complete saved review for this exact attempt:
+            # all options, the student's selected answer, correct answer,
+            # status, marks and the stored explanation/solution.
+            for letter in ("a", "b", "c", "d"):
+                option = item.get("option_" + letter)
+                if option not in (None, ""):
+                    story.append(
+                        Paragraph(
+                            "%s) %s" % (letter.upper(), escape(str(option))),
+                            styles["BodyText"]
+                        )
+                    )
+
+            user_answer = item.get("user_answer", item.get("selected_answer"))
+            if user_answer in (None, ""):
+                user_answer = "Not Answered"
+
+            correct_answer = item.get("correct_answer")
+            if correct_answer in (None, ""):
+                correct_answer = "Not available"
+
+            status = item.get("status")
+            if status:
+                status = str(status).replace("_", " ").title()
+
+            story.append(
+                Paragraph(
+                    "<b>Your answer:</b> %s" % escape(str(user_answer)),
+                    styles["BodyText"]
+                )
+            )
+            story.append(
+                Paragraph(
+                    "<b>Correct answer:</b> %s" % escape(str(correct_answer)),
+                    styles["BodyText"]
+                )
+            )
+
+            if status:
+                story.append(
+                    Paragraph(
+                        "<b>Status:</b> %s" % escape(status),
+                        styles["BodyText"]
+                    )
+                )
+
+            if item.get("marks") not in (None, ""):
+                story.append(
+                    Paragraph(
+                        "<b>Marks:</b> %s" % escape(str(item["marks"])),
+                        styles["BodyText"]
+                    )
+                )
+
+            if item.get("subject") or item.get("topic") or item.get("difficulty_level"):
+                topic_parts = []
+                if item.get("subject"):
+                    topic_parts.append(str(item["subject"]))
+                if item.get("topic"):
+                    topic_parts.append(str(item["topic"]))
+                if item.get("difficulty_level"):
+                    topic_parts.append(str(item["difficulty_level"]))
+                story.append(
+                    Paragraph(
+                        "<b>Topic:</b> %s" % escape(" / ".join(topic_parts)),
+                        styles["BodyText"]
+                    )
+                )
+
+            explanation = item.get("explanation")
+            solution = item.get("solution")
+            if explanation:
+                story.append(
+                    Paragraph(
+                        "<b>Explanation:</b> %s" % escape(str(explanation)),
+                        styles["BodyText"]
+                    )
+                )
+            if solution:
+                story.append(
+                    Paragraph(
+                        "<b>Solution:</b> %s" % escape(str(solution)),
+                        styles["BodyText"]
+                    )
+                )
+
             story.append(Spacer(1, 7))
     else:
         story.append(Paragraph("Answer-by-answer review was not saved for this attempt. Summary above is the saved result.", styles["BodyText"]))

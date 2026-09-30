@@ -40,7 +40,7 @@ def draw_civilcareer_pdf_chrome(canvas, document, header_right="CIVIL CAREER", f
     canvas.rotate(38)
     canvas.drawCentredString(0, 0, "CIVIL CAREER")
     canvas.setFont("Helvetica", 10)
-    canvas.drawCentredString(0, -17, WEBSITE_URL)
+    canvas.drawCentredString(0, -17, PDF_WEBSITE_URL)
     canvas.restoreState()
 
     # Header.
@@ -56,15 +56,15 @@ def draw_civilcareer_pdf_chrome(canvas, document, header_right="CIVIL CAREER", f
 
     # Footer: date/time + test/document + website on left, page number on right.
     canvas.line(18 * mm, 13 * mm, width - 18 * mm, 13 * mm)
-    timestamp = time.strftime("%d %b %Y, %I:%M %p")
-    footer_text = "%s  |  %s  |  %s" % (timestamp, str(footer_label), WEBSITE_URL)
+    timestamp = datetime.now(IST_ZONE).strftime("%d %b %Y, %I:%M %p IST")
+    footer_text = "%s  |  %s  |  %s" % (timestamp, str(footer_label), PDF_WEBSITE_URL)
     canvas.setFont("Helvetica", 7.2)
     canvas.setFillColor(colors.HexColor("#475569"))
     canvas.drawString(18 * mm, 8 * mm, footer_text)
-    website_start = footer_text.rfind(WEBSITE_URL)
+    website_start = footer_text.rfind(PDF_WEBSITE_URL)
     website_x = 18 * mm + canvas.stringWidth(footer_text[:website_start], "Helvetica", 7.2)
-    website_w = canvas.stringWidth(WEBSITE_URL, "Helvetica", 7.2)
-    canvas.linkURL(WEBSITE_URL, (website_x, 6 * mm, website_x + website_w, 11 * mm), relative=0)
+    website_w = canvas.stringWidth(PDF_WEBSITE_URL, "Helvetica", 7.2)
+    canvas.linkURL(PDF_WEBSITE_URL, (website_x, 6 * mm, website_x + website_w, 11 * mm), relative=0)
     canvas.setFont("Helvetica-Bold", 7.5)
     canvas.setFillColor(colors.HexColor("#12355B"))
     canvas.drawRightString(width - 18 * mm, 8 * mm, "Page %d" % document.page)
@@ -89,27 +89,44 @@ def add_site_date_formatter(response):
 
 @app.template_filter("date_dmy")
 def format_date_dmy(value):
-    """Display dates as DD-MM-YYYY and times in 12-hour format with AM/PM."""
+    """Display stored timestamps in Indian Standard Time (IST)."""
     if value is None or value == "":
         return "Not announced"
-    if isinstance(value, datetime):
-        return value.strftime("%d-%m-%Y %I:%M %p") if (value.hour or value.minute or value.second) else value.strftime("%d-%m-%Y")
-    if isinstance(value, date):
+    if isinstance(value, date) and not isinstance(value, datetime):
         return value.strftime("%d-%m-%Y")
-    text_value = str(value).strip()
-    if not text_value:
-        return "Not announced"
-    try:
-        parsed = datetime.fromisoformat(text_value.replace("Z", "+00:00"))
-        has_time = "T" in text_value or " " in text_value
-        return parsed.strftime("%d-%m-%Y %H:%M") if has_time else parsed.strftime("%d-%m-%Y")
-    except (TypeError, ValueError):
-        return text_value
+    formatted = format_datetime_ist(value)
+    return formatted if formatted != "Not available" else "Not announced"
+
 
 WEBSITE_URL = os.environ.get(
     "WEBSITE_URL",
     "https://civilcareer.com"
 )
+
+# Canonical public URL used in every generated PDF. Never use the Railway alias in PDF branding.
+PDF_WEBSITE_URL = "https://civilcareer.com"
+
+IST_ZONE = ZoneInfo("Asia/Kolkata")
+
+def format_datetime_ist(value, include_seconds=False):
+    """Format stored UTC timestamps as Indian Standard Time for student-facing history/PDFs."""
+    if value is None or value == "":
+        return "Not available"
+    if isinstance(value, datetime):
+        dt = value
+    else:
+        text_value = str(value).strip()
+        try:
+            dt = datetime.fromisoformat(text_value.replace("Z", "+00:00"))
+        except (TypeError, ValueError):
+            return text_value
+    # Stored naive database timestamps are UTC; convert them to IST for display.
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+    dt = dt.astimezone(IST_ZONE)
+    fmt = "%d-%m-%Y %I:%M:%S %p IST" if include_seconds else "%d-%m-%Y %I:%M %p IST"
+    return dt.strftime(fmt)
+
 
 DATA_DIR = os.environ.get(
     "CIVILCAREER_DATA_DIR"
@@ -2377,7 +2394,7 @@ def download_gate_syllabus(year):
         Spacer(1, 4),
         HRFlowable(width="100%", thickness=2, color=colors.HexColor("#2A9D8F"), spaceAfter=12),
         Paragraph(
-            "Website: " + escape(WEBSITE_URL) +
+            "Website: " + escape(PDF_WEBSITE_URL) +
             " | Use this document as the syllabus boundary for Civil Career preparation and mock tests.",
             small_style
         ),
@@ -3180,7 +3197,7 @@ def download_mock_test_history(result_id):
 
     meta = Table([
         [Paragraph("<b>ATTEMPT ID</b><br/>%s" % escape(str(attempt_id)), styles["CCValue"]),
-         Paragraph("<b>DATE & TIME</b><br/>%s" % escape(str(result["created_at"] or "-")), styles["CCValue"])],
+         Paragraph("<b>DATE & TIME</b><br/>%s" % escape(format_datetime_ist(result["created_at"], include_seconds=True)), styles["CCValue"])],
         [Paragraph("<b>TOTAL QUESTIONS</b><br/>%s" % total, styles["CCValue"]),
          Paragraph("<b>SCORE</b><br/>%s" % escape(str(score)), styles["CCValue"])]
     ], colWidths=[87*mm, 87*mm])

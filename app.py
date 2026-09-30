@@ -3030,6 +3030,7 @@ def delete_mock_test_history(result_id):
 def download_mock_test_history(result_id):
     if "student_id" not in session:
         return redirect(url_for("login"))
+
     connection = get_db_connection()
     try:
         result = connection.execute(
@@ -3043,134 +3044,331 @@ def download_mock_test_history(result_id):
         ).fetchone()
     finally:
         connection.close()
+
     if result is None:
         abort(404)
+
     try:
         review = json.loads(result["review_json"]) if result["review_json"] else []
     except (TypeError, ValueError):
         review = []
+
     buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=18*mm, leftMargin=18*mm, topMargin=18*mm, bottomMargin=18*mm)
+
+    # ------------------------------------------------------------
+    # Civil Career professional report theme
+    # ------------------------------------------------------------
+    NAVY = colors.HexColor("#0F172A")
+    SLATE = colors.HexColor("#334155")
+    MUTED = colors.HexColor("#64748B")
+    LIGHT = colors.HexColor("#F8FAFC")
+    BORDER = colors.HexColor("#E2E8F0")
+    TEAL = colors.HexColor("#0F766E")
+    TEAL_LIGHT = colors.HexColor("#CCFBF1")
+    GREEN = colors.HexColor("#15803D")
+    GREEN_LIGHT = colors.HexColor("#DCFCE7")
+    RED = colors.HexColor("#B91C1C")
+    RED_LIGHT = colors.HexColor("#FEE2E2")
+    AMBER = colors.HexColor("#B45309")
+    AMBER_LIGHT = colors.HexColor("#FEF3C7")
+    BLUE_LIGHT = colors.HexColor("#DBEAFE")
+
     styles = getSampleStyleSheet()
-    story = [Paragraph("Civil Career — Mock Test Attempt Report", styles["Title"]), Spacer(1, 8)]
-    for label, value in [
-        ("Exam", result["exam_name"] or "Mock Test"),
-        ("Attempt ID", result["id"]),
-        ("Date", result["created_at"] or "-"),
-        ("Total questions", result["total_questions"] or 0),
-        ("Correct", result["correct"] or 0),
-        ("Wrong", result["wrong"] or 0),
-        ("Unanswered", result["unanswered"] or 0),
-        ("Score", result["score"] or 0),
-        ("Percentage", "%.1f%%" % float(result["percentage"] or 0)),
-    ]:
-        story.append(Paragraph("<b>%s:</b> %s" % (escape(str(label)), escape(str(value))), styles["BodyText"]))
-        story.append(Spacer(1, 4))
-    story.append(Spacer(1, 10))
-    story.append(Paragraph("Saved Answer Review", styles["Heading2"]))
+    styles.add(ParagraphStyle(
+        name="CCCoverTitle", parent=styles["Title"], fontName="Helvetica-Bold",
+        fontSize=25, leading=30, textColor=colors.white, spaceAfter=6
+    ))
+    styles.add(ParagraphStyle(
+        name="CCCoverSub", parent=styles["Normal"], fontName="Helvetica",
+        fontSize=11, leading=16, textColor=colors.HexColor("#CBD5E1")
+    ))
+    styles.add(ParagraphStyle(
+        name="CCSection", parent=styles["Heading2"], fontName="Helvetica-Bold",
+        fontSize=15, leading=19, textColor=NAVY, spaceBefore=5, spaceAfter=8
+    ))
+    styles.add(ParagraphStyle(
+        name="CCQuestion", parent=styles["Normal"], fontName="Helvetica-Bold",
+        fontSize=10.5, leading=15, textColor=NAVY, spaceAfter=5
+    ))
+    styles.add(ParagraphStyle(
+        name="CCBody", parent=styles["BodyText"], fontName="Helvetica",
+        fontSize=9.2, leading=13.2, textColor=SLATE
+    ))
+    styles.add(ParagraphStyle(
+        name="CCSmall", parent=styles["BodyText"], fontName="Helvetica",
+        fontSize=8, leading=10.5, textColor=MUTED
+    ))
+    styles.add(ParagraphStyle(
+        name="CCOption", parent=styles["BodyText"], fontName="Helvetica",
+        fontSize=9, leading=12.5, textColor=SLATE
+    ))
+    styles.add(ParagraphStyle(
+        name="CCLabel", parent=styles["BodyText"], fontName="Helvetica-Bold",
+        fontSize=8, leading=10, textColor=MUTED
+    ))
+    styles.add(ParagraphStyle(
+        name="CCValue", parent=styles["BodyText"], fontName="Helvetica-Bold",
+        fontSize=9.2, leading=12, textColor=NAVY
+    ))
+    styles.add(ParagraphStyle(
+        name="CCExplanation", parent=styles["BodyText"], fontName="Helvetica",
+        fontSize=8.8, leading=12.5, textColor=SLATE
+    ))
+
+    def footer(canvas, doc):
+        canvas.saveState()
+        width, height = A4
+        canvas.setStrokeColor(BORDER)
+        canvas.setLineWidth(0.5)
+        canvas.line(18*mm, 13*mm, width-18*mm, 13*mm)
+        canvas.setFont("Helvetica", 7.5)
+        canvas.setFillColor(MUTED)
+        canvas.drawString(18*mm, 8.5*mm, "CIVIL CAREER  |  GATE MOCK TEST REPORT")
+        canvas.drawRightString(width-18*mm, 8.5*mm, "Page %d" % doc.page)
+        canvas.restoreState()
+
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=15*mm,
+        leftMargin=15*mm,
+        topMargin=16*mm,
+        bottomMargin=18*mm,
+        title="Civil Career - Mock Test Attempt Report",
+        author="Civil Career"
+    )
+
+    story = []
+
+    exam_name = str(result["exam_name"] or "Mock Test")
+    attempt_id = result["id"]
+    total = int(result["total_questions"] or 0)
+    correct = int(result["correct"] or 0)
+    wrong = int(result["wrong"] or 0)
+    unanswered = int(result["unanswered"] or 0)
+    score = result["score"] or 0
+    percentage = float(result["percentage"] or 0)
+
+    # Premium cover/header
+    cover = Table(
+        [[
+            Paragraph("CIVIL CAREER", styles["CCCoverTitle"]),
+            Paragraph("MOCK TEST<br/><font size='9'>ATTEMPT REPORT</font>", styles["CCCoverSub"])
+        ]],
+        colWidths=[105*mm, 65*mm],
+        rowHeights=[34*mm]
+    )
+    cover.setStyle(TableStyle([
+        ("BACKGROUND", (0,0), (-1,-1), NAVY),
+        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+        ("LEFTPADDING", (0,0), (0,0), 9*mm),
+        ("RIGHTPADDING", (0,0), (-1,-1), 8*mm),
+        ("TOPPADDING", (0,0), (-1,-1), 6*mm),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 6*mm),
+    ]))
+    story.append(cover)
+    story.append(Spacer(1, 9*mm))
+
+    story.append(Paragraph(escape(exam_name), ParagraphStyle(
+        "CCExam", parent=styles["Heading1"], fontName="Helvetica-Bold",
+        fontSize=22, leading=26, textColor=NAVY, spaceAfter=3
+    )))
+    story.append(Paragraph("Official saved attempt record", styles["CCSmall"]))
+    story.append(Spacer(1, 5*mm))
+
+    meta = Table([
+        [Paragraph("<b>ATTEMPT ID</b><br/>%s" % escape(str(attempt_id)), styles["CCValue"]),
+         Paragraph("<b>DATE & TIME</b><br/>%s" % escape(str(result["created_at"] or "-")), styles["CCValue"])],
+        [Paragraph("<b>TOTAL QUESTIONS</b><br/>%s" % total, styles["CCValue"]),
+         Paragraph("<b>SCORE</b><br/>%s", styles["CCValue"]) % score if False else Paragraph("<b>SCORE</b><br/>%s" % escape(str(score)), styles["CCValue"]))]
+    ], colWidths=[87*mm, 87*mm])
+    meta.setStyle(TableStyle([
+        ("BACKGROUND", (0,0), (-1,-1), LIGHT),
+        ("BOX", (0,0), (-1,-1), 0.7, BORDER),
+        ("INNERGRID", (0,0), (-1,-1), 0.5, BORDER),
+        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+        ("LEFTPADDING", (0,0), (-1,-1), 5*mm),
+        ("RIGHTPADDING", (0,0), (-1,-1), 5*mm),
+        ("TOPPADDING", (0,0), (-1,-1), 4*mm),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 4*mm),
+    ]))
+    story.append(meta)
+    story.append(Spacer(1, 5*mm))
+
+    summary_data = [
+        [Paragraph("<b>CORRECT</b><br/><font size='17'>%s</font>" % correct, styles["CCValue"]),
+         Paragraph("<b>WRONG</b><br/><font size='17'>%s</font>" % wrong, styles["CCValue"]),
+         Paragraph("<b>UNANSWERED</b><br/><font size='17'>%s</font>" % unanswered, styles["CCValue"]),
+         Paragraph("<b>PERCENTAGE</b><br/><font size='17'>%.1f%%</font>" % percentage, styles["CCValue"])]
+    ]
+    summary = Table(summary_data, colWidths=[43.5*mm]*4)
+    summary.setStyle(TableStyle([
+        ("BACKGROUND", (0,0), (0,0), GREEN_LIGHT),
+        ("BACKGROUND", (1,0), (1,0), RED_LIGHT),
+        ("BACKGROUND", (2,0), (2,0), AMBER_LIGHT),
+        ("BACKGROUND", (3,0), (3,0), BLUE_LIGHT),
+        ("BOX", (0,0), (-1,-1), 0.7, BORDER),
+        ("INNERGRID", (0,0), (-1,-1), 0.5, BORDER),
+        ("ALIGN", (0,0), (-1,-1), "CENTER"),
+        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+        ("TOPPADDING", (0,0), (-1,-1), 4*mm),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 4*mm),
+    ]))
+    story.append(summary)
+    story.append(Spacer(1, 7*mm))
+
+    story.append(Paragraph("Saved Answer Review", styles["CCSection"]))
+    story.append(HRFlowable(width="100%", thickness=1, color=TEAL, spaceAfter=7))
+
     if isinstance(review, list) and review:
         for idx, item in enumerate(review, 1):
             if not isinstance(item, dict):
-                story.append(Paragraph(escape(str(item)), styles["BodyText"]))
+                story.append(Paragraph(escape(str(item)), styles["CCBody"]))
                 continue
 
             question = item.get("question") or item.get("question_text") or "Question %s" % idx
-            story.append(
-                Paragraph("<b>Q%s. %s</b>" % (idx, escape(str(question))), styles["BodyText"])
-            )
 
-            # Show the complete saved review for this exact attempt:
-            # all options, the student's selected answer, correct answer,
-            # status, marks and the stored explanation/solution.
+            option_rows = []
             for letter in ("a", "b", "c", "d"):
                 option = item.get("option_" + letter)
                 if option not in (None, ""):
-                    story.append(
-                        Paragraph(
-                            "%s) %s" % (letter.upper(), escape(str(option))),
-                            styles["BodyText"]
-                        )
-                    )
+                    option_rows.append([
+                        Paragraph("<b>%s)</b>" % letter.upper(), styles["CCOption"]),
+                        Paragraph(escape(str(option)), styles["CCOption"])
+                    ])
 
             user_answer = item.get("user_answer", item.get("selected_answer"))
             if user_answer in (None, ""):
                 user_answer = "Not Answered"
-
             correct_answer = item.get("correct_answer")
             if correct_answer in (None, ""):
                 correct_answer = "Not available"
+            status = str(item.get("status") or "unanswered").replace("_", " ").title()
 
-            status = item.get("status")
-            if status:
-                status = str(status).replace("_", " ").title()
+            status_bg = GREEN_LIGHT if status.lower() == "correct" else RED_LIGHT if status.lower() == "wrong" else AMBER_LIGHT
 
-            story.append(
-                Paragraph(
-                    "<b>Your answer:</b> %s" % escape(str(user_answer)),
-                    styles["BodyText"]
-                )
-            )
-            story.append(
-                Paragraph(
-                    "<b>Correct answer:</b> %s" % escape(str(correct_answer)),
-                    styles["BodyText"]
-                )
-            )
+            q_header = Table([[
+                Paragraph("<b>Q%s</b>" % idx, ParagraphStyle(
+                    "CCQNo", parent=styles["Normal"], fontName="Helvetica-Bold",
+                    fontSize=11, textColor=colors.white, alignment=1
+                )),
+                Paragraph(escape(str(question)), styles["CCQuestion"])
+            ]], colWidths=[13*mm, 161*mm])
+            q_header.setStyle(TableStyle([
+                ("BACKGROUND", (0,0), (0,0), TEAL),
+                ("BACKGROUND", (1,0), (1,0), LIGHT),
+                ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+                ("LEFTPADDING", (0,0), (0,0), 2*mm),
+                ("RIGHTPADDING", (0,0), (-1,-1), 3*mm),
+                ("TOPPADDING", (0,0), (-1,-1), 3*mm),
+                ("BOTTOMPADDING", (0,0), (-1,-1), 3*mm),
+                ("BOX", (0,0), (-1,-1), 0.7, BORDER),
+            ]))
+            story.append(q_header)
+            story.append(Spacer(1, 2*mm))
 
-            if status:
-                story.append(
-                    Paragraph(
-                        "<b>Status:</b> %s" % escape(status),
-                        styles["BodyText"]
-                    )
-                )
+            if option_rows:
+                options_table = Table(option_rows, colWidths=[11*mm, 163*mm])
+                options_table.setStyle(TableStyle([
+                    ("BACKGROUND", (0,0), (-1,-1), colors.white),
+                    ("BOX", (0,0), (-1,-1), 0.5, BORDER),
+                    ("INNERGRID", (0,0), (-1,-1), 0.3, BORDER),
+                    ("VALIGN", (0,0), (-1,-1), "TOP"),
+                    ("LEFTPADDING", (0,0), (-1,-1), 2.5*mm),
+                    ("RIGHTPADDING", (0,0), (-1,-1), 2.5*mm),
+                    ("TOPPADDING", (0,0), (-1,-1), 2*mm),
+                    ("BOTTOMPADDING", (0,0), (-1,-1), 2*mm),
+                ]))
+                story.append(options_table)
+                story.append(Spacer(1, 2*mm))
 
-            if item.get("marks") not in (None, ""):
-                story.append(
-                    Paragraph(
-                        "<b>Marks:</b> %s" % escape(str(item["marks"])),
-                        styles["BodyText"]
-                    )
-                )
+            answer_table = Table([[
+                Paragraph("<b>Your Answer</b><br/>%s" % escape(str(user_answer)), styles["CCBody"]),
+                Paragraph("<b>Correct Answer</b><br/>%s" % escape(str(correct_answer)), styles["CCBody"]),
+                Paragraph("<b>Status</b><br/>%s" % escape(status), styles["CCBody"]),
+                Paragraph("<b>Marks</b><br/>%s" % escape(str(item.get("marks", "-"))), styles["CCBody"])
+            ]], colWidths=[43.5*mm]*4)
+            answer_table.setStyle(TableStyle([
+                ("BACKGROUND", (0,0), (-1,-1), LIGHT),
+                ("BACKGROUND", (2,0), (2,0), status_bg),
+                ("BOX", (0,0), (-1,-1), 0.5, BORDER),
+                ("INNERGRID", (0,0), (-1,-1), 0.3, BORDER),
+                ("VALIGN", (0,0), (-1,-1), "TOP"),
+                ("LEFTPADDING", (0,0), (-1,-1), 2.5*mm),
+                ("RIGHTPADDING", (0,0), (-1,-1), 2.5*mm),
+                ("TOPPADDING", (0,0), (-1,-1), 2.5*mm),
+                ("BOTTOMPADDING", (0,0), (-1,-1), 2.5*mm),
+            ]))
+            story.append(answer_table)
 
-            if item.get("subject") or item.get("topic") or item.get("difficulty_level"):
-                topic_parts = []
-                if item.get("subject"):
-                    topic_parts.append(str(item["subject"]))
-                if item.get("topic"):
-                    topic_parts.append(str(item["topic"]))
-                if item.get("difficulty_level"):
-                    topic_parts.append(str(item["difficulty_level"]))
-                story.append(
-                    Paragraph(
-                        "<b>Topic:</b> %s" % escape(" / ".join(topic_parts)),
-                        styles["BodyText"]
-                    )
-                )
+            topic_parts = []
+            if item.get("subject"):
+                topic_parts.append(str(item["subject"]))
+            if item.get("topic"):
+                topic_parts.append(str(item["topic"]))
+            if item.get("difficulty_level"):
+                topic_parts.append(str(item["difficulty_level"]))
+            if topic_parts:
+                story.append(Spacer(1, 2*mm))
+                story.append(Paragraph(
+                    "<b>Topic:</b> %s" % escape("  •  ".join(topic_parts)),
+                    styles["CCSmall"]
+                ))
 
             explanation = item.get("explanation")
             solution = item.get("solution")
             if explanation:
-                story.append(
-                    Paragraph(
-                        "<b>Explanation:</b> %s" % escape(str(explanation)),
-                        styles["BodyText"]
-                    )
-                )
-            if solution:
-                story.append(
-                    Paragraph(
-                        "<b>Solution:</b> %s" % escape(str(solution)),
-                        styles["BodyText"]
-                    )
-                )
+                story.append(Spacer(1, 2*mm))
+                expl = Table([[
+                    Paragraph("<b>EXPLANATION</b><br/>%s" % escape(str(explanation)), styles["CCExplanation"])
+                ]], colWidths=[174*mm])
+                expl.setStyle(TableStyle([
+                    ("BACKGROUND", (0,0), (-1,-1), TEAL_LIGHT),
+                    ("BOX", (0,0), (-1,-1), 0.5, BORDER),
+                    ("LEFTPADDING", (0,0), (-1,-1), 3*mm),
+                    ("RIGHTPADDING", (0,0), (-1,-1), 3*mm),
+                    ("TOPPADDING", (0,0), (-1,-1), 2.5*mm),
+                    ("BOTTOMPADDING", (0,0), (-1,-1), 2.5*mm),
+                ]))
+                story.append(expl)
 
-            story.append(Spacer(1, 7))
+            if solution:
+                story.append(Spacer(1, 2*mm))
+                sol = Table([[
+                    Paragraph("<b>SOLUTION</b><br/>%s" % escape(str(solution)), styles["CCExplanation"])
+                ]], colWidths=[174*mm])
+                sol.setStyle(TableStyle([
+                    ("BACKGROUND", (0,0), (-1,-1), LIGHT),
+                    ("BOX", (0,0), (-1,-1), 0.5, BORDER),
+                    ("LEFTPADDING", (0,0), (-1,-1), 3*mm),
+                    ("RIGHTPADDING", (0,0), (-1,-1), 3*mm),
+                    ("TOPPADDING", (0,0), (-1,-1), 2.5*mm),
+                    ("BOTTOMPADDING", (0,0), (-1,-1), 2.5*mm),
+                ]))
+                story.append(sol)
+
+            story.append(Spacer(1, 5*mm))
     else:
-        story.append(Paragraph("Answer-by-answer review was not saved for this attempt. Summary above is the saved result.", styles["BodyText"]))
-    doc.build(story)
+        story.append(Paragraph(
+            "Answer-by-answer review was not saved for this attempt. The summary above is the saved result.",
+            styles["CCBody"]
+        ))
+
+    story.append(Spacer(1, 3*mm))
+    story.append(HRFlowable(width="100%", thickness=0.7, color=BORDER, spaceBefore=4, spaceAfter=5))
+    story.append(Paragraph(
+        "Generated by Civil Career • This report reflects the saved attempt data and answer review for this attempt.",
+        styles["CCSmall"]
+    ))
+
+    doc.build(story, onFirstPage=footer, onLaterPages=footer)
     buffer.seek(0)
-    return send_file(buffer, as_attachment=True, download_name="mock_attempt_%s.pdf" % result_id, mimetype="application/pdf")
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name="mock_attempt_%s.pdf" % result_id,
+        mimetype="application/pdf"
+    )
 
 
 @app.route("/mock-test-history/<int:result_id>")

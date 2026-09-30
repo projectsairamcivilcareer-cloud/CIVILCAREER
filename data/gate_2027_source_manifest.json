@@ -1,0 +1,13 @@
+{
+  "gate_2027": {
+    "civil_syllabus_source": "SYALLABUS.docx",
+    "general_aptitude_source": "GA_GATE2027_Syllabus.pdf"
+  },
+  "pyq_archive": {
+    "uploaded_archive": "iLoveZIP_Create.zip",
+    "pdf_count": 18,
+    "years_present": [2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+    "shifts_present": ["shift-1", "shift-2"],
+    "note": "The archive is used as the source set for PYQ-backed mock generation. Scanned/image-only papers are retained as source metadata and are not silently reconstructed."
+  }
+}

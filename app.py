@@ -5504,9 +5504,9 @@ SSC_JE_CBT_EXTRA = [
     ("Superelevation on a horizontal road curve is provided mainly to counteract:", "Centrifugal force", "Vehicle weight only", "Rolling resistance only", "Wind pressure only", "A", "Transportation Engineering", "Superelevation"),
 ]
 
+SSC_JE_MOCK_QUESTIONS = []
 for row in SSC_JE_CBT_EXTRA:
     question_text, option_a, option_b, option_c, option_d, correct, subject, topic = row
-    SSC_JE_MOCK_QUESTIONS = globals().get("SSC_JE_MOCK_QUESTIONS", [])
     SSC_JE_MOCK_QUESTIONS.append({
         "question": question_text,
         "option_a": option_a,

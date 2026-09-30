@@ -2,7 +2,8 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diploma Civil Engineering | Civil Career</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/exams.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/diploma.css') }}">
-<style>.data-note{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px;margin:20px 0}.subject-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.subject-card{min-width:0}@media(max-width:900px){.subject-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.subject-grid{grid-template-columns:1fr}}</style></head><body>
+<style>.data-note{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px;margin:20px 0}.subject-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.subject-card{min-width:0}@media(max-width:900px){.subject-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.subject-grid{grid-template-columns:1fr}}</style><link rel="stylesheet" href="{{ url_for('static', filename='css/global-menu.css', v='20260930menu4') }}">
+</head><body>
 <aside class="sidebar"><div class="dashboard-logo">🏗️ <span>CIVIL CAREER</span></div><nav class="sidebar-menu"><a href="/dashboard">📊 Dashboard</a><a href="{{ url_for('government_jobs') }}">🏛️ Government Jobs</a><a href="{{ url_for('syllabus') }}">📖 Syllabus</a><a href="{{ url_for('materials') }}">📚 Materials</a><a href="{{ url_for('notifications') }}">🔔 Notifications</a><a href="{{ url_for('practice') }}">🎯 Practice</a><a href="{{ url_for('profile') }}">👤 Profile</a></nav><div class="sidebar-bottom"><a href="/dashboard">🏠 Dashboard</a><a href="/logout">🚪 Logout</a></div></aside>
 <main class="dashboard-main"><header class="topbar"><div><h1>Diploma Civil Engineering</h1><p>Common Civil Engineering diploma study framework.</p></div><div class="student-info"><div class="student-avatar">{% if profile_photo %}<img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Profile photo">{% else %}👤{% endif %}</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div></header>
 <section class="diploma-hero"><div class="diploma-hero-icon">🎓</div><div><h2>Diploma Civil Engineering</h2><p>Build practical and technical foundations for further study, site work and competitive examinations.</p></div></section>
@@ -20,20 +21,6 @@
 <a href="/subject-practice/construction-management" class="subject-card"><div class="subject-number">10</div><div class="subject-icon">📊</div><h3>Estimation & Construction Management</h3><p>Estimation, costing, planning, scheduling and site management.</p></a>
 </div></section>
 <section class="dashboard-section"><div class="core-subject-box"><h2>🎯 Diploma → Higher Study / Career</h2><p>Use your board's official curriculum for academic exams, then build additional preparation for B.Tech lateral entry, GATE eligibility where applicable, JE/technical recruitment and site careers.</p></div></section>
-</main><script id="cc-sidebar-drawer">
-(function(){
- if(document.body.classList.contains('cc-nav-ready'))return;
- document.body.classList.add('cc-nav-ready');
- const sidebar=document.querySelector('.sidebar');if(!sidebar)return;
- const overlay=document.createElement('div');overlay.className='cc-nav-overlay';overlay.setAttribute('aria-hidden','true');
- const button=document.createElement('button');button.className='cc-nav-trigger';button.type='button';button.textContent='☰';button.setAttribute('aria-label','Open navigation menu');button.setAttribute('aria-expanded','false');
- document.body.append(overlay,button);
- function close(){document.body.classList.remove('cc-nav-open');button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation menu');button.textContent='☰';}
- function toggle(){const open=document.body.classList.toggle('cc-nav-open');button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');button.textContent=open?'×':'☰';}
- button.addEventListener('click',toggle);overlay.addEventListener('click',close);
- document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
- sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
-})();
-</script>
+</main><script src="{{ url_for('static', filename='js/global-menu.js', v='20260930menu4') }}" defer></script>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body></html>

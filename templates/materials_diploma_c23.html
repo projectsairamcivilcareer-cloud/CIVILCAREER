@@ -34,9 +34,10 @@
     @media(max-width:980px){.c23-form{grid-template-columns:1fr 1fr}.c23-form button{grid-column:1/-1;width:100%}}
     @media(max-width:650px){.c23-form{grid-template-columns:1fr;padding:16px}.c23-form button{grid-column:auto}.c23-hero{border-radius:16px}.c23-links{flex-direction:column}.c23-links .c23-btn{width:100%}}
   </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/global-menu.css', v='20260930menu4') }}">
 </head>
 <body>
-<button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" onclick="toggleCivilMenu()">☰ Menu</button><div class="menu-backdrop" onclick="toggleCivilMenu(false)"></div>
+
 <aside class="sidebar" id="civil-sidebar">
   <div class="logo">🏗️ CIVIL CAREER</div>
   <nav>
@@ -80,7 +81,7 @@
     </section>
   </div>
 </main>
-<script>function toggleCivilMenu(force){const s=document.getElementById("civil-sidebar"),b=document.querySelector(".mobile-menu-toggle"),back=document.querySelector(".menu-backdrop");const open=typeof force==="boolean"?force:!s.classList.contains("menu-open");s.classList.toggle("menu-open",open);back.classList.toggle("show",open);b.setAttribute("aria-expanded",String(open));}document.querySelectorAll("#civil-sidebar a").forEach(a=>a.addEventListener("click",()=>toggleCivilMenu(false)));</script>
+<script src="{{ url_for('static', filename='js/global-menu.js', v='20260930menu4') }}" defer></script>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body>
 </html>

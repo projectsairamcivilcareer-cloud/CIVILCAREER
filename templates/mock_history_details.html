@@ -672,7 +672,7 @@
                 </p>
 
                 <p>
-                    Attempted on {{ result["created_at"] }}
+                    Attempted on {{ result["created_at"]|date_dmy }}
                 </p>
 
             </div>
@@ -951,7 +951,7 @@
             href="#" onclick="if(history.length>1){history.back();return false;}window.location.href='/mock-tests';return false;"
             class="btn btn-secondary">
 
-            ← Back to Profile
+            ← Back to Mock Tests
 
         </a>
 

@@ -10,15 +10,12 @@
 
     <title>Mock Tests | Civil Career</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/mock_tests.css') }}?v=20260929newmenu1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mock_tests.css') }}?v=20260929newmenu1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global-menu.css', v='20260930menu4') }}">
 
 </head>
 
 <body>
-<div class="menu-overlay" id="menuOverlay" onclick="toggleCivilMenu(false)"></div>
-<button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" onclick="toggleCivilMenu()">☰ <span>Menu</span></button>
-
 <aside class="sidebar">
 
     <div class="logo">
@@ -461,10 +458,7 @@
     </section>
 
 </main>
-<script>
-function toggleCivilMenu(force){const side=document.querySelector('.sidebar');const overlay=document.getElementById('menuOverlay');const btn=document.querySelector('.mobile-menu-toggle');const open=typeof force==='boolean'?force:!side.classList.contains('mobile-open');side.classList.toggle('mobile-open',open);overlay.classList.toggle('visible',open);btn.setAttribute('aria-expanded',String(open));document.body.classList.toggle('menu-open',open);}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')toggleCivilMenu(false)});
-</script>
+<script src="{{ url_for('static', filename='js/global-menu.js', v='20260930menu4') }}" defer></script>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body>
 

@@ -26,6 +26,50 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, HRFlowable
+
+def draw_civilcareer_pdf_chrome(canvas, document, header_right="CIVIL CAREER", footer_label="Civil Career"):
+    """Common Civil Career PDF watermark, header and footer used by every generated PDF."""
+    canvas.saveState()
+    width, height = A4
+
+    # Diagonal brand watermark on every page.
+    canvas.saveState()
+    canvas.setFillColor(colors.HexColor("#E7EDF3"))
+    canvas.setFont("Helvetica-Bold", 38)
+    canvas.translate(width / 2, height / 2)
+    canvas.rotate(38)
+    canvas.drawCentredString(0, 0, "CIVIL CAREER")
+    canvas.setFont("Helvetica", 10)
+    canvas.drawCentredString(0, -17, WEBSITE_URL)
+    canvas.restoreState()
+
+    # Header.
+    canvas.setStrokeColor(colors.HexColor("#D9E2EC"))
+    canvas.setLineWidth(0.6)
+    canvas.line(18 * mm, height - 17 * mm, width - 18 * mm, height - 17 * mm)
+    canvas.setFont("Helvetica-Bold", 8)
+    canvas.setFillColor(colors.HexColor("#12355B"))
+    canvas.drawString(18 * mm, height - 12 * mm, "CIVIL CAREER")
+    canvas.setFont("Helvetica-Bold", 8)
+    canvas.setFillColor(colors.HexColor("#475569"))
+    canvas.drawRightString(width - 18 * mm, height - 12 * mm, str(header_right))
+
+    # Footer: date/time + test/document + website on left, page number on right.
+    canvas.line(18 * mm, 13 * mm, width - 18 * mm, 13 * mm)
+    timestamp = time.strftime("%d %b %Y, %I:%M %p")
+    footer_text = "%s  |  %s  |  %s" % (timestamp, str(footer_label), WEBSITE_URL)
+    canvas.setFont("Helvetica", 7.2)
+    canvas.setFillColor(colors.HexColor("#475569"))
+    canvas.drawString(18 * mm, 8 * mm, footer_text)
+    website_start = footer_text.rfind(WEBSITE_URL)
+    website_x = 18 * mm + canvas.stringWidth(footer_text[:website_start], "Helvetica", 7.2)
+    website_w = canvas.stringWidth(WEBSITE_URL, "Helvetica", 7.2)
+    canvas.linkURL(WEBSITE_URL, (website_x, 6 * mm, website_x + website_w, 11 * mm), relative=0)
+    canvas.setFont("Helvetica-Bold", 7.5)
+    canvas.setFillColor(colors.HexColor("#12355B"))
+    canvas.drawRightString(width - 18 * mm, 8 * mm, "Page %d" % document.page)
+    canvas.restoreState()
+
 from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_difficulty_mode
 
 app = Flask(__name__)
@@ -2247,8 +2291,19 @@ def download_syllabus_category_pdf(category):
     else:
         story.append(Paragraph("Verified syllabus content for this exact selection has not yet been added. This PDF is a status sheet, not a substitute syllabus.",styles["Heading2"]))
     output=BytesIO()
-    doc=SimpleDocTemplate(output,pagesize=A4,rightMargin=18*mm,leftMargin=18*mm,topMargin=18*mm,bottomMargin=18*mm,title=title)
-    doc.build(story)
+    doc=SimpleDocTemplate(
+        output, pagesize=A4, rightMargin=18*mm, leftMargin=18*mm,
+        topMargin=25*mm, bottomMargin=20*mm, title=title, author="Civil Career"
+    )
+    doc.build(
+        story,
+        onFirstPage=lambda canvas, document: draw_civilcareer_pdf_chrome(
+            canvas, document, header_right=title, footer_label=title
+        ),
+        onLaterPages=lambda canvas, document: draw_civilcareer_pdf_chrome(
+            canvas, document, header_right=title, footer_label=title
+        )
+    )
     output.seek(0)
     return send_file(output,as_attachment=True,download_name=f"civilcareer_{category}_syllabus.pdf",mimetype="application/pdf")
 
@@ -2296,59 +2351,11 @@ def download_gate_syllabus(year):
     )
 
     def draw_page_chrome(canvas, document):
-        canvas.saveState()
-        width, height = A4
-
-        # Light diagonal watermark on every PDF page.
-        canvas.setFillColor(colors.HexColor("#E5EBF2"))
-        canvas.setFont("Helvetica-Bold", 34)
-        canvas.translate(width / 2, height / 2)
-        canvas.rotate(38)
-        canvas.drawCentredString(0, 0, "CIVIL CAREER")
-        canvas.setFont("Helvetica", 12)
-        canvas.drawCentredString(0, -18, WEBSITE_URL)
-        canvas.restoreState()
-
-        canvas.saveState()
-        canvas.setStrokeColor(colors.HexColor("#D9E2EC"))
-        canvas.setLineWidth(0.6)
-        canvas.line(18 * mm, height - 17 * mm, width - 18 * mm, height - 17 * mm)
-
-        canvas.setFont("Helvetica-Bold", 8)
-        canvas.setFillColor(colors.HexColor("#12355B"))
-        canvas.drawString(18 * mm, height - 12 * mm, "CIVIL CAREER")
-
-        canvas.setFont("Helvetica", 8)
-        canvas.setFillColor(colors.HexColor("#64748B"))
-        canvas.drawRightString(
-            width - 18 * mm,
-            height - 12 * mm,
-            "GATE " + year + " | Civil Engineering"
+        draw_civilcareer_pdf_chrome(
+            canvas, document,
+            header_right="GATE " + year + " | Civil Engineering",
+            footer_label="GATE " + year + " Civil Engineering Syllabus"
         )
-
-        canvas.line(18 * mm, 13 * mm, width - 18 * mm, 13 * mm)
-
-        canvas.setFont("Helvetica-Bold", 7.5)
-        canvas.setFillColor(colors.HexColor("#12355B"))
-        footer_text = "Civil Career | " + WEBSITE_URL
-        canvas.drawString(18 * mm, 8 * mm, footer_text)
-
-        # Make the visible website address clickable in PDF viewers.
-        website_width = canvas.stringWidth(footer_text, "Helvetica-Bold", 7.5)
-        canvas.linkURL(
-            WEBSITE_URL,
-            (18 * mm, 6 * mm, 18 * mm + website_width, 12 * mm),
-            relative=0
-        )
-
-        canvas.setFont("Helvetica", 8)
-        canvas.setFillColor(colors.HexColor("#64748B"))
-        canvas.drawRightString(
-            width - 18 * mm,
-            8 * mm,
-            "Page " + str(canvas.getPageNumber())
-        )
-        canvas.restoreState()
 
     subject_summary = [[
         Paragraph("SECTION", label_style),
@@ -3116,16 +3123,11 @@ def download_mock_test_history(result_id):
     ))
 
     def footer(canvas, doc):
-        canvas.saveState()
-        width, height = A4
-        canvas.setStrokeColor(BORDER)
-        canvas.setLineWidth(0.5)
-        canvas.line(18*mm, 13*mm, width-18*mm, 13*mm)
-        canvas.setFont("Helvetica", 7.5)
-        canvas.setFillColor(MUTED)
-        canvas.drawString(18*mm, 8.5*mm, "CIVIL CAREER  |  GATE MOCK TEST REPORT")
-        canvas.drawRightString(width-18*mm, 8.5*mm, "Page %d" % doc.page)
-        canvas.restoreState()
+        draw_civilcareer_pdf_chrome(
+            canvas, doc,
+            header_right=exam_name,
+            footer_label=exam_name + " Mock Test Attempt"
+        )
 
     doc = SimpleDocTemplate(
         buffer,
@@ -3180,7 +3182,7 @@ def download_mock_test_history(result_id):
         [Paragraph("<b>ATTEMPT ID</b><br/>%s" % escape(str(attempt_id)), styles["CCValue"]),
          Paragraph("<b>DATE & TIME</b><br/>%s" % escape(str(result["created_at"] or "-")), styles["CCValue"])],
         [Paragraph("<b>TOTAL QUESTIONS</b><br/>%s" % total, styles["CCValue"]),
-         Paragraph("<b>SCORE</b><br/>%s", styles["CCValue"]) % score if False else Paragraph("<b>SCORE</b><br/>%s" % escape(str(score)), styles["CCValue"]))]
+         Paragraph("<b>SCORE</b><br/>%s" % escape(str(score)), styles["CCValue"]))]
     ], colWidths=[87*mm, 87*mm])
     meta.setStyle(TableStyle([
         ("BACKGROUND", (0,0), (-1,-1), LIGHT),
@@ -7335,14 +7337,11 @@ def mock_result_pdf(exam_slug):
         story.append(Spacer(1, 5))
 
     def page_chrome(canvas, document):
-        canvas.saveState()
-        w, h = A4
-        canvas.setFont("Helvetica-Bold", 8)
-        canvas.setFillColor(colors.HexColor("#12355B"))
-        canvas.drawString(18*mm, h-13*mm, "CIVIL CAREER | MOCK TEST REPORT")
-        canvas.setFont("Helvetica", 8)
-        canvas.drawRightString(w-18*mm, 10*mm, "Page " + str(document.page))
-        canvas.restoreState()
+        draw_civilcareer_pdf_chrome(
+            canvas, document,
+            header_right=exam_slug.replace("-", " ").upper() + " MOCK TEST",
+            footer_label=exam_slug.replace("-", " ").upper() + " Mock Test Result"
+        )
 
     # Build the PDF in memory and force a browser download (not inline preview).
     doc.build(story, onFirstPage=page_chrome, onLaterPages=page_chrome)
@@ -8050,11 +8049,12 @@ def subject_notes_pdf(subject_slug):
     for topic,concept,example in data["topics"]:
         story += [Paragraph(escape(topic),heading),Paragraph(escape(concept),body),Paragraph("<b>Practice / solved example:</b> "+escape(example),body)]
     story += [Spacer(1,12),Paragraph("Academic note: These are original learning notes for revision. They are not a substitute for the current official syllabus, codes, standards or institution-issued study material. Verify applicable editions and specifications.",body)]
-    def chrome(canvas,doc):
-        canvas.saveState();w,h=A4
-        canvas.setStrokeColor(colors.HexColor("#D9E2EC"));canvas.line(18*mm,h-17*mm,w-18*mm,h-17*mm)
-        canvas.setFont("Helvetica-Bold",8);canvas.setFillColor(colors.HexColor("#12355B"));canvas.drawString(18*mm,h-12*mm,"CIVIL CAREER")
-        canvas.line(18*mm,15*mm,w-18*mm,15*mm);canvas.setFont("Helvetica",8);canvas.drawString(18*mm,9*mm,"Study resource • Verify current official syllabus");canvas.drawRightString(w-18*mm,9*mm,str(doc.page));canvas.restoreState()
+    def chrome(canvas, doc):
+        draw_civilcareer_pdf_chrome(
+            canvas, doc,
+            header_right=data["title"] + " | Study Notes",
+            footer_label=data["title"] + " Study Notes"
+        )
     doc.build(story,onFirstPage=chrome,onLaterPages=chrome)
     buffer.seek(0)
     return send_file(buffer,mimetype="application/pdf",as_attachment=True,download_name=subject_slug+"-civil-career-notes.pdf")

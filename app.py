@@ -5695,7 +5695,7 @@ def mock_test(exam_slug):
                 previous_fps = [_question_fingerprint(q) for q in previous_questions]
 
             attempt_no = int(session.get(attempt_no_key, 0)) + 1
-            count_cycle = [50, 55, 60, 65, 70, 75]
+            count_cycle = [55, 58, 60, 63, 65]
             target_count = count_cycle[(attempt_no - 1) % len(count_cycle)]
             attempt_seed = uuid.uuid4().hex
 

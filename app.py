@@ -5688,7 +5688,7 @@ def mock_test(exam_slug):
             previous_fps = [_question_fingerprint(q) for q in previous_questions] if previous_questions else session.get(last_questions_key, [])
 
             attempt_no = int(session.get(attempt_no_key, 0)) + 1
-            count_cycle = [60, 62, 64, 66, 68, 70]
+            count_cycle = [55, 60, 65, 58, 62]
             target_count = count_cycle[(attempt_no - 1) % len(count_cycle)]
 
             questions = build_gate_mock(

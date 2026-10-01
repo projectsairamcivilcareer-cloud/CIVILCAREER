@@ -2809,74 +2809,21 @@
          BOTTOM BAR
     ========================================================== -->
 
-    <footer class="bottom-bar">
+    <footer class="bottom-bar" id="examNavigationBar">
 
+        <button type="button" id="previousQuestionButton" class="bottom-button"
+                onclick="previousQuestion()"
+                {% if question_number <= 1 %}disabled{% endif %}>← Previous</button>
 
-        <button
-            type="button"
-            class="bottom-button"
+        <button type="button" id="reviewQuestionButton" class="bottom-button"
+                onclick="toggleReview()">⚑ {% if is_doubt %}Remove Review{% else %}Mark for Review{% endif %}</button>
 
-            onclick="previousQuestion()"
+        <button type="button" id="nextQuestionButton" class="bottom-button next-button"
+                onclick="nextQuestion()"
+                {% if question_number >= total_questions %}disabled{% endif %}>Next →</button>
 
-            {% if question_number <= 1 %}
-                disabled
-            {% endif %}
-        >
-
-            ← Previous
-
-        </button>
-
-
-        <button
-            type="button"
-            class="bottom-button"
-
-            onclick="toggleReview()"
-        >
-
-            {% if is_doubt %}
-
-                ⚑ Remove Review
-
-            {% else %}
-
-                ⚑ Mark for Review
-
-            {% endif %}
-
-        </button>
-
-
-        <div></div>
-
-
-        <button
-            type="button"
-            class="bottom-button next-button"
-
-            onclick="nextQuestion()"
-
-            {% if question_number >= total_questions %}
-                disabled
-            {% endif %}
-        >
-
-            Next →
-
-        </button>
-
-
-        <button
-            type="button"
-            class="submit-button"
-
-            onclick="showSubmitConfirmation()"
-        >
-
-            Submit
-
-        </button>
+        <button type="button" id="submitMockButton" class="submit-button"
+                onclick="showSubmitConfirmation()">Submit</button>
 
     </footer>
 
@@ -3687,6 +3634,27 @@
         submitAction("toggle_doubt");
     }
 
+
+    /* Keep exactly one CBT navigation bar and one button of each action. */
+    function enforceSingleExamNavigation() {
+        const bars = document.querySelectorAll("#examNavigationBar");
+        bars.forEach(function(bar, index) {
+            if (index > 0) bar.remove();
+        });
+
+        const bar = document.getElementById("examNavigationBar");
+        if (!bar) return;
+
+        ["previousQuestionButton","reviewQuestionButton","nextQuestionButton","submitMockButton"]
+            .forEach(function(id) {
+                const matches = bar.querySelectorAll("#" + id);
+                matches.forEach(function(button, index) {
+                    if (index > 0) button.remove();
+                });
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", enforceSingleExamNavigation);
 
     /* =========================================================
        SUBMIT CONFIRMATION

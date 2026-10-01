@@ -370,11 +370,12 @@ def build_gate_mock(mode="mixed", count=60, profile=None, scope="all", avoid_fin
         selected.extend(old_originals[:min(overlap_slots, count-len(selected))])
 
     if len(selected) < count:
-        # This is a hard safety fallback for future bank changes. It is only
-        # reached when the bank itself is too small for the requested count.
-        remaining = [q for q in prepared if q["_fingerprint"] not in selected_fps]
-        rng.shuffle(remaining)
-        selected.extend(remaining[:count-len(selected)])
+        # Never violate the five-repeat rule. If the source pool is ever too
+        # small for a requested paper, use only fresh source questions rather
+        # than silently repeating more than five questions.
+        fresh_remaining = [q for q in prepared if q["_fingerprint"] not in selected_fps and q["_fingerprint"] not in previous]
+        rng.shuffle(fresh_remaining)
+        selected.extend(fresh_remaining[:count-len(selected)])
 
     selected = selected[:count]
 

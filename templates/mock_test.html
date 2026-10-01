@@ -3572,16 +3572,18 @@
 
     function nextQuestion() {
 
-    saveCurrentAnswer();
+        saveCurrentAnswer();
 
-    const current = currentQuestion;
+        const current = currentQuestion;
 
-    if (current + 1 >= totalQuestions) {
-        return;
+        if (current + 1 >= totalQuestions) {
+            return;
+        }
+
+        // Use the existing server-side NEXT action so the session,
+        // question order, answers, timer and review state stay in sync.
+        submitAction("next");
     }
-
-    openQuestion(current + 1);
-}
 
 
     /* =========================================================

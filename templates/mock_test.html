@@ -2397,16 +2397,9 @@
 
                     <div class="question-label">
                         <span class="question-number-label">Question {{ question_number }}</span>
-                        {% if question.source_file %}
-                            <span class="source-badge">UPLOADED PYQ · {{ question.source_year }}</span>
-                        {% else %}
-                            <span class="source-badge source-derived">SYLLABUS-BASED</span>
-                        {% endif %}
-
                         {% if total_questions %}
-                            of {{ total_questions }}
+                            <span class="question-progress">of {{ total_questions }}</span>
                         {% endif %}
-
                     </div>
 
 

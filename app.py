@@ -6063,6 +6063,19 @@ def mock_test(exam_slug):
 
 
         # ======================================
+        # DIRECT QUESTION NAVIGATION
+        # ======================================
+
+        elif action.startswith("goto:"):
+            try:
+                target_index = int(action.split(":", 1)[1])
+            except (TypeError, ValueError):
+                target_index = current_index
+
+            if 0 <= target_index < len(question_order):
+                session[index_key] = target_index
+
+        # ======================================
         # NEXT
         # ======================================
 

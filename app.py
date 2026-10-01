@@ -70,7 +70,7 @@ def draw_civilcareer_pdf_chrome(canvas, document, header_right="CIVIL CAREER", f
     canvas.drawRightString(width - 18 * mm, 8 * mm, "Page %d" % document.page)
     canvas.restoreState()
 
-from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_difficulty_mode
+from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_difficulty_mode, _question_fingerprint
 
 app = Flask(__name__)
 
@@ -5677,46 +5677,37 @@ def mock_test(exam_slug):
 
     if exam_slug == "gate":
 
-        if (
-            start_new
-            or mode_key not in session
-        ):
+        questions_key = "mock_questions_" + exam_slug
+        attempt_no_key = "mock_attempt_no_" + exam_slug
+        last_questions_key = "mock_last_questions_" + exam_slug
 
-            session[mode_key] = requested_mode
-            session[profile_key] = requested_profile
-            session[scope_key] = requested_scope
-            session[count_key] = requested_count
+        if start_new or questions_key not in session:
+            # Keep only the immediately previous test's fingerprints for
+            # consecutive-test repeat control.
+            previous_questions = session.get(questions_key, [])
+            previous_fps = [_question_fingerprint(q) for q in previous_questions] if previous_questions else session.get(last_questions_key, [])
 
+            attempt_no = int(session.get(attempt_no_key, 0)) + 1
+            count_cycle = [60, 62, 64, 66, 68, 70]
+            target_count = count_cycle[(attempt_no - 1) % len(count_cycle)]
 
-        questions = build_gate_mock(
-
-            session.get(
-                mode_key,
-                "mixed"
-            ),
-
-            count=session.get(
-                count_key,
-                0
-            ) or 20,
-
-            profile=(
-                session.get(
-                    profile_key,
-                    "full"
-                )
-                if session.get(
-                    scope_key,
-                    "all"
-                ) == "all"
-                else None
-            ),
-
-            scope=session.get(
-                scope_key,
-                "all"
+            questions = build_gate_mock(
+                mode="mixed",
+                count=target_count,
+                profile=None,
+                scope="all",
+                avoid_fingerprints=previous_fps,
+                attempt_seed=uuid.uuid4().hex,
             )
-        )
+
+            # Preserve the exact question set for this attempt so AJAX,
+            # result calculation and history all use the same paper.
+            session[last_questions_key] = previous_fps
+            session[questions_key] = questions
+            session[attempt_no_key] = attempt_no
+            session[count_key] = target_count
+        else:
+            questions = session.get(questions_key, [])
 
     else:
 
@@ -6361,12 +6352,11 @@ def mock_test_question(
     if exam_slug not in MOCK_TEST_QUESTIONS:
         return "Mock test not available", 404
 
-    questions = build_gate_mock(
-        session.get("mock_mode_" + exam_slug, "mixed"),
-        count=session.get("mock_count_" + exam_slug, 0) or 20,
-        profile=session.get("mock_profile_" + exam_slug, "full") if session.get("mock_scope_" + exam_slug, "all") == "all" else None,
-        scope=session.get("mock_scope_" + exam_slug, "all")
-    ) if exam_slug == "gate" else MOCK_TEST_QUESTIONS[exam_slug]
+    questions = (
+        session.get("mock_questions_" + exam_slug, [])
+        if exam_slug == "gate"
+        else MOCK_TEST_QUESTIONS[exam_slug]
+    )
 
     order_key = "mock_order_" + exam_slug
 
@@ -6483,37 +6473,19 @@ def mock_test_result(exam_slug):
     # =====================================================
 
     if exam_slug == "gate":
-
-        questions = build_gate_mock(
-
-            session.get(
-                "mock_mode_" + exam_slug,
-                "mixed"
-            ),
-
-            count=session.get(
-                "mock_count_" + exam_slug,
-                0
-            ) or 20,
-
-            profile=(
-                session.get(
-                    "mock_profile_" + exam_slug,
-                    "full"
-                )
-                if session.get(
-                    "mock_scope_" + exam_slug,
-                    "all"
-                ) == "all"
-                else None
-            ),
-
-            scope=session.get(
-                "mock_scope_" + exam_slug,
-                "all"
-            )
+        questions = session.get(
+            "mock_questions_" + exam_slug,
+            []
         )
-
+        if not questions:
+            questions = build_gate_mock(
+                mode="mixed",
+                count=60,
+                profile=None,
+                scope="all",
+                avoid_fingerprints=[],
+                attempt_seed=uuid.uuid4().hex,
+            )
     else:
 
         questions = MOCK_TEST_QUESTIONS[exam_slug]

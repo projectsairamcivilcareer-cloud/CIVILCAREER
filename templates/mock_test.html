@@ -2317,6 +2317,7 @@
     @media (max-width:900px){.exam-meta-strip{grid-template-columns:repeat(2,1fr);}.meta-primary{grid-column:1/-1;}}
     @media (max-width:560px){.exam-meta-strip{grid-template-columns:1fr 1fr;padding:8px;gap:7px}.meta-chip strong{font-size:11px}.meta-primary{grid-column:1/-1}}
 
+        .test-title-main{font-size:18px;font-weight:900;line-height:1.15}.test-title-sub{margin-top:3px;font-size:9px;font-weight:800;letter-spacing:.8px;color:#5C728A}.source-badge{display:inline-flex;align-items:center;margin-left:10px;padding:5px 9px;border-radius:999px;border:1px solid #B8D8CC;background:#EFF9F5;color:#176B4A;font-size:9px;font-weight:900;letter-spacing:.5px;vertical-align:middle}.source-badge.source-derived{border-color:#C8D6E5;background:#F4F7FB;color:#49647D}.question-label{flex-wrap:wrap}.question-label .question-number-label{white-space:nowrap}@media(max-width:900px){.source-badge{margin-left:0;margin-top:5px}.test-title-sub{font-size:8px}}
     </style>
 </head>
 
@@ -2342,10 +2343,8 @@
 
 
         <div class="test-name">
-
-            {{ exam_name }}
-            Civil Engineering Mock Test
-
+            <div class="test-title-main">{{ exam_name }} Civil Engineering</div>
+            <div class="test-title-sub">SYLLABUS + UPLOADED SOLVED-PAPER PYQ MOCK</div>
         </div>
 
 
@@ -2403,9 +2402,12 @@
                 <div class="question-top">
 
                     <div class="question-label">
-
-                        Question
-                        {{ question_number }}
+                        <span class="question-number-label">Question {{ question_number }}</span>
+                        {% if question.source_file %}
+                            <span class="source-badge">UPLOADED PYQ · {{ question.source_year }}</span>
+                        {% else %}
+                            <span class="source-badge source-derived">SYLLABUS-BASED</span>
+                        {% endif %}
 
                         {% if total_questions %}
                             of {{ total_questions }}

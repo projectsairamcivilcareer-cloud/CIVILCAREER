@@ -3379,7 +3379,7 @@
     ========================================================= */
 
     const answerStoragePrefix =
-        "civilCareerMockAnswer_{{ exam_slug }}_";
+        "civilCareerMockAnswer_{{ exam_slug }}_{{ attempt_id|default("") }}_";
 
 
     function restoreSavedAnswer(index) {
@@ -3626,6 +3626,8 @@
 
     function nextQuestion() {
 
+    saveCurrentAnswer();
+
     const current = currentQuestion;
 
     if (current + 1 >= totalQuestions) {
@@ -3641,6 +3643,8 @@
     ========================================================= */
 
     function previousQuestion() {
+
+    saveCurrentAnswer();
 
     const current = currentQuestion;
 

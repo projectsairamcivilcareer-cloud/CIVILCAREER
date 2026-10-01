@@ -1,6 +1,8 @@
 """Original, syllabus-bounded GATE Civil mock-test generation data."""
 
 from collections import Counter
+import random
+import secrets
 
 from gate_question_bank_extra import GATE_QUESTION_BANK_EXTRA
 from gate_pyq_bank import GATE_PYQ_BANK

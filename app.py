@@ -5681,38 +5681,42 @@ def mock_test(exam_slug):
         attempt_no_key = "mock_attempt_no_" + exam_slug
         last_questions_key = "mock_last_questions_" + exam_slug
 
-        if start_new or questions_key not in session:
-            # Keep only the immediately previous test's fingerprints for
-            # consecutive-test repeat control.
-            previous_questions = session.get(questions_key, [])
-            previous_fps = [_question_fingerprint(q) for q in previous_questions] if previous_questions else session.get(last_questions_key, [])
+        if start_new or "mock_seed_" + exam_slug not in session or count_key not in session:
+            # Keep the Flask cookie session compact. Full question objects are
+            # rebuilt deterministically from the attempt seed on every request.
+            previous_seed = session.get("mock_last_seed_" + exam_slug)
+            previous_count = int(session.get("mock_last_count_" + exam_slug, 0) or 0)
+            previous_fps = []
+            if previous_seed and previous_count:
+                previous_questions = build_gate_mock(
+                    mode="mixed", count=previous_count, profile=None,
+                    scope="all", attempt_seed=previous_seed
+                )
+                previous_fps = [_question_fingerprint(q) for q in previous_questions]
 
             attempt_no = int(session.get(attempt_no_key, 0)) + 1
-            count_cycle = [55, 60, 65, 58, 62]
+            count_cycle = [50, 55, 60, 65, 70, 75]
             target_count = count_cycle[(attempt_no - 1) % len(count_cycle)]
+            attempt_seed = uuid.uuid4().hex
 
-            questions = build_gate_mock(
-                mode="mixed",
-                count=target_count,
-                profile=None,
-                scope="all",
-                avoid_fingerprints=previous_fps,
-                attempt_seed=uuid.uuid4().hex,
-            )
-
-            # Preserve the exact question set for this attempt so AJAX,
-            # result calculation and history all use the same paper.
-            session[last_questions_key] = previous_fps
-            session[questions_key] = questions
+            session["mock_last_seed_" + exam_slug] = attempt_seed
+            session["mock_last_count_" + exam_slug] = target_count
+            session["mock_seed_" + exam_slug] = attempt_seed
             session[attempt_no_key] = attempt_no
             session[count_key] = target_count
+
+            questions = build_gate_mock(
+                mode="mixed", count=target_count, profile=None,
+                scope="all", avoid_fingerprints=previous_fps,
+                attempt_seed=attempt_seed
+            )
         else:
-            questions = session.get(questions_key, [])
-
-    else:
-
-        questions = MOCK_TEST_QUESTIONS[exam_slug]
-
+            attempt_seed = session.get("mock_seed_" + exam_slug)
+            target_count = int(session.get(count_key, 60) or 60)
+            questions = build_gate_mock(
+                mode="mixed", count=target_count, profile=None,
+                scope="all", attempt_seed=attempt_seed
+            )
 
     # ==========================================
     # NEW ATTEMPT

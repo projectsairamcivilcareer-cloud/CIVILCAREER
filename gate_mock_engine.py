@@ -1,4 +1,5 @@
-"""Original, syllabus-bounded GATE Civil mock-test generation data."""
+"""Original, syllabus-bounded GATE Civil mock-test generation data.
+# GATE mock policy: 180 minutes and 100 marks fixed; question count varies by attempt."""
 
 from collections import Counter
 import random

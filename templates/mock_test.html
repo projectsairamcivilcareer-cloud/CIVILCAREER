@@ -2285,6 +2285,38 @@
             }
         }
 
+    .exam-meta-strip {
+        display:grid;
+        grid-template-columns:1.6fr repeat(4, minmax(110px,1fr));
+        gap:10px;
+        padding:10px 18px;
+        background:rgba(248,250,252,.96);
+        border-bottom:1px solid #dbe4ee;
+        box-shadow:0 4px 18px rgba(15,23,42,.06);
+        position:sticky;
+        top:0;
+        z-index:20;
+        backdrop-filter:blur(10px);
+    }
+    .meta-chip {
+        min-height:46px;
+        border:1px solid #d9e3ee;
+        border-radius:12px;
+        background:#fff;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        padding:6px 12px;
+        gap:2px;
+    }
+    .meta-chip span {font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:800;}
+    .meta-chip strong {font-size:13px;color:#0f2742;white-space:nowrap;}
+    .meta-primary {background:linear-gradient(135deg,#0f2742,#164e63);border-color:#0f2742;}
+    .meta-primary span,.meta-primary strong {color:#fff;}
+    .question-mark-badge {display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#e0f2fe;color:#075985;font-size:11px;font-weight:800;margin-right:7px;}
+    @media (max-width:900px){.exam-meta-strip{grid-template-columns:repeat(2,1fr);}.meta-primary{grid-column:1/-1;}}
+    @media (max-width:560px){.exam-meta-strip{grid-template-columns:1fr 1fr;padding:8px;gap:7px}.meta-chip strong{font-size:11px}.meta-primary{grid-column:1/-1}}
+
     </style>
 </head>
 
@@ -2342,6 +2374,13 @@
 
     </header>
 
+    <section class="exam-meta-strip" aria-label="Mock test information">
+        <div class="meta-chip meta-primary"><span>GATE CE</span><strong>SYLLABUS + UPLOADED PYQ</strong></div>
+        <div class="meta-chip"><span>Questions</span><strong>{{ total_questions }}</strong></div>
+        <div class="meta-chip"><span>Total Marks</span><strong>100</strong></div>
+        <div class="meta-chip"><span>Duration</span><strong>180 MIN</strong></div>
+        <div class="meta-chip"><span>Mode</span><strong>MCQ · MSQ · NAT</strong></div>
+    </section>
 
     <!-- =========================================================
          MAIN BODY
@@ -2376,6 +2415,7 @@
 
 
                     <div class="question-type">
+                        <span class="question-mark-badge">{{ question.marks|default(1) }} Mark</span>
 
                         {% if question.question_type %}
 
@@ -3618,119 +3658,18 @@
 
     function openQuestion(index) {
 
-    if (index < 0 || index >= totalQuestions) {
-        return;
+        if (index < 0 || index >= totalQuestions) {
+            return;
+        }
+
+        if (index === currentQuestion) {
+            return;
+        }
+
+        saveCurrentAnswer();
+        submitAction("goto:" + index);
     }
 
-    // Prevent unnecessary reload
-    if (index === currentQuestion) {
-        return;
-    }
-
-    // Save current answer
-    saveCurrentAnswer();
-
-    const baseUrl = "{{ url_for(
-        'mock_test_question',
-        exam_slug=exam_slug,
-        question_index=0
-    ) }}";
-
-    const targetUrl = baseUrl.replace(
-        "/question/0",
-        "/question/" + index
-    );
-
-    // Show loading state
-    document.body.classList.add("question-loading");
-
-    fetch(targetUrl, {
-        method: "GET",
-        headers: {
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Failed to load question");
-        }
-        return response.text();
-    })
-    .then(html => {
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(
-            html,
-            "text/html"
-        );
-
-        /*
-         * Replace only the exam content.
-         * Header, timer and fullscreen remain untouched.
-         */
-
-        const newQuestionArea =
-            doc.querySelector(".question-area");
-
-        const newQuestionPanel =
-            doc.querySelector(".question-panel");
-
-        const currentQuestionArea =
-            document.querySelector(".question-area");
-
-        const currentQuestionPanel =
-            document.querySelector(".question-panel");
-
-        if (newQuestionArea && currentQuestionArea) {
-            currentQuestionArea.replaceWith(
-                newQuestionArea
-            );
-        }
-
-        if (newQuestionPanel && currentQuestionPanel) {
-            currentQuestionPanel.replaceWith(
-                newQuestionPanel
-            );
-        }
-
-        // Keep client navigation state synchronized.
-        currentQuestion = index;
-
-        // Update browser URL without page reload
-        window.history.pushState(
-            {},
-            "",
-            targetUrl
-        );
-
-        // Restore answer saved before this AJAX navigation.
-        restoreSavedAnswer(index);
-
-        // Reconnect option highlighting
-        updateSelectedOptions();
-        refreshNavigatorFromLocalStorage();
-
-        // Remove loading state
-        document.body.classList.remove(
-            "question-loading"
-        );
-    })
-    .catch(error => {
-
-        console.error(
-            "Question loading error:",
-            error
-        );
-
-        document.body.classList.remove(
-            "question-loading"
-        );
-
-        alert(
-            "Unable to load this question. Please try again."
-        );
-    });
-}
     /* =========================================================
        MARK REVIEW
     ========================================================= */

@@ -2318,6 +2318,16 @@
     @media (max-width:560px){.exam-meta-strip{grid-template-columns:1fr 1fr;padding:8px;gap:7px}.meta-chip strong{font-size:11px}.meta-primary{grid-column:1/-1}}
 
         .test-title-main{font-size:18px;font-weight:900;line-height:1.15}.question-label{flex-wrap:wrap}.question-label .question-number-label{white-space:nowrap}
+
+        /* GATE EXAM UI CLEANUP — redundant source descriptions stay hidden. */
+        .exam-wrapper .source-badge,
+        .exam-wrapper .source-description,
+        .exam-wrapper .question-source,
+        .exam-wrapper .question-source-badge,
+        .exam-wrapper .syllabus-source,
+        .exam-wrapper .pyq-source {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -3933,6 +3943,38 @@
 
 
     /* =========================================================
+       UI SOURCE-LABEL CLEANUP
+       Removes only exact redundant source-description labels.
+       Does not touch navigation, answers, timer, or submission.
+    ========================================================= */
+    function removeRedundantSourceLabels() {
+        const blocked = new Set([
+            "SYLLABUS-BASED",
+            "SYLLABUS + UPLOADED SOLVED-PAPER PYQ MOCK",
+            "GATE CE SYLLABUS + UPLOADED PYQ QUESTIONS"
+        ]);
+
+        document.querySelectorAll(".exam-wrapper *").forEach(function(element) {
+            if (element.children.length !== 0) return;
+
+            const text = (element.textContent || "").replace(/\s+/g, " ").trim();
+            if (!blocked.has(text)) return;
+
+            const className = String(element.className || "").toLowerCase();
+            const id = String(element.id || "").toLowerCase();
+
+            if (
+                className.includes("source") ||
+                className.includes("badge") ||
+                className.includes("meta") ||
+                id.includes("source")
+            ) {
+                element.remove();
+            }
+        });
+    }
+
+    /* =========================================================
        START TEST + FULLSCREEN
     ========================================================= */
 
@@ -4211,6 +4253,8 @@
             ) {
                 clearStoredAnswers();
             }
+
+            removeRedundantSourceLabels();
 
             restoreSavedAnswer(currentQuestion);
             updateSelectedOptions();

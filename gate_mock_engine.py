@@ -274,78 +274,117 @@ def _difficulty_target(mode):
     }.get(mode, None)
 
 
-def build_gate_mock(mode="mixed", count=20, profile=None, scope="all"):
-    """Return a syllabus-tagged selection for a difficulty, profile, and scope."""
-    questions = GATE_APTITUDE_QUESTIONS + GATE_QUESTION_BANK + GATE_QUESTION_BANK_EXTRA + GATE_PYQ_BANK
-    questions = [
-        question for question in questions
-        if scope == "all"
-        or (scope == "mathematics" and question["subject"] == "Engineering Mathematics")
-        or (scope == "core" and question["subject"] not in ("Engineering Mathematics", "General Aptitude"))
-        or (scope == "aptitude" and question["subject"] == "General Aptitude")
-    ]
-    if profile in GATE_MOCK_PROFILES:
-        settings = gate_mock_structure(profile)
-        count = settings["total_questions"]
-        quotas = {
-            "General Aptitude": settings["aptitude_questions"],
-            "Engineering Mathematics": settings["math_questions"],
-            "Civil Core": settings["core_questions"],
-        }
-        selected = []
-        for section_name, quota in quotas.items():
-            section_questions = [
-                question for question in questions
-                if (section_name == "General Aptitude" and question["subject"] == section_name)
-                or (section_name == "Engineering Mathematics" and question["subject"] == section_name)
-                or (section_name == "Civil Core" and question["subject"] not in ("General Aptitude", "Engineering Mathematics"))
-            ]
-            if mode == "mixed" or not _difficulty_target(mode):
-                section_selected = section_questions[:quota]
-            else:
-                target = _difficulty_target(mode)
-                section_selected = sorted(section_questions, key=lambda item: (abs(item["difficulty_rating"] - target), item["difficulty_rating"]))[:quota]
-            if len(section_selected) < quota and section_questions:
-                section_selected.extend(section_questions[index % len(section_questions)] for index in range(quota - len(section_selected)))
-            selected.extend(section_selected)
-    elif mode == "mixed" or not _difficulty_target(mode):
-        selected = questions[:count]
-    else:
-        target = _difficulty_target(mode)
-        selected = sorted(questions, key=lambda item: (abs(item["difficulty_rating"] - target), item["difficulty_rating"]))[:count]
-    if len(selected) < count and questions:
-        # The allocator supports the requested profile while the bank is being expanded.
-        selected.extend(questions[index % len(questions)] for index in range(count - len(selected)))
-    result = [dict(question) for question in selected]
-    for question in result:
-        question["section"] = (
-            "General Aptitude" if question["subject"] == "General Aptitude"
-            else "Engineering Mathematics" if question["subject"] == "Engineering Mathematics"
+
+def _question_fingerprint(question):
+    """Stable identity used to prevent excessive repeats between consecutive mocks."""
+    source = str(question.get("source_file",""))
+    year = str(question.get("source_year",""))
+    qnum = str(question.get("source_question",""))
+    text = str(question.get("question","")).strip().lower()
+    return "|".join((source, year, qnum, text))
+
+def build_gate_mock(mode="mixed", count=60, profile=None, scope="all", avoid_fingerprints=None, attempt_seed=None):
+    """
+    Build one full-length Civil mock from the uploaded-source-aligned bank.
+
+    Rules:
+    - 180 minutes / 100 marks are fixed at the route level.
+    - Question count varies by attempt.
+    - Exactly five source-backed PYQs are included in every GATE mock.
+    - Remaining questions are syllabus-derived originals.
+    - Consecutive mocks avoid previous-question fingerprints; at most five can overlap.
+    - Questions are shuffled after selection.
+    """
+    all_questions = (
+        GATE_APTITUDE_QUESTIONS
+        + GATE_QUESTION_BANK
+        + GATE_QUESTION_BANK_EXTRA
+        + GATE_PYQ_BANK
+        + GATE_SOURCE_VARIANTS
+    )
+    prepared = []
+    seen = set()
+    for raw in all_questions:
+        q = dict(raw)
+        q.setdefault("source_type", "syllabus-derived")
+        fp = _question_fingerprint(q)
+        if fp in seen:
+            continue
+        seen.add(fp)
+        q["_fingerprint"] = fp
+        q["section"] = (
+            "General Aptitude" if q.get("subject") == "General Aptitude"
+            else "Engineering Mathematics" if q.get("subject") == "Engineering Mathematics"
             else "Civil Core"
         )
-    if profile in GATE_MOCK_PROFILES:
-        # 100-mark GATE CE distribution:
-        # GA = 5x1 + 5x2 = 15
-        # Mathematics = 1x1 + 6x2 = 13
-        # Civil Core = 24x1 + 24x2 = 72
-        one_mark_limits = {
-            "General Aptitude": 5,
-            "Engineering Mathematics": 1,
-            "Civil Core": 24,
-        }
-        seen = {
-            "General Aptitude": 0,
-            "Engineering Mathematics": 0,
-            "Civil Core": 0,
-        }
-        for question in result:
-            section = question["section"]
-            seen[section] += 1
-            question["marks"] = (
-                1 if seen[section] <= one_mark_limits[section] else 2
-            )
-    return result
+        prepared.append(q)
 
+    if scope != "all":
+        prepared = [
+            q for q in prepared
+            if (
+                scope == "mathematics" and q["subject"] == "Engineering Mathematics"
+            ) or (
+                scope == "aptitude" and q["subject"] == "General Aptitude"
+            ) or (
+                scope == "core" and q["section"] == "Civil Core"
+            )
+        ]
+
+    rng = random.Random(attempt_seed if attempt_seed is not None else secrets.randbits(64))
+    previous = set(avoid_fingerprints or [])
+
+    pyqs = [q for q in prepared if q.get("source_type") == "pyq" or q.get("source_file")]
+    originals = [q for q in prepared if not (q.get("source_type") == "pyq" or q.get("source_file"))]
+
+    rng.shuffle(pyqs)
+    rng.shuffle(originals)
+
+    # Prefer zero overlap with the immediately preceding test. The fallback
+    # permits at most five repeats when the available source pool requires it.
+    fresh_pyqs = [q for q in pyqs if q["_fingerprint"] not in previous]
+    old_pyqs = [q for q in pyqs if q["_fingerprint"] in previous]
+    pyq_target = min(5, len(pyqs), count)
+    selected = fresh_pyqs[:pyq_target]
+    if len(selected) < pyq_target:
+        selected.extend(old_pyqs[:pyq_target-len(selected)])
+
+    selected_fps = {q["_fingerprint"] for q in selected}
+    max_previous_overlap = 5
+
+    fresh_originals = [q for q in originals if q["_fingerprint"] not in previous]
+    old_originals = [q for q in originals if q["_fingerprint"] in previous and q["_fingerprint"] not in selected_fps]
+
+    needed = max(0, count - len(selected))
+    selected.extend(fresh_originals[:needed])
+
+    if len(selected) < count:
+        # Only use previous-test questions after exhausting fresh questions,
+        # and never exceed five overlaps in total.
+        overlap_slots = max(0, max_previous_overlap - sum(
+            1 for q in selected if q["_fingerprint"] in previous
+        ))
+        selected.extend(old_originals[:min(overlap_slots, count-len(selected))])
+
+    if len(selected) < count:
+        # This is a hard safety fallback for future bank changes. It is only
+        # reached when the bank itself is too small for the requested count.
+        remaining = [q for q in prepared if q["_fingerprint"] not in selected_fps]
+        rng.shuffle(remaining)
+        selected.extend(remaining[:count-len(selected)])
+
+    selected = selected[:count]
+
+    # Fixed 100-mark paper with variable question count. For N questions:
+    # one_mark = 2N-100 and two_mark = 100-N.
+    marks = allocate_question_marks(count, 100)
+    rng.shuffle(selected)
+    one_mark = marks["one_mark"]
+    for i, q in enumerate(selected):
+        q["marks"] = 1 if i < one_mark else 2
+        q.pop("_fingerprint", None)
+
+    return selected
 
 def next_difficulty_mode(score_percent, current_mode="mixed"):
     if score_percent > 85:

@@ -197,3 +197,30 @@ input:focus,select:focus,textarea:focus{
 @media(max-width:800px){
  .sidebar nav a,.sidebar-menu a{margin-left:6px!important;margin-right:6px!important}
 }
+
+
+/* Resource order history + account deletion */
+.profile-subsection{margin-top:24px;padding-top:22px;border-top:1px solid #e2e8f0}
+.profile-subsection-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:14px}
+.profile-subsection-heading h3{margin:0 0 5px;font-size:16px;color:#172b45}
+.profile-subsection-heading p{margin:0;color:#64748b;font-size:13px;line-height:1.55}
+.order-history-list{display:flex;flex-direction:column;gap:9px}
+.order-history-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 14px;background:#f8fafc;border:1px solid #dbe3ee;border-radius:10px}
+.order-history-item strong{display:block;color:#172033;font-size:13px;line-height:1.45}
+.order-history-item small{display:block;margin-top:3px;color:#64748b;font-size:11px}
+.order-status-wrap{text-align:right;min-width:180px}
+.order-status{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef5f9;color:#2f6f9f;font-size:10px;font-weight:800}
+.order-history-empty{padding:16px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px}
+.order-history-empty strong{display:block;color:#334155;font-size:13px;margin-bottom:4px}
+.order-history-empty p{margin:0;color:#64748b;font-size:12px;line-height:1.6}
+.profile-danger-zone{border-top-color:#fecaca}
+.profile-danger-zone h3{color:#991b1b}
+.delete-account-button{min-height:42px;padding:0 15px;border:1px solid #dc2626;border-radius:8px;background:#fff;color:#b91c1c;font-weight:700;cursor:pointer}
+.delete-account-button:hover{background:#fef2f2}
+.delete-account-panel{margin-top:12px;padding:15px;background:#fff7f7;border:1px solid #fecaca;border-radius:10px}
+.delete-account-panel[hidden]{display:none!important}
+.delete-account-panel p{margin:0 0 7px;color:#7f1d1d;font-size:12px}
+.delete-account-panel form{display:flex;gap:9px;align-items:center;margin-top:12px}
+.delete-account-panel input{flex:1;min-height:42px;padding:0 11px;border:1px solid #fca5a5;border-radius:7px}
+.delete-confirm-button{min-height:42px;padding:0 13px;border:1px solid #b91c1c;border-radius:7px;background:#b91c1c;color:#fff;font-weight:700;cursor:pointer}
+@media(max-width:650px){.order-history-item{align-items:flex-start;flex-direction:column}.order-status-wrap{text-align:left;min-width:0}.delete-account-panel form{flex-direction:column;align-items:stretch}}

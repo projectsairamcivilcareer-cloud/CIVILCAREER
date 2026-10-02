@@ -52,3 +52,32 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0
 .profile-option-button:hover,.photo-form button:hover,.profile-setting-panel button:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(37,99,235,.14)}
 
 .photo-form{max-width:460px;width:100%;margin:18px auto 0;display:flex;flex-direction:column;gap:9px;text-align:left}.photo-form-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.photo-form-heading label{font-size:14px;font-weight:700;color:#334155}.photo-form button{font-size:13px;padding:8px 13px;border-radius:8px;white-space:nowrap}.photo-form input[type=file]{font-size:13px;padding:8px;width:100%;min-width:0}.photo-help{font-size:12px;color:#64748b}@media(max-width:480px){.photo-form-heading{align-items:flex-start}.photo-form-heading label{font-size:13px}}
+
+
+/* Profile photo editor */
+.profile-photo-card{position:relative}
+.profile-edit-button{position:absolute;top:24px;right:24px;border:1px solid #cbd5e1;background:#fff;color:#1d4ed8;padding:9px 14px;border-radius:9px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s}
+.profile-edit-button:hover{background:#eff6ff;transform:translateY(-1px);box-shadow:0 7px 16px rgba(37,99,235,.14)}
+.photo-editor{max-width:460px;margin:20px auto 0;text-align:left;border-top:1px solid #e2e8f0;padding-top:18px}
+.photo-editor-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.photo-action{border:1px solid #cbd5e1;padding:11px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+.photo-action.primary{background:#2563eb;color:#fff;border-color:#2563eb}
+.photo-action.secondary{background:#fff;color:#1d4ed8}
+.photo-action:disabled{opacity:.5;cursor:not-allowed}
+.photo-take-panel{margin-top:14px;padding:16px;border:1px solid #dbe3ee;background:#f8fafc;border-radius:13px}
+.photo-take-title{margin:0 0 12px;color:#334155;font-size:13px;font-weight:700}
+.photo-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.photo-choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:92px;border:1px solid #cbd5e1;background:#fff;border-radius:11px;color:#172033;cursor:pointer;padding:12px}
+.photo-choice span{font-size:23px}
+.photo-choice strong{font-size:14px}
+.photo-choice small{font-size:11px;color:#64748b}
+.photo-choice:hover{border-color:#2563eb;background:#eff6ff}
+.photo-file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.save-photo-button{width:100%;margin-top:12px;border:0;background:#0f766e;color:#fff;padding:11px 15px;border-radius:9px;font-weight:700;cursor:pointer}
+.photo-modal[hidden],.photo-editor[hidden],.photo-take-panel[hidden]{display:none!important}
+.photo-modal{position:fixed;inset:0;z-index:10020;display:flex;align-items:center;justify-content:center;padding:20px}
+.photo-modal-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(4px)}
+.photo-modal-card{position:relative;z-index:1;width:min(440px,92vw);padding:14px;border-radius:18px;background:#fff;box-shadow:0 25px 70px rgba(0,0,0,.3)}
+.photo-modal-card img{display:block;width:100%;max-height:70vh;object-fit:contain;border-radius:12px;background:#f1f5f9}
+.photo-modal-close{position:absolute;top:7px;right:7px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(15,23,42,.82);color:#fff;font-size:22px;line-height:1;cursor:pointer;z-index:2}
+@media(max-width:480px){.profile-edit-button{top:18px;right:18px}.photo-editor-actions,.photo-choice-grid{grid-template-columns:1fr}}

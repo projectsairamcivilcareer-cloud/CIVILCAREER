@@ -8,114 +8,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/civil-career-icon.svg') }}">
     <style>
-        .resources-page{max-width:1120px;margin:0 auto;padding:58px 20px 72px}
-        .resources-intro{max-width:760px;margin-bottom:34px}
-        .resources-kicker{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#1f5f8b;margin-bottom:10px}
-        .resources-intro h1{font-size:38px;line-height:1.18;color:#102a43;margin-bottom:12px}
-        .resources-intro p{color:#64748b;line-height:1.75;font-size:16px}
-        .resource-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-        .resource-card{background:#fff;border:1px solid #d9e2ec;border-radius:9px;padding:28px;box-shadow:0 3px 12px rgba(16,42,67,.05)}
-        .resource-type{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#64748b;margin-bottom:10px}
-        .resource-card h2{color:#102a43;font-size:23px;line-height:1.35;margin-bottom:11px}
-        .resource-card p{color:#52657a;line-height:1.7;margin-bottom:18px}
-        .resource-meta{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}
-        .resource-meta span{font-size:13px;color:#425466;background:#f1f5f8;border:1px solid #d9e2ec;border-radius:4px;padding:6px 9px}
-        .resource-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;background:#102a43;color:#fff;text-decoration:none;border:1px solid #102a43;border-radius:6px;font-weight:700;font-size:14px}
-        .resource-btn:hover{background:#173e5f;border-color:#173e5f}
-        .resource-btn.disabled{background:#eef2f5;color:#7b8794;border-color:#d9e2ec;cursor:not-allowed}
-        .affiliate-note{margin-top:22px;padding:14px 16px;background:#f6f8fa;border-left:3px solid #1f5f8b;color:#52657a;font-size:13px;line-height:1.65}
-        .resources-footer{margin-top:34px;text-align:center;color:#68798a;font-size:13px}
-        .resources-footer a{color:#1f5f8b;text-decoration:none}
-        @media(max-width:650px){
-            .resources-page{padding:38px 16px 54px}
-            .resources-intro h1{font-size:30px}
-            .resource-card{padding:22px}
-            .resource-btn{width:100%}
-        }
-    </style>
+.resources-page{max-width:1160px;margin:0 auto;padding:56px 22px 72px}.resources-intro{max-width:820px;margin:0 auto 30px;text-align:center}.resources-kicker{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#2f6f9f;margin-bottom:10px}.resources-intro h1{font-size:38px;line-height:1.2;color:#17324d;margin:0 0 14px}.resources-intro p{color:#68798a;line-height:1.75;font-size:16px;margin:0}.resources-guide{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 auto 28px;max-width:1000px}.resources-guide div{background:#fff;border:1px solid #dbe3ea;border-radius:8px;padding:15px 16px}.resources-guide strong{display:block;color:#17324d;font-size:14px;margin-bottom:4px}.resources-guide span{display:block;color:#68798a;font-size:13px;line-height:1.5}.resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.resource-card{background:#fff;border:1px solid #d9e2ec;border-radius:9px;padding:25px;box-shadow:0 3px 12px rgba(16,42,67,.05);display:flex;flex-direction:column}.resource-type{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2f6f9f;margin-bottom:10px}.resource-card h2{color:#17324d;font-size:20px;line-height:1.4;margin:0 0 10px}.resource-card p{color:#52657a;line-height:1.65;margin:0 0 17px;font-size:14px}.resource-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto;margin-bottom:19px}.resource-meta span{font-size:12px;color:#425466;background:#f1f5f8;border:1px solid #d9e2ec;border-radius:4px;padding:5px 7px}.resource-btn{display:flex;align-items:center;justify-content:center;min-height:43px;padding:0 16px;background:#17324d;color:#fff;text-decoration:none;border:1px solid #17324d;border-radius:6px;font-weight:700;font-size:14px}.resource-btn:hover{background:#2f6f9f;border-color:#2f6f9f}.resources-note{margin:28px auto 0;max-width:1000px;background:#fff;border:1px solid #dbe3ea;border-radius:9px;padding:22px}.resources-note h2{font-size:18px;color:#17324d;margin:0 0 7px}.resources-note p{color:#68798a;line-height:1.65;font-size:14px;margin:0}.affiliate-note{margin-top:16px;padding:12px 14px;background:#f6f8fa;border-left:3px solid #2f6f9f;color:#52657a;font-size:12px;line-height:1.6}.resources-footer{margin-top:32px;text-align:center;color:#68798a;font-size:13px}.resources-footer a{color:#1f5f8b;text-decoration:none}@media(max-width:850px){.resource-grid{grid-template-columns:1fr 1fr}.resources-guide{grid-template-columns:1fr 1fr}}@media(max-width:650px){.resources-page{padding:38px 16px 54px}.resources-intro h1{font-size:30px}.resource-grid,.resources-guide{grid-template-columns:1fr}.resource-card{padding:22px}}
+</style>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="logo">
-            <a href="{{ url_for('home') }}" aria-label="Civil Career Home">
-                <img src="{{ url_for('static', filename='images/civil-career-brand.svg') }}" alt="Civil Career">
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('login') }}">Login</a>
-        </div>
-    </nav>
-
-    <main class="resources-page">
-        <section class="resources-intro">
-            <div class="resources-kicker">Civil Career Resources</div>
-            <h1>Recommended Resources</h1>
-            <p>Useful books and study resources for Civil Engineering students and competitive-exam aspirants. This section is separate from mock tests so your exam experience remains focused and ad-free.</p>
-        </section>
-
-        <section class="resource-grid" aria-label="Recommended resources">
-            <article class="resource-card">
-                <div class="resource-type">GATE Civil Engineering</div>
-                <h2>GATE 2027 Civil Engineering — 31 Years PYQs with Detailed Solutions</h2>
-                <p>A Civil Engineering GATE preparation book covering previous-year questions with detailed solutions, suitable for revision and practice.</p>
-                <div class="resource-meta">
-                    <span>GATE CE</span>
-                    <span>PYQs 1996–2026</span>
-                    <span>Detailed Solutions</span>
-                </div>
-                {% set amazon_gate_book_url = "https://www.amazon.in/GATE-Civil-Engineering-2026-1996-2025/dp/B0F2YX2CKC?crid=19FNQ1T1BRMWI&dib=eyJ2IjoiMSJ9.F8Et-Z2Re0GadlTi9MhmsWFn9J489vF5G-L8tCBcpRt_OVntjALiNvUC6LnYQvHlYIUmMAfsvX1gwkw-uCVv9-mgRW1VqNxGn1YG5E1DYNyJpYFwP-jcy3PJgSpVzTg1-tszCSzAxtxApU56STZVcgkMyyT5X4IyLUpYjSZiL2DTxxzF5QLB4ewK0T0I06XiL1dttzLqGrMupfqlQS6oxSU0gjytVrYoiwp_ZXsPtaU.AFHSpLjb0HPLErrPhoVemUvI0lTAHeD-b62gECZwvy8&dib_tag=se&keywords=gate+2027+civil+engineering+book+english&qid=1790939856&sprefix=gate+2027+civil+engineering+book+english%2Caps%2C438&sr=8-2&linkCode=ll2&tag=civilcareer-21&linkId=1b3313639f4f1536c49915f512ce1626&ref_=as_li_ss_tl" %}
-                {% if amazon_gate_book_url %}
-                    <a class="resource-btn" href="{{ amazon_gate_book_url }}" target="_blank" rel="nofollow sponsored noopener">View on Amazon</a>
-                {% else %}
-                    <span class="resource-btn disabled" aria-disabled="true">Amazon link being added</span>
-                {% endif %}
-                <div class="affiliate-note"><strong>Affiliate Disclosure:</strong> As an Amazon Associate, Civil Career earns from qualifying purchases.</div>
-            </article>
-            <article class="resource-card">
-                <div class="resource-type">SSC JE Civil Engineering</div>
-                <h2>SSC JE Civil Engineering — Technical &amp; Non-Technical Preparation</h2>
-                <p>A preparation resource for SSC JE aspirants covering technical and non-technical exam practice in a paperwise and yearwise format.</p>
-                <div class="resource-meta">
-                    <span>SSC JE</span>
-                    <span>Technical</span>
-                    <span>Non-Technical</span>
-                    <span>Paperwise &amp; Yearwise</span>
-                </div>
-                <a class="resource-btn" href="https://www.amazon.in/Engineering-Technical-Non-Technical-Paperwise-Yearwise/dp/B0H2FD8S8R?crid=1GWVQKBKCI5EH&dib=eyJ2IjoiMSJ9.dv3qAryWgU_gVqHyxcW8bwJ-YZH896G8Vz7fDLpUThsMA5MBqU3iiP39siBv2MJgaYnWwLoBe_hClqT8o7XR93tRWLD8zkPUe3wtiuIFLaIrJK8XZZzRf66Lgksd25AexEA23xMwKhh3EBQbrViJHfUNpbR9IyAbg4gmT3mcOGsFU_SptACOGJ_kh-uo0jwGpGM3lPEb846a2o990tXJIGfbdJ2W5uGcQT4yVbFz-LY.6EVdnV8l0MJmEmwL7Aa8fbi0D8zyBuKcG6C2gA9Gtu0&dib_tag=se&keywords=SSC+JE+Civil+Engineering+book+english&qid=1790941718&refinements=p_n_feature_three_browse-bin%3A9141482031%2Cp_n_condition-type%3A8609960031&rnid=8609959031&sprefix=ssc+je+civil+engineering+book+english%2Caps%2C352&sr=8-9&linkCode=ll2&tag=civilcareer-21&linkId=0f87545e0141ebc1eac3561c4ab0b768&ref_=as_li_ss_tl" target="_blank" rel="nofollow sponsored noopener">View on Amazon</a>
-                <div class="affiliate-note"><strong>Affiliate Disclosure:</strong> As an Amazon Associate, Civil Career earns from qualifying purchases.</div>
-            </article>
-
-        <section class="resource-grid" aria-label="Additional recommended resources">
-            <article class="resource-card">
-                <div class="resource-type">Geotechnical Engineering</div>
-                <h2>Geotechnical Engineering Handbook — 2027 Foundation &amp; Soil Reference</h2>
-                <p>A focused reference resource for Civil Engineering learners studying geotechnical engineering, foundations and soil-related concepts.</p>
-                <div class="resource-meta">
-                    <span>Geotechnical Engineering</span>
-                    <span>Foundations</span>
-                    <span>Soil Engineering</span>
-                    <span>2027</span>
-                </div>
-                <a class="resource-btn" href="https://www.amazon.in/Geotechnical-Engineering-Handbook-2027-Foundation-ebook/dp/B0HKHLBG9C?crid=17R671CGDRQOS&dib=eyJ2IjoiMSJ9.7qzqExoA-gGP-C2oxabUI3VbcHUzBWROIrd7OSxaS9fwCDQU8PHuC4vRHgmB1FwExUsgxanoyd7afOXDkeEqkbcAXPqVNuSD5ej2lM-9L0Cp4LrentTpKBckI1vZx3SD9ohnurbeGBAAV7WZ0RF5QORENDHZPdD8HHY-UiTD2XU.TV3jBFrBdwI5alcyhodk5IvLXX1N7O6MmX6uZfonmU8&dib_tag=se&keywords=Civil+Engineering+practical%2Freference+book+english&qid=1790942610&refinements=p_n_condition-type%3A8609960031%2Cp_n_publication_date%3A2684819031&rnid=2684818031&sprefix=civil+engineering+practical%2Freference+book+english%2Caps%2C382&sr=8-7&linkCode=ll2&tag=civilcareer-21&linkId=cff5d94573d04ed08d9045641bd886ed&ref_=as_li_ss_tl" target="_blank" rel="nofollow sponsored noopener">View on Amazon</a>
-                <div class="affiliate-note"><strong>Affiliate Disclosure:</strong> As an Amazon Associate, Civil Career earns from qualifying purchases.</div>
-            </article>
-        </section>
-
-        </section>
-
-        <div class="resources-footer">
-            <a href="{{ url_for('home') }}">Home</a>
-            &nbsp;·&nbsp;
-            <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
-            &nbsp;·&nbsp;
-            <a href="{{ url_for('terms_and_conditions') }}">Terms &amp; Conditions</a>
-            &nbsp;·&nbsp;
-            <a href="{{ url_for('disclaimer') }}">Disclaimer</a>
-            &nbsp;·&nbsp;
-            <a href="{{ url_for('contact') }}">Contact Us</a>
-        </div>
-    </main>
+<body><nav class="navbar"><div class="logo"><a href="{{ url_for('home') }}" aria-label="Civil Career Home"><img src="{{ url_for('static', filename='images/civil-career-brand.svg') }}" alt="Civil Career"></a></div><div class="nav-links"><a href="{{ url_for('home') }}">Home</a><a href="{{ url_for('about') }}">About</a><a href="{{ url_for('login') }}">Login</a></div></nav><main class="resources-page"><section class="resources-intro"><div class="resources-kicker">Civil Career · Recommended Resources</div><h1>Resources for Civil Engineering Preparation</h1><p>Selected books and study references for GATE, SSC JE and core Civil Engineering subjects. These resources are separate from mock tests so your exam practice stays focused.</p></section><section class="resources-guide"><div><strong>GATE</strong><span>Previous-year questions and detailed solutions</span></div><div><strong>SSC JE</strong><span>Technical and non-technical preparation</span></div><div><strong>Core Civil</strong><span>Subject-focused reference material</span></div></section><section class="resource-grid" aria-label="Recommended resources"><article class="resource-card"><div class="resource-type">GATE · Civil Engineering</div><h2>GATE 2027 Civil Engineering — 31 Years PYQs</h2><p>Previous-year GATE Civil Engineering questions with detailed solutions for revision, practice and exam preparation.</p><div class="resource-meta"><span>GATE CE</span><span>1996–2026 PYQs</span><span>Detailed Solutions</span></div><a class="resource-btn" href="https://www.amazon.in/GATE-Civil-Engineering-2026-1996-2025/dp/B0F2YX2CKC?crid=19FNQ1T1BRMWI&dib=eyJ2IjoiMSJ9.F8Et-Z2Re0GadlTi9MhmsWFn9J489vF5G-L8tCBcpRt_OVntjALiNvUC6LnYQvHlYIUmMAfsvX1gwkw-uCVv9-mgRW1VqNxGn1YG5E1DYNyJpYFwP-jcy3PJgSpVzTg1-tszCSzAxtxApU56STZVcgkMyyT5X4IyLUpYjSZiL2DTxxzF5QLB4ewK0T0I06XiL1dttzLqGrMupfqlQS6oxSU0gjytVrYoiwp_ZXsPtaU.AFHSpLjb0HPLErrPhoVemUvI0lTAHeD-b62gECZwvy8&dib_tag=se&keywords=gate+2027+civil+engineering+book+english&qid=1790939856&sprefix=gate+2027+civil+engineering+book+english%2Caps%2C438&sr=8-2&linkCode=ll2&tag=civilcareer-21&linkId=1b3313639f4f1536c49915f512ce1626&ref_=as_li_ss_tl" target="_blank" rel="nofollow sponsored noopener">View on Amazon</a></article><article class="resource-card"><div class="resource-type">SSC JE · Civil Engineering</div><h2>SSC JE Civil Engineering — Technical &amp; Non-Technical</h2><p>A paperwise and yearwise preparation resource covering technical and non-technical areas for SSC JE aspirants.</p><div class="resource-meta"><span>SSC JE</span><span>Technical</span><span>Non-Technical</span><span>Paperwise &amp; Yearwise</span></div><a class="resource-btn" href="https://www.amazon.in/Engineering-Technical-Non-Technical-Paperwise-Yearwise/dp/B0H2FD8S8R?crid=1GWVQKBKCI5EH&dib=eyJ2IjoiMSJ9.dv3qAryWgU_gVqHyxcW8bwJ-YZH896G8Vz7fDLpUThsMA5MBqU3iiP39siBv2MJgaYnWwLoBe_hClqT8o7XR93tRWLD8zkPUe3wtiuIFLaIrJK8XZZzRf66Lgksd25AexEA23xMwKhh3EBQbrViJHfUNpbR9IyAbg4gmT3mcOGsFU_SptACOGJ_kh-uo0jwGpGM3lPEb846a2o990tXJIGfbdJ2W5uGcQT4yVbFz-LY.6EVdnV8l0MJmEmwL7Aa8fbi0D8zyBuKcG6C2gA9Gtu0&dib_tag=se&keywords=SSC+JE+Civil+Engineering+book+english&qid=1790941718&refinements=p_n_feature_three_browse-bin%3A9141482031%2Cp_n_condition-type%3A8609960031&rnid=8609959031&sprefix=ssc+je+civil+engineering+book+english%2Caps%2C352&sr=8-9&linkCode=ll2&tag=civilcareer-21&linkId=0f87545e0141ebc1eac3561c4ab0b768&ref_=as_li_ss_tl" target="_blank" rel="nofollow sponsored noopener">View on Amazon</a></article><article class="resource-card"><div class="resource-type">Core Civil · Geotechnical</div><h2>Geotechnical Engineering Handbook — 2027</h2><p>A focused reference for soil engineering, foundations and geotechnical concepts within Civil Engineering.</p><div class="resource-meta"><span>Geotechnical</span><span>Foundations</span><span>Soil Engineering</span><span>2027</span></div><a class="resource-btn" href="https://www.amazon.in/Geotechnical-Engineering-Handbook-2027-Foundation-ebook/dp/B0HKHLBG9C?crid=17R671CGDRQOS&dib=eyJ2IjoiMSJ9.7qzqExoA-gGP-C2oxabUI3VbcHUzBWROIrd7OSxaS9fwCDQU8PHuC4vRHgmB1FwExUsgxanoyd7afOXDkeEqkbcAXPqVNuSD5ej2lM-9L0Cp4LrentTpKBckI1vZx3SD9ohnurbeGBAAV7WZ0RF5QORENDHZPdD8HHY-UiTD2XU.TV3jBFrBdwI5alcyhodk5IvLXX1N7O6MmX6uZfonmU8&dib_tag=se&keywords=Civil+Engineering+practical%2Freference+book+english&qid=1790942610&refinements=p_n_condition-type%3A8609960031%2Cp_n_publication_date%3A2684819031&rnid=2684818031&sprefix=civil+engineering+practical%2Freference+book+english%2Caps%2C382&sr=8-7&linkCode=ll2&tag=civilcareer-21&linkId=cff5d94573d04ed08d9045641bd886ed&ref_=as_li_ss_tl" target="_blank" rel="nofollow sponsored noopener">View on Amazon</a></article></section><section class="resources-note"><h2>How to use these resources</h2><p>Choose a resource based on the exam or subject you are preparing for. Product details, availability and pricing are controlled by Amazon.</p><div class="affiliate-note"><strong>Affiliate Disclosure:</strong> As an Amazon Associate, Civil Career earns from qualifying purchases.</div></section><div class="resources-footer">
+<a href="{{ url_for('home') }}">Home</a> · <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a> · <a href="{{ url_for('terms_and_conditions') }}">Terms &amp; Conditions</a> · <a href="{{ url_for('disclaimer') }}">Disclaimer</a> · <a href="{{ url_for('contact') }}">Contact Us</a>
+</div>
+</main>
 </body>
 </html>

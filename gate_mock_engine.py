@@ -29,16 +29,34 @@ GATE_SUBJECTS = [
 
 
 GATE_MOCK_PROFILES = {
-    # GATE-style Civil Engineering paper: 65 questions, 100 marks.
-    # 10 GA + 7 Engineering Mathematics + 48 Civil Core.
-    "short": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
-    "standard": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
-    "full": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
-    "difficult": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
-    "expert": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
-    "elite": {"math_questions": 7, "core_questions": 48, "aptitude_questions": 10, "total_marks": 100},
+    # GATE CE paper structure used for automatic Civil Career mock generation.
+    # Official GATE 2026: 10 GA questions (15 marks) + 55 subject questions (85 marks).
+    # CE subject component includes Engineering Mathematics (13 marks) + Civil subject (72 marks).
+    "short": {
+        "math_questions": 9, "core_questions": 46, "aptitude_questions": 10,
+        "math_marks": 13, "core_marks": 72, "aptitude_marks": 15, "total_marks": 100
+    },
+    "standard": {
+        "math_questions": 9, "core_questions": 46, "aptitude_questions": 10,
+        "math_marks": 13, "core_marks": 72, "aptitude_marks": 15, "total_marks": 100
+    },
+    "full": {
+        "math_questions": 9, "core_questions": 46, "aptitude_questions": 10,
+        "math_marks": 13, "core_marks": 72, "aptitude_marks": 15, "total_marks": 100
+    },
+    "difficult": {
+        "math_questions": 9, "core_questions": 46, "aptitude_questions": 10,
+        "math_marks": 13, "core_marks": 72, "aptitude_marks": 15, "total_marks": 100
+    },
+    "expert": {
+        "math_questions": 9, "core_questions": 46, "aptitude_questions": 10,
+        "math_marks": 13, "core_marks": 72, "aptitude_marks": 15, "total_marks": 100
+    },
+    "elite": {
+        "math_questions": 9, "core_questions": 46, "aptitude_questions": 10,
+        "math_marks": 13, "core_marks": 72, "aptitude_marks": 15, "total_marks": 100
+    },
 }
-
 
 def allocate_question_marks(question_count, total_marks):
     """Return the required one-mark and two-mark counts for a target total."""
@@ -292,10 +310,11 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
 
     Rules:
     - 180 minutes / 100 marks are fixed at the route level.
-    - Question count varies by attempt.
-    - Exactly five source-backed PYQs are included in every GATE mock.
-    - Remaining questions are syllabus-derived originals.
-    - Consecutive mocks avoid previous-question fingerprints; at most five can overlap.
+    - Exactly 65 questions are generated for every full CE mock.
+    - Section structure is fixed to 10 GA + 9 Engineering Mathematics + 46 Civil Core.
+    - Section marks are fixed to 15 + 13 + 72 = 100.
+    - Questions are randomized and previous-attempt repeats are minimized.
+    - Civil Core preferentially uses available source-backed PYQs, then original questions.
     - Questions are shuffled after selection.
     """
     all_questions = (
@@ -337,56 +356,127 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
     rng = random.Random(attempt_seed if attempt_seed is not None else secrets.randbits(64))
     previous = set(avoid_fingerprints or [])
 
-    pyqs = [q for q in prepared if q.get("source_type") == "pyq" or q.get("source_file")]
-    originals = [q for q in prepared if not (q.get("source_type") == "pyq" or q.get("source_file"))]
+    # ---------------------------------------------------------
+    # SECTION-AWARE AUTOMATIC PAPER GENERATION
+    # ---------------------------------------------------------
+    # The previous generator selected one large mixed pool and therefore could
+    # accidentally miss the required GA / Engineering Mathematics split.
+    # Build each section independently so every new CE mock has the same
+    # 65-question / 100-mark structure while the actual questions remain
+    # randomized.
+    profiles = GATE_MOCK_PROFILES.get(profile or "full", GATE_MOCK_PROFILES["full"])
+    section_targets = [
+        ("General Aptitude", profiles["aptitude_questions"], profiles["aptitude_marks"]),
+        ("Engineering Mathematics", profiles["math_questions"], profiles["math_marks"]),
+        ("Civil Core", profiles["core_questions"], profiles["core_marks"]),
+    ]
 
-    rng.shuffle(pyqs)
-    rng.shuffle(originals)
+    def select_from_pool(pool, target_count, prefer_pyq=False):
+        if target_count <= 0:
+            return []
 
-    # Prefer zero overlap with the immediately preceding test. The fallback
-    # permits at most five repeats when the available source pool requires it.
-    fresh_pyqs = [q for q in pyqs if q["_fingerprint"] not in previous]
-    old_pyqs = [q for q in pyqs if q["_fingerprint"] in previous]
-    pyq_target = min(5, len(pyqs), count)
-    selected = fresh_pyqs[:pyq_target]
-    if len(selected) < pyq_target:
-        selected.extend(old_pyqs[:pyq_target-len(selected)])
+        pool = list(pool)
+        rng.shuffle(pool)
 
-    selected_fps = {q["_fingerprint"] for q in selected}
-    max_previous_overlap = 5
+        fresh = [q for q in pool if q["_fingerprint"] not in previous]
+        old = [q for q in pool if q["_fingerprint"] in previous]
 
-    fresh_originals = [q for q in originals if q["_fingerprint"] not in previous]
-    old_originals = [q for q in originals if q["_fingerprint"] in previous and q["_fingerprint"] not in selected_fps]
+        # Keep the existing PYQ-backed behavior, but only within the section
+        # where those questions belong. This prevents PYQs from displacing GA
+        # or Engineering Mathematics quota.
+        if prefer_pyq:
+            fresh_pyq = [
+                q for q in fresh
+                if q.get("source_type") == "pyq" or q.get("source_file")
+            ]
+            fresh_non_pyq = [
+                q for q in fresh
+                if not (q.get("source_type") == "pyq" or q.get("source_file"))
+            ]
+            old_pyq = [
+                q for q in old
+                if q.get("source_type") == "pyq" or q.get("source_file")
+            ]
+            fresh = fresh_pyq + fresh_non_pyq
+            old = old_pyq + [
+                q for q in old
+                if not (q.get("source_type") == "pyq" or q.get("source_file"))
+            ]
 
-    needed = max(0, count - len(selected))
-    selected.extend(fresh_originals[:needed])
+        selected = fresh[:target_count]
 
-    if len(selected) < count:
-        # Only use previous-test questions after exhausting fresh questions,
-        # and never exceed five overlaps in total.
-        overlap_slots = max(0, max_previous_overlap - sum(
-            1 for q in selected if q["_fingerprint"] in previous
-        ))
-        selected.extend(old_originals[:min(overlap_slots, count-len(selected))])
+        # Preserve the old anti-repeat rule: use previous-attempt questions
+        # only when the section's fresh pool is exhausted.
+        if len(selected) < target_count:
+            selected.extend(old[:target_count - len(selected)])
 
-    if len(selected) < count:
-        # Never violate the five-repeat rule. If the source pool is ever too
-        # small for a requested paper, use only fresh source questions rather
-        # than silently repeating more than five questions.
-        fresh_remaining = [q for q in prepared if q["_fingerprint"] not in selected_fps and q["_fingerprint"] not in previous]
-        rng.shuffle(fresh_remaining)
-        selected.extend(fresh_remaining[:count-len(selected)])
+        return selected[:target_count]
 
-    selected = selected[:count]
+    selected = []
+    selected_fps = set()
 
-    # Fixed 100-mark paper with variable question count. For N questions:
-    # one_mark = 2N-100 and two_mark = 100-N.
-    marks = allocate_question_marks(count, 100)
+    for section_name, target_count, target_marks in section_targets:
+        pool = [q for q in prepared if q["section"] == section_name]
+
+        # For Civil Core, prefer available source-backed PYQs, then originals.
+        section_selected = select_from_pool(
+            pool,
+            target_count,
+            prefer_pyq=(section_name == "Civil Core"),
+        )
+
+        if len(section_selected) < target_count:
+            raise ValueError(
+                "Insufficient question-bank data for %s: required %d, available %d"
+                % (section_name, target_count, len(pool))
+            )
+
+        # Ensure no duplicate question crosses sections.
+        for q in section_selected:
+            fp = q["_fingerprint"]
+            if fp in selected_fps:
+                continue
+            selected.append(q)
+            selected_fps.add(fp)
+
+    if len(selected) != 65:
+        raise ValueError("GATE CE generator produced %d questions instead of 65" % len(selected))
+
+    # ---------------------------------------------------------
+    # SECTION MARK ALLOCATION
+    # ---------------------------------------------------------
+    # Official GA is 5 x 1-mark + 5 x 2-mark = 15 marks.
+    # Engineering Mathematics: 5 x 1-mark + 4 x 2-mark = 13 marks.
+    # Civil Core: 20 x 1-mark + 26 x 2-mark = 72 marks.
+    # Overall: 30 one-mark + 35 two-mark = 100 marks.
+    mark_plan = {
+        "General Aptitude": (5, 5),
+        "Engineering Mathematics": (5, 4),
+        "Civil Core": (20, 26),
+    }
+
     rng.shuffle(selected)
-    one_mark = marks["one_mark"]
-    for i, q in enumerate(selected):
-        q["marks"] = 1 if i < one_mark else 2
+    section_mark_counters = {
+        section: {"one": one, "two": two}
+        for section, (one, two) in mark_plan.items()
+    }
+
+    for q in selected:
+        section = q["section"]
+        counters = section_mark_counters[section]
+        if counters["one"] > 0:
+            q["marks"] = 1
+            counters["one"] -= 1
+        else:
+            q["marks"] = 2
+            counters["two"] -= 1
         q.pop("_fingerprint", None)
+
+    if any(
+        counters["one"] != 0 or counters["two"] != 0
+        for counters in section_mark_counters.values()
+    ):
+        raise ValueError("Invalid GATE CE section mark allocation")
 
     return selected
 

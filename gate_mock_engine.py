@@ -386,6 +386,23 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
         # inside the latest configured GATE CE syllabus. This prevents a
         # legacy/out-of-syllabus question from entering the automatic mock
         # merely because its broad subject name still exists.
+        # General Aptitude question-bank labels use legacy topic names.
+        # Map them to the official 2027 aptitude areas so valid questions are
+        # not rejected merely because the bank taxonomy differs in wording.
+        if q.get("subject") == "General Aptitude":
+            ga_topic_map = {
+                "numerical ability": "quantitative aptitude",
+                "algebra": "quantitative aptitude",
+                "probability": "quantitative aptitude",
+                "combinatorics": "quantitative aptitude",
+                "data interpretation": "quantitative aptitude",
+                "analytical reasoning": "analytical aptitude",
+                "verbal ability": "verbal aptitude",
+            }
+            mapped = ga_topic_map.get(topic) or ga_topic_map.get(subtopic)
+            if mapped and mapped in syllabus_text:
+                return True
+
         for phrase in (subtopic, topic):
             if phrase and (phrase in syllabus_text or phrase.replace(" and ", " ") in syllabus_text):
                 return True

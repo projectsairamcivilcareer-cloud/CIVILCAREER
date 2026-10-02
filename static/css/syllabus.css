@@ -656,3 +656,80 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0
 
 /* B.Tech subject accordions */
 .subject-detail{display:block!important;padding:0!important;border-bottom:1px solid #dbe4f0}.subject-detail>summary{display:grid;grid-template-columns:minmax(70px,.7fr) minmax(180px,2fr) minmax(90px,.7fr);gap:12px;align-items:center;list-style:none;cursor:pointer;padding:14px 16px;font-weight:600}.subject-detail>summary::-webkit-details-marker{display:none}.subject-detail>summary strong{color:#153d77}.subject-topics{padding:16px 20px 20px;background:#f8fbff;border-top:1px solid #e2e8f0;line-height:1.65}.subject-topics h4{margin:0 0 10px;color:#173d70}.subject-topics details{margin:8px 0;padding:10px 12px;background:#fff;border:1px solid #dbe4f0;border-radius:8px}.subject-topics summary{cursor:pointer;font-weight:600}.subject-topics li{margin:5px 0}.subject-topics p{margin:0 0 10px;color:#52627a}.category-filter small{display:block;margin-top:7px;color:#64748b;line-height:1.45}.category-filter input{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font:inherit}@media(max-width:650px){.subject-detail>summary{grid-template-columns:1fr;gap:5px}.subject-detail>summary span:last-child{font-size:.85rem;color:#64748b}}
+
+
+/* CIVIL CAREER — unified professional UI layer
+   Visual-only: preserves existing content, routes, forms and data. */
+:root{
+ --cc-navy:#17324d;
+ --cc-blue:#2f6f9f;
+ --cc-blue-soft:#eef5f9;
+ --cc-text:#26384a;
+ --cc-muted:#68798a;
+ --cc-line:#dbe3ea;
+ --cc-page:#f5f7f9;
+ --cc-white:#fff;
+ --cc-green:#2f765d;
+}
+body{
+ font-family:Arial,Helvetica,sans-serif!important;
+ background:var(--cc-page)!important;
+ color:var(--cc-text)!important;
+}
+.sidebar{
+ background:#fff!important;
+ border-right:1px solid var(--cc-line)!important;
+ box-shadow:2px 0 10px rgba(23,50,77,.035)!important;
+}
+.sidebar .logo,.dashboard-logo{
+ color:var(--cc-navy)!important;
+ font-weight:800!important;
+}
+.sidebar nav a,.sidebar-menu a{
+ color:#52677a!important;
+ border-radius:6px!important;
+ margin:2px 10px!important;
+ transition:background .16s ease,color .16s ease!important;
+}
+.sidebar nav a:hover,.sidebar-menu a:hover{
+ background:#f0f5f8!important;
+ color:var(--cc-navy)!important;
+}
+.sidebar nav a.active,.sidebar-menu a.active{
+ background:var(--cc-blue-soft)!important;
+ color:var(--cc-navy)!important;
+ font-weight:700!important;
+ border-left:3px solid var(--cc-blue)!important;
+}
+.dashboard-main,.main,.profile-page{
+ color:var(--cc-text)!important;
+}
+.dashboard-card,.feature-card,.category-card,.notification-card,.profile-card,.practice-card,.mock-card,.syllabus-card,.material-card{
+ border:1px solid var(--cc-line)!important;
+ box-shadow:0 2px 9px rgba(23,50,77,.045)!important;
+ border-radius:9px!important;
+}
+button,.btn,.profile-option-button{
+ font-family:inherit!important;
+}
+button{
+ box-shadow:none!important;
+}
+h1,h2,h3,h4{
+ color:var(--cc-navy);
+}
+a{
+ text-underline-offset:3px;
+}
+input,select,textarea{
+ border-color:#cfd9e2!important;
+ border-radius:6px!important;
+}
+input:focus,select:focus,textarea:focus{
+ border-color:#6f9dbb!important;
+ box-shadow:0 0 0 3px rgba(47,111,159,.10)!important;
+ outline:none!important;
+}
+@media(max-width:800px){
+ .sidebar nav a,.sidebar-menu a{margin-left:6px!important;margin-right:6px!important}
+}

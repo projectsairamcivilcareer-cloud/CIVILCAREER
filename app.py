@@ -79,10 +79,15 @@ def add_site_date_formatter(response):
     """Load the date display formatter on all HTML pages without changing stored/input dates."""
     if response.mimetype == "text/html":
         html = response.get_data(as_text=True)
+
+        # Keep the production Railway URL consistent everywhere in rendered HTML.
+        html = html.replace("https://civilcareer.com", WEBSITE_URL)
+        html = html.replace("http://civilcareer.com", WEBSITE_URL)
+
         script_tag = '<script src="/static/js/date-format.js?v=20260927a" defer></script>'
         if "</body>" in html and "date-format.js" not in html:
             html = html.replace("</body>", script_tag + "</body>")
-            response.set_data(html)
+        response.set_data(html)
     return response
 
 
@@ -98,13 +103,10 @@ def format_date_dmy(value):
     return formatted if formatted != "Not available" else "Not announced"
 
 
-WEBSITE_URL = os.environ.get(
-    "WEBSITE_URL",
-    "https://civilcareer.com"
-)
+WEBSITE_URL = "https://civilcareer.up.railway.app"
 
-# Canonical public URL used in every generated PDF. Never use the Railway alias in PDF branding.
-PDF_WEBSITE_URL = "https://civilcareer.com"
+# Canonical public URL used across student-facing pages and generated PDFs.
+PDF_WEBSITE_URL = "https://civilcareer.up.railway.app"
 
 IST_ZONE = ZoneInfo("Asia/Kolkata")
 

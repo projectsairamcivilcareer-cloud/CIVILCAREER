@@ -333,5 +333,23 @@ body.cc-menu-page .resources-page{
     applyFilters();
 })();
 </script>
+<script>
+(function () {
+    document.querySelectorAll('.resource-btn').forEach(function (link) {
+        link.addEventListener('click', function () {
+            const card = link.closest('.resource-card');
+            const title = card ? card.querySelector('h2') : null;
+            const resourceName = title ? title.textContent.trim() : 'Civil Career Resource';
+            const url = link.href;
+            const body = new URLSearchParams({resource_name: resourceName, resource_url: url});
+            try {
+                navigator.sendBeacon('/resource-referral', new Blob([body.toString()], {type: 'application/x-www-form-urlencoded'}));
+            } catch (error) {
+                // The Amazon link must still open even if referral logging is unavailable.
+            }
+        });
+    });
+})();
+</script>
 </body>
 </html>

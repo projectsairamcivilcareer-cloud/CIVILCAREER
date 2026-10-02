@@ -327,3 +327,21 @@ input:focus,select:focus,textarea:focus{
     width:4px;
     flex-basis:4px;
 }
+
+
+/* Civil Career name + icon in the authenticated menu */
+.cc-menu-brand-logo{
+    width:34px;
+    height:34px;
+    max-width:none;
+    max-height:none;
+    flex:0 0 34px;
+    object-fit:contain;
+}
+.cc-menu-brand-name{
+    color:#fff;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:.03em;
+    white-space:nowrap;
+}

@@ -5712,6 +5712,7 @@ def mock_test(exam_slug):
             session["mock_last_seed_" + exam_slug] = attempt_seed
             session["mock_last_count_" + exam_slug] = target_count
             session["mock_seed_" + exam_slug] = attempt_seed
+            session[syllabus_year_key] = requested_syllabus_year
             session[attempt_no_key] = attempt_no
             session[count_key] = target_count
 

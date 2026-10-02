@@ -70,7 +70,7 @@ def draw_civilcareer_pdf_chrome(canvas, document, header_right="CIVIL CAREER", f
     canvas.drawRightString(width - 18 * mm, 8 * mm, "Page %d" % document.page)
     canvas.restoreState()
 
-from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, build_gate_mock, next_difficulty_mode, _question_fingerprint
+from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, LATEST_GATE_SYLLABUS_YEAR, build_gate_mock, next_difficulty_mode, _question_fingerprint
 
 app = Flask(__name__)
 
@@ -5638,12 +5638,9 @@ def mock_test(exam_slug):
         type=int
     )
 
-    requested_syllabus_year = request.args.get(
-        "syllabus_year",
-        session.get(syllabus_year_key, "2026")
-    )
-    if requested_syllabus_year not in GATE_SYLLABI:
-        requested_syllabus_year = "2026"
+    # GATE Civil mock tests are always generated from the latest configured CE syllabus.
+    # The year is not user-selectable on the mock-test page.
+    requested_syllabus_year = LATEST_GATE_SYLLABUS_YEAR
 
 
     # ==========================================
@@ -6299,6 +6296,8 @@ def mock_test(exam_slug):
         exam_name=exam_name,
 
         exam_slug=exam_slug,
+
+        syllabus_year=LATEST_GATE_SYLLABUS_YEAR if exam_slug == "gate" else None,
 
         question=question,
 

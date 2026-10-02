@@ -411,13 +411,37 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
         # Select questions round-robin across available topics instead.
         # Fresh questions are always preferred; previous-attempt questions are
         # only used when the fresh pool cannot satisfy the section quota.
+        def difficulty_value(q):
+            # Civil Career difficulty is a content-bank heuristic, not an
+            # official GATE difficulty rating.
+            raw = q.get("difficulty_rating")
+            if raw is not None:
+                try:
+                    return max(1, min(7, int(raw)))
+                except (TypeError, ValueError):
+                    pass
+
+            level = str(q.get("difficulty_level") or "").strip().upper()
+            return {
+                "L1": 1, "L2": 2, "L3": 3, "L4": 4,
+                "L5": 5, "L6": 6, "L7": 7,
+                "EASY": 2, "MODERATE": 3, "HARD": 4,
+                "VERY-HARD": 5, "EXPERT": 6, "ELITE": 7,
+            }.get(level, 3)
+
+        def difficulty_target(mode):
+            return _difficulty_target(mode) if mode != "mixed" else 3
+
+        def difficulty_distance(q, target):
+            return abs(difficulty_value(q) - target)
+
         def topic_key(q):
             return (
                 str(q.get("topic") or "General"),
                 str(q.get("subtopic") or ""),
             )
 
-        def balanced_pick(items, limit):
+        def balanced_pick(items, limit, target_difficulty=None):
             groups = {}
             for item in items:
                 groups.setdefault(topic_key(item), []).append(item)
@@ -432,7 +456,18 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
                 remaining_groups = []
                 for group in topic_groups:
                     if group:
-                        picked.append(group.pop())
+                        if target_difficulty is not None and len(group) > 1:
+                            # Prefer the question closest to the requested
+                            # difficulty while retaining topic round-robin.
+                            best_index = min(
+                                range(len(group)),
+                                key=lambda idx: difficulty_distance(
+                                    group[idx], target_difficulty
+                                )
+                            )
+                            picked.append(group.pop(best_index))
+                        else:
+                            picked.append(group.pop())
                         if len(picked) >= limit:
                             break
                     if group:
@@ -441,13 +476,20 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
 
             return picked
 
-        selected = balanced_pick(fresh, target_count)
+        target_difficulty = difficulty_target(mode)
+        selected = balanced_pick(
+            fresh, target_count, target_difficulty=target_difficulty
+        )
 
         # Preserve the anti-repeat rule: use previous-attempt questions only
         # when the section's fresh pool is exhausted.
         if len(selected) < target_count:
             selected.extend(
-                balanced_pick(old, target_count - len(selected))
+                balanced_pick(
+                    old,
+                    target_count - len(selected),
+                    target_difficulty=target_difficulty
+                )
             )
 
         return selected[:target_count]

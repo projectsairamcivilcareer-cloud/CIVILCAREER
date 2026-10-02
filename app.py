@@ -5700,7 +5700,7 @@ def mock_test(exam_slug):
             if previous_seed and previous_count:
                 previous_questions = build_gate_mock(
                     mode="mixed", count=previous_count, profile=None,
-                    scope="all", attempt_seed=previous_seed
+                    scope="all", attempt_seed=previous_seed, syllabus_year=session.get(syllabus_year_key, "2026")
                 )
                 previous_fps = [_question_fingerprint(q) for q in previous_questions]
 
@@ -5719,14 +5719,14 @@ def mock_test(exam_slug):
             questions = build_gate_mock(
                 mode="mixed", count=target_count, profile=None,
                 scope="all", avoid_fingerprints=previous_fps,
-                attempt_seed=attempt_seed
+                attempt_seed=attempt_seed, syllabus_year=requested_syllabus_year
             )
         else:
             attempt_seed = session.get("mock_seed_" + exam_slug)
             target_count = int(session.get(count_key, 60) or 60)
             questions = build_gate_mock(
                 mode="mixed", count=target_count, profile=None,
-                scope="all", attempt_seed=attempt_seed
+                scope="all", attempt_seed=attempt_seed, syllabus_year=session.get(syllabus_year_key, requested_syllabus_year)
             )
 
     # ==========================================

@@ -22,30 +22,31 @@ body.cc-menu-page .main {
     padding-top: 78px !important;
 }
 
-.cc-menu-button {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 10001;
-    width: 48px;
-    height: 48px;
-    border: 0;
-    border-radius: 12px;
-    background: #0f172a;
-    color: #ffffff;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.22);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    line-height: 1;
-    transition: transform 0.2s ease, background 0.2s ease;
+.cc-menu-button{
+    position:fixed;
+    top:16px;
+    left:16px;
+    z-index:10001;
+    width:46px;
+    height:46px;
+    border:1px solid #d8e1e8;
+    border-radius:8px;
+    background:#ffffff;
+    color:#17324d;
+    box-shadow:0 3px 12px rgba(23,50,77,.10);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0;
+    line-height:1;
+    transition:background .16s ease,border-color .16s ease,box-shadow .16s ease;
 }
 
-.cc-menu-button:hover {
-    background: #1d4ed8;
-    transform: translateY(-1px);
+.cc-menu-button:hover{
+    background:#f3f7fa;
+    border-color:#b9c9d5;
+    box-shadow:0 5px 16px rgba(23,50,77,.14);
 }
 
 .cc-menu-button:focus-visible,
@@ -65,22 +66,22 @@ body.cc-menu-page .main {
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.cc-menu-drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10002;
-    width: min(310px, 86vw);
-    height: 100vh;
-    background: #0f172a;
-    color: #ffffff;
-    padding: 18px 14px;
-    box-shadow: 12px 0 30px rgba(15, 23, 42, 0.25);
-    transform: translateX(-105%);
-    transition: transform 0.24s ease;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+.cc-menu-drawer{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:10002;
+    width:min(300px,86vw);
+    height:100vh;
+    background:#17324d;
+    color:#fff;
+    padding:16px 12px;
+    box-shadow:10px 0 28px rgba(15,35,55,.24);
+    transform:translateX(-105%);
+    transition:transform .22s ease;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;
 }
 
 body.cc-menu-open .cc-menu-backdrop {
@@ -202,12 +203,13 @@ body.cc-menu-open .cc-menu-drawer {
 
 
 /* Civil Career official brand mark in the navigation drawer */
-.cc-menu-brand-logo {
-    display: block;
-    width: 238px;
-    max-width: calc(100% - 12px);
-    height: auto;
-    object-fit: contain;
+.cc-menu-brand-logo{
+    display:block;
+    width:190px;
+    max-width:calc(100% - 8px);
+    max-height:42px;
+    height:auto;
+    object-fit:contain;
 }
 
 
@@ -285,4 +287,25 @@ input:focus,select:focus,textarea:focus{
 }
 @media(max-width:800px){
  .sidebar nav a,.sidebar-menu a{margin-left:6px!important;margin-right:6px!important}
+}
+
+
+/* Civil Career menu bar and logo refinement */
+.cc-menu-button::before{
+    content:"";
+    position:absolute;
+    width:19px;
+    height:2px;
+    border-radius:2px;
+    background:#17324d;
+    transform:translateY(-6px);
+    box-shadow:0 6px 0 #17324d,0 12px 0 #17324d;
+}
+.cc-menu-head{padding:8px 8px 16px}
+.cc-menu-nav{margin-top:16px;gap:3px}
+.cc-menu-link{min-height:44px;border-radius:7px;font-size:14px}
+.cc-menu-link.active{background:#2f6f9f}
+.cc-menu-icon{font-size:16px}
+@media(max-width:650px){
+    .cc-menu-button{top:12px;left:12px;width:44px;height:44px}
 }

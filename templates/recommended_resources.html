@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/civil-career-icon.svg') }}">
     <style>
+.resources-navbar{padding-left:78px!important;padding-right:24px!important;}
+.resources-navbar .logo img{max-height:42px;width:auto;}
 .resources-page{
     max-width:1180px;
     margin:0 auto;
     padding:42px 24px 72px;
 }
 body.cc-menu-page .resources-page{
-    padding-top:94px;
+    padding-top:42px;
 }
 .resources-intro{
     max-width:820px;
@@ -268,14 +270,14 @@ body.cc-menu-page .resources-page{
     border-radius:9px;
 }
 @media(max-width:650px){
+    .resources-navbar{padding-left:66px!important;padding-right:14px!important;}
     .resources-tools{grid-template-columns:1fr}
     .resources-brand{margin-bottom:20px}
 }
 </style>
 </head>
 <body>
-{% if "student_id" not in session %}
-<nav class="navbar">
+<nav class="navbar resources-navbar">
     <div class="logo"><a href="{{ url_for('home') }}" aria-label="Civil Career Home"><img src="{{ url_for('static', filename='images/civil-career-brand.svg') }}" alt="Civil Career"></a></div>
     <div class="nav-links">
         <a href="{{ url_for('home') }}">Home</a>
@@ -283,7 +285,6 @@ body.cc-menu-page .resources-page{
         <a href="{{ url_for('login') }}">Login</a>
     </div>
 </nav>
-{% endif %}
 <main class="resources-page">
 <section class="resources-brand" aria-label="Civil Career brand">
     <img src="{{ url_for('static', filename='images/civil-career-icon.svg') }}" alt="Civil Career">

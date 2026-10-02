@@ -309,3 +309,21 @@ input:focus,select:focus,textarea:focus{
 @media(max-width:650px){
     .cc-menu-button{top:12px;left:12px;width:44px;height:44px}
 }
+
+
+/* Signed-in identity row: informational, not a navigation target. */
+.cc-menu-user{
+    cursor:default;
+    color:#e6edf3;
+    border-top:1px solid rgba(255,255,255,.08);
+    margin-top:5px;
+    padding-top:12px;
+}
+.cc-menu-user:hover{
+    background:transparent;
+    color:#ffffff;
+}
+.cc-menu-user .cc-menu-icon{
+    width:4px;
+    flex-basis:4px;
+}

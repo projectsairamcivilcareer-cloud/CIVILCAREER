@@ -1084,12 +1084,16 @@ def create_database():
 
 @app.route("/")
 def home():
-    # Authenticated students must end their session before viewing the public home page.
-    if "student_id" in session:
-        session.clear()
-        return redirect(url_for("login", logged_out=1))
+    # Home is part of the authenticated Civil Career application.
+    # Visitors who are not logged in must sign in before accessing it.
+    if "student_id" not in session:
+        return redirect(url_for("login"))
 
-    return render_template("index.html")
+    return render_template(
+        "index.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", "")
+    )
 
 
 # ==============================
@@ -1108,6 +1112,10 @@ def about():
 
 @app.route("/recommended-resources")
 def recommended_resources():
+    # Recommended Resources is an authenticated Civil Career page.
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
     # Keep the affiliate URL outside source code so it can be added/updated
     # later without changing any student, mock-test or database data.
     amazon_gate_book_url = (os.environ.get("AMAZON_GATE_BOOK_URL") or "").strip()

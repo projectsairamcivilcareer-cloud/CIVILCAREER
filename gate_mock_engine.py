@@ -341,6 +341,26 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
         )
         prepared.append(q)
 
+    # Keep generated questions inside the selected year's configured syllabus.
+    selected_syllabus = GATE_SYLLABI.get(str(syllabus_year), GATE_SYLLABUS)
+    parent_subject = {
+        "Engineering Mechanics": "Structural Engineering",
+        "Solid Mechanics": "Structural Engineering",
+        "Structural Analysis": "Structural Engineering",
+        "Construction Materials and Management": "Structural Engineering",
+        "Concrete Structures": "Structural Engineering",
+        "Steel Structures": "Structural Engineering",
+    }
+    syllabus_map = {
+        str(area.get("subject", "")).casefold(): " ".join(str(x) for x in area.get("topics", []))
+        for area in selected_syllabus
+    }
+    prepared = [
+        q for q in prepared
+        if q.get("subject") == "General Aptitude"
+        or parent_subject.get(q.get("subject"), q.get("subject", "")).casefold() in syllabus_map
+    ]
+
     if scope != "all":
         prepared = [
             q for q in prepared

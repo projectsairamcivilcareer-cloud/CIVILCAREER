@@ -14,7 +14,7 @@
         .legal-card h1{margin:0 0 10px;color:#17324d;font-size:34px;line-height:1.2}
         .legal-updated{margin:0 0 30px;color:#68798a;font-size:14px}
         .legal-card h2{margin:30px 0 9px;color:#17324d;font-size:21px}
-        .legal-card p,.legal-card li{color:#425466;line-height:1.75;font-size:15px}
+        .legal-card p,.legal-card li,.legal-paragraph{color:#425466;line-height:1.75;font-size:15px}
         .legal-card ul{padding-left:22px}
         .legal-card a{color:#2f6f9f}
         .legal-note{margin-top:28px;padding:15px 17px;border-left:3px solid #2f6f9f;background:#eef5f9;color:#425466;border-radius:4px}
@@ -49,7 +49,7 @@
             {% for section in sections %}
                 <h2>{{ section.title }}</h2>
                 {% for paragraph in section.paragraphs %}
-                    <p>{{ paragraph|safe }}</p>
+                    <div class="legal-paragraph">{{ paragraph|safe }}</div>
                 {% endfor %}
                 {% if section.bullets %}
                     <ul>

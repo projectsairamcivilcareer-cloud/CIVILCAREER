@@ -81,3 +81,42 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 90% 0
 .photo-modal-card img{display:block;width:100%;max-height:70vh;object-fit:contain;border-radius:12px;background:#f1f5f9}
 .photo-modal-close{position:absolute;top:7px;right:7px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(15,23,42,.82);color:#fff;font-size:22px;line-height:1;cursor:pointer;z-index:2}
 @media(max-width:480px){.profile-edit-button{top:18px;right:18px}.photo-editor-actions,.photo-choice-grid{grid-template-columns:1fr}}
+
+
+/* Professional profile refinement */
+.profile-page-header{padding-bottom:4px}
+.profile-page-header h1{font-weight:800}
+.profile-page-header p{font-size:14px}
+.profile-card{background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}
+.profile-photo-card{padding:34px 34px 30px}
+.profile-edit-button{display:inline-flex;align-items:center;gap:7px;font-size:13px;letter-spacing:.01em}
+.profile-avatar{width:136px;height:136px;border:4px solid #fff}
+.profile-top-card h2{font-size:25px;font-weight:800;color:#10213b}
+.user-id{font-weight:600;box-shadow:0 2px 8px rgba(37,99,235,.07)}
+.photo-editor{margin-top:22px;padding-top:20px}
+.photo-editor-actions{gap:12px}
+.photo-action{min-height:44px;font-size:13px}
+.photo-action.primary{box-shadow:0 6px 14px rgba(37,99,235,.16)}
+.photo-take-panel{background:#f7faff;border-color:#d7e2ef}
+.photo-choice{min-height:100px}
+.photo-choice span{font-size:22px;font-weight:800;color:#2563eb}
+.save-photo-button{font-size:13px;letter-spacing:.01em}
+.section-title h2{font-size:19px;font-weight:800;color:#172b45}
+.required-label{background:#eff6ff;color:#1d4ed8;border:1px solid #dbeafe}
+.data-item{background:#fbfcfe}
+.data-item label{font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.data-item strong{font-size:15px;color:#172033}
+.profile-options{gap:10px}
+.profile-option-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;font-size:13px;color:#1e3a5f}
+.profile-option-button:hover{border-color:#93c5fd;background:#f8fbff}
+.profile-setting-panel{box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.profile-setting-panel input,.profile-setting-panel select{min-height:44px}
+.profile-setting-panel button{min-height:44px}
+.education-display{background:linear-gradient(135deg,#f8fbff,#f5f8fc)}
+.education-display strong{font-size:16px;color:#10213b}
+.education-display span{font-size:13px}
+@media(max-width:700px){
+  .profile-photo-card{padding:26px 20px}
+  .profile-edit-button{top:18px;right:18px}
+  .profile-avatar{width:124px;height:124px}
+}

@@ -228,6 +228,7 @@ def add_global_navigation(response):
     # These pages should remain distraction-free; navigation is available
     # again on dashboards, results, and other regular app pages.
     menu_excluded_paths = (
+        "/",
         "/practice",
         "/subject-practice",
         "/pyqs",
@@ -1095,11 +1096,8 @@ def health():
 
 @app.route("/")
 def home():
-    # Home is part of the authenticated Civil Career application.
-    # Visitors who are not logged in must sign in before accessing it.
-    if "student_id" not in session:
-        return redirect(url_for("login"))
-
+    # Home is a public landing page. It must never clear or replace an
+    # existing authenticated session when a logged-in student opens it.
     return render_template(
         "index.html",
         student_name=session.get("student_name", ""),

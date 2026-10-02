@@ -2348,7 +2348,383 @@
         .exam-wrapper .pyq-source {
             display: none !important;
         }
-    </style>
+    
+        /* =========================================================
+           CIVIL CAREER — PREMIUM GATE CBT THEME
+           Reference layout: 4-part header / 2-column test body /
+           split bottom navigation.
+        ========================================================= */
+
+        :root {
+            --primary: #0F2747;
+            --primary-dark: #091D35;
+            --primary-light: #EAF2FF;
+            --accent: #2563EB;
+            --accent-dark: #1D4ED8;
+            --success: #16A34A;
+            --success-bg: #ECFDF3;
+            --warning: #D97706;
+            --warning-bg: #FFF7E6;
+            --teal: #0F766E;
+            --teal-dark: #0B5F59;
+            --text: #172B45;
+            --text-soft: #52657A;
+            --text-muted: #718096;
+            --page: #F4F7FB;
+            --surface: #FFFFFF;
+            --surface-soft: #F8FAFD;
+            --border: #D9E2EC;
+            --border-dark: #C4D0DD;
+        }
+
+        body {
+            background: var(--page);
+        }
+
+        /* TOP HEADER — exactly the four-block reference structure */
+        .exam-header {
+            height: 72px;
+            grid-template-columns: 185px minmax(300px, 1fr) 135px 145px;
+            gap: 10px;
+            padding: 8px 16px;
+            background: #F8FAFD;
+            border-bottom: 1px solid #D6E0EA;
+            box-shadow: 0 4px 18px rgba(15,39,71,.08);
+        }
+
+        .organization-box {
+            height: 36px;
+            min-width: 114px;
+            border: 1px solid #AFC0D2;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: var(--primary);
+            box-shadow: 0 3px 10px rgba(15,39,71,.06);
+        }
+
+        .test-name {
+            height: 56px;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            background: linear-gradient(135deg, #F8FBFF 0%, #EEF4FC 100%);
+            color: var(--primary);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 4px 12px rgba(15,39,71,.07);
+        }
+
+        .test-title-main {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: -.15px;
+        }
+
+        .calculator-button {
+            border-color: #B8CCEA;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F1F6FF 100%);
+            color: var(--accent-dark);
+        }
+
+        .calculator-button:hover {
+            background: #EAF2FF;
+            border-color: var(--accent);
+            color: var(--accent-dark);
+        }
+
+        .timer-button {
+            border-color: #B9C7D8;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F3F6FA 100%);
+            color: var(--primary);
+        }
+
+        .timer-button #timer {
+            color: var(--primary);
+        }
+
+        .timer-button:hover {
+            border-color: #8FA7C0;
+            background: #F0F5FA;
+        }
+
+        /* MAIN BODY — soft blue-grey exam canvas + clean white navigator */
+        .test-body {
+            grid-template-columns: minmax(0, 1fr) 250px;
+            background: var(--page);
+        }
+
+        .question-area {
+            background: linear-gradient(180deg, #F4F8FC 0%, #EDF3F8 100%);
+            border-right: 1px solid #C9D5E1;
+        }
+
+        .question-scroll {
+            padding: 18px 42px 28px;
+        }
+
+        .question-top {
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #D9E3ED;
+        }
+
+        .question-label {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .question-label::before {
+            background: var(--accent);
+        }
+
+        .question-progress {
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .question-meta,
+        .question-type {
+            color: var(--text-soft);
+        }
+
+        .question-marks {
+            border-color: #BBD2F5;
+            background: #EAF2FF;
+            color: #1D4ED8;
+        }
+
+        .question-type {
+            border-color: #CBD5E1;
+            background: #F8FAFD;
+            color: #475569;
+        }
+
+        .question-card {
+            margin-bottom: 20px;
+            padding: 27px 34px;
+            border: 1px solid #D5E0EA;
+            border-radius: 12px;
+            background: #FFFFFF;
+            box-shadow: 0 10px 25px rgba(15,39,71,.065);
+        }
+
+        .question-card::before {
+            width: 4px;
+            background: var(--accent);
+        }
+
+        .question-text {
+            color: #162B45;
+            font-size: 18px;
+            line-height: 1.55;
+        }
+
+        /* OPTIONS — white cards with blue active interaction */
+        .option {
+            min-height: 58px;
+            border: 1px solid #D6E0EA;
+            background: #FFFFFF;
+            color: var(--text);
+            box-shadow: 0 3px 12px rgba(15,39,71,.035);
+        }
+
+        .option:hover {
+            border-color: #7EA7E5;
+            background: #F7FAFF;
+            box-shadow: 0 7px 18px rgba(37,99,235,.08);
+        }
+
+        .option:has(input:checked) {
+            border-color: var(--accent);
+            background: #EFF6FF;
+            box-shadow: 0 6px 18px rgba(37,99,235,.12);
+        }
+
+        .option-letter {
+            background: #F1F5F9;
+            border: 1px solid #D6DEE8;
+            color: #475569;
+        }
+
+        .option:has(input:checked) .option-letter {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        /* QUESTION NUMBER PANEL */
+        .question-panel {
+            background: #FFFFFF;
+            border-left: 1px solid #D5DFEA;
+        }
+
+        .question-panel-title {
+            height: 52px;
+            background: #F8FAFD;
+            color: var(--primary);
+            border-bottom: 1px solid #D7E1EB;
+            font-size: 14px;
+        }
+
+        .navigator-info {
+            background: #FFFFFF;
+            color: #64748B;
+        }
+
+        .question-numbers {
+            padding: 12px;
+            background: #FFFFFF;
+            gap: 7px;
+        }
+
+        .question-number {
+            height: 38px;
+            border: 1px solid #CFDAE5;
+            border-radius: 7px;
+            background: #FFFFFF;
+            color: #35506C;
+        }
+
+        .question-number:hover {
+            border-color: #8BAFE2;
+            background: #F3F7FD;
+        }
+
+        .question-number.current,
+        .question-number.current.answered,
+        .question-number.current.review {
+            border: 2px solid var(--accent);
+            box-shadow: 0 3px 9px rgba(37,99,235,.15);
+        }
+
+        .question-number.current {
+            background: #EAF2FF;
+            color: #1D4ED8;
+        }
+
+        .question-number.answered {
+            background: #ECFDF3;
+            border-color: #86D5AA;
+            color: #166534;
+        }
+
+        .question-number.review {
+            background: #FFF7E6;
+            border-color: #F0C36B;
+            color: #9A5B0A;
+        }
+
+        .navigator-legend {
+            background: #F8FAFD;
+            border-top: 1px solid #D7E1EB;
+        }
+
+        .legend-title {
+            color: var(--primary);
+        }
+
+        /* BOTTOM BAR — four clear actions */
+        .bottom-bar {
+            height: 62px;
+            padding: 6px 12px;
+            gap: 10px;
+            background: #FFFFFF;
+            border-top: 1px solid #D5DFEA;
+            box-shadow: 0 -5px 18px rgba(15,39,71,.07);
+        }
+
+        .bottom-nav-left,
+        .bottom-nav-right {
+            gap: 8px;
+        }
+
+        .bottom-button {
+            min-width: 132px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 850;
+        }
+
+        .bottom-button:hover {
+            background: #F8FAFD;
+            border-color: #94A3B8;
+            color: var(--primary);
+        }
+
+        #reviewQuestionButton {
+            border-color: #F0C36B;
+            background: #FFFBEB;
+            color: #A16207;
+        }
+
+        #reviewQuestionButton:hover {
+            background: #FFF4CC;
+            border-color: var(--warning);
+            color: #92400E;
+        }
+
+        #nextQuestionButton {
+            border-color: #8FB5F0;
+            background: #2563EB;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(37,99,235,.18);
+        }
+
+        #nextQuestionButton:hover {
+            background: #1D4ED8;
+            border-color: #1D4ED8;
+            color: #FFFFFF;
+        }
+
+        #previousQuestionButton:disabled,
+        #nextQuestionButton:disabled {
+            background: #F1F5F9;
+            border-color: #E2E8F0;
+            color: #94A3B8;
+            box-shadow: none;
+        }
+
+        .submit-button {
+            min-width: 128px;
+            border: 1px solid var(--teal);
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0F766E, #0B5F59);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(15,118,110,.18);
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(135deg, #0D6B64, #09534E);
+            border-color: #09534E;
+            transform: translateY(-1px);
+        }
+
+        /* Keep the reference structure clean on smaller screens */
+        @media (max-width: 1000px) {
+            .exam-header {
+                grid-template-columns: 135px minmax(0,1fr) 105px 115px;
+                gap: 8px;
+                padding: 7px 10px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .question-scroll {
+                padding: 16px 18px 22px;
+            }
+
+            .question-card {
+                padding: 22px 18px;
+            }
+
+            .bottom-bar {
+                height: 58px;
+                padding: 5px 6px;
+            }
+        }
+
+</style>
 </head>
 
 
@@ -2382,7 +2758,7 @@
 
         <button
             type="button"
-            class="header-button"
+            class="header-button calculator-button"
             onclick="openCalculator()"
         >
             🧮 Calculator

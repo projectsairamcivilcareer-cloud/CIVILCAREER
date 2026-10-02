@@ -180,36 +180,6 @@
       </form>
     </div>
 
-    <div class="profile-subsection">
-      <div class="profile-subsection-heading">
-        <div>
-          <h3>Resource Order History</h3>
-          <p>Amazon referrals opened from your Civil Career account.</p>
-        </div>
-      </div>
-      {% if order_history %}
-      <div class="order-history-list">
-        {% for order in order_history %}
-        <div class="order-history-item">
-          <div>
-            <strong>{{ order.resource_name }}</strong>
-            <small>Referral: {{ order.referral_clicked_at }}</small>
-          </div>
-          <div class="order-status-wrap">
-            <span class="order-status">{{ order.amazon_status }}</span>
-            <small>{{ order.commission_status }}</small>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% else %}
-      <div class="order-history-empty">
-        <strong>No resource orders yet</strong>
-        <p>When you open a recommended resource through Civil Career, the referral will be recorded here. Amazon order delivery and commission confirmation come from Amazon Associates reporting.</p>
-      </div>
-      {% endif %}
-    </div>
-
     <div class="profile-subsection profile-danger-zone">
       <div class="profile-subsection-heading">
         <div>
@@ -227,6 +197,38 @@
         </form>
       </div>
     </div>
+  </section>
+
+  <section class="profile-card resource-order-history-card">
+    <div class="section-title">
+      <h2>Resource Order History</h2>
+    </div>
+    <div class="profile-subsection-heading">
+      <div>
+        <p>Only Amazon purchases that are confirmed as returned or replaced are recorded here.</p>
+      </div>
+    </div>
+    {% if order_history %}
+    <div class="order-history-list">
+      {% for order in order_history %}
+      <div class="order-history-item">
+        <div>
+          <strong>{{ order.resource_name }}</strong>
+          <small>{{ order.referral_clicked_at }}</small>
+        </div>
+        <div class="order-status-wrap">
+          <span class="order-status">{{ order.amazon_status }}</span>
+          <small>{{ order.commission_status }}</small>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="order-history-empty">
+      <strong>No returned or replaced resource orders</strong>
+      <p>Resource clicks and normal purchases are not saved here. An entry is added only when an Amazon order is confirmed as returned or replaced through the supported reporting process.</p>
+    </div>
+    {% endif %}
   </section>
 </main>
 

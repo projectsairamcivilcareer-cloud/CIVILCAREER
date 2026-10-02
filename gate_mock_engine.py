@@ -403,12 +403,52 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
                 if not (q.get("source_type") == "pyq" or q.get("source_file"))
             ]
 
-        selected = fresh[:target_count]
+        # ---------------------------------------------------------
+        # TOPIC-BALANCED SELECTION
+        # ---------------------------------------------------------
+        # Do not simply take the first N shuffled questions. That can make a
+        # random paper over-represent one topic and completely miss another.
+        # Select questions round-robin across available topics instead.
+        # Fresh questions are always preferred; previous-attempt questions are
+        # only used when the fresh pool cannot satisfy the section quota.
+        def topic_key(q):
+            return (
+                str(q.get("topic") or "General"),
+                str(q.get("subtopic") or ""),
+            )
 
-        # Preserve the old anti-repeat rule: use previous-attempt questions
-        # only when the section's fresh pool is exhausted.
+        def balanced_pick(items, limit):
+            groups = {}
+            for item in items:
+                groups.setdefault(topic_key(item), []).append(item)
+
+            topic_groups = list(groups.values())
+            rng.shuffle(topic_groups)
+            for group in topic_groups:
+                rng.shuffle(group)
+
+            picked = []
+            while topic_groups and len(picked) < limit:
+                remaining_groups = []
+                for group in topic_groups:
+                    if group:
+                        picked.append(group.pop())
+                        if len(picked) >= limit:
+                            break
+                    if group:
+                        remaining_groups.append(group)
+                topic_groups = remaining_groups
+
+            return picked
+
+        selected = balanced_pick(fresh, target_count)
+
+        # Preserve the anti-repeat rule: use previous-attempt questions only
+        # when the section's fresh pool is exhausted.
         if len(selected) < target_count:
-            selected.extend(old[:target_count - len(selected)])
+            selected.extend(
+                balanced_pick(old, target_count - len(selected))
+            )
 
         return selected[:target_count]
 

@@ -1303,7 +1303,7 @@ def disclaimer():
 
 @app.route("/contact")
 def contact():
-    contact_email = (os.environ.get("CONTACT_EMAIL") or "").strip()
+    contact_email = (os.environ.get("CONTACT_EMAIL") or "projectsairamcivilcareer@gmail.com").strip()
     if contact_email:
         contact_text = (
             f'<p><strong>Official support email:</strong> '

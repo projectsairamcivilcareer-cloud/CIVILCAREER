@@ -26,7 +26,7 @@
 <main class="dashboard-main">
     <header class="topbar">
         <div><a class="back-link" href="{{ url_for('government_jobs') }}">← Government Jobs</a><h1>{{ job.organization }}</h1><p>{{ job.post_name }}</p></div>
-        <div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></div>
+        <div class="student-info"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
     </header>
     <section class="job-detail-card">
         <div class="job-card-heading"><div><span class="job-tag">{{ job.job_type }}</span><h2>{{ job.post_name }}</h2><p>{{ job.department }}</p></div><span class="job-status status-{{ job.display_status|lower|replace(' ', '-') }}">{{ job.display_status }}</span></div>

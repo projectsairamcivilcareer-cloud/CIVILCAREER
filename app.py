@@ -224,25 +224,8 @@ def add_global_navigation(response):
     ):
         return response
 
-    # Keep the global drawer off focused practice and exam-taking screens.
-    # These pages should remain distraction-free; navigation is available
-    # again on dashboards, results, and other regular app pages.
-    menu_excluded_paths = (
-        "/",
-        "/practice",
-        "/subject-practice",
-        "/pyqs",
-        "/mock-tests",
-        "/mock-test/",
-    )
-    current_path = request.path.rstrip("/") or "/"
-    if any(
-        current_path == excluded.rstrip("/")
-        or current_path.startswith(excluded)
-        for excluded in menu_excluded_paths
-    ):
-        return response
-
+    # Logged-in students should have the global menu on every HTML application page.
+    # Do not exclude Home, Practice, PYQs, Mock Tests, or any other authenticated page.
     html = response.get_data(as_text=True)
 
     if "global-menu.css" in html or 'id="cc-global-menu"' in html:

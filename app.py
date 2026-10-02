@@ -5633,6 +5633,13 @@ def mock_test(exam_slug):
         type=int
     )
 
+    requested_syllabus_year = request.args.get(
+        "syllabus_year",
+        session.get(syllabus_year_key, "2026")
+    )
+    if requested_syllabus_year not in GATE_SYLLABI:
+        requested_syllabus_year = "2026"
+
 
     # ==========================================
     # VALIDATE SETTINGS

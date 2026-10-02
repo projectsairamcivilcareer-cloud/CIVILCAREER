@@ -50,10 +50,7 @@
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
                         <span class="cc-menu-icon">📖</span><span>Syllabus</span>
                     </a>
-                    <a class="cc-menu-link" href="/materials" data-cc-path="/materials">
-                        <span class="cc-menu-icon">📚</span><span>Materials</span>
-                    </a>
-                    <a class="cc-menu-link" href="/practice" data-cc-path="/practice">
+<a class="cc-menu-link" href="/practice" data-cc-path="/practice">
                         <span class="cc-menu-icon">🎯</span><span>Practice</span>
                     </a>
                     <a class="cc-menu-link" href="/profile" data-cc-path="/profile">
@@ -118,7 +115,6 @@
             const allowNestedActive = [
                 "/exams",
                 "/syllabus",
-                "/materials",
                 "/practice",
                 "/profile",
                 "/jobs",

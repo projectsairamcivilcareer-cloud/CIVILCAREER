@@ -3,7 +3,7 @@
 </head>
 <body>
 <aside class="sidebar"><div class="logo">🏗️ CIVIL CAREER</div><nav><a href="/dashboard">📊 Dashboard</a><a href="/jobs">💼 Jobs</a><a href="/syllabus">📖 Syllabus</a><a href="/materials" class="active">📚 Materials</a><a href="/notifications">🔔 Notifications</a><a href="/practice">🎯 Practice</a><a href="/profile">👤 Profile</a></nav><div class="bottom-menu"><a href="/auto-logout">🏠 Home (Logout)</a><a href="/logout">🚪 Logout</a></div></aside>
-<main class="main"><header class="header"><div><h1>{{ page_title }}</h1><p>{{ page_subtitle }}</p></div><div class="user"><strong>{{ student_name }}</strong><small>{{ student_education }}</small></div></header>
+<main class="main"><header class="header"><div><h1>{{ page_title }}</h1><p>{{ page_subtitle }}</p></div><div class="user"><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></header>
 <section class="content-box"><a href="/materials">← All Materials</a><h2>{{ page_title }} — select syllabus context</h2><p>To avoid mixing course outlines, choose the exact course, board/university or recruiting exam, regulation/year and subject from the official syllabus first.</p>
 <div class="material-grid">
 {% for item in contexts %}<a class="material-card" href="{{ item.href }}"><div class="material-icon">{{ item.icon }}</div><span class="tag">{{ item.tag }}</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p><strong>{{ item.action }} →</strong></a>{% endfor %}

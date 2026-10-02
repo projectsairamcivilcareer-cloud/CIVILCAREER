@@ -318,7 +318,11 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
     - Civil Core preferentially uses available source-backed PYQs, then original questions.
     - Questions are shuffled after selection.
     """
-    # GATE Civil mock tests always use the latest configured CE syllabus.\n    # Older syllabus years remain available for syllabus/reference pages only.\n    syllabus_year = LATEST_GATE_SYLLABUS_YEAR\n\n    all_questions = (
+    # GATE Civil mock tests always use the latest configured CE syllabus.
+    # Older syllabus years remain available for syllabus/reference pages only.
+    syllabus_year = LATEST_GATE_SYLLABUS_YEAR
+
+    all_questions = (
         GATE_APTITUDE_QUESTIONS
         + GATE_QUESTION_BANK
         + GATE_QUESTION_BANK_EXTRA

@@ -164,23 +164,25 @@
       <h2>Account Settings</h2>
     </div>
 
-    <div class="profile-options">
-      <button type="button" class="profile-option-button" onclick="togglePanel('password-panel')">🔑 Change Password</button>
-    </div>
+    <div class="account-settings-grid">
+      <div class="account-setting-item">
+        <button type="button" class="profile-option-button" onclick="togglePanel('password-panel')">🔑 Change Password</button>
 
-    <div id="password-panel" class="profile-setting-panel">
-      <form method="POST" action="{{ url_for('profile_change_password') }}">
-        <label>Current Password <span class="required-star">*</span></label>
-        <input type="password" name="current_password" required>
-        <label>New Password <span class="required-star">*</span></label>
-        <input type="password" name="new_password" minlength="6" required>
-        <label>Confirm New Password <span class="required-star">*</span></label>
-        <input type="password" name="confirm_password" minlength="6" required>
-        <button type="submit">Change Password</button>
-      </form>
-    </div>
+        <div id="password-panel" class="profile-setting-panel">
+          <form method="POST" action="{{ url_for('profile_change_password') }}">
+            <label>Current Password <span class="required-star">*</span></label>
+            <input type="password" name="current_password" required>
+            <label>New Password <span class="required-star">*</span></label>
+            <input type="password" name="new_password" minlength="6" required>
+            <label>Confirm New Password <span class="required-star">*</span></label>
+            <input type="password" name="confirm_password" minlength="6" required>
+            <button type="submit">Change Password</button>
+          </form>
+        </div>
+      </div>
 
-    <div class="profile-subsection profile-danger-zone">
+      <div class="account-setting-item">
+        <div class="profile-subsection profile-danger-zone">
       <div class="profile-subsection-heading">
         <div>
           <h3>Delete Account</h3>
@@ -195,6 +197,7 @@
           <input id="delete-confirmation" name="confirmation" type="text" autocomplete="off" placeholder="Type DELETE" required>
           <button type="submit" class="delete-confirm-button">Permanently Delete Account</button>
         </form>
+        </div>
       </div>
     </div>
   </section>

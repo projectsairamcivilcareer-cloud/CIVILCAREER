@@ -2418,6 +2418,19 @@
             letter-spacing: -.15px;
         }
 
+        .syllabus-year-badge {
+            margin-left: 10px;
+            padding: 5px 9px;
+            border: 1px solid #B8CCEA;
+            border-radius: 7px;
+            background: #EAF2FF;
+            color: #1D4ED8;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: .45px;
+            white-space: nowrap;
+        }
+
         .calculator-button {
             border-color: #B8CCEA;
             background: linear-gradient(135deg, #FFFFFF 0%, #F1F6FF 100%);
@@ -2924,7 +2937,9 @@
 
         <div class="test-name">
             <div class="test-title-main">{{ exam_name }} Civil Engineering</div>
-            
+            {% if exam_slug == "gate" %}
+                <span class="syllabus-year-badge">GATE {{ syllabus_year|default('2026') }} • SYLLABUS ALIGNED</span>
+            {% endif %}
         </div>
 
 

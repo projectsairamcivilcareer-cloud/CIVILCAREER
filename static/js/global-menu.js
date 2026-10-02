@@ -41,29 +41,35 @@
 
                 <nav class="cc-menu-nav">
                     <a class="cc-menu-link" href="/dashboard" data-cc-path="/dashboard">
-                        <span class="cc-menu-icon">📊</span><span>Dashboard</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Dashboard</span>
                     </a>
                     
                     <a class="cc-menu-link" href="/jobs" data-cc-path="/jobs">
-                        <span class="cc-menu-icon">💼</span><span>Jobs</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Jobs</span>
                     </a>
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
-                        <span class="cc-menu-icon">📖</span><span>Syllabus</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Syllabus</span>
                     </a>
 <a class="cc-menu-link" href="/practice" data-cc-path="/practice">
-                        <span class="cc-menu-icon">🎯</span><span>Practice</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Practice</span>
+                    </a>
+                    <a class="cc-menu-link" href="/recommended-resources" data-cc-path="/recommended-resources">
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Resources</span>
                     </a>
                     <a class="cc-menu-link" href="/profile" data-cc-path="/profile">
-                        <span class="cc-menu-icon">👤</span><span>Profile</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Profile</span>
                     </a>
+                    <div class="cc-menu-link cc-menu-user" aria-label="Signed in as AIRAM">
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>AIRAM</span>
+                    </div>
                 </nav>
 
                 <div class="cc-menu-bottom">
                     <a class="cc-menu-link" href="/">
-                        <span class="cc-menu-icon">🏠</span><span>Home</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Home</span>
                     </a>
                     <a class="cc-menu-link" href="/logout">
-                        <span class="cc-menu-icon">🚪</span><span>Logout</span>
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Logout</span>
                     </a>
                 </div>
             </aside>

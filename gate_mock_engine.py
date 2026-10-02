@@ -360,11 +360,38 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
         str(area.get("subject", "")).casefold(): " ".join(str(x) for x in area.get("topics", []))
         for area in selected_syllabus
     }
-    prepared = [
-        q for q in prepared
-        if q.get("subject") == "General Aptitude"
-        or parent_subject.get(q.get("subject"), q.get("subject", "")).casefold() in syllabus_map
-    ]
+
+    def _syllabus_text_for_question(q):
+        subject = str(q.get("subject", "")).casefold()
+        parent = parent_subject.get(q.get("subject"), q.get("subject", "")).casefold()
+        if subject in syllabus_map:
+            return syllabus_map[subject]
+        return syllabus_map.get(parent, "")
+
+    def _normalise_syllabus_phrase(value):
+        return " ".join(
+            re.sub(r"[^a-z0-9]+", " ", str(value).casefold()).split()
+        )
+
+    def _question_is_in_latest_syllabus(q):
+        syllabus_text = _normalise_syllabus_phrase(_syllabus_text_for_question(q))
+        if not syllabus_text:
+            return False
+
+        topic = _normalise_syllabus_phrase(q.get("topic", ""))
+        subtopic = _normalise_syllabus_phrase(q.get("subtopic", ""))
+
+        # Every mock question must carry topic metadata that can be located
+        # inside the latest configured GATE CE syllabus. This prevents a
+        # legacy/out-of-syllabus question from entering the automatic mock
+        # merely because its broad subject name still exists.
+        for phrase in (subtopic, topic):
+            if phrase and (phrase in syllabus_text or phrase.replace(" and ", " ") in syllabus_text):
+                return True
+
+        return False
+
+    prepared = [q for q in prepared if _question_is_in_latest_syllabus(q)]
 
     if scope != "all":
         prepared = [

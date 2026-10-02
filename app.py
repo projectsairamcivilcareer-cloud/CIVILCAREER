@@ -614,6 +614,18 @@ def create_database():
     """)
 
     connection.execute("""
+        CREATE TABLE IF NOT EXISTS affiliate_order_history (
+            id BIGSERIAL PRIMARY KEY,
+            student_id INTEGER NOT NULL,
+            resource_name TEXT NOT NULL,
+            resource_url TEXT NOT NULL,
+            referral_clicked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            amazon_status TEXT NOT NULL DEFAULT 'Referral sent to Amazon',
+            commission_status TEXT NOT NULL DEFAULT 'Pending Amazon reporting'
+        )
+    """)
+
+    connection.execute("""
         CREATE TABLE IF NOT EXISTS student_preferences (
             student_id INTEGER PRIMARY KEY,
             target_exam TEXT NOT NULL DEFAULT 'GATE Civil Engineering',
@@ -3202,6 +3214,19 @@ def profile():
 
     complete = not _profile_incomplete(student)
 
+    order_history = []
+    order_connection = get_db_connection()
+    try:
+        order_history = order_connection.execute(
+            """SELECT resource_name, referral_clicked_at, amazon_status, commission_status
+               FROM affiliate_order_history
+               WHERE student_id=?
+               ORDER BY referral_clicked_at DESC""",
+            (session["student_id"],),
+        ).fetchall()
+    finally:
+        order_connection.close()
+
     return render_template(
         "profile.html",
         user_id=student["user_id"] if student else "",
@@ -3216,7 +3241,8 @@ def profile():
         profile_error=profile_error,
         profile_message=profile_message,
         required_profile=required_profile,
-        profile_complete=complete
+        profile_complete=complete,
+        order_history=order_history
     )
 
 
@@ -8072,6 +8098,72 @@ def profile_change_email():
 
     session["student_email"] = new_email
     return redirect(url_for("profile", message="Email address changed successfully."))
+
+
+@app.route("/resource-referral", methods=["POST"])
+def resource_referral():
+    """Record a logged-in student's resource referral before opening Amazon."""
+    if "student_id" not in session:
+        return jsonify({"ok": False, "error": "login_required"}), 401
+
+    resource_name = str(request.form.get("resource_name", "")).strip()
+    resource_url = str(request.form.get("resource_url", "")).strip()
+    if not resource_name or not resource_url:
+        return jsonify({"ok": False, "error": "invalid_resource"}), 400
+
+    connection = get_db_connection()
+    connection.execute(
+        """INSERT INTO affiliate_order_history
+           (student_id, resource_name, resource_url)
+           VALUES (?, ?, ?)""",
+        (session["student_id"], resource_name, resource_url),
+    )
+    connection.commit()
+    connection.close()
+    return jsonify({"ok": True})
+
+
+@app.route("/profile/delete-account", methods=["POST"])
+def profile_delete_account():
+    """Permanently delete the authenticated student's account after explicit confirmation."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    confirmation = str(request.form.get("confirmation", "")).strip()
+    if confirmation != "DELETE":
+        return redirect(url_for("profile", error="Type DELETE exactly to confirm account deletion."))
+
+    student_id = session["student_id"]
+    connection = get_db_connection()
+    try:
+        # Remove only rows owned by this student from tables that explicitly
+        # contain a student_id column. Existing other students are untouched.
+        tables = connection.execute(
+            """SELECT table_name FROM information_schema.columns
+               WHERE table_schema='public' AND column_name='student_id'
+               GROUP BY table_name"""
+        ).fetchall()
+        for row in tables:
+            table_name = row["table_name"]
+            if table_name == "students":
+                continue
+            safe_table = '"' + table_name.replace('"', '""') + '"'
+            connection.execute(f"DELETE FROM {safe_table} WHERE student_id=?", (student_id,))
+
+        connection.execute("DELETE FROM students WHERE id=?", (student_id,))
+        connection.commit()
+    except Exception:
+        connection.rollback()
+        connection.close()
+        return redirect(url_for("profile", error="Account deletion could not be completed. No changes were saved."))
+    finally:
+        try:
+            connection.close()
+        except Exception:
+            pass
+
+    session.clear()
+    return redirect(url_for("login", deleted=1))
 
 
 @app.route("/profile/change-mobile", methods=["POST"])

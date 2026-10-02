@@ -1103,6 +1103,21 @@ def about():
 
 
 # ==============================
+# RECOMMENDED RESOURCES
+# ==============================
+
+@app.route("/recommended-resources")
+def recommended_resources():
+    # Keep the affiliate URL outside source code so it can be added/updated
+    # later without changing any student, mock-test or database data.
+    amazon_gate_book_url = (os.environ.get("AMAZON_GATE_BOOK_URL") or "").strip()
+    return render_template(
+        "recommended_resources.html",
+        amazon_gate_book_url=amazon_gate_book_url,
+    )
+
+
+# ==============================
 # PUBLIC / ADSENSE READINESS PAGES
 # ==============================
 

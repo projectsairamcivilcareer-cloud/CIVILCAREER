@@ -1242,38 +1242,29 @@
         ========================================================= */
 
         .bottom-bar {
+            height: 58px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 12px;
+            background: #FFFFFF;
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -8px 24px rgba(20,48,78,.09);
+            z-index: 30;
+        }
 
-            height:
-                58px;
+        .bottom-nav-left,
+        .bottom-nav-right {
+            display: flex;
+            align-items: stretch;
+            gap: 8px;
+            min-width: 0;
+        }
 
-            flex-shrink:
-                0;
-
-            display:
-                grid;
-
-            grid-template-columns:
-                135px
-                150px
-                1fr
-                150px
-                135px;
-
-            align-items:
-                stretch;
-
-            background:
-                #FFFFFF;
-
-            border-top:
-                1px solid var(--border);
-
-            box-shadow:
-                0 -4px 15px
-                rgba(15,39,71,.07);
-
-            z-index:
-                30;
+        .bottom-nav-right {
+            margin-left: auto;
         }
 
 
@@ -2269,17 +2260,25 @@
             /* Keep all exam controls visible above the phone browser area. */
             .bottom-bar {
                 height: 58px;
-                grid-template-columns:
-                    1fr
-                    1.2fr
-                    1fr
-                    1fr
-                    1fr;
+                gap: 6px;
+                padding: 0 6px;
             }
 
-            .bottom-button {
+            .bottom-nav-left,
+            .bottom-nav-right {
+                flex: 1 1 0;
+                gap: 4px;
+            }
+
+            .bottom-nav-right {
+                justify-content: flex-end;
+            }
+
+            .bottom-button,
+            .submit-button {
                 min-width: 0;
-                padding: 0 4px;
+                flex: 1 1 0;
+                padding: 0 5px;
                 font-size: 10px;
                 white-space: nowrap;
             }
@@ -2860,19 +2859,23 @@
 
     <footer class="bottom-bar" id="examNavigationBar">
 
-        <button type="button" id="previousQuestionButton" class="bottom-button"
-                onclick="previousQuestion()"
-                {% if question_number <= 1 %}disabled{% endif %}>← Previous</button>
+        <div class="bottom-nav-left">
+            <button type="button" id="previousQuestionButton" class="bottom-button"
+                    onclick="previousQuestion()"
+                    {% if question_number <= 1 %}disabled{% endif %}>← Previous</button>
 
-        <button type="button" id="reviewQuestionButton" class="bottom-button"
-                onclick="toggleReview()">⚑ {% if is_doubt %}Remove Review{% else %}Mark for Review{% endif %}</button>
+            <button type="button" id="reviewQuestionButton" class="bottom-button"
+                    onclick="toggleReview()">⚑ {% if is_doubt %}Remove Review{% else %}Mark for Review{% endif %}</button>
+        </div>
 
-        <button type="button" id="nextQuestionButton" class="bottom-button next-button"
-                onclick="nextQuestion()"
-                {% if question_number >= total_questions %}disabled{% endif %}>Next →</button>
+        <div class="bottom-nav-right">
+            <button type="button" id="nextQuestionButton" class="bottom-button next-button"
+                    onclick="nextQuestion()"
+                    {% if question_number >= total_questions %}disabled{% endif %}>Next →</button>
 
-        <button type="button" id="submitMockButton" class="submit-button"
-                onclick="showSubmitConfirmation()">Submit</button>
+            <button type="button" id="submitMockButton" class="submit-button"
+                    onclick="showSubmitConfirmation()">Submit</button>
+        </div>
 
     </footer>
 

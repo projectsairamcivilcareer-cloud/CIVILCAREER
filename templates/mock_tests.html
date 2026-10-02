@@ -96,6 +96,15 @@
         </div>
 
         <div class="user" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid #d7e0ea;border-radius:12px;background:#fff;color:#123b68;font-weight:800;font-size:13px">
+                GATE Syllabus Year
+                <select id="gateSyllabusYear" onchange="changeGateYear(this.value)" style="border:1px solid #c0cbd8;border-radius:8px;padding:7px 10px;color:#123b68;font-weight:800;background:#f7f9fc">
+                    <option value="2027">2027</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2025">2025</option>
+                </select>
+            </label>
+
 
             <a href="/mock-test-history" class="history-btn" style="display:inline-flex;align-items:center;gap:9px;padding:11px 17px;border-radius:12px;background:linear-gradient(135deg,#1d4ed8,#4338ca);color:#fff;text-decoration:none;font-weight:700;font-size:14px;box-shadow:0 6px 16px rgba(37,99,235,.22);border:1px solid rgba(255,255,255,.35);transition:transform .2s,box-shadow .2s">
                 <span style="font-size:18px">📈</span> History
@@ -144,7 +153,7 @@
 
             <!-- GATE -->
 
-            <a href="/mock-test/gate?new=1"
+            <a href="/mock-test/gate?new=1&syllabus_year=2026"
                class="test-card gate-card">
 
                 <div class="test-top">
@@ -459,6 +468,12 @@
 </main>
 <script src="{{ url_for('static', filename='js/global-menu.js', v='20260930menu4') }}" defer></script>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
+<script>
+function changeGateYear(year) {
+    const card = document.querySelector(".gate-card");
+    if (card) card.href = "/mock-test/gate?new=1&syllabus_year=" + encodeURIComponent(year);
+}
+</script>
 </body>
 
 </html>

@@ -5691,7 +5691,7 @@ def mock_test(exam_slug):
         attempt_no_key = "mock_attempt_no_" + exam_slug
         last_questions_key = "mock_last_questions_" + exam_slug
 
-        if start_new or "mock_seed_" + exam_slug not in session or count_key not in session:
+        if start_new or "mock_seed_" + exam_slug not in session or count_key not in session or syllabus_year_key not in session or session.get(syllabus_year_key) != requested_syllabus_year:
             # Keep the Flask cookie session compact. Full question objects are
             # rebuilt deterministically from the attempt seed on every request.
             previous_seed = session.get("mock_last_seed_" + exam_slug)

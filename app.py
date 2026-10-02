@@ -5605,6 +5605,7 @@ def mock_test(exam_slug):
     profile_key = "mock_profile_" + exam_slug
     scope_key = "mock_scope_" + exam_slug
     count_key = "mock_count_" + exam_slug
+    syllabus_year_key = "mock_syllabus_year_" + exam_slug
 
 
     # ==========================================

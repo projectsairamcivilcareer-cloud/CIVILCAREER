@@ -304,7 +304,7 @@ def _question_fingerprint(question):
     text = str(question.get("question","")).strip().lower()
     return "|".join((source, year, qnum, text))
 
-def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fingerprints=None, attempt_seed=None):
+def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fingerprints=None, attempt_seed=None, syllabus_year="2026"):
     """
     Build one full-length Civil mock from the uploaded-source-aligned bank.
 

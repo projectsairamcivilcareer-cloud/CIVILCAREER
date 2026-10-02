@@ -10,7 +10,7 @@
 
 <body>
     <nav class="navbar">
-        <div class="logo">🏗️ CIVIL CAREER</div>
+        <div class="logo"><a href="{{ url_for('home') }}" aria-label="Civil Career Home"><img src="{{ url_for('static', filename='images/civil-career-brand.svg') }}" alt="Civil Career"></a></div>
         <div class="nav-links">
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('about') }}">About</a>

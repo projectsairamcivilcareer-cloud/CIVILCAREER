@@ -1103,6 +1103,251 @@ def about():
 
 
 # ==============================
+# PUBLIC / ADSENSE READINESS PAGES
+# ==============================
+
+_LEGAL_UPDATED_TEXT = "Last updated: 02 October 2026"
+
+
+@app.route("/privacy-policy")
+def privacy_policy():
+    sections = [
+        {
+            "title": "Information we collect",
+            "paragraphs": [
+                "Civil Career may collect information that you provide when you create or manage an account, such as your name, email address, education details, mobile number when provided, profile photo, and account-related information.",
+                "When you use learning, practice and mock-test features, the service may store your attempts, answers, scores, question history and related account activity so that these features can work and your progress can be displayed."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "How we use information",
+            "paragraphs": [
+                "We use account and activity information to provide login, profile, learning, practice, mock-test, result and notification features; maintain security; improve the service; and respond to support requests."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Cookies and similar technologies",
+            "paragraphs": [
+                "Civil Career uses necessary session and similar technologies to keep the website working, maintain login sessions and support site functionality.",
+                "If Google AdSense is enabled on Civil Career, Google and its advertising partners may use cookies, web beacons, IP addresses or similar technologies to serve and measure advertisements. Google requires publishers to disclose the use of advertising cookies and related technologies in their privacy policies."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Google advertising",
+            "paragraphs": [
+                "When advertising is enabled, Google may use information associated with visits to pages containing Google ads for ad delivery, measurement and related advertising services. Users can learn about Google's advertising controls through Google's Ads Settings and related privacy resources."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Data security",
+            "paragraphs": [
+                "We use reasonable technical and organizational measures intended to protect account information. No internet service can guarantee absolute security, so users should keep their passwords confidential and use a secure device and connection."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Third-party links and services",
+            "paragraphs": [
+                "Civil Career may link to official examination authorities, government departments, employers and other external websites. Their privacy practices are governed by their own policies. Users should review those policies before providing information on an external site."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Changes to this policy",
+            "paragraphs": [
+                "This Privacy Policy may be updated when the website, data practices or applicable requirements change. The latest version will be published on this page."
+            ],
+            "bullets": []
+        }
+    ]
+    return render_template(
+        "legal_page.html",
+        page_title="Privacy Policy",
+        meta_description="Civil Career Privacy Policy covering account information, cookies, advertising and website data practices.",
+        updated_text=_LEGAL_UPDATED_TEXT,
+        sections=sections,
+        note="This page is provided for transparency about Civil Career's website and advertising-related data practices. It is not legal advice."
+    )
+
+
+@app.route("/terms-and-conditions")
+@app.route("/terms")
+def terms_and_conditions():
+    sections = [
+        {
+            "title": "Use of Civil Career",
+            "paragraphs": [
+                "Civil Career provides educational, preparation and career-related resources for Civil Engineering students and aspirants. By using the website, you agree to use the service lawfully and in a way that does not interfere with the website or other users."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Accounts",
+            "paragraphs": [
+                "You are responsible for keeping your account credentials confidential and for activity performed through your account. Registration information should be accurate and kept up to date."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Educational content",
+            "paragraphs": [
+                "Civil Career provides study material, practice questions, mock tests, previous-paper resources and related educational information for preparation and revision. Educational content does not guarantee examination results, admission, employment or selection."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Official sources",
+            "paragraphs": [
+                "Examination dates, syllabi, recruitment notices, eligibility requirements and other official information can change. Users should verify important details with the relevant official examination authority, government department or recruiting organization before taking action."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Acceptable use",
+            "paragraphs": [
+                "You must not misuse the website, attempt unauthorized access, interfere with its operation, submit malicious code, impersonate another person, or use the service to violate applicable law or the rights of others."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Intellectual property",
+            "paragraphs": [
+                "Civil Career's original branding, page design, software and original educational content remain the property of their respective owners unless otherwise stated. Third-party names, marks, examination papers and official materials belong to their respective owners."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Service availability and changes",
+            "paragraphs": [
+                "Features, content and availability may change as the website is developed and maintained. We may update, suspend or discontinue a feature when necessary for maintenance, security, legal compliance or product changes."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Limitation",
+            "paragraphs": [
+                "To the extent permitted by applicable law, Civil Career is provided on an as-available basis. Users remain responsible for verifying information that is important to an examination, application, purchase, employment decision or other consequential activity."
+            ],
+            "bullets": []
+        }
+    ]
+    return render_template(
+        "legal_page.html",
+        page_title="Terms & Conditions",
+        meta_description="Civil Career Terms and Conditions for using the website, accounts, educational resources and preparation features.",
+        updated_text=_LEGAL_UPDATED_TEXT,
+        sections=sections,
+        note="By continuing to use Civil Career, you acknowledge these terms and agree to use the service responsibly."
+    )
+
+
+@app.route("/disclaimer")
+def disclaimer():
+    sections = [
+        {
+            "title": "Educational purpose",
+            "paragraphs": [
+                "Civil Career is an independent educational and career-preparation platform. Its study notes, practice questions, mock tests and explanations are intended to support learning and revision."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "No official affiliation",
+            "paragraphs": [
+                "Unless a page expressly states otherwise, Civil Career is not an official website of GATE, IITs, SSC, any State Public Service Commission, government department, university, recruiting organization or other examination authority. Names and trademarks remain with their respective owners."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Verification of important information",
+            "paragraphs": [
+                "Official notifications, examination dates, syllabi, eligibility criteria, application deadlines, answer keys, recruitment conditions and other authoritative details can change. Always verify important information on the relevant official website before relying on it."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "External websites",
+            "paragraphs": [
+                "Civil Career may provide links to external websites for official sources, jobs, references or other resources. We do not control the content, availability or privacy practices of those external websites."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Results and career outcomes",
+            "paragraphs": [
+                "Use of Civil Career does not guarantee a particular mock-test score, examination result, rank, admission, job, promotion or other career outcome. Results depend on many factors outside the website's control."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Errors and updates",
+            "paragraphs": [
+                "Although reasonable care is taken when preparing and updating content, errors or omissions may occur. If you find an issue, please report it through the Contact Us page so it can be reviewed."
+            ],
+            "bullets": []
+        }
+    ]
+    return render_template(
+        "legal_page.html",
+        page_title="Disclaimer",
+        meta_description="Civil Career Disclaimer covering educational content, official-source verification and external links.",
+        updated_text=_LEGAL_UPDATED_TEXT,
+        sections=sections,
+        note="For examination, recruitment and academic decisions, the applicable official notification, syllabus or authority should be treated as the final source."
+    )
+
+
+@app.route("/contact")
+def contact():
+    contact_email = (os.environ.get("CONTACT_EMAIL") or "").strip()
+    if contact_email:
+        contact_text = (
+            f'<p><strong>Official support email:</strong> '
+            f'<a href="mailto:{escape(contact_email)}">{escape(contact_email)}</a></p>'
+        )
+        note = "Please include enough detail for us to understand the issue, and do not send passwords or other confidential account credentials."
+    else:
+        contact_text = (
+            "<p>The official Civil Career support email is being configured. "
+            "Please check this page again after the contact address is published.</p>"
+        )
+        note = "Before submitting Civil Career for AdSense review, configure the public support email in the site's CONTACT_EMAIL environment variable."
+    sections = [
+        {
+            "title": "Get in touch",
+            "paragraphs": [
+                "Use this page for website feedback, account-related support, content corrections and questions about Civil Career."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Support",
+            "paragraphs": [contact_text],
+            "bullets": []
+        },
+        {
+            "title": "When reporting an issue",
+            "paragraphs": [
+                "Please mention the page or feature involved and describe the problem clearly. For mock-test issues, include the test name and question number when relevant."
+            ],
+            "bullets": []
+        }
+    ]
+    return render_template(
+        "legal_page.html",
+        page_title="Contact Us",
+        meta_description="Contact Civil Career for website support, feedback and content corrections.",
+        updated_text=_LEGAL_UPDATED_TEXT,
+        sections=sections,
+        note=note
+    )
+
+
+# ==============================
 # LOGIN
 # ==============================
 

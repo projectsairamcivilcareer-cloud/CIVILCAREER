@@ -3204,6 +3204,7 @@ def profile():
             """SELECT resource_name, referral_clicked_at, amazon_status, commission_status
                FROM affiliate_order_history
                WHERE student_id=?
+                 AND LOWER(amazon_status) IN ('returned', 'return', 'replaced', 'replacement')
                ORDER BY referral_clicked_at DESC""",
             (session["student_id"],),
         ).fetchall()
@@ -8085,25 +8086,15 @@ def profile_change_email():
 
 @app.route("/resource-referral", methods=["POST"])
 def resource_referral():
-    """Record a logged-in student's resource referral before opening Amazon."""
+    """Track the outbound referral without creating an order-history record."""
     if "student_id" not in session:
         return jsonify({"ok": False, "error": "login_required"}), 401
 
-    resource_name = str(request.form.get("resource_name", "")).strip()
-    resource_url = str(request.form.get("resource_url", "")).strip()
-    if not resource_name or not resource_url:
-        return jsonify({"ok": False, "error": "invalid_resource"}), 400
-
-    connection = get_db_connection()
-    connection.execute(
-        """INSERT INTO affiliate_order_history
-           (student_id, resource_name, resource_url)
-           VALUES (?, ?, ?)""",
-        (session["student_id"], resource_name, resource_url),
-    )
-    connection.commit()
-    connection.close()
-    return jsonify({"ok": True})
+    # Opening an Amazon resource is not an order confirmation.
+    # Do not save clicks, normal purchases, delivery status, or commission data here.
+    # Resource Order History is reserved for supported Amazon reporting that confirms
+    # a return or replacement.
+    return jsonify({"ok": True, "recorded": False})
 
 
 @app.route("/profile/delete-account", methods=["POST"])

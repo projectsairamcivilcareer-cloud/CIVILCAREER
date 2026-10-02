@@ -535,7 +535,7 @@
                 0 auto 25px;
 
             padding:
-                36px 45px;
+                28px 38px;
 
             background:
                 var(--surface);
@@ -579,10 +579,10 @@
             margin: 0;
 
             font-size:
-                19px;
+                18px;
 
             line-height:
-                1.72;
+                1.55;
 
             font-weight:
                 650;
@@ -592,6 +592,8 @@
 
             white-space:
                 pre-wrap;
+            overflow-wrap:
+                anywhere;
         }
 
 
@@ -714,6 +716,7 @@
 
 
         .option-letter {
+            flex: 0 0 30px;
 
             width:
                 30px;
@@ -1269,30 +1272,16 @@
 
 
         .bottom-button {
-
-            border:
-                0;
-
-            border-right:
-                1px solid var(--border);
-
-            background:
-                #FFFFFF;
-
-            color:
-                var(--primary);
-
-            font-size:
-                12px;
-
-            font-weight:
-                800;
-
-            cursor:
-                pointer;
-
-            transition:
-                .15s ease;
+            min-width: 132px;
+            padding: 0 18px;
+            border: 1px solid #D7E1EC;
+            border-radius: 9px;
+            background: #FFFFFF;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 850;
+            cursor: pointer;
+            transition: .15s ease;
         }
 
 
@@ -1307,15 +1296,11 @@
 
 
         .bottom-button:disabled {
-
-            color:
-                #A7B3C1;
-
-            background:
-                #F8FAFC;
-
-            cursor:
-                not-allowed;
+            color: #8795A5;
+            background: #F3F6F9;
+            border-color: #E0E6ED;
+            cursor: not-allowed;
+            opacity: .9;
         }
 
 
@@ -1327,31 +1312,17 @@
 
 
         .submit-button {
-
-            border:
-                0;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--primary-dark)
-                );
-
-            color:
-                #FFFFFF;
-
-            font-size:
-                13px;
-
-            font-weight:
-                900;
-
-            cursor:
-                pointer;
-
-            transition:
-                .18s ease;
+            min-width: 128px;
+            padding: 0 22px;
+            border: 0;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: .18s ease;
+            box-shadow: 0 3px 10px rgba(15,39,71,.14);
         }
 
 
@@ -2278,7 +2249,7 @@
             .submit-button {
                 min-width: 0;
                 flex: 1 1 0;
-                padding: 0 5px;
+                padding: 0 4px;
                 font-size: 10px;
                 white-space: nowrap;
             }
@@ -2494,7 +2465,7 @@
 
                     <div class="question-text">
 
-                        {{ question.question }}
+                        {{ question.question|trim }}
 
                     </div>
 
@@ -2546,7 +2517,9 @@
                                 {% endif %}
                             >
 
-<span class="option-text">
+<span class="option-letter">A</span>
+
+                            <span class="option-text">
                                 {{ question.option_a }}
                             </span>
 
@@ -2569,7 +2542,9 @@
                                 {% endif %}
                             >
 
-<span class="option-text">
+<span class="option-letter">B</span>
+
+                            <span class="option-text">
                                 {{ question.option_b }}
                             </span>
 
@@ -2592,7 +2567,9 @@
                                 {% endif %}
                             >
 
-<span class="option-text">
+<span class="option-letter">C</span>
+
+                            <span class="option-text">
                                 {{ question.option_c }}
                             </span>
 
@@ -2615,7 +2592,9 @@
                                 {% endif %}
                             >
 
-<span class="option-text">
+<span class="option-letter">D</span>
+
+                            <span class="option-text">
                                 {{ question.option_d }}
                             </span>
 
@@ -2645,7 +2624,9 @@
                                 value="A"
                             >
 
-<span class="option-text">
+<span class="option-letter">A</span>
+
+                            <span class="option-text">
                                 {{ question.option_a }}
                             </span>
 
@@ -2664,7 +2645,9 @@
                                 value="B"
                             >
 
-<span class="option-text">
+<span class="option-letter">B</span>
+
+                            <span class="option-text">
                                 {{ question.option_b }}
                             </span>
 
@@ -2683,7 +2666,9 @@
                                 value="C"
                             >
 
-<span class="option-text">
+<span class="option-letter">C</span>
+
+                            <span class="option-text">
                                 {{ question.option_c }}
                             </span>
 
@@ -2702,7 +2687,9 @@
                                 value="D"
                             >
 
-<span class="option-text">
+<span class="option-letter">D</span>
+
+                            <span class="option-text">
                                 {{ question.option_d }}
                             </span>
 

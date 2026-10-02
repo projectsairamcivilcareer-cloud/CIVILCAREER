@@ -59,9 +59,6 @@
                     <a class="cc-menu-link" href="/profile" data-cc-path="/profile">
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Profile</span>
                     </a>
-                    <div class="cc-menu-link cc-menu-user" aria-label="Signed in as AIRAM">
-                        <span class="cc-menu-icon" aria-hidden="true"></span><span>AIRAM</span>
-                    </div>
                 </nav>
 
                 <div class="cc-menu-bottom">

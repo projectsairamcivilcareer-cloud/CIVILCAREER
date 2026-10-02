@@ -11,7 +11,7 @@
   <header class="profile-page-header">
     <div>
       <h1>My Profile</h1>
-      <p>Manage your Civil Career account details.</p>
+      <p>Manage your personal information, education and account security.</p>
     </div>
   </header>
 
@@ -30,7 +30,7 @@
 
   <section class="profile-card profile-top-card profile-photo-card">
     <button type="button" class="profile-edit-button" onclick="togglePhotoEditor()" aria-expanded="false" aria-controls="photo-editor">
-      ✏️ Edit
+      <span aria-hidden="true">✏</span> Edit
     </button>
 
     <div class="profile-avatar">
@@ -46,37 +46,37 @@
     <div id="photo-editor" class="photo-editor" hidden>
       <div class="photo-editor-actions">
         <button type="button" class="photo-action secondary" {% if not profile_photo %}disabled{% endif %} onclick="viewProfilePhoto()">
-          👁️ View
+          <span aria-hidden="true">◉</span> View
         </button>
         <button type="button" class="photo-action primary" onclick="togglePhotoTake()">
-          📷 Take
+          <span aria-hidden="true">＋</span> Add Photo
         </button>
       </div>
 
       <div id="photo-take-panel" class="photo-take-panel" hidden>
-        <p class="photo-take-title">Choose how to add your profile photo</p>
+        <p class="photo-take-title">Add or update your profile photo</p>
 
         <form method="POST" enctype="multipart/form-data" class="photo-form">
           <input type="hidden" name="action" value="photo">
 
           <div class="photo-choice-grid">
             <button type="button" class="photo-choice" onclick="document.getElementById('photo-upload-input').click()">
-              <span>⬆️</span>
+              <span>↑</span>
               <strong>Upload</strong>
-              <small>Choose from device</small>
+              <small>Select from your device</small>
             </button>
 
             <button type="button" class="photo-choice" onclick="document.getElementById('photo-camera-input').click()">
-              <span>📷</span>
+              <span>⌾</span>
               <strong>Camera</strong>
-              <small>Take a new photo</small>
+              <small>Use your camera</small>
             </button>
           </div>
 
           <input id="photo-upload-input" class="photo-file-input" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp">
           <input id="photo-camera-input" class="photo-file-input" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" capture="user">
-          <small id="photo-file-name" class="photo-help">JPG, PNG or WebP · Choose a clear, square photo.</small>
-          <button type="submit" class="save-photo-button">Save Photo</button>
+          <small id="photo-file-name" class="photo-help">JPG, PNG or WebP · Recommended: clear square photo.</small>
+          <button type="submit" class="save-photo-button">Save Changes</button>
         </form>
       </div>
     </div>
@@ -94,8 +94,8 @@
 
   <section class="profile-card">
     <div class="section-title">
-      <h2>👤 Personal Details</h2>
-      <span class="required-label">Required</span>
+      <h2>Personal Details</h2>
+      <span class="required-label">Required information</span>
     </div>
 
     <div class="personal-data-grid">
@@ -106,9 +106,9 @@
     </div>
 
     <div class="profile-options">
-      <button type="button" class="profile-option-button" onclick="togglePanel('details-panel')">✏️ Change Name / Education</button>
-      <button type="button" class="profile-option-button" onclick="togglePanel('email-panel')">📧 Change Email</button>
-      <button type="button" class="profile-option-button" onclick="togglePanel('mobile-panel')">📱 Change Mobile No</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('details-panel')"><span aria-hidden="true">✏</span> Name &amp; Education</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('email-panel')"><span aria-hidden="true">@</span> Email Address</button>
+      <button type="button" class="profile-option-button" onclick="togglePanel('mobile-panel')"><span aria-hidden="true">#</span> Mobile Number</button>
     </div>
 
     <div id="details-panel" class="profile-setting-panel">
@@ -152,7 +152,7 @@
 
   <section class="profile-card">
     <div class="section-title">
-      <h2>🎓 Education</h2>
+      <h2>Education</h2>
     </div>
     <div class="education-display">
       <strong>{{ student_education }}</strong>
@@ -162,7 +162,7 @@
 
   <section class="profile-card">
     <div class="section-title">
-      <h2>⚙️ Account Settings</h2>
+      <h2>Account Settings</h2>
     </div>
 
     <div class="profile-options">

@@ -2319,6 +2319,56 @@
 
         .test-title-main{font-size:18px;font-weight:900;line-height:1.15}.question-label{flex-wrap:wrap}.question-label .question-number-label{white-space:nowrap}
 
+
+        /* PROFESSIONAL CBT NAVIGATION POLISH */
+        .question-area {
+            background: linear-gradient(180deg, #eef4fa 0%, #e8f0f7 100%);
+        }
+
+        .question-scroll {
+            padding-top: 18px;
+        }
+
+        .question-card {
+            border: 1px solid #d8e3ee;
+            box-shadow: 0 12px 28px rgba(25, 55, 85, .08);
+        }
+
+        .option {
+            border: 1px solid #d8e3ee;
+            box-shadow: 0 5px 16px rgba(25, 55, 85, .045);
+            transition: border-color .16s ease, background .16s ease, transform .16s ease, box-shadow .16s ease;
+        }
+
+        .option:hover {
+            border-color: #7da5cf;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(25, 55, 85, .08);
+        }
+
+        .question-number.nav-loading,
+        .bottom-button.nav-loading {
+            opacity: .55;
+            cursor: wait;
+            pointer-events: none;
+        }
+
+        .question-number:focus-visible,
+        .bottom-button:focus-visible,
+        .submit-button:focus-visible,
+        .header-button:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, .22);
+            outline-offset: 2px;
+        }
+
+        .question-panel {
+            box-shadow: -8px 0 24px rgba(20, 48, 78, .045);
+        }
+
+        .bottom-bar {
+            box-shadow: 0 -8px 24px rgba(20, 48, 78, .09);
+        }
+
         /* GATE EXAM UI CLEANUP — redundant source descriptions stay hidden. */
         .exam-wrapper .source-badge,
         .exam-wrapper .source-description,
@@ -2334,7 +2384,9 @@
 
 <body>
 
-<div class="exam-wrapper">
+<div class="exam-wrapper"
+     data-current-question="{{ question_index|int }}"
+     data-review-questions='{{ review_questions|tojson }}'>
 
 
     <!-- =========================================================
@@ -3191,7 +3243,7 @@
 
     // Review state comes from the server session and is preserved
     // while questions are changed through AJAX.
-    const reviewQuestions =
+    let reviewQuestions =
         {{ review_questions|tojson }};
 
 
@@ -3205,7 +3257,7 @@
        FORM SUBMIT
     ========================================================= */
 
-    function submitAction(action) {
+    async function submitAction(action) {
 
         const form =
             document.getElementById("answerForm");
@@ -3217,14 +3269,19 @@
             return;
         }
 
-        // Preserve every answer when a server-side action
-        // such as Mark for Review is submitted.
+        // Submit the final result normally. All in-test navigation uses
+        // AJAX so the browser never reloads the page and fullscreen stays active.
+        if (action === "submit") {
+            actionInput.value = action;
+            form.submit();
+            return;
+        }
+
         let answersInput =
             form.querySelector('input[name="answers_json"]');
 
         if (!answersInput) {
-            answersInput =
-                document.createElement("input");
+            answersInput = document.createElement("input");
             answersInput.type = "hidden";
             answersInput.name = "answers_json";
             form.appendChild(answersInput);
@@ -3232,10 +3289,95 @@
 
         answersInput.value =
             JSON.stringify(collectStoredAnswers());
-
         actionInput.value = action;
 
-        form.submit();
+        const navButtons = document.querySelectorAll(
+            "#examNavigationBar button, .question-number"
+        );
+        navButtons.forEach(function(button) {
+            button.disabled = true;
+            button.classList.add("nav-loading");
+        });
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                credentials: "same-origin",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Question navigation failed: " + response.status);
+            }
+
+            const html = await response.text();
+            const parser = new DOMParser();
+            const nextDocument = parser.parseFromString(html, "text/html");
+            const nextWrapper = nextDocument.querySelector(".exam-wrapper");
+            const currentWrapper = document.querySelector(".exam-wrapper");
+
+            if (!nextWrapper || !currentWrapper) {
+                throw new Error("Mock test page structure was not returned.");
+            }
+
+            // Replace only the changing CBT areas. Header, calculator and timer
+            // remain in the same DOM, preserving fullscreen and timer state.
+            const nextQuestionArea = nextWrapper.querySelector(".question-area");
+            const nextQuestionPanel = nextWrapper.querySelector(".question-panel");
+            const nextNavigation = nextWrapper.querySelector("#examNavigationBar");
+            const currentQuestionArea = currentWrapper.querySelector(".question-area");
+            const currentQuestionPanel = currentWrapper.querySelector(".question-panel");
+            const currentNavigation = currentWrapper.querySelector("#examNavigationBar");
+
+            if (!nextQuestionArea || !nextQuestionPanel || !nextNavigation ||
+                !currentQuestionArea || !currentQuestionPanel || !currentNavigation) {
+                throw new Error("Mock test navigation sections are incomplete.");
+            }
+
+            currentQuestionArea.replaceWith(nextQuestionArea);
+            currentQuestionPanel.replaceWith(nextQuestionPanel);
+            currentNavigation.replaceWith(nextNavigation);
+
+            currentWrapper.dataset.currentQuestion =
+                nextWrapper.dataset.currentQuestion || "0";
+            currentWrapper.dataset.reviewQuestions =
+                nextWrapper.dataset.reviewQuestions || "[]";
+
+            currentQuestion = parseInt(
+                currentWrapper.dataset.currentQuestion,
+                10
+            ) || 0;
+
+            try {
+                reviewQuestions = JSON.parse(
+                    currentWrapper.dataset.reviewQuestions || "[]"
+                );
+            } catch (error) {
+                reviewQuestions = [];
+            }
+
+            removeRedundantSourceLabels();
+            restoreSavedAnswer(currentQuestion);
+            updateSelectedOptions();
+            refreshNavigatorFromLocalStorage();
+            enforceSingleExamNavigation();
+
+            // Keep the scroll position at the top of the newly selected question.
+            const scrollArea = document.querySelector(".question-scroll");
+            if (scrollArea) scrollArea.scrollTop = 0;
+
+        } catch (error) {
+            console.error("Mock test navigation error:", error);
+            alert("Unable to open this question. Please try again.");
+        } finally {
+            navButtons.forEach(function(button) {
+                button.disabled = false;
+                button.classList.remove("nav-loading");
+            });
+        }
     }
 
 
@@ -3580,8 +3722,8 @@
             return;
         }
 
-        // Use the existing server-side NEXT action so the session,
-        // question order, answers, timer and review state stay in sync.
+        // Keep the existing server-side NEXT action, but send it through
+        // the AJAX navigation layer so fullscreen is never exited.
         submitAction("next");
     }
 

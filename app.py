@@ -5695,7 +5695,7 @@ def mock_test(exam_slug):
                 previous_fps = [_question_fingerprint(q) for q in previous_questions]
 
             attempt_no = int(session.get(attempt_no_key, 0)) + 1
-            count_cycle = [55, 58, 60, 63, 65]
+            count_cycle = [65]
             target_count = count_cycle[(attempt_no - 1) % len(count_cycle)]
             attempt_seed = uuid.uuid4().hex
 
@@ -6493,7 +6493,7 @@ def mock_test_result(exam_slug):
         if not questions:
             questions = build_gate_mock(
                 mode="mixed",
-                count=60,
+                count=65,
                 profile=None,
                 scope="all",
                 avoid_fingerprints=[],

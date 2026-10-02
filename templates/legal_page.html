@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ meta_description }}">
+    <title>{{ page_title }} | Civil Career</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/civil-career-icon.svg') }}">
+    <style>
+        .legal-page{max-width:980px;margin:0 auto;padding:54px 20px 72px}
+        .legal-card{background:#fff;border:1px solid #d9e2ec;border-radius:10px;box-shadow:0 3px 14px rgba(23,50,77,.05);padding:38px 42px}
+        .legal-kicker{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#2f6f9f;margin-bottom:10px}
+        .legal-card h1{margin:0 0 10px;color:#17324d;font-size:34px;line-height:1.2}
+        .legal-updated{margin:0 0 30px;color:#68798a;font-size:14px}
+        .legal-card h2{margin:30px 0 9px;color:#17324d;font-size:21px}
+        .legal-card p,.legal-card li{color:#425466;line-height:1.75;font-size:15px}
+        .legal-card ul{padding-left:22px}
+        .legal-card a{color:#2f6f9f}
+        .legal-note{margin-top:28px;padding:15px 17px;border-left:3px solid #2f6f9f;background:#eef5f9;color:#425466;border-radius:4px}
+        .legal-footer{margin-top:28px;text-align:center;color:#68798a;font-size:13px}
+        @media(max-width:700px){
+            .legal-page{padding:32px 14px 52px}
+            .legal-card{padding:26px 21px}
+            .legal-card h1{font-size:28px}
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('home') }}" aria-label="Civil Career Home">
+                <img src="{{ url_for('static', filename='images/civil-career-brand.svg') }}" alt="Civil Career">
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </nav>
+
+    <main class="legal-page">
+        <article class="legal-card">
+            <div class="legal-kicker">Civil Career</div>
+            <h1>{{ page_title }}</h1>
+            <p class="legal-updated">{{ updated_text }}</p>
+
+            {% for section in sections %}
+                <h2>{{ section.title }}</h2>
+                {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph|safe }}</p>
+                {% endfor %}
+                {% if section.bullets %}
+                    <ul>
+                        {% for bullet in section.bullets %}
+                            <li>{{ bullet|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+
+            {% if note %}
+                <div class="legal-note">{{ note|safe }}</div>
+            {% endif %}
+        </article>
+        <div class="legal-footer">
+            <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+            &nbsp;·&nbsp;
+            <a href="{{ url_for('terms_and_conditions') }}">Terms &amp; Conditions</a>
+            &nbsp;·&nbsp;
+            <a href="{{ url_for('disclaimer') }}">Disclaimer</a>
+            &nbsp;·&nbsp;
+            <a href="{{ url_for('contact') }}">Contact Us</a>
+        </div>
+    </main>
+</body>
+</html>

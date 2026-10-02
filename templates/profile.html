@@ -28,7 +28,11 @@
   <div class="profile-alert profile-alert-success">{{ profile_message }}</div>
   {% endif %}
 
-  <section class="profile-card profile-top-card">
+  <section class="profile-card profile-top-card profile-photo-card">
+    <button type="button" class="profile-edit-button" onclick="togglePhotoEditor()" aria-expanded="false" aria-controls="photo-editor">
+      ✏️ Edit
+    </button>
+
     <div class="profile-avatar">
       {% if profile_photo %}
         <img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Profile photo">
@@ -39,12 +43,53 @@
     <h2>{{ student_name or 'Student' }}</h2>
     <div class="user-id">User ID: <strong>{{ user_id }}</strong></div>
 
-    <form method="POST" enctype="multipart/form-data" class="photo-form">
-      <input type="hidden" name="action" value="photo">
-      <div class="photo-form-heading"><label for="profile-photo">Profile Picture <span class="required-star">*</span></label><button type="submit">Update Photo</button></div>
-      <input id="profile-photo" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" {% if not profile_photo %}required{% endif %}>
-      <small class="photo-help">JPG, PNG or WebP · Choose a clear, square photo.</small>
-    </form>
+    <div id="photo-editor" class="photo-editor" hidden>
+      <div class="photo-editor-actions">
+        <button type="button" class="photo-action secondary" {% if not profile_photo %}disabled{% endif %} onclick="viewProfilePhoto()">
+          👁️ View
+        </button>
+        <button type="button" class="photo-action primary" onclick="togglePhotoTake()">
+          📷 Take
+        </button>
+      </div>
+
+      <div id="photo-take-panel" class="photo-take-panel" hidden>
+        <p class="photo-take-title">Choose how to add your profile photo</p>
+
+        <form method="POST" enctype="multipart/form-data" class="photo-form">
+          <input type="hidden" name="action" value="photo">
+
+          <div class="photo-choice-grid">
+            <button type="button" class="photo-choice" onclick="document.getElementById('photo-upload-input').click()">
+              <span>⬆️</span>
+              <strong>Upload</strong>
+              <small>Choose from device</small>
+            </button>
+
+            <button type="button" class="photo-choice" onclick="document.getElementById('photo-camera-input').click()">
+              <span>📷</span>
+              <strong>Camera</strong>
+              <small>Take a new photo</small>
+            </button>
+          </div>
+
+          <input id="photo-upload-input" class="photo-file-input" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp">
+          <input id="photo-camera-input" class="photo-file-input" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" capture="user">
+          <small id="photo-file-name" class="photo-help">JPG, PNG or WebP · Choose a clear, square photo.</small>
+          <button type="submit" class="save-photo-button">Save Photo</button>
+        </form>
+      </div>
+    </div>
+
+    {% if profile_photo %}
+    <div id="profile-photo-modal" class="photo-modal" hidden>
+      <div class="photo-modal-backdrop" onclick="closeProfilePhoto()"></div>
+      <div class="photo-modal-card" role="dialog" aria-modal="true" aria-label="Profile photo preview">
+        <button type="button" class="photo-modal-close" onclick="closeProfilePhoto()" aria-label="Close photo preview">×</button>
+        <img src="{{ url_for('profile_photo', filename=profile_photo) }}" alt="Profile photo preview">
+      </div>
+    </div>
+    {% endif %}
   </section>
 
   <section class="profile-card">
@@ -146,6 +191,51 @@ function togglePanel(id) {
   });
   panel.classList.toggle('open');
 }
+
+function togglePhotoEditor() {
+  const editor = document.getElementById('photo-editor');
+  const button = document.querySelector('.profile-edit-button');
+  const open = editor.hasAttribute('hidden');
+  if (open) {
+    editor.removeAttribute('hidden');
+  } else {
+    editor.setAttribute('hidden', '');
+    document.getElementById('photo-take-panel').setAttribute('hidden', '');
+  }
+  button.setAttribute('aria-expanded', String(open));
+}
+
+function togglePhotoTake() {
+  const panel = document.getElementById('photo-take-panel');
+  panel.toggleAttribute('hidden');
+}
+
+function viewProfilePhoto() {
+  const modal = document.getElementById('profile-photo-modal');
+  if (modal) modal.removeAttribute('hidden');
+}
+
+function closeProfilePhoto() {
+  const modal = document.getElementById('profile-photo-modal');
+  if (modal) modal.setAttribute('hidden', '');
+}
+
+function setupPhotoInput(inputId) {
+  const input = document.getElementById(inputId);
+  const label = document.getElementById('photo-file-name');
+  if (!input) return;
+  input.addEventListener('change', function () {
+    if (!this.files || !this.files.length) return;
+    label.textContent = this.files[0].name;
+  });
+}
+
+setupPhotoInput('photo-upload-input');
+setupPhotoInput('photo-camera-input');
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') closeProfilePhoto();
+})
 </script>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body>

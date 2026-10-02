@@ -30,6 +30,7 @@
                 <div class="cc-menu-head">
                     <div class="cc-menu-brand">
                         <img class="cc-menu-brand-logo" src="/static/images/civil-career-white.svg" alt="Civil Career" />
+                        <span class="cc-menu-brand-name">CIVIL CAREER</span>
                     </div>
                     <button
                         class="cc-menu-close"

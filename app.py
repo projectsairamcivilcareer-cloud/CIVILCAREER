@@ -4807,10 +4807,7 @@ def pyq_exam(exam_slug):
 
         exam_slug=exam_slug,
 
-        syllabus_year=session.get(
-            syllabus_year_key,
-            requested_syllabus_year
-        ) if exam_slug == "gate" else None,
+        syllabus_year=LATEST_GATE_SYLLABUS_YEAR if exam_slug == "gate" else None,
 
         question=question,
 

@@ -181,7 +181,27 @@
         </div>
       </div>
 
+      <div class="account-setting-item">
+        <div class="profile-subsection profile-danger-zone">
+          <div class="profile-subsection-heading">
+            <div>
+              <h3>Delete Account</h3>
+              <p>This permanently deletes your Civil Career account and your account-owned records.</p>
+            </div>
+          </div>
 
+          <button type="button" class="delete-account-button" onclick="openDeleteAccount()">Delete Account</button>
+
+          <div id="delete-account-panel" class="delete-account-panel" hidden>
+            <p><strong>This action cannot be undone.</strong> Type <strong>DELETE</strong> below to permanently remove your account.</p>
+            <form method="POST" action="{{ url_for('profile_delete_account') }}" onsubmit="return confirmAccountDeletion();">
+              <input id="delete-confirmation" type="text" name="confirmation" placeholder="Type DELETE" autocomplete="off" required>
+              <button type="submit" class="delete-confirm-button">Permanently Delete Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="profile-card resource-order-history-card">

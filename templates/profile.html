@@ -179,10 +179,72 @@
         <button type="submit">Change Password</button>
       </form>
     </div>
+
+    <div class="profile-subsection">
+      <div class="profile-subsection-heading">
+        <div>
+          <h3>Resource Order History</h3>
+          <p>Amazon referrals opened from your Civil Career account.</p>
+        </div>
+      </div>
+      {% if order_history %}
+      <div class="order-history-list">
+        {% for order in order_history %}
+        <div class="order-history-item">
+          <div>
+            <strong>{{ order.resource_name }}</strong>
+            <small>Referral: {{ order.referral_clicked_at }}</small>
+          </div>
+          <div class="order-status-wrap">
+            <span class="order-status">{{ order.amazon_status }}</span>
+            <small>{{ order.commission_status }}</small>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="order-history-empty">
+        <strong>No resource orders yet</strong>
+        <p>When you open a recommended resource through Civil Career, the referral will be recorded here. Amazon order delivery and commission confirmation come from Amazon Associates reporting.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="profile-subsection profile-danger-zone">
+      <div class="profile-subsection-heading">
+        <div>
+          <h3>Delete Account</h3>
+          <p>This permanently deletes your Civil Career account and your account-owned records.</p>
+        </div>
+      </div>
+      <button type="button" class="delete-account-button" onclick="openDeleteAccount()">Delete Account</button>
+      <div id="delete-account-panel" class="delete-account-panel" hidden>
+        <p><strong>Permanent deletion</strong></p>
+        <p>This cannot be undone. Type <strong>DELETE</strong> below to confirm.</p>
+        <form method="POST" action="{{ url_for('profile_delete_account') }}" onsubmit="return confirmAccountDeletion()">
+          <input id="delete-confirmation" name="confirmation" type="text" autocomplete="off" placeholder="Type DELETE" required>
+          <button type="submit" class="delete-confirm-button">Permanently Delete Account</button>
+        </form>
+      </div>
+    </div>
+    </div>
   </section>
 </main>
 
 <script>
+function openDeleteAccount() {
+  const panel = document.getElementById('delete-account-panel');
+  if (!panel) return;
+  panel.removeAttribute('hidden');
+  const input = document.getElementById('delete-confirmation');
+  if (input) input.focus();
+}
+
+function confirmAccountDeletion() {
+  const input = document.getElementById('delete-confirmation');
+  return input && input.value.trim() === 'DELETE' && window.confirm('Permanently delete your Civil Career account? This cannot be undone.');
+}
+
 function togglePanel(id) {
   const panel = document.getElementById(id);
   document.querySelectorAll('.profile-setting-panel').forEach(p => {

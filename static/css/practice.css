@@ -299,3 +299,80 @@ body{font-size:16px;line-height:1.55;background:radial-gradient(ellipse at 88% 0
 :where(a,button,input,select,textarea):focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
 @media(max-width:900px){.main{width:100%;margin-left:0;padding:22px 16px}.sidebar{position:static;width:100%;height:auto}.bottom-menu{position:static}.practice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.practice-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.header{align-items:flex-start}}
+
+
+/* CIVIL CAREER — unified professional UI layer
+   Visual-only: preserves existing content, routes, forms and data. */
+:root{
+ --cc-navy:#17324d;
+ --cc-blue:#2f6f9f;
+ --cc-blue-soft:#eef5f9;
+ --cc-text:#26384a;
+ --cc-muted:#68798a;
+ --cc-line:#dbe3ea;
+ --cc-page:#f5f7f9;
+ --cc-white:#fff;
+ --cc-green:#2f765d;
+}
+body{
+ font-family:Arial,Helvetica,sans-serif!important;
+ background:var(--cc-page)!important;
+ color:var(--cc-text)!important;
+}
+.sidebar{
+ background:#fff!important;
+ border-right:1px solid var(--cc-line)!important;
+ box-shadow:2px 0 10px rgba(23,50,77,.035)!important;
+}
+.sidebar .logo,.dashboard-logo{
+ color:var(--cc-navy)!important;
+ font-weight:800!important;
+}
+.sidebar nav a,.sidebar-menu a{
+ color:#52677a!important;
+ border-radius:6px!important;
+ margin:2px 10px!important;
+ transition:background .16s ease,color .16s ease!important;
+}
+.sidebar nav a:hover,.sidebar-menu a:hover{
+ background:#f0f5f8!important;
+ color:var(--cc-navy)!important;
+}
+.sidebar nav a.active,.sidebar-menu a.active{
+ background:var(--cc-blue-soft)!important;
+ color:var(--cc-navy)!important;
+ font-weight:700!important;
+ border-left:3px solid var(--cc-blue)!important;
+}
+.dashboard-main,.main,.profile-page{
+ color:var(--cc-text)!important;
+}
+.dashboard-card,.feature-card,.category-card,.notification-card,.profile-card,.practice-card,.mock-card,.syllabus-card,.material-card{
+ border:1px solid var(--cc-line)!important;
+ box-shadow:0 2px 9px rgba(23,50,77,.045)!important;
+ border-radius:9px!important;
+}
+button,.btn,.profile-option-button{
+ font-family:inherit!important;
+}
+button{
+ box-shadow:none!important;
+}
+h1,h2,h3,h4{
+ color:var(--cc-navy);
+}
+a{
+ text-underline-offset:3px;
+}
+input,select,textarea{
+ border-color:#cfd9e2!important;
+ border-radius:6px!important;
+}
+input:focus,select:focus,textarea:focus{
+ border-color:#6f9dbb!important;
+ box-shadow:0 0 0 3px rgba(47,111,159,.10)!important;
+ outline:none!important;
+}
+@media(max-width:800px){
+ .sidebar nav a,.sidebar-menu a{margin-left:6px!important;margin-right:6px!important}
+}

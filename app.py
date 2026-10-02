@@ -1079,6 +1079,17 @@ def create_database():
 
 
 # ==============================
+# SERVICE HEALTHCHECK
+# ==============================
+
+@app.route("/health")
+def health():
+    # Public infrastructure endpoint only. It does not expose student data
+    # or make any application page available without authentication.
+    return "OK", 200
+
+
+# ==============================
 # HOME PAGE
 # ==============================
 

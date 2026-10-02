@@ -193,7 +193,8 @@ GATE_SYLLABUS_2027 = [
 GATE_SYLLABUS_2026 = GATE_SYLLABUS_2027
 
 GATE_SYLLABI = {"2025": GATE_SYLLABUS_2025, "2026": GATE_SYLLABUS_2026, "2027": GATE_SYLLABUS_2027}
-GATE_SYLLABUS = GATE_SYLLABUS_2027
+LATEST_GATE_SYLLABUS_YEAR = max(GATE_SYLLABI, key=lambda year: int(year))
+GATE_SYLLABUS = GATE_SYLLABI[LATEST_GATE_SYLLABUS_YEAR]
 
 
 GATE_QUESTION_BANK = [
@@ -304,7 +305,7 @@ def _question_fingerprint(question):
     text = str(question.get("question","")).strip().lower()
     return "|".join((source, year, qnum, text))
 
-def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fingerprints=None, attempt_seed=None, syllabus_year="2026"):
+def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fingerprints=None, attempt_seed=None, syllabus_year=None):
     """
     Build one full-length Civil mock from the uploaded-source-aligned bank.
 
@@ -317,7 +318,7 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
     - Civil Core preferentially uses available source-backed PYQs, then original questions.
     - Questions are shuffled after selection.
     """
-    all_questions = (
+    # GATE Civil mock tests always use the latest configured CE syllabus.\n    # Older syllabus years remain available for syllabus/reference pages only.\n    syllabus_year = LATEST_GATE_SYLLABUS_YEAR\n\n    all_questions = (
         GATE_APTITUDE_QUESTIONS
         + GATE_QUESTION_BANK
         + GATE_QUESTION_BANK_EXTRA
@@ -341,7 +342,7 @@ def build_gate_mock(mode="mixed", count=65, profile=None, scope="all", avoid_fin
         )
         prepared.append(q)
 
-    # Keep generated questions inside the selected year's configured syllabus.
+    # Keep generated questions inside the latest configured CE syllabus.
     selected_syllabus = GATE_SYLLABI.get(str(syllabus_year), GATE_SYLLABUS)
     parent_subject = {
         "Engineering Mechanics": "Structural Engineering",

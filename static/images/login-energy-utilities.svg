@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#173f59"/><stop offset="1" stop-color="#081d30"/></linearGradient></defs>
+<rect width="800" height="420" fill="url(#g)"/>
+<circle cx="650" cy="82" r="42" fill="#f0a12b" opacity=".18"/>
+<path d="M95 330 H705" stroke="#d8eaf2" stroke-width="4" opacity=".3"/>
+<path d="M130 320 L160 150 H235 L265 320 Z" fill="#102f46" stroke="#d8eaf2" stroke-width="5" opacity=".85"/>
+<path d="M175 150 V85 M220 150 V85" stroke="#d8eaf2" stroke-width="6"/>
+<path d="M165 110 H230" stroke="#f0a12b" stroke-width="5"/>
+<path d="M360 320 L405 145 L450 320" fill="none" stroke="#d8eaf2" stroke-width="6"/>
+<path d="M380 245 H430 M390 205 H420" stroke="#d8eaf2" stroke-width="4" opacity=".7"/>
+<path d="M520 315 L555 155 L590 315 M530 265 H580 M538 225 H572 M545 190 H565" fill="none" stroke="#d8eaf2" stroke-width="5" opacity=".8"/>
+<path d="M80 125 H720" stroke="#d8eaf2" stroke-width="3" opacity=".18"/>
+<path d="M85 125 L170 95 L255 125 L340 95 L425 125 L510 95 L595 125 L680 95 L720 108" fill="none" stroke="#f0a12b" stroke-width="4" opacity=".8"/>
+<path d="M260 305 C330 285 365 325 430 305 S545 285 635 310" fill="none" stroke="#f0a12b" stroke-width="8" opacity=".75"/>
+</svg>

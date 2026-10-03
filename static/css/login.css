@@ -38,7 +38,6 @@
     color: #64748b;
 }
 
-
 /* FORM */
 
 .form-group {
@@ -65,7 +64,6 @@
     border-color: #2563eb;
 }
 
-
 /* LOGIN OPTIONS */
 
 .login-options {
@@ -80,7 +78,6 @@
     color: #2563eb;
     text-decoration: none;
 }
-
 
 /* BUTTON */
 
@@ -99,7 +96,6 @@
 .login-button:hover {
     background: #1d4ed8;
 }
-
 
 /* REGISTER */
 
@@ -145,16 +141,59 @@
     text-align: center;
     font-size: 14px;
 }
-.password-wrap{position:relative;display:flex;align-items:center}
-.password-wrap input{padding-right:70px}
-.show-password{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:#eef2ff;color:#1d4ed8;border-radius:6px;padding:6px 9px;font-size:12px;font-weight:700;cursor:pointer}
-.required-star{color:#dc2626}
 
-.login-message{background:#dcfce7;color:#166534;padding:12px;border-radius:8px;margin-bottom:20px;text-align:center;font-size:14px}
-.forgot-password-link a{color:#2563eb;text-decoration:none;font-weight:600}
+.password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
+.password-wrap input {
+    padding-right: 70px;
+}
+
+.show-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: #eef2ff;
+    color: #1d4ed8;
+    border-radius: 6px;
+    padding: 6px 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.required-star {
+    color: #dc2626;
+}
+
+.login-message {
+    background: #dcfce7;
+    color: #166534;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.forgot-password-link {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.forgot-password-link a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+}
 
 /* CIVIL CAREER primary logo visibility on public authentication pages */
+
 .navbar .logo {
     display: flex !important;
     align-items: center !important;
@@ -162,11 +201,13 @@
     min-width: 0;
     line-height: 0;
 }
+
 .navbar .logo a {
     display: inline-flex !important;
     align-items: center !important;
     text-decoration: none;
 }
+
 .navbar .logo img {
     display: block !important;
     visibility: visible !important;
@@ -177,6 +218,7 @@
     min-height: 54px;
     object-fit: contain;
 }
+
 @media (max-width: 600px) {
     .navbar .logo img {
         width: 240px !important;
@@ -185,79 +227,298 @@
     }
 }
 
-
 /* CIVIL CAREER — unified professional UI layer
    Visual-only: preserves existing content, routes, forms and data. */
-:root{
- --cc-navy:#17324d;
- --cc-blue:#2f6f9f;
- --cc-blue-soft:#eef5f9;
- --cc-text:#26384a;
- --cc-muted:#68798a;
- --cc-line:#dbe3ea;
- --cc-page:#f5f7f9;
- --cc-white:#fff;
- --cc-green:#2f765d;
+
+:root {
+    --cc-navy: #17324d;
+    --cc-blue: #2f6f9f;
+    --cc-blue-soft: #eef5f9;
+    --cc-text: #26384a;
+    --cc-muted: #68798a;
+    --cc-line: #dbe3ea;
+    --cc-page: #f5f7f9;
+    --cc-white: #fff;
+    --cc-green: #2f765d;
 }
-body{
- font-family:Arial,Helvetica,sans-serif!important;
- background:var(--cc-page)!important;
- color:var(--cc-text)!important;
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    background: var(--cc-page) !important;
+    color: var(--cc-text) !important;
 }
-.sidebar{
- background:#fff!important;
- border-right:1px solid var(--cc-line)!important;
- box-shadow:2px 0 10px rgba(23,50,77,.035)!important;
+
+.sidebar {
+    background: #fff !important;
+    border-right: 1px solid var(--cc-line) !important;
+    box-shadow: 2px 0 10px rgba(23, 50, 77, .035) !important;
 }
-.sidebar .logo,.dashboard-logo{
- color:var(--cc-navy)!important;
- font-weight:800!important;
+
+.sidebar .logo,
+.dashboard-logo {
+    color: var(--cc-navy) !important;
+    font-weight: 800 !important;
 }
-.sidebar nav a,.sidebar-menu a{
- color:#52677a!important;
- border-radius:6px!important;
- margin:2px 10px!important;
- transition:background .16s ease,color .16s ease!important;
+
+.sidebar nav a,
+.sidebar-menu a {
+    color: #52677a !important;
+    border-radius: 6px !important;
+    margin: 2px 10px !important;
+    transition: background .16s ease, color .16s ease !important;
 }
-.sidebar nav a:hover,.sidebar-menu a:hover{
- background:#f0f5f8!important;
- color:var(--cc-navy)!important;
+
+.sidebar nav a:hover,
+.sidebar-menu a:hover {
+    background: #f0f5f8 !important;
+    color: var(--cc-navy) !important;
 }
-.sidebar nav a.active,.sidebar-menu a.active{
- background:var(--cc-blue-soft)!important;
- color:var(--cc-navy)!important;
- font-weight:700!important;
- border-left:3px solid var(--cc-blue)!important;
+
+.sidebar nav a.active,
+.sidebar-menu a.active {
+    background: var(--cc-blue-soft) !important;
+    color: var(--cc-navy) !important;
+    font-weight: 700 !important;
+    border-left: 3px solid var(--cc-blue) !important;
 }
-.dashboard-main,.main,.profile-page{
- color:var(--cc-text)!important;
+
+.dashboard-main,
+.main,
+.profile-page {
+    color: var(--cc-text) !important;
 }
-.dashboard-card,.feature-card,.category-card,.notification-card,.profile-card,.practice-card,.mock-card,.syllabus-card,.material-card{
- border:1px solid var(--cc-line)!important;
- box-shadow:0 2px 9px rgba(23,50,77,.045)!important;
- border-radius:9px!important;
+
+.dashboard-card,
+.feature-card,
+.category-card,
+.notification-card,
+.profile-card,
+.practice-card,
+.mock-card,
+.syllabus-card,
+.material-card {
+    border: 1px solid var(--cc-line) !important;
+    box-shadow: 0 2px 9px rgba(23, 50, 77, .045) !important;
+    border-radius: 9px !important;
 }
-button,.btn,.profile-option-button{
- font-family:inherit!important;
+
+button,
+.btn,
+.profile-option-button {
+    font-family: inherit !important;
 }
-button{
- box-shadow:none!important;
+
+button {
+    box-shadow: none !important;
 }
-h1,h2,h3,h4{
- color:var(--cc-navy);
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--cc-navy);
 }
-a{
- text-underline-offset:3px;
+
+a {
+    text-underline-offset: 3px;
 }
-input,select,textarea{
- border-color:#cfd9e2!important;
- border-radius:6px!important;
+
+input,
+select,
+textarea {
+    border-color: #cfd9e2 !important;
+    border-radius: 6px !important;
 }
-input:focus,select:focus,textarea:focus{
- border-color:#6f9dbb!important;
- box-shadow:0 0 0 3px rgba(47,111,159,.10)!important;
- outline:none!important;
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #6f9dbb !important;
+    box-shadow: 0 0 0 3px rgba(47, 111, 159, .10) !important;
+    outline: none !important;
 }
-@media(max-width:800px){
- .sidebar nav a,.sidebar-menu a{margin-left:6px!important;margin-right:6px!important}
+
+@media (max-width: 800px) {
+    .sidebar nav a,
+    .sidebar-menu a {
+        margin-left: 6px !important;
+        margin-right: 6px !important;
+    }
+}
+
+/* =========================================================
+   CIVIL CAREER LOGIN — restrained engineering visual
+   Visual-only. Existing authentication and routes unchanged.
+   ========================================================= */
+
+.login-page {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: calc(100vh - 150px);
+    padding: 64px 20px;
+    background:
+        linear-gradient(135deg, rgba(10, 31, 52, .97), rgba(25, 69, 101, .94));
+}
+
+/* Subtle blueprint grid */
+.login-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    opacity: .15;
+    background-image:
+        linear-gradient(rgba(255,255,255,.45) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.45) 1px, transparent 1px);
+    background-size: 42px 42px;
+}
+
+/* Minimal structural-line motif: beam + columns */
+.login-page::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 560px;
+    height: 280px;
+    right: -80px;
+    bottom: -45px;
+    opacity: .18;
+    border-top: 2px solid #d9e8f2;
+    border-left: 2px solid #d9e8f2;
+    transform: skewX(-16deg);
+    box-shadow:
+        80px 0 0 -1px rgba(217,232,242,.45),
+        160px 0 0 -1px rgba(217,232,242,.35),
+        240px 0 0 -1px rgba(217,232,242,.25);
+}
+
+.login-container {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    padding: 38px 40px;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 18px;
+    background: rgba(255,255,255,.90);
+    box-shadow: 0 22px 55px rgba(3, 18, 31, .30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.login-header {
+    margin-bottom: 26px;
+}
+
+.login-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(23, 50, 77, .08);
+    border: 1px solid rgba(23, 50, 77, .10);
+}
+
+.login-icon img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.login-header h1 {
+    font-size: 29px;
+    letter-spacing: -.3px;
+    margin-bottom: 8px;
+    color: #17324d;
+}
+
+.login-header p {
+    color: #647789;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    margin-bottom: 7px;
+    font-size: 14px;
+    color: #30485d;
+}
+
+.form-group input {
+    padding: 13px 14px;
+    background: rgba(255,255,255,.86);
+    border: 1px solid #c9d6e1;
+    border-radius: 9px;
+    color: #1f3345;
+}
+
+.form-group input:focus {
+    border-color: #2f6f9f;
+    box-shadow: 0 0 0 3px rgba(47,111,159,.12);
+}
+
+.login-button {
+    margin-top: 3px;
+    padding: 13px 16px;
+    border-radius: 9px;
+    background: #1f5f8f;
+    transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.login-button:hover {
+    background: #184d76;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 16px rgba(23,50,77,.18);
+}
+
+.show-password {
+    background: #eef4f8;
+    color: #1f5f8f;
+}
+
+.forgot-password-link {
+    margin-top: 13px !important;
+}
+
+.forgot-password-link a,
+.register-section a {
+    color: #1f5f8f;
+}
+
+.register-section {
+    margin-top: 23px;
+    padding-top: 21px;
+    border-top-color: rgba(148,163,184,.35);
+}
+
+.login-error {
+    border: 1px solid rgba(185,28,28,.10);
+}
+
+.footer {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 600px) {
+    .login-page {
+        min-height: calc(100vh - 125px);
+        padding: 36px 16px;
+    }
+
+    .login-container {
+        max-width: 430px;
+        padding: 30px 24px;
+        border-radius: 15px;
+        background: rgba(255,255,255,.94);
+    }
+
+    .login-header h1 {
+        font-size: 26px;
+    }
 }

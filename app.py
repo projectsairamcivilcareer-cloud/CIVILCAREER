@@ -160,6 +160,14 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PERMANENT_SESSION_LIFETIME"] = 1800
 app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 
+# Public pages intentionally end an authenticated application session.
+PUBLIC_SESSION_EXIT_ENDPOINTS = {
+    "home", "about", "privacy_policy", "terms_and_conditions",
+    "disclaimer", "contact", "civil_engineering_syllabus",
+    "login", "register", "forgot_password", "reset_password",
+}
+
+
 # Keep large mock-test answer/question state server-side. Flask's default
 # cookie session can exceed browser cookie limits, causing subsequent PDF
 # requests to lose the login session and redirect to the login HTML page.
@@ -177,6 +185,12 @@ Session(app)
 def enforce_session_idle_timeout():
     if "student_id" not in session:
         return None
+
+    # Leaving the authenticated application for a public page logs the user out.
+    if request.endpoint in PUBLIC_SESSION_EXIT_ENDPOINTS:
+        session.clear()
+        return redirect(url_for("login", logged_out=1))
+
     now = int(time.time())
     last_activity = int(session.get("last_activity", now))
     if now - last_activity >= 1800:
@@ -193,6 +207,18 @@ def enforce_session_idle_timeout():
 # compact menu button in the top-left instead of a permanent
 # sidebar on every page.
 # =========================================================
+
+@app.route("/public-session-guard")
+def public_session_guard():
+    """Clear any authenticated session when a cached public page is restored."""
+    was_logged_in = "student_id" in session
+    if was_logged_in:
+        session.clear()
+    response = jsonify({"logged_out": was_logged_in})
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    return response
+
 
 @app.context_processor
 def inject_current_profile_photo():
@@ -248,6 +274,34 @@ def add_global_navigation(response):
     response.set_data(html)
     return response
 
+
+
+@app.after_request
+def protect_authenticated_page_cache(response):
+    if "student_id" in session and response.status_code == 200:
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
+
+
+@app.after_request
+def add_public_history_guard(response):
+    if (
+        response.status_code == 200
+        and response.content_type
+        and response.content_type.startswith("text/html")
+        and request.endpoint in PUBLIC_SESSION_EXIT_ENDPOINTS
+        and request.endpoint != "public_session_guard"
+    ):
+        html = response.get_data(as_text=True)
+        script = '<script>(function(){function g(){fetch("/public-session-guard",{credentials:"same-origin",cache:"no-store",headers:{"Cache-Control":"no-cache"}}).then(function(r){if(r.redirected||r.url.indexOf("/login")!==-1){location.replace("/login?logged_out=1");return;}return r.json().then(function(d){if(d&&d.logged_out){location.replace("/login?logged_out=1");}});}).catch(function(){});}window.addEventListener("pageshow",g);g();})();</script>';
+        if "function g(){fetch" not in html and "</body>" in html:
+            html = html.replace("</body>", script + "</body>", 1)
+            response.set_data(html)
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+    return response
 
 
 if os.environ.get("RAILWAY_PUBLIC_DOMAIN"):

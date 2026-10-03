@@ -597,53 +597,25 @@ textarea:focus {
 /* =========================================================
    CIVIL CAREER REGISTER — professional account creation UI
    ========================================================= */
-
-.register-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 24px 56px;
-}
-
-.register-page .register-container {
-    width: min(500px, 100%);
-    max-width: 500px;
-    margin: 0 auto;
-    flex: 0 0 auto;
-}
-
-.register-page .login-header {
-    margin-bottom: 25px;
-}
-
-.register-page form {
-    width: 100%;
-}
-
-.register-page .form-group {
-    margin-bottom: 15px;
-}
-
-.register-page .form-group label {
-    margin-bottom: 7px;
-}
-
-.register-page .form-group input,
-.register-page .form-group select {
-    box-sizing: border-box;
-}
-
-@media (max-width: 600px) {
-    .register-page {
-        min-height: calc(100vh - 125px);
-        padding: 28px 16px 40px;
-        align-items: flex-start;
-    }
-
-    .register-page .register-container {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 28px 20px 25px;
-    }
-}
+.register-page{display:flex;align-items:center;justify-content:center;padding:42px 24px 50px}
+.register-page .register-container{width:min(510px,100%);max-width:510px;margin:0 auto;flex:0 0 auto;padding:36px 40px 27px;border-radius:20px;box-shadow:0 28px 70px rgba(1,17,29,.38),0 8px 24px rgba(1,17,29,.12),inset 0 1px 0 rgba(255,255,255,.95)}
+.register-page .register-container::before{left:34px;right:34px;height:4px}
+.register-intro-badge{position:relative;z-index:1;width:fit-content;margin:0 auto 12px;padding:6px 11px;border:1px solid rgba(255,255,255,.20);border-radius:999px;background:rgba(255,255,255,.10);color:#e3f0f7;font-size:9px;font-weight:800;letter-spacing:1.1px;text-align:center}
+.register-page .login-header{margin-bottom:23px}
+.register-page .login-icon{width:58px;height:58px;margin-bottom:13px;border-radius:16px;background:linear-gradient(145deg,#edf5f9,#e4eef4);border-color:#d2e0e8;box-shadow:0 7px 18px rgba(23,50,77,.11)}
+.register-page .login-icon img{width:38px;height:38px}
+.register-page .login-header h2{font-size:29px;letter-spacing:-.7px}
+.register-page .login-header p{margin-top:6px;font-size:13px}
+.register-page form{width:100%}
+.register-page .form-group{margin-bottom:14px}
+.register-page .form-group label{margin-bottom:7px;font-size:11.5px}
+.register-page .form-group input,.register-page .form-group select{box-sizing:border-box;min-height:46px;font-size:13.5px}
+.register-page .form-group input:hover,.register-page .form-group select:hover{background:#fcfeff!important}
+.register-page .login-button{min-height:50px;margin-top:5px;border-radius:9px;background:linear-gradient(135deg,#17628f 0%,#123f63 100%);box-shadow:0 7px 16px rgba(23,80,115,.18);letter-spacing:.65px}
+.register-page .login-button:hover{background:linear-gradient(135deg,#1c6e9f 0%,#154b72 100%);box-shadow:0 10px 22px rgba(23,80,115,.25)}
+.register-trust{display:flex;align-items:center;justify-content:center;gap:8px;margin:17px 0 0;color:#718493;font-size:10.5px;font-weight:700}
+.register-trust span:nth-child(2){color:#c2cdd5}
+.register-page .register-section{margin-top:16px;padding-top:16px}
+.register-page .register-section p{margin-bottom:7px}
+.register-page .register-section a{min-width:92px;min-height:35px;padding:7px 17px;border-radius:7px;background:#f3f7f9;font-size:12px;font-weight:800}
+@media(max-width:600px){.register-page{min-height:calc(100vh - 125px);padding:26px 15px 38px;align-items:flex-start}.register-page .register-container{width:100%;max-width:100%;padding:29px 20px 24px;border-radius:16px}.register-page .register-container::before{left:22px;right:22px}.register-intro-badge{font-size:8px;letter-spacing:.9px}.register-page .login-header h2{font-size:25px}.register-trust{font-size:9.5px;gap:6px}}

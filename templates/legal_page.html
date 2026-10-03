@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ meta_description }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.url }}">
+    <meta property="og:title" content="{{ page_title }} | Civil Career">
+    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="website">
     <title>{{ page_title }} | Civil Career</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/civil-career-icon.svg') }}">

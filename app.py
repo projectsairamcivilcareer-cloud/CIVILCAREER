@@ -8405,30 +8405,45 @@ def subject_notes_pdf(subject_slug):
 
 
 # =========================================================
-# SEO: XML SITEMAP
+# SEO: PUBLIC ROBOTS + XML SITEMAP
 # =========================================================
+
+@app.route("/robots.txt")
+def robots_txt():
+    return Response(
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /dashboard\n"
+        "Disallow: /profile\n"
+        "Disallow: /mock-test-history\n"
+        "Disallow: /notifications\n"
+        "Disallow: /api/\n"
+        "Disallow: /logout\n"
+        "Disallow: /auto-logout\n"
+        "Sitemap: https://civilcareer.up.railway.app/sitemap.xml\n",
+        mimetype="text/plain"
+    )
+
 
 @app.route("/sitemap.xml")
 def sitemap():
+    # Only include public, canonical pages that Google can crawl without
+    # a student login. Do not include private dashboards, mock attempts,
+    # profile pages, PDFs, API endpoints, redirects, or stale legacy URLs.
     urls = [
         "https://civilcareer.up.railway.app/",
         "https://civilcareer.up.railway.app/about",
-        "https://civilcareer.up.railway.app/jobs",
-        "https://civilcareer.up.railway.app/syllabus",
-        "https://civilcareer.up.railway.app/materials",
-        "https://civilcareer.up.railway.app/practice",
-        "https://civilcareer.up.railway.app/mock-tests",
-        "https://civilcareer.up.railway.app/civil-engineering-syllabus",
-        "https://civilcareer.up.railway.app/ssc-je-civil-engineering",
-        "https://civilcareer.up.railway.app/rrb-je-civil-engineering",
-        "https://civilcareer.up.railway.app/construction-project-planning",
+        "https://civilcareer.up.railway.app/privacy-policy",
+        "https://civilcareer.up.railway.app/terms-and-conditions",
+        "https://civilcareer.up.railway.app/disclaimer",
+        "https://civilcareer.up.railway.app/contact",
     ]
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 
     for page_url in urls:
-        xml += f"<url><loc>{page_url}</loc></url>"
+        xml += f"<url><loc>{escape(page_url)}</loc></url>"
 
     xml += "</urlset>"
 

@@ -1104,6 +1104,12 @@ def home():
 # ABOUT PAGE
 # ==============================
 
+@app.route("/civil-engineering-syllabus")
+def civil_engineering_syllabus():
+    """Public SEO information page; detailed student tools remain login-protected."""
+    return render_template("civil-engineering-syllabus.html")
+
+
 @app.route("/about")
 def about():
 

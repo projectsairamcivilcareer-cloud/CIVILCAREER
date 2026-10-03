@@ -837,19 +837,19 @@ textarea:focus {
 }
 
 .infra-transport {
-    background-image: url("/static/images/login-transportation.svg");
+    background-image: url("https://images.unsplash.com/photo-1708357048212-1cdb297bb424?auto=format&fit=crop&w=1400&q=82");
 }
 
 .infra-water {
-    background-image: url("/static/images/login-water-systems.svg");
+    background-image: url("https://images.unsplash.com/photo-1773832006685-6edde5067fda?auto=format&fit=crop&w=1400&q=82");
 }
 
 .infra-energy {
-    background-image: url("/static/images/login-energy-utilities.svg");
+    background-image: url("https://images.unsplash.com/photo-1757612568240-365fc4c4834f?auto=format&fit=crop&w=1400&q=82");
 }
 
 .infra-communication {
-    background-image: url("/static/images/login-communication-conduits.svg");
+    background-image: url("https://images.unsplash.com/photo-1773517459133-be9768f6cac9?auto=format&fit=crop&w=1400&q=82");
 }
 
 /* The gallery replaces the previous line-art illustration. */
@@ -886,4 +886,17 @@ textarea:focus {
         right: 8px;
         top: 8px;
     }
+}
+
+
+/* Real photography treatment: keep photos visible but integrated with the
+   existing CIVIL CAREER blueprint theme. */
+.infra-card::before {
+    background:
+        linear-gradient(180deg, rgba(4,22,36,.04) 15%, rgba(4,22,36,.72) 100%),
+        linear-gradient(90deg, rgba(4,22,36,.10), rgba(4,22,36,0));
+}
+
+.infra-card {
+    background-color: #12344b;
 }

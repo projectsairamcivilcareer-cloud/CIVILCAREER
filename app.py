@@ -8443,6 +8443,7 @@ def sitemap():
         "https://civilcareer.up.railway.app/terms-and-conditions",
         "https://civilcareer.up.railway.app/disclaimer",
         "https://civilcareer.up.railway.app/contact",
+        "https://civilcareer.up.railway.app/civil-engineering-syllabus",
     ]
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>'

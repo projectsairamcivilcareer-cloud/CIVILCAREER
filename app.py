@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, send_file, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, session, send_file, jsonify, abort, Response
 import json
 import time
 import sqlite3
@@ -8401,6 +8401,38 @@ def subject_notes_pdf(subject_slug):
     doc.build(story,onFirstPage=chrome,onLaterPages=chrome)
     buffer.seek(0)
     return send_file(buffer,mimetype="application/pdf",as_attachment=True,download_name=subject_slug+"-civil-career-notes.pdf")
+
+
+
+# =========================================================
+# SEO: XML SITEMAP
+# =========================================================
+
+@app.route("/sitemap.xml")
+def sitemap():
+    urls = [
+        "https://civilcareer.up.railway.app/",
+        "https://civilcareer.up.railway.app/about",
+        "https://civilcareer.up.railway.app/jobs",
+        "https://civilcareer.up.railway.app/syllabus",
+        "https://civilcareer.up.railway.app/materials",
+        "https://civilcareer.up.railway.app/practice",
+        "https://civilcareer.up.railway.app/mock-tests",
+        "https://civilcareer.up.railway.app/civil-engineering-syllabus",
+        "https://civilcareer.up.railway.app/ssc-je-civil-engineering",
+        "https://civilcareer.up.railway.app/rrb-je-civil-engineering",
+        "https://civilcareer.up.railway.app/construction-project-planning",
+    ]
+
+    xml = '<?xml version="1.0" encoding="UTF-8"?>'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+    for page_url in urls:
+        xml += f"<url><loc>{page_url}</loc></url>"
+
+    xml += "</urlset>"
+
+    return Response(xml, mimetype="application/xml")
 
 
 # =========================================================

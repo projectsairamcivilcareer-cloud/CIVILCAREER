@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">\n    <meta http-equiv="Pragma" content="no-cache">
 
     <title>Login | Civil Career</title>
 
@@ -79,7 +79,8 @@
 
                 <form method="POST"
                       action="{{ url_for('login') }}"
-                      autocomplete="on">
+                      autocomplete="on"
+                      id="login-form">
 
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -141,6 +142,54 @@ function togglePassword(id, button) {
   input.type = input.type === "password" ? "text" : "password";
   button.textContent = input.type === "password" ? "Show" : "Hide";
 }
+
+(function () {
+  // Never allow a browser-restored login document to remain stale.
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
+  // Replace the login history entry after a successful login.
+  // This prevents Back from reopening the pre-login form.
+  const form = document.getElementById("login-form");
+  if (!form) return;
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const button = form.querySelector(".login-button");
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Logging in...";
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        credentials: "same-origin",
+        redirect: "follow",
+        cache: "no-store"
+      });
+
+      const finalUrl = response.url || "";
+      if (response.ok && !finalUrl.endsWith("/login") && !finalUrl.includes("/login?")) {
+        window.location.replace(finalUrl);
+        return;
+      }
+
+      // Preserve server-side validation/error messages on a failed login.
+      const freshHtml = await response.text();
+      document.open();
+      document.write(freshHtml);
+      document.close();
+    } catch (error) {
+      form.submit();
+    }
+  });
+})();
 </script>
 </body>
 

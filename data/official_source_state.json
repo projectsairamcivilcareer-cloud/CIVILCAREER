@@ -7,7 +7,7 @@
       "category": "btech-regulations",
       "source_url": "https://jntukucen.ac.in/wp-content/uploads/2023/11/R23-REGULATIONS.pdf",
       "final_url": "https://jntukucen.ac.in/wp-content/uploads/2023/11/R23-REGULATIONS.pdf",
-      "checked_at": "2026-10-04T04:08:46.245237+00:00",
+      "checked_at": "2026-10-05T02:30:14.401974+00:00",
       "sha256": "8082f2d60075a807d7ee7b731886b4402992e691bc8e5f3eb8e3888d419f01a2",
       "content_type": "application/pdf",
       "bytes": 1478417,
@@ -22,7 +22,7 @@
       "category": "diploma-syllabus",
       "source_url": "https://polytechnic.aec.edu.in/docs/syllabus/C_23/CE.pdf",
       "final_url": "https://polytechnic.aec.edu.in/docs/syllabus/C_23/CE.pdf",
-      "checked_at": "2026-10-04T04:08:46.245237+00:00",
+      "checked_at": "2026-10-05T02:30:14.401974+00:00",
       "sha256": "94f68e9d5f1962090d13aafce87f5b87e10c89fb2035d1d1ca948155ecc6d3b5",
       "content_type": "application/pdf",
       "bytes": 2636299,
@@ -37,12 +37,12 @@
       "category": "gate-syllabus",
       "source_url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
       "final_url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
-      "checked_at": "2026-10-04T04:08:46.245237+00:00",
-      "sha256": "c21ef15d8fb842f61931b8062040fabe97c9b09c51533bc209106bcad4621c55",
+      "checked_at": "2026-10-05T02:30:14.401974+00:00",
+      "sha256": "bcd846de86a2d415f7fb2cebd99f07d158eb83abbb54955a629350b464aa2603",
       "content_type": "text/html; charset=utf-8",
-      "bytes": 55405,
+      "bytes": 55406,
       "status": "changed",
-      "archive_file": "data/official_source_archive/gate-2027-official-syllabus-c21ef15d8fb842f6.html",
+      "archive_file": "data/official_source_archive/gate-2027-official-syllabus-bcd846de86a2d415.html",
       "review_status": "pending_official_content_validation"
     },
     "upsc-ese-2027-notification": {
@@ -52,12 +52,12 @@
       "category": "competitive-notification-syllabus",
       "source_url": "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
       "final_url": "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
-      "checked_at": "2026-10-04T04:08:46.245237+00:00",
-      "sha256": "663719f9ac890ad0c6b0485e7e7a34479dd4e25dff364603683dbe1f6bdc6e24",
+      "checked_at": "2026-10-05T02:30:14.401974+00:00",
+      "sha256": "d7887d4b35d7035496f12bed62ff2c8e4ea6efac048f22aa15c4e193af95cefa",
       "content_type": "text/html; charset=utf-8",
-      "bytes": 29826,
+      "bytes": 29821,
       "status": "changed",
-      "archive_file": "data/official_source_archive/upsc-ese-2027-notification-663719f9ac890ad0.html",
+      "archive_file": "data/official_source_archive/upsc-ese-2027-notification-d7887d4b35d70354.html",
       "review_status": "pending_official_content_validation"
     },
     "ssc-je-official-notices": {
@@ -67,7 +67,7 @@
       "category": "competitive-notification-syllabus",
       "source_url": "https://ssc.gov.in/",
       "final_url": "https://ssc.gov.in/",
-      "checked_at": "2026-10-04T04:08:46.245237+00:00",
+      "checked_at": "2026-10-05T02:30:14.401974+00:00",
       "sha256": "882e5dbfbeaea5a49b733cf49d2c6f8da569543df82af165cdfcad751d101737",
       "content_type": "text/html",
       "bytes": 80649,
@@ -79,7 +79,7 @@
       "id": "rrb-official-railway-recruitment",
       "title": "Railway Recruitment Boards — official Indian Railways recruitment portal",
       "source_url": "https://www.rrbcdg.gov.in/",
-      "last_error_at": "2026-10-04T04:08:46.245237+00:00",
+      "last_error_at": "2026-10-05T02:30:14.401974+00:00",
       "last_error": "<urlopen error [Errno 111] Connection refused>",
       "last_attempt_status": "fetch_failed"
     },
@@ -87,10 +87,10 @@
       "id": "appsc-official-recruitment-notifications",
       "title": "Andhra Pradesh Public Service Commission — official notifications and examinations",
       "source_url": "https://psc.ap.gov.in/",
-      "last_error_at": "2026-10-04T04:08:46.245237+00:00",
+      "last_error_at": "2026-10-05T02:30:14.401974+00:00",
       "last_error": "<urlopen error timed out>",
       "last_attempt_status": "fetch_failed"
     }
   },
-  "last_run_at": "2026-10-04T04:08:46.245237+00:00"
+  "last_run_at": "2026-10-05T02:30:14.401974+00:00"
 }

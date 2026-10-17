@@ -7,7 +7,7 @@
       "category": "btech-regulations",
       "source_url": "https://jntukucen.ac.in/wp-content/uploads/2023/11/R23-REGULATIONS.pdf",
       "final_url": "https://jntukucen.ac.in/wp-content/uploads/2023/11/R23-REGULATIONS.pdf",
-      "checked_at": "2026-10-16T07:10:23.457578+00:00",
+      "checked_at": "2026-10-17T06:57:56.743997+00:00",
       "sha256": "8082f2d60075a807d7ee7b731886b4402992e691bc8e5f3eb8e3888d419f01a2",
       "content_type": "application/pdf",
       "bytes": 1478417,
@@ -28,7 +28,10 @@
       "bytes": 2636299,
       "status": "unchanged",
       "archive_file": "data/official_source_archive/ap-sbtet-c23-civil-94f68e9d5f196209.pdf",
-      "review_status": "pending_official_content_validation"
+      "review_status": "pending_official_content_validation",
+      "last_error_at": "2026-10-17T06:57:56.743997+00:00",
+      "last_error": "<urlopen error _ssl.c:993: The handshake operation timed out>",
+      "last_attempt_status": "fetch_failed"
     },
     "gate-2027-official-syllabus": {
       "id": "gate-2027-official-syllabus",
@@ -37,12 +40,12 @@
       "category": "gate-syllabus",
       "source_url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
       "final_url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
-      "checked_at": "2026-10-16T07:10:23.457578+00:00",
-      "sha256": "14d6609b6b141c9ce3dc63e805702392eff308973a9aa15ef6a18ec963cec516",
+      "checked_at": "2026-10-17T06:57:56.743997+00:00",
+      "sha256": "642b9f07b7aadb5a8b367ba8d1a1119aea6b16b83b240fddce349b3bbbe838c2",
       "content_type": "text/html; charset=utf-8",
       "bytes": 55442,
       "status": "changed",
-      "archive_file": "data/official_source_archive/gate-2027-official-syllabus-14d6609b6b141c9c.html",
+      "archive_file": "data/official_source_archive/gate-2027-official-syllabus-642b9f07b7aadb5a.html",
       "review_status": "pending_official_content_validation"
     },
     "upsc-ese-2027-notification": {
@@ -52,12 +55,12 @@
       "category": "competitive-notification-syllabus",
       "source_url": "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
       "final_url": "https://www.upsc.gov.in/examinations/Engineering%20Services%20%28Preliminary%29%20Examination%2C%202027",
-      "checked_at": "2026-10-16T07:10:23.457578+00:00",
-      "sha256": "e8d4fd89f309fef022953826afa07a089d4e2a519fb1688dce55d0ffe54dda8e",
+      "checked_at": "2026-10-17T06:57:56.743997+00:00",
+      "sha256": "280443ff766e9f95412f68a579fdbc645c2084de83496682528a1c7fbe19eb71",
       "content_type": "text/html; charset=utf-8",
-      "bytes": 29826,
+      "bytes": 31146,
       "status": "changed",
-      "archive_file": "data/official_source_archive/upsc-ese-2027-notification-e8d4fd89f309fef0.html",
+      "archive_file": "data/official_source_archive/upsc-ese-2027-notification-280443ff766e9f95.html",
       "review_status": "pending_official_content_validation"
     },
     "ssc-je-official-notices": {
@@ -67,7 +70,7 @@
       "category": "competitive-notification-syllabus",
       "source_url": "https://ssc.gov.in/",
       "final_url": "https://ssc.gov.in/",
-      "checked_at": "2026-10-16T07:10:23.457578+00:00",
+      "checked_at": "2026-10-17T06:57:56.743997+00:00",
       "sha256": "dc9ed39b3504ef5dbc6da337c86803b0363f116b132078ec03f555c073cd8a36",
       "content_type": "text/html",
       "bytes": 80649,
@@ -79,7 +82,7 @@
       "id": "rrb-official-railway-recruitment",
       "title": "Railway Recruitment Boards — official Indian Railways recruitment portal",
       "source_url": "https://www.rrbcdg.gov.in/",
-      "last_error_at": "2026-10-16T07:10:23.457578+00:00",
+      "last_error_at": "2026-10-17T06:57:56.743997+00:00",
       "last_error": "<urlopen error timed out>",
       "last_attempt_status": "fetch_failed"
     },
@@ -87,10 +90,10 @@
       "id": "appsc-official-recruitment-notifications",
       "title": "Andhra Pradesh Public Service Commission — official notifications and examinations",
       "source_url": "https://psc.ap.gov.in/",
-      "last_error_at": "2026-10-16T07:10:23.457578+00:00",
+      "last_error_at": "2026-10-17T06:57:56.743997+00:00",
       "last_error": "<urlopen error timed out>",
       "last_attempt_status": "fetch_failed"
     }
   },
-  "last_run_at": "2026-10-16T07:10:23.457578+00:00"
+  "last_run_at": "2026-10-17T06:57:56.743997+00:00"
 }

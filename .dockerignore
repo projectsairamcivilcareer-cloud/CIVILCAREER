@@ -1,0 +1,14 @@
+.git/
+.github/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.db
+.env
+.env.*
+!.env.example
+flask_sessions/
+data/profile_uploads/
+static/images/profile_uploads/
+.DS_Store

@@ -59,6 +59,12 @@
             </div>
 
 
+            {% if error %}
+            <div class="register-error" role="alert" style="margin: 0 0 18px; padding: 12px 14px; border: 1px solid #f1b6b6; border-radius: 8px; background: #fff1f1; color: #9b1c1c; font-size: 14px; line-height: 1.5;">
+                {{ error }}
+            </div>
+            {% endif %}
+
             <form method="POST" action="/register">
 
                 <!-- NAME -->

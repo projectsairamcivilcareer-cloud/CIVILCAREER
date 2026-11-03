@@ -8518,6 +8518,15 @@ def subject_notes_pdf(subject_slug):
 # SEO: PUBLIC ROBOTS + XML SITEMAP
 # =========================================================
 
+@app.route("/ads.txt")
+def ads_txt():
+    """Serve the AdSense seller declaration from the website root."""
+    return Response(
+        "google.com, pub-7748898905919981, DIRECT, f08c47fec0942fa0\\n",
+        mimetype="text/plain"
+    )
+
+
 @app.route("/robots.txt")
 def robots_txt():
     return Response(

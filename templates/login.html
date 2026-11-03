@@ -31,10 +31,10 @@
         </div>
 
         <div class="nav-links">
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('contact') }}">Contact</a>
-            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}"{% if request.endpoint == 'home' %} aria-current="page"{% endif %}>Home</a>
+            <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}"{% if request.endpoint == 'about' %} aria-current="page"{% endif %}>About</a>
+            <a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}"{% if request.endpoint == 'contact' %} aria-current="page"{% endif %}>Contact</a>
+            <a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}"{% if request.endpoint == 'login' %} aria-current="page"{% endif %}>Login</a>
         </div>
     </nav>
 

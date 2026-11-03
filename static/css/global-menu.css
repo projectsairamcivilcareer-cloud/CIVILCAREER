@@ -345,3 +345,20 @@ input:focus,select:focus,textarea:focus{
     letter-spacing:.03em;
     white-space:nowrap;
 }
+
+
+/* Hide the repeated student identity badge from authenticated page headers. */
+.topbar > .student-info,
+.topbar > .student-info *,
+.jobs-top > .jobs-student,
+.jobs-top > .jobs-student *,
+.internship-top > .internship-student,
+.internship-top > .internship-student *,
+.cc-resources-head > .cc-resources-student,
+.cc-resources-head > .cc-resources-student *,
+.header > .user,
+.header > .user *,
+.topbar > .user,
+.topbar > .user *{
+    display:none !important;
+}

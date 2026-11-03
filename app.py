@@ -1174,6 +1174,18 @@ def about():
 # RECOMMENDED RESOURCES
 # ==============================
 
+@app.route("/resources")
+def resources_hub():
+    """Show the main Civil Career learning-resource categories."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    return render_template(
+        "resources.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", "")
+    )
+
+
 @app.route("/recommended-resources")
 def recommended_resources():
     # Recommended Resources is an authenticated Civil Career page.

@@ -1393,46 +1393,96 @@ def contact():
     contact_email = (os.environ.get("CONTACT_EMAIL") or "projectsairamcivilcareer@gmail.com").strip()
     if contact_email:
         contact_text = (
-            f'<p><strong>Official support email:</strong> '
-            f'<a href="mailto:{escape(contact_email)}">{escape(contact_email)}</a></p>'
+            '<p>For website support, account assistance, feedback and content corrections, '
+            'email the Civil Career support team at '
+            f'<a href="mailto:{escape(contact_email)}">{escape(contact_email)}</a>.</p>'
         )
-        note = "Please include enough detail for us to understand the issue, and do not send passwords or other confidential account credentials."
+        note = (
+            "For your security, never include your password, one-time verification code, "
+            "full payment details or other confidential credentials in an email."
+        )
     else:
         contact_text = (
-            "<p>The official Civil Career support email is being configured. "
-            "Please check this page again after the contact address is published.</p>"
+            "<p>The official Civil Career support email is currently being configured. "
+            "Please revisit this page for the published contact address.</p>"
         )
-        note = "Before submitting Civil Career for AdSense review, configure the public support email in the site's CONTACT_EMAIL environment variable."
+        note = (
+            "The public support email must be configured in the CONTACT_EMAIL environment "
+            "variable before students can contact the support team by email."
+        )
+
     sections = [
         {
-            "title": "Get in touch",
+            "title": "Contact CIVIL CAREER",
             "paragraphs": [
-                "Use this page for website feedback, account-related support, content corrections and questions about Civil Career."
+                "CIVIL CAREER is a Civil Engineering learning and career-preparation platform "
+                "for Diploma and B.Tech students and candidates preparing for GATE and "
+                "government engineering examinations. Use this page to contact us about "
+                "the website, learning resources and student services."
             ],
             "bullets": []
         },
         {
-            "title": "Support",
+            "title": "Official support email",
             "paragraphs": [contact_text],
             "bullets": []
         },
         {
-            "title": "When reporting an issue",
+            "title": "What can you contact us about?",
             "paragraphs": [
-                "Please mention the page or feature involved and describe the problem clearly. For mock-test issues, include the test name and question number when relevant."
+                "You can contact the support team for help with the following topics:"
+            ],
+            "bullets": [
+                "Website access, navigation and technical problems.",
+                "Student account and login-related assistance.",
+                "Mock-test access, saved attempts, results and report display issues.",
+                "Civil Engineering syllabus, study material and question-content corrections.",
+                "Feedback about GATE, SSC JE, RRB JE and other examination-preparation resources.",
+                "Broken links, incorrect page information or accessibility problems."
+            ]
+        },
+        {
+            "title": "How to report a problem",
+            "paragraphs": [
+                "When emailing us, use a clear subject line and explain what happened. "
+                "Mention the page address, the feature involved, the date of the issue and "
+                "the steps that led to it. If a mock test is involved, include the test name "
+                "and question number where applicable. You may attach a screenshot that "
+                "does not expose private account or payment information."
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Useful website pages",
+            "paragraphs": [
+                'Visit the <a href="/civil-engineering-syllabus">Civil Engineering syllabus</a> '
+                'for syllabus guidance, read <a href="/about">About CIVIL CAREER</a> to learn '
+                'about the platform, or use the <a href="/login">student login</a> to access '
+                'account-based learning and practice features.'
+            ],
+            "bullets": []
+        },
+        {
+            "title": "Support and response",
+            "paragraphs": [
+                "Messages are reviewed by the Civil Career support team. Please allow a "
+                "reasonable time for a response and send one follow-up message if you do "
+                "not hear back. Do not send repeated messages containing the same issue."
             ],
             "bullets": []
         }
     ]
     return render_template(
         "legal_page.html",
-        page_title="Contact Us",
-        meta_description="Contact Civil Career for website support, feedback and content corrections.",
+        page_title="Contact CIVIL CAREER",
+        meta_description=(
+            "Contact CIVIL CAREER for student account support, website assistance, "
+            "Civil Engineering syllabus corrections, mock-test issues and feedback."
+        ),
         updated_text=_LEGAL_UPDATED_TEXT,
         sections=sections,
         note=note
     )
-
 
 # ==============================
 # LOGIN

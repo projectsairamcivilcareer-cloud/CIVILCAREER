@@ -253,6 +253,17 @@ body{
     font-size:13px;
 }
 
+.footer a{
+    color:#ffffff;
+    text-decoration:underline;
+    text-underline-offset:3px;
+}
+
+.footer a:hover,
+.footer a:focus-visible{
+    color:#f8c66a;
+}
+
 /* MOBILE */
 
 @media(max-width:900px){

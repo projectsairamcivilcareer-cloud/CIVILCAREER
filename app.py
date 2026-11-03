@@ -103,10 +103,10 @@ def format_date_dmy(value):
     return formatted if formatted != "Not available" else "Not announced"
 
 
-WEBSITE_URL = "https://civilcareer.up.railway.app"
+WEBSITE_URL = "https://civilcareer.onrender.com"
 
 # Canonical public URL used across student-facing pages and generated PDFs.
-PDF_WEBSITE_URL = "https://civilcareer.up.railway.app"
+PDF_WEBSITE_URL = "https://civilcareer.onrender.com"
 
 IST_ZONE = ZoneInfo("Asia/Kolkata")
 
@@ -8480,7 +8480,7 @@ def robots_txt():
         "Disallow: /api/\n"
         "Disallow: /logout\n"
         "Disallow: /auto-logout\n"
-        "Sitemap: https://civilcareer.up.railway.app/sitemap.xml\n",
+        "Sitemap: https://civilcareer.onrender.com/sitemap.xml\n",
         mimetype="text/plain"
     )
 
@@ -8491,13 +8491,13 @@ def sitemap():
     # a student login. Do not include private dashboards, mock attempts,
     # profile pages, PDFs, API endpoints, redirects, or stale legacy URLs.
     urls = [
-        "https://civilcareer.up.railway.app/",
-        "https://civilcareer.up.railway.app/about",
-        "https://civilcareer.up.railway.app/privacy-policy",
-        "https://civilcareer.up.railway.app/terms-and-conditions",
-        "https://civilcareer.up.railway.app/disclaimer",
-        "https://civilcareer.up.railway.app/contact",
-        "https://civilcareer.up.railway.app/civil-engineering-syllabus",
+        "https://civilcareer.onrender.com/",
+        "https://civilcareer.onrender.com/about",
+        "https://civilcareer.onrender.com/privacy-policy",
+        "https://civilcareer.onrender.com/terms-and-conditions",
+        "https://civilcareer.onrender.com/disclaimer",
+        "https://civilcareer.onrender.com/contact",
+        "https://civilcareer.onrender.com/civil-engineering-syllabus",
     ]
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>'

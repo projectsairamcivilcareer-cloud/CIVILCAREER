@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internships | Civil Career</title>
+<meta name="description" content="Explore Civil Engineering internship pathways in civil-related work, industrial exposure and practical learning.">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=20260928jobspro">
+<style>
+.dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
+.internship-page{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
+.internship-page *{box-sizing:border-box}
+.internship-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
+.internship-top h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
+.internship-top p{color:#64748b;line-height:1.6;margin:0}
+.internship-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
+.internship-student .student-avatar{width:40px;height:40px}
+.internship-student small{display:block;color:#64748b;margin-top:3px}
+.internship-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(180px,.6fr);gap:24px;align-items:center;padding:clamp(24px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#101f43 0%,#173f7a 58%,#146b78 100%);color:#fff;box-shadow:0 14px 34px rgba(18,49,93,.14);margin-bottom:26px}
+.internship-kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a5f3fc;margin-bottom:13px}
+.internship-hero h2{font-size:clamp(26px,3.5vw,40px);line-height:1.16;letter-spacing:-.8px;margin:0 0 14px}
+.internship-hero p{font-size:16px;line-height:1.75;color:#dbeafe;margin:0;max-width:760px}
+.internship-art{justify-self:center;display:grid;place-items:center;width:clamp(120px,15vw,180px);aspect-ratio:1;border:1px solid rgba(255,255,255,.22);border-radius:30px;background:rgba(255,255,255,.1);font-size:clamp(58px,7vw,82px)}
+.internship-section-head{margin:30px 0 16px}
+.internship-section-head h2{font-size:clamp(20px,2.5vw,25px);color:#102747;margin:0 0 6px}
+.internship-section-head p{color:#64748b;line-height:1.6;margin:0}
+.internship-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.internship-card{display:flex;flex-direction:column;min-width:0;padding:25px;border:1px solid #e1e8f2;border-radius:20px;background:#fff;box-shadow:0 5px 18px rgba(15,35,68,.045)}
+.internship-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.internship-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;font-size:28px;background:#eff6ff}
+.internship-card:nth-child(2) .internship-icon{background:#f5f3ff}
+.internship-card:nth-child(3) .internship-icon{background:#ecfdf5}
+.internship-tag{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:7px 10px;border-radius:30px;background:#f1f5f9;color:#475569}
+.internship-card h3{font-size:21px;line-height:1.35;color:#102747;margin:0 0 10px}
+.internship-card>p{font-size:14px;line-height:1.75;color:#64748b;margin:0 0 18px}
+.internship-points{padding:14px 15px;border-radius:13px;background:#f8fafc;border:1px solid #eef2f7;margin-top:auto}
+.internship-points strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:7px}
+.internship-points ul{padding-left:18px;margin:0;color:#334155;font-size:13px;line-height:1.8}
+.internship-note{display:flex;align-items:flex-start;gap:13px;padding:18px 21px;border:1px solid #fed7aa;border-radius:16px;background:#fff7ed;color:#9a3412;line-height:1.7;margin-top:26px}
+.internship-note p{margin:0;font-size:14px}
+@media(max-width:1000px){.internship-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.internship-hero{grid-template-columns:minmax(0,1fr) 130px}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.internship-top{align-items:flex-start;flex-direction:column}.internship-student{white-space:normal}.internship-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.internship-art{display:none}.internship-grid{grid-template-columns:1fr}.internship-card{padding:21px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="dashboard-main">
+<div class="internship-page">
+<header class="internship-top">
+<div><h1>Civil Engineering Internships</h1><p>Explore learning opportunities that help connect classroom concepts with real engineering work.</p></div>
+<div class="internship-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
+</header>
+<section class="internship-hero" aria-labelledby="internship-hero-title">
+<div><span class="internship-kicker">Career learning pathway</span><h2 id="internship-hero-title">Learn from projects. Build practical confidence.</h2><p>Internships can help Diploma and B.Tech Civil Engineering students understand site practices, engineering teams, construction methods, safety and professional responsibilities.</p></div>
+<div class="internship-art" aria-hidden="true">🏗️</div>
+</section>
+<section aria-labelledby="internship-path-title">
+<div class="internship-section-head"><h2 id="internship-path-title">Explore internship areas</h2><p>Three learning pathways for building a stronger foundation in Civil Engineering.</p></div>
+<div class="internship-grid">
+<article class="internship-card">
+<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">📐</span><span class="internship-tag">Engineering focus</span></div>
+<h3>Civil Related</h3>
+<p>Internships focused on core Civil Engineering disciplines and the technical work involved in planning, design, construction and infrastructure projects.</p>
+<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
+</article>
+<article class="internship-card">
+<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🏭</span><span class="internship-tag">Workplace exposure</span></div>
+<h3>Industrial Exposure</h3>
+<p>Understand how engineering organizations, construction sites, laboratories and infrastructure facilities coordinate people, equipment, materials and quality.</p>
+<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
+</article>
+<article class="internship-card">
+<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🦺</span><span class="internship-tag">Hands-on learning</span></div>
+<h3>Practical Learning</h3>
+<p>Develop practical skills by observing demonstrations, working with tools under supervision and relating field measurements to engineering principles.</p>
+<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Levelling, total station and field surveys</li><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>AutoCAD, Revit and BIM fundamentals</li></ul></div>
+</article>
+</div>
+</section>
+<aside class="internship-note" role="note"><span aria-hidden="true">ⓘ</span><p><strong>Important:</strong> These cards describe internship learning areas, not confirmed vacancies or guaranteed placements. Internship availability, eligibility, duration, stipend, fees and certificates depend on the organization. Verify the employer or institution directly, and do not pay unofficial agents for an internship offer.</p></aside>
+</div>
+</main>
+<script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
+</body>
+</html>

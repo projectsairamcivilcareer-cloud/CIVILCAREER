@@ -45,11 +45,11 @@
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Dashboard</span>
                     </a>
                     
-                    <a class="cc-menu-link" href="/jobs" data-cc-path="/jobs">
-                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Jobs</span>
-                    </a>
                     <a class="cc-menu-link" href="/internships" data-cc-path="/internships">
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Internships</span>
+                    </a>
+                    <a class="cc-menu-link" href="/jobs" data-cc-path="/jobs">
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Jobs</span>
                     </a>
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Syllabus</span>

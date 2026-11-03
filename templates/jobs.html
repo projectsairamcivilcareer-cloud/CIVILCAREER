@@ -13,9 +13,6 @@
 .jobs-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
 .jobs-top h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
 .jobs-top p{color:#64748b;line-height:1.6;margin:0}
-.jobs-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
-.jobs-student .student-avatar{width:40px;height:40px}
-.jobs-student small{display:block;color:#64748b;margin-top:3px}
 .jobs-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,.7fr);gap:24px;align-items:center;padding:clamp(24px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#101f43 0%,#173f7a 58%,#146b78 100%);color:#fff;box-shadow:0 14px 34px rgba(18,49,93,.17);margin-bottom:26px}
 .jobs-hero:after{content:"";position:absolute;width:300px;height:300px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-90px;top:-140px;box-shadow:0 0 0 35px rgba(255,255,255,.035),0 0 0 75px rgba(255,255,255,.025);pointer-events:none}
 .jobs-kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#a5f3fc;margin-bottom:13px}
@@ -52,7 +49,7 @@
 .jobs-caution strong{display:block;margin-bottom:4px}
 .jobs-caution p{margin:0;font-size:14px}
 @media(max-width:1000px){.jobs-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.jobs-hero{grid-template-columns:minmax(0,1fr) 150px}.jobs-guide{grid-template-columns:1fr}}
-@media(max-width:680px){.dashboard-main{padding:16px!important}.jobs-top{align-items:flex-start;flex-direction:column}.jobs-student{white-space:normal}.jobs-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.jobs-hero-art{display:none}.jobs-category-grid{grid-template-columns:1fr}.jobs-category{padding:21px}.jobs-section-head{align-items:flex-start;flex-direction:column}.jobs-guide-step{padding:17px}.jobs-caution{padding:16px}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.jobs-top{align-items:flex-start;flex-direction:column}.jobs-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.jobs-hero-art{display:none}.jobs-category-grid{grid-template-columns:1fr}.jobs-category{padding:21px}.jobs-section-head{align-items:flex-start;flex-direction:column}.jobs-guide-step{padding:17px}.jobs-caution{padding:16px}}
 @media(prefers-reduced-motion:reduce){.jobs-category,.jobs-open b{transition:none}.jobs-category:hover{transform:none}}
 </style>
 </head>
@@ -61,7 +58,6 @@
 <div class="jobs-page">
 <header class="jobs-top">
 <div><h1>Jobs & Career Paths</h1><p>Find opportunities that match your civil engineering qualification and career goal.</p></div>
-<div class="jobs-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
 </header>
 
 <section class="jobs-hero" aria-labelledby="jobs-hero-title">

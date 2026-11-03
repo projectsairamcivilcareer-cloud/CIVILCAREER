@@ -8522,7 +8522,7 @@ def subject_notes_pdf(subject_slug):
 def ads_txt():
     """Serve the AdSense seller declaration from the website root."""
     return Response(
-        "google.com, pub-7748898905919981, DIRECT, f08c47fec0942fa0\\n",
+        "google.com, pub-7748898905919981, DIRECT, f08c47fec0942fa0\n",
         mimetype="text/plain"
     )
 

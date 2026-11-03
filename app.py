@@ -8313,6 +8313,18 @@ def logout():
 
 
 
+@app.route("/internships")
+def internships():
+    """Show Civil Engineering internship learning pathways."""
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    return render_template(
+        "internships.html",
+        student_name=session.get("student_name", ""),
+        student_education=session.get("student_education", "")
+    )
+
+
 @app.route("/jobs")
 def jobs_hub():
     """Landing page for the three separate Civil Career job sections."""

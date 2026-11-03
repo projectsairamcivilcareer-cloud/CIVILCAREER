@@ -8245,15 +8245,30 @@ def logout():
 
 @app.route("/internships")
 def internships():
-    """Show Civil Engineering internship learning pathways."""
+    """Display official internship notices from their own table."""
     if "student_id" not in session:
         return redirect(url_for("login"))
+    connection = get_db_connection()
+    try:
+        notices = connection.execute("""
+            SELECT notice_key, organization, title, discipline, qualification,
+                   location, duration, stipend, last_date, notification_url,
+                   apply_url, admit_card_url, result_url, updates_url,
+                   source_name, source_url, summary, status, last_verified
+            FROM official_internships
+            ORDER BY CASE WHEN status='OPEN' THEN 0 WHEN status='UPCOMING' THEN 1 ELSE 2 END,
+                     last_date ASC NULLS LAST, organization ASC
+        """).fetchall()
+    except Exception:
+        notices = []
+    finally:
+        connection.close()
     return render_template(
         "internships.html",
+        notices=notices,
         student_name=session.get("student_name", ""),
         student_education=session.get("student_education", "")
     )
-
 
 @app.route("/jobs")
 def jobs_hub():

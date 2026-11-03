@@ -349,3 +349,20 @@ body{
         min-height:auto;
     }
 }
+
+
+/* Clear, professional current-page indicator for public navigation. */
+.nav-links a.active{
+    color:var(--navy-deep);
+    font-weight:750;
+}
+.nav-links a.active::after{
+    right:0;
+    height:3px;
+    background:var(--blue);
+}
+.nav-links a:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:5px;
+    border-radius:2px;
+}

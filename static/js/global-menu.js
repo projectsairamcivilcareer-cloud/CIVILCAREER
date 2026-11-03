@@ -51,11 +51,11 @@
                     <a class="cc-menu-link" href="/internships" data-cc-path="/internships">
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Internships</span>
                     </a>
-                    <a class="cc-menu-link" href="/resources" data-cc-path="/resources">
-                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Resources</span>
-                    </a>
                     <a class="cc-menu-link" href="/syllabus" data-cc-path="/syllabus">
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Syllabus</span>
+                    </a>
+                    <a class="cc-menu-link" href="/resources" data-cc-path="/resources">
+                        <span class="cc-menu-icon" aria-hidden="true"></span><span>Resources</span>
                     </a>
 <a class="cc-menu-link" href="/practice" data-cc-path="/practice">
                         <span class="cc-menu-icon" aria-hidden="true"></span><span>Practice</span>

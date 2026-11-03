@@ -5,6 +5,7 @@ import time
 
 from app import app, create_database
 from job_sync import sync_official_jobs
+from internship_sync import sync_official_internships
 
 
 create_database()
@@ -24,7 +25,13 @@ def _official_job_sync_loop():
                 flush=True,
             )
 
-        # Re-check official sources every 6 hours.
+        try:
+            internship_result = sync_official_internships()
+            print("[INTERNSHIP SYNC]", internship_result, flush=True)
+        except Exception as exc:
+            print(f"[INTERNSHIP SYNC ERROR] {type(exc).__name__}: {exc}", flush=True)
+
+        # Re-check official internship and job sources every 6 hours.
         time.sleep(6 * 60 * 60)
 
 

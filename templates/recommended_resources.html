@@ -45,7 +45,7 @@ body.cc-menu-page .resources-page{
     font-size:16px;
     line-height:1.72;
 }
-.resource-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.resource-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
 .resource-card{
     display:flex;
     flex-direction:column;
@@ -63,9 +63,7 @@ body.cc-menu-page .resources-page{
     border-color:#b9c9d7;
     box-shadow:0 8px 20px rgba(16,42,67,.09);
 }
-.resource-card-clickable{
-    cursor:pointer;
-}
+.resource-card-clickable{cursor:default;}
 .resource-card h2{font-size:16px;line-height:1.4;margin-bottom:9px}
 .resource-card p{font-size:13px;line-height:1.55;margin-bottom:14px}
 .resource-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 14px}.resource-image{display:block;width:100%;height:120px;object-fit:contain;padding:5px;background:#f8fafc;border:1px solid #e1e8ee;border-radius:6px}.resource-images .resource-image:only-child{grid-column:1/-1}@media(max-width:650px){.resource-image{height:140px}}.resource-type{font-size:10px;margin-bottom:8px}
@@ -102,7 +100,7 @@ body.cc-menu-page .resources-page{
     display:flex;
     flex-direction:column;
     min-width:0;
-    padding:26px;
+    padding:20px;
     background:#fff;
     border:1px solid #d9e2ec;
     border-radius:9px;
@@ -538,29 +536,22 @@ body.cc-menu-page .resources-page{
     document.querySelectorAll('.resource-card').forEach(function (card) {
         const url = card.dataset.amazonUrl;
         if (!url) return;
-        card.classList.add('resource-card-clickable');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'link');
-        card.setAttribute('aria-label', 'Open ' + (card.querySelector('h2')?.textContent.trim() || 'resource') + ' on Amazon');
-        function openResource() {
-            const title = card.querySelector('h2');
-            const resourceName = title ? title.textContent.trim() : 'Civil Career Resource';
-            const body = new URLSearchParams({resource_name: resourceName, resource_url: url});
-            try {
-                navigator.sendBeacon('/resource-referral', new Blob([body.toString()], {type: 'application/x-www-form-urlencoded'}));
-            } catch (error) {}
-            window.location.href = url;
+        card.classList.remove('resource-card-clickable');
+        card.removeAttribute('tabindex');
+        card.removeAttribute('role');
+        card.removeAttribute('aria-label');
+        const amazonLink = card.querySelector('[data-amazon-link]');
+        if (amazonLink) {
+            amazonLink.href = url;
+            amazonLink.addEventListener('click', function () {
+                const title = card.querySelector('h2');
+                const resourceName = title ? title.textContent.trim() : 'Civil Career Resource';
+                try {
+                    const body = new URLSearchParams({resource_name: resourceName, resource_url: url});
+                    navigator.sendBeacon('/resource-referral', new Blob([body.toString()], {type: 'application/x-www-form-urlencoded'}));
+                } catch (error) {}
+            });
         }
-        card.addEventListener('click', function (event) {
-            if (event.target.closest('a, input, select, button')) return;
-            openResource();
-        });
-        card.addEventListener('keydown', function (event) {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
-            if (event.target !== card) return;
-            event.preventDefault();
-            openResource();
-        });
     });
 })();
 </script>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources | Civil Career</title>
+<meta name="description" content="Explore Civil Engineering products, e-books, downloadable notes, study materials and reference textbooks on Civil Career.">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<style>
+.dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
+.cc-resources{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
+.cc-resources *{box-sizing:border-box}
+.cc-resources-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
+.cc-resources-head h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
+.cc-resources-head p{color:#64748b;line-height:1.6;margin:0}
+.cc-resources-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
+.cc-resources-student .student-avatar{width:40px;height:40px}
+.cc-resources-student small{display:block;color:#64748b;margin-top:3px}
+.cc-resources-hero{padding:clamp(24px,4vw,40px);border:1px solid #dbe6f0;border-radius:20px;background:linear-gradient(115deg,#eff6ff,#f8fafc 62%,#eef6f7);margin-bottom:28px}
+.cc-resources-kicker{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#2f6f9f;margin-bottom:11px}
+.cc-resources-hero h2{font-size:clamp(24px,3.2vw,36px);line-height:1.2;color:#102747;margin:0 0 12px}
+.cc-resources-hero p{max-width:850px;color:#52657a;line-height:1.75;margin:0;font-size:15px}
+.cc-resources-section{margin:30px 0 16px}
+.cc-resources-section h2{font-size:clamp(20px,2.4vw,25px);color:#102747;margin:0 0 6px}
+.cc-resources-section p{color:#64748b;line-height:1.65;margin:0}
+.cc-resources-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.cc-resource-card{display:flex;flex-direction:column;min-width:0;padding:24px;border:1px solid #dce5ee;border-radius:16px;background:#fff;box-shadow:0 4px 15px rgba(15,35,68,.045);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.cc-resource-card:hover{transform:translateY(-3px);border-color:#b8cadd;box-shadow:0 10px 24px rgba(15,35,68,.08)}
+.cc-resource-icon{display:grid;place-items:center;width:56px;height:56px;border-radius:15px;background:#eff6ff;font-size:27px;margin-bottom:18px}
+.cc-resource-card:nth-child(2) .cc-resource-icon{background:#f5f3ff}
+.cc-resource-card:nth-child(3) .cc-resource-icon{background:#ecfdf5}
+.cc-resource-card:nth-child(4) .cc-resource-icon{background:#fff7ed}
+.cc-resource-card:nth-child(5) .cc-resource-icon{background:#f1f5f9}
+.cc-resource-card h3{font-size:20px;line-height:1.35;color:#102747;margin:0 0 9px}
+.cc-resource-card p{font-size:14px;line-height:1.7;color:#64748b;margin:0 0 19px}
+.cc-resource-card a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;margin-top:auto;padding:10px 15px;border-radius:8px;background:#173b68;color:#fff;text-decoration:none;font-size:13px;font-weight:750}
+.cc-resource-card a:hover{background:#2f6f9f}
+.cc-resources-note{margin-top:26px;padding:17px 20px;border:1px solid #dbe5ee;border-left:4px solid #2f6f9f;border-radius:12px;background:#f8fafc;color:#52657a;font-size:13px;line-height:1.7}
+@media(max-width:1000px){.cc-resources-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.cc-resources-head{align-items:flex-start;flex-direction:column}.cc-resources-student{white-space:normal}.cc-resources-grid{grid-template-columns:1fr}.cc-resource-card{padding:21px}}
+@media(prefers-reduced-motion:reduce){.cc-resource-card{transition:none}}
+</style>
+</head>
+<body>
+<main class="dashboard-main"><div class="cc-resources">
+<header class="cc-resources-head">
+<div><h1>Learning Resources</h1><p>Books, notes and learning references for Civil Engineering students.</p></div>
+<div class="cc-resources-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
+</header>
+<section class="cc-resources-hero">
+<div class="cc-resources-kicker">CIVIL CAREER · LEARN & PREPARE</div>
+<h2>Choose the right resource for your learning</h2>
+<p>Explore product recommendations, e-books, downloadable notes, subject-wise study materials and reference textbooks. Use the relevant section to find learning support for Diploma, B.Tech, GATE and other Civil Engineering examinations.</p>
+</section>
+<section class="cc-resources-section"><h2>Explore resource categories</h2><p>Select a category to continue to its available resources.</p></section>
+<section class="cc-resources-grid" aria-label="Resource categories">
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">🛒</div><h3>Products</h3><p>Recommended calculators, engineering tools, books and other useful products for Civil Engineering students.</p><a href="{{ url_for('recommended_resources') }}">Explore Products</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📘</div><h3>E-Books</h3><p>Explore digital learning references and book-related resources. Availability and access details are shown in the relevant resource section.</p><a href="{{ url_for('materials') }}">Explore E-Books</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📥</div><h3>Downloadable Notes</h3><p>Find subject-oriented notes and downloadable learning content as they become available for the selected syllabus.</p><a href="{{ url_for('materials') }}">Explore Notes</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📚</div><h3>Study Materials</h3><p>Browse Civil Engineering study support, syllabus-linked learning materials and preparation resources.</p><a href="{{ url_for('materials') }}">Explore Study Materials</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📖</div><h3>Reference Materials / TextBooks</h3><p>Find recommended reference books and subject resources for core Civil Engineering and competitive examination preparation.</p><a href="{{ url_for('recommended_resources') }}">Explore References</a></article>
+</section>
+<aside class="cc-resources-note"><strong>Resource availability:</strong> Each category currently directs you to the existing Products or Materials section. New e-books, downloadable notes and subject materials should be published only after the actual files and content are available; this page does not imply that every category already has downloadable files.</aside>
+</div></main>
+<script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
+</body></html>

@@ -1,17 +1,22 @@
 """Official-source government job synchronizer for Civil Career."""
 import hashlib
 import re
+import ssl
+import time
 from datetime import datetime
 from html import unescape
 from urllib.parse import urljoin
 from urllib.request import Request, urlopen
 
+import certifi
 from bs4 import BeautifulSoup
 
 from app import get_db_connection
 
 USER_AGENT = "CivilCareer-OfficialJobSync/1.0"
-TIMEOUT = 25
+TIMEOUT = 40
+MAX_FETCH_ATTEMPTS = 2
+SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
 # Official recruitment portals monitored by the sync job. These are source
 # entry points; some authorities publish notices as PDFs or client-rendered pages,
@@ -36,12 +41,21 @@ CIVIL_KEYWORDS = (
 )
 
 def fetch_html(url):
+    """Fetch official pages with verified CA certificates and bounded retries."""
     req = Request(url, headers={
         "User-Agent": USER_AGENT,
         "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
     })
-    with urlopen(req, timeout=TIMEOUT) as response:
-        return response.read().decode("utf-8", errors="ignore")
+    last_error = None
+    for attempt in range(1, MAX_FETCH_ATTEMPTS + 1):
+        try:
+            with urlopen(req, timeout=TIMEOUT, context=SSL_CONTEXT) as response:
+                return response.read().decode("utf-8", errors="ignore")
+        except Exception as exc:
+            last_error = exc
+            if attempt < MAX_FETCH_ATTEMPTS:
+                time.sleep(attempt * 2)
+    raise last_error
 
 def clean(value):
     return re.sub(r"\s+", " ", unescape(value or "")).strip()

@@ -8263,9 +8263,27 @@ def internships():
         notices = []
     finally:
         connection.close()
+    try:
+        source_leads = connection.execute("""
+            SELECT source_name, source_category, title, url, context, first_seen, last_seen
+            FROM internship_source_leads
+            WHERE review_status='REVIEW'
+            ORDER BY last_seen DESC, source_name ASC
+            LIMIT 60
+        """).fetchall()
+        source_status = connection.execute("""
+            SELECT source_name, source_category, source_url, status, leads_found,
+                   last_checked, last_error
+            FROM internship_source_status
+            ORDER BY source_category, source_name
+        """).fetchall()
+    except Exception:
+        source_leads, source_status = [], []
     return render_template(
         "internships.html",
         notices=notices,
+        source_leads=source_leads,
+        source_status=source_status,
         student_name=session.get("student_name", ""),
         student_education=session.get("student_education", "")
     )

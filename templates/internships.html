@@ -75,6 +75,28 @@
 {% for item in upcoming_notices %}<article class="internship-card"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-upcoming">UPCOMING</span></div><p class="internship-summary">{{ item.summary }}</p><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div></article>{% endfor %}</div></section>{% endif %}
 {% if closed_notices %}<section><div class="internship-section-title"><h2>Closed / Previous notifications</h2><span class="internship-count">{{ closed_notices|length }} notices</span></div><div class="internship-list">
 {% for item in closed_notices %}<article class="internship-card"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-closed">CLOSED</span></div><p class="internship-summary">{{ item.summary }}</p><dl class="internship-facts"><div class="internship-fact"><dt>Discipline</dt><dd>{{ item.discipline or 'See official notice' }}</dd></div><div class="internship-fact"><dt>Last date</dt><dd>{{ item.last_date|date_dmy if item.last_date else 'Not announced' }}</dd></div><div class="internship-fact"><dt>Duration</dt><dd>{{ item.duration or 'See official notice' }}</dd></div><div class="internship-fact"><dt>Stipend</dt><dd>{{ item.stipend or 'Not announced' }}</dd></div></dl><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div><div class="internship-source">Source: <a href="{{ item.source_url }}" target="_blank" rel="noopener">{{ item.source_name or 'Official website' }}</a></div></article>{% endfor %}</div></section>{% endif %}
+<section>
+<div class="internship-section-title"><h2>Newly detected source leads</h2><span class="internship-count">{{ source_leads|length }} leads to verify</span></div>
+<p class="internship-summary">These are Civil-related links detected on monitored portals. They are not advertised as confirmed vacancies until the individual notice is checked.</p>
+{% if source_leads %}<div class="internship-list">
+{% for lead in source_leads %}<article class="internship-card">
+<div class="internship-card-head"><div><div class="internship-org">{{ lead.source_name }} · {{ lead.source_category }}</div><h3>{{ lead.title }}</h3></div><span class="internship-status status-upcoming">VERIFY NOTICE</span></div>
+{% if lead.context %}<p class="internship-summary">{{ lead.context }}</p>{% endif %}
+<div class="internship-actions"><a class="primary" href="{{ lead.url }}" target="_blank" rel="noopener">Open Source Listing</a></div>
+<div class="internship-source">Detected: {{ lead.last_seen|date_dmy if lead.last_seen else 'Recently' }} · Verify eligibility, deadline and application status on source page.</div>
+</article>{% endfor %}</div>{% else %}<div class="internship-empty">No new Civil-related source links have been detected yet. Source checks run every six hours.</div>{% endif %}
+</section>
+<section>
+<div class="internship-section-title"><h2>Monitored internship portals</h2><span class="internship-count">{{ source_status|length }} sources</span></div>
+<div class="internship-list">
+{% for source in source_status %}<article class="internship-card">
+<div class="internship-card-head"><div><div class="internship-org">{{ source.source_category }}</div><h3>{{ source.source_name }}</h3></div><span class="internship-status {{ 'status-open' if source.status=='OK' else 'status-closed' }}">{{ 'CHECKED' if source.status=='OK' else 'CHECK FAILED' }}</span></div>
+<dl class="internship-facts"><div class="internship-fact"><dt>Detected links</dt><dd>{{ source.leads_found or 0 }}</dd></div><div class="internship-fact"><dt>Last checked</dt><dd>{{ source.last_checked or 'Pending first scan' }}</dd></div></dl>
+<div class="internship-actions"><a href="{{ source.source_url }}" target="_blank" rel="noopener">Visit Portal</a></div>
+{% if source.last_error %}<div class="internship-source">Latest check issue: {{ source.last_error }}</div>{% endif %}
+</article>{% endfor %}
+</div>
+</section>
 <aside class="internship-disclaimer"><strong>Important:</strong> Details are taken from the linked official announcement or portal. Eligibility, stipend, dates and selection depend on the organization. Verify the latest notice before applying. Never pay unofficial agents. Admit-card or result buttons will be displayed only after an official link is published.</aside>
 </div></main>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>

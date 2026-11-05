@@ -107,7 +107,7 @@ def fetch_html(url):
     raise last_error
 
 def clean(value):
-    return re.sub(r"\\s+", " ", unescape(value or "")).strip()
+    return re.sub(r"\s+", " ", unescape(value or "")).strip()
 
 def is_civil_related(text):
     low = clean(text).lower()

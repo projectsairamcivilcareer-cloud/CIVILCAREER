@@ -8245,7 +8245,7 @@ def logout():
 
 @app.route("/internships")
 def internships():
-    """Display official internship notices from their own table."""
+    """Display official internship notices and monitored source leads."""
     if "student_id" not in session:
         return redirect(url_for("login"))
     connection = get_db_connection()
@@ -8259,11 +8259,6 @@ def internships():
             ORDER BY CASE WHEN status='OPEN' THEN 0 WHEN status='UPCOMING' THEN 1 ELSE 2 END,
                      last_date ASC NULLS LAST, organization ASC
         """).fetchall()
-    except Exception:
-        notices = []
-    finally:
-        connection.close()
-    try:
         source_leads = connection.execute("""
             SELECT source_name, source_category, title, url, context, first_seen, last_seen
             FROM internship_source_leads
@@ -8278,7 +8273,9 @@ def internships():
             ORDER BY source_category, source_name
         """).fetchall()
     except Exception:
-        source_leads, source_status = [], []
+        notices, source_leads, source_status = [], [], []
+    finally:
+        connection.close()
     return render_template(
         "internships.html",
         notices=notices,
@@ -8287,6 +8284,7 @@ def internships():
         student_name=session.get("student_name", ""),
         student_education=session.get("student_education", "")
     )
+
 
 @app.route("/jobs")
 def jobs_hub():

@@ -69,6 +69,15 @@ civil-related
 {% endif %}
 {%- endmacro %}
 
+<section aria-label="Internship categories">
+<div class="internship-section-title"><h2>Explore internship categories</h2><span class="internship-count">Choose an area</span></div>
+<div class="internship-category-grid">
+<button type="button" class="internship-category-card active" data-internship-filter="all" aria-pressed="true"><strong>Civil Related</strong><span>Core Civil Engineering internships, government departments and technical opportunities.</span><em><b data-category-count="civil-related">0</b> opportunities</em></button>
+<button type="button" class="internship-category-card" data-internship-filter="industrial-exposure" aria-pressed="false"><strong>Industrial Exposure</strong><span>Industry, infrastructure companies, project sites and plant-based exposure.</span><em><b data-category-count="industrial-exposure">0</b> opportunities</em></button>
+<button type="button" class="internship-category-card" data-internship-filter="practical-learning" aria-pressed="false"><strong>Practical Learning</strong><span>Hands-on training, surveying, CAD/BIM, workshops and skill-based learning.</span><em><b data-category-count="practical-learning">0</b> opportunities</em></button>
+</div><p class="internship-filter-note" id="internship-filter-note">Showing all internship opportunities. Select a category to filter the listings.</p>
+</section>
+
 <section>
 <div class="internship-section-title"><h2>Open internships</h2><span class="internship-count">{{ open_notices|length }} opportunities</span></div>
 {% if open_notices %}<div class="internship-list">

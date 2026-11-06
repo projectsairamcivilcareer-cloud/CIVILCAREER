@@ -3,155 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Official Civil Engineering Internships | Civil Career</title>
-<meta name="description" content="Official internship notifications for Civil Engineering students, with eligibility, deadlines and direct application links.">
+<title>Internships | Civil Career</title>
+<meta name="description" content="Explore Civil Engineering internship pathways in civil-related work, industrial exposure and practical learning.">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=20260928jobspro">
 <style>
 .dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
-.internship-page{max-width:1450px;margin:auto;color:#172b4d}.internship-page *{box-sizing:border-box}
-.internship-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:24px}
-.internship-head h1{font-size:clamp(25px,3vw,34px);margin:0 0 7px;color:#102747}.internship-head p{margin:0;color:#64748b;line-height:1.6}
-.internship-intro{padding:22px 24px;background:#f3f7fc;border:1px solid #dce6f1;border-left:4px solid #245b91;border-radius:10px;margin-bottom:24px}
-.internship-intro strong{display:block;color:#15365d;margin-bottom:5px}.internship-intro p{margin:0;color:#53657a;line-height:1.65;font-size:14px}
-.internship-section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:28px 0 14px}
-.internship-section-title h2{font-size:21px;margin:0;color:#102747}.internship-count{font-size:12px;color:#64748b;background:#eef2f7;padding:6px 10px;border-radius:5px}
-/* Match the verified job notification cards used across Jobs pages */
-.internship-list{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:22px}
-.internship-card{background:#fff;border:1px solid #dbe3ee;border-radius:15px;padding:24px;min-width:0;overflow:hidden;box-shadow:0 5px 18px rgba(15,35,68,.045);transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
-.internship-card:hover{border-color:#bfdbfe;box-shadow:0 10px 26px rgba(37,99,235,.08);transform:translateY(-2px)}
-.internship-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding-bottom:18px;border-bottom:1px solid #e9eef5;margin-bottom:0}
-.internship-org{font-size:11px;font-weight:800;color:#1d4ed8;letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px}
-.internship-card h3{font-size:19px;line-height:1.35;color:#172554;margin:8px 0 4px}
-.internship-status{flex-shrink:0;font-size:10px;font-weight:800;letter-spacing:.4px;padding:7px 10px;border-radius:999px;background:#e2e8f0;color:#475569}
-.status-open{background:#dbeafe;color:#1d4ed8}.status-closed{background:#fee2e2;color:#991b1b}.status-upcoming{background:#fef3c7;color:#92400e}
-.internship-summary{font-size:14px;line-height:1.65;color:#475569;margin:15px 0 0}
-.internship-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0}
-.internship-fact{background:transparent;padding:17px 14px 14px 0;border-radius:0;min-width:0;border-bottom:1px solid #f1f5f9}
-.internship-fact dt{font-size:11px;letter-spacing:.01em;color:#64748b;font-weight:700;margin-bottom:6px}
-.internship-fact dd{font-size:13px;color:#334155;margin:0;line-height:1.55;overflow-wrap:anywhere}
-.internship-actions{display:flex;flex-wrap:wrap;gap:10px;padding-top:16px;margin-top:2px;border-top:1px solid #e9eef5}
-.internship-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;text-decoration:none;font-size:13px;font-weight:700;padding:10px 16px;border-radius:7px;border:1px solid #dbe3ee;color:#334155;background:#e2e8f0}
-.internship-actions a.primary{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
-.internship-source{font-size:11px;color:#718096;margin-top:12px}
-.internship-source a{color:#315f8c;text-decoration:underline}
-.internship-empty{padding:24px;border:1px dashed #cbd5e1;border-radius:10px;color:#64748b;background:#fafcff;font-size:14px}
-.internship-disclaimer{margin-top:24px;padding:15px 17px;background:#fff8eb;border:1px solid #f0d7a8;border-radius:9px;color:#76521b;font-size:12px;line-height:1.65}
-@media(max-width:1100px){.internship-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:700px){.dashboard-main{padding:15px!important}.internship-head{align-items:flex-start;flex-direction:column}.internship-card{padding:18px}.internship-card-head{flex-direction:column;gap:10px}.internship-facts{grid-template-columns:1fr}.internship-fact{padding:13px 0}.internship-actions{display:grid;grid-template-columns:1fr}.internship-actions a{width:100%;box-sizing:border-box}}
-
-.internship-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 28px}
-.internship-category-card{appearance:none;text-align:left;width:100%;cursor:pointer;background:#fff;border:1px solid #dbe3ee;border-top:4px solid #245b91;border-radius:10px;padding:18px 19px;min-height:116px;transition:border-color .18s ease,box-shadow .18s ease}
-.internship-category-card:hover,.internship-category-card.active{border-color:#245b91;box-shadow:0 5px 16px rgba(15,35,68,.08)}
-.internship-category-card strong{display:block;color:#15365d;font-size:16px;margin-bottom:7px}
-.internship-category-card span{display:block;color:#64748b;font-size:12px;line-height:1.5}
-.internship-category-card em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#245b91;margin-top:10px}
-.internship-card[hidden]{display:none!important}
-.internship-filter-note{font-size:12px;color:#64748b;margin:-12px 0 14px}
-@media(max-width:700px){.internship-category-grid{grid-template-columns:1fr}.internship-category-card{min-height:0}}
-
+.internship-page{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
+.internship-page *{box-sizing:border-box}
+.internship-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
+.internship-top h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
+.internship-top p{color:#64748b;line-height:1.6;margin:0}
+.internship-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
+.internship-student .student-avatar{width:40px;height:40px}
+.internship-student small{display:block;color:#64748b;margin-top:3px}
+.internship-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(180px,.6fr);gap:24px;align-items:center;padding:clamp(24px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#101f43 0%,#173f7a 58%,#146b78 100%);color:#fff;box-shadow:0 14px 34px rgba(18,49,93,.14);margin-bottom:26px}
+.internship-kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a5f3fc;margin-bottom:13px}
+.internship-hero h2{font-size:clamp(26px,3.5vw,40px);line-height:1.16;letter-spacing:-.8px;margin:0 0 14px}
+.internship-hero p{font-size:16px;line-height:1.75;color:#dbeafe;margin:0;max-width:760px}
+.internship-art{justify-self:center;display:grid;place-items:center;width:clamp(120px,15vw,180px);aspect-ratio:1;border:1px solid rgba(255,255,255,.22);border-radius:30px;background:rgba(255,255,255,.1);font-size:clamp(58px,7vw,82px)}
+.internship-section-head{margin:30px 0 16px}
+.internship-section-head h2{font-size:clamp(20px,2.5vw,25px);color:#102747;margin:0 0 6px}
+.internship-section-head p{color:#64748b;line-height:1.6;margin:0}
+.internship-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.internship-card{display:flex;flex-direction:column;min-width:0;padding:25px;border:1px solid #e1e8f2;border-radius:20px;background:#fff;box-shadow:0 5px 18px rgba(15,35,68,.045)}
+.internship-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.internship-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;font-size:28px;background:#eff6ff}
+.internship-card:nth-child(2) .internship-icon{background:#f5f3ff}
+.internship-card:nth-child(3) .internship-icon{background:#ecfdf5}
+.internship-tag{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:7px 10px;border-radius:30px;background:#f1f5f9;color:#475569}
+.internship-card h3{font-size:21px;line-height:1.35;color:#102747;margin:0 0 10px}
+.internship-card>p{font-size:14px;line-height:1.75;color:#64748b;margin:0 0 18px}
+.internship-points{padding:14px 15px;border-radius:13px;background:#f8fafc;border:1px solid #eef2f7;margin-top:auto}
+.internship-points strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:7px}
+.internship-points ul{padding-left:18px;margin:0;color:#334155;font-size:13px;line-height:1.8}
+.internship-note{display:flex;align-items:flex-start;gap:13px;padding:18px 21px;border:1px solid #fed7aa;border-radius:16px;background:#fff7ed;color:#9a3412;line-height:1.7;margin-top:26px}
+.internship-note p{margin:0;font-size:14px}
+@media(max-width:1000px){.internship-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.internship-hero{grid-template-columns:minmax(0,1fr) 130px}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.internship-top{align-items:flex-start;flex-direction:column}.internship-student{white-space:normal}.internship-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.internship-art{display:none}.internship-grid{grid-template-columns:1fr}.internship-card{padding:21px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<main class="dashboard-main"><div class="internship-page">
-<header class="internship-head"><div><h1>Civil Engineering Internships</h1><p>Official internship notifications, application dates and student opportunities.</p></div></header>
-<section class="internship-intro"><strong>Official internship updates</strong><p>Each opportunity is shown in a separate card. Check eligibility and dates in the original notice before applying. Application, admit-card and result links appear only when an official link is available.</p></section>
-{% set open_notices = notices|selectattr('status','equalto','OPEN')|list %}
-{% set upcoming_notices = notices|selectattr('status','equalto','UPCOMING')|list %}
-{% set closed_notices = notices|selectattr('status','equalto','CLOSED')|list %}
-{% macro internship_category(item) -%}
-{% set text = ((item.organization or '') ~ ' ' ~ (item.title or '') ~ ' ' ~ (item.summary or '') ~ ' ' ~ (item.discipline or '') ~ ' ' ~ (item.source_name or ''))|lower %}
-{% if 'internshala' in text or 'linkedin' in text or 'indeed' in text or 'naukri' in text or 'training' in text or 'workshop' in text or 'survey' in text or 'autocad' in text or 'bim' in text or 'field visit' in text or 'practical' in text %}
-practical-learning
-{% elif 'larsen' in text or 'toubro' in text or 'l&t' in text or 'tata project' in text or 'shapoorji' in text or 'bhel' in text or 'ntpc' in text or 'industrial' in text or 'plant' in text or 'factory' in text %}
-industrial-exposure
-{% else %}
-civil-related
-{% endif %}
-{%- endmacro %}
-
-<section aria-label="Internship categories">
-<div class="internship-section-title"><h2>Explore internship categories</h2><span class="internship-count">Choose an area</span></div>
-<div class="internship-category-grid">
-<button type="button" class="internship-category-card active" data-internship-filter="all" aria-pressed="true"><strong>Civil Related</strong><span>Core Civil Engineering internships, government departments and technical opportunities.</span><em><b data-category-count="civil-related">0</b> opportunities</em></button>
-<button type="button" class="internship-category-card" data-internship-filter="industrial-exposure" aria-pressed="false"><strong>Industrial Exposure</strong><span>Industry, infrastructure companies, project sites and plant-based exposure.</span><em><b data-category-count="industrial-exposure">0</b> opportunities</em></button>
-<button type="button" class="internship-category-card" data-internship-filter="practical-learning" aria-pressed="false"><strong>Practical Learning</strong><span>Hands-on training, surveying, CAD/BIM, workshops and skill-based learning.</span><em><b data-category-count="practical-learning">0</b> opportunities</em></button>
-</div><p class="internship-filter-note" id="internship-filter-note">Showing all internship opportunities. Select a category to filter the listings.</p>
+<main class="dashboard-main">
+<div class="internship-page">
+<header class="internship-top">
+<div><h1>Civil Engineering Internships</h1><p>Explore learning opportunities that help connect classroom concepts with real engineering work.</p></div>
+<div class="internship-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
+</header>
+<section class="internship-hero" aria-labelledby="internship-hero-title">
+<div><span class="internship-kicker">Career learning pathway</span><h2 id="internship-hero-title">Learn from projects. Build practical confidence.</h2><p>Internships can help Diploma and B.Tech Civil Engineering students understand site practices, engineering teams, construction methods, safety and professional responsibilities.</p></div>
+<div class="internship-art" aria-hidden="true">🏗️</div>
 </section>
-
-<section>
-<div class="internship-section-title"><h2>Open internships</h2><span class="internship-count">{{ open_notices|length }} opportunities</span></div>
-{% if open_notices %}<div class="internship-list">
-{% for item in open_notices %}
-<article class="internship-card" data-internship-category="{{ internship_category(item)|trim }}">
-<div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-open">OPEN</span></div>
-<p class="internship-summary">{{ item.summary }}</p>
-<dl class="internship-facts">
-<div class="internship-fact"><dt>Eligible discipline</dt><dd>{{ item.discipline or 'See official notice' }}</dd></div>
-<div class="internship-fact"><dt>Qualification</dt><dd>{{ item.qualification or 'See official notice' }}</dd></div>
-<div class="internship-fact"><dt>Location</dt><dd>{{ item.location or 'See official notice' }}</dd></div>
-<div class="internship-fact"><dt>Duration</dt><dd>{{ item.duration or 'See official notice' }}</dd></div>
-<div class="internship-fact"><dt>Stipend</dt><dd>{{ item.stipend or 'Not announced' }}</dd></div>
-<div class="internship-fact"><dt>Last date</dt><dd>{{ item.last_date|date_dmy if item.last_date else 'Not announced' }}</dd></div>
-</dl>
-<div class="internship-actions">
-{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}
-{% if item.apply_url %}<a class="primary" href="{{ item.apply_url }}" target="_blank" rel="noopener">Apply Now</a>{% endif %}
-{% if item.admit_card_url %}<a href="{{ item.admit_card_url }}" target="_blank" rel="noopener">Admit Card / Hall Ticket</a>{% endif %}
-{% if item.result_url %}<a href="{{ item.result_url }}" target="_blank" rel="noopener">Result</a>{% endif %}
-{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}
-</div><div class="internship-source">Source: <a href="{{ item.source_url }}" target="_blank" rel="noopener">{{ item.source_name or 'Official website' }}</a></div>
-</article>{% endfor %}</div>{% else %}<div class="internship-empty">No verified open internship notification is currently listed. Check again after the next official update.</div>{% endif %}
-</section>
-{% if upcoming_notices %}<section><div class="internship-section-title"><h2>Upcoming internships</h2><span class="internship-count">{{ upcoming_notices|length }} opportunities</span></div><div class="internship-list">
-{% for item in upcoming_notices %}<article class="internship-card" data-internship-category="{{ internship_category(item)|trim }}"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-upcoming">UPCOMING</span></div><p class="internship-summary">{{ item.summary }}</p><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div></article>{% endfor %}</div></section>{% endif %}
-{% if closed_notices %}<section><div class="internship-section-title"><h2>Closed / Previous notifications</h2><span class="internship-count">{{ closed_notices|length }} notices</span></div><div class="internship-list">
-{% for item in closed_notices %}<article class="internship-card" data-internship-category="{{ internship_category(item)|trim }}"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-closed">CLOSED</span></div><p class="internship-summary">{{ item.summary }}</p><dl class="internship-facts"><div class="internship-fact"><dt>Discipline</dt><dd>{{ item.discipline or 'See official notice' }}</dd></div><div class="internship-fact"><dt>Last date</dt><dd>{{ item.last_date|date_dmy if item.last_date else 'Not announced' }}</dd></div><div class="internship-fact"><dt>Duration</dt><dd>{{ item.duration or 'See official notice' }}</dd></div><div class="internship-fact"><dt>Stipend</dt><dd>{{ item.stipend or 'Not announced' }}</dd></div></dl><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div><div class="internship-source">Source: <a href="{{ item.source_url }}" target="_blank" rel="noopener">{{ item.source_name or 'Official website' }}</a></div></article>{% endfor %}</div></section>{% endif %}
-<section>
-<div class="internship-section-title"><h2>Additional opportunities to verify</h2><span class="internship-count">{{ source_leads|length }} listings</span></div>
-<p class="internship-summary">Only distinct links with an internship-related title are shown here. These are preliminary listings, not confirmed vacancies; verify the individual notice before applying.</p>
-{% if source_leads %}<div class="internship-list">
-{% for lead in source_leads %}<article class="internship-card">
-<div class="internship-card-head"><div><div class="internship-org">{{ lead.source_name }} · {{ lead.source_category }}</div><h3>{{ lead.title }}</h3></div><span class="internship-status status-upcoming">VERIFY NOTICE</span></div>
-{% if lead.context %}<p class="internship-summary">{{ lead.context }}</p>{% endif %}
-<div class="internship-actions"><a class="primary" href="{{ lead.url }}" target="_blank" rel="noopener">Open Source Listing</a></div>
-<div class="internship-source">Detected: {{ lead.last_seen|date_dmy if lead.last_seen else 'Recently' }} · Verify eligibility, deadline and application status on source page.</div>
-</article>{% endfor %}</div>{% else %}<div class="internship-empty">No additional internship listings passed the current screening. Official portal checks continue in the background.</div>{% endif %}
-</section>
-<section>
-<div class="internship-section-title"><h2>Monitored internship portals</h2><span class="internship-count">{{ source_status|length }} sources</span></div>
-<div class="internship-list">
-{% for source in source_status %}<article class="internship-card">
-<div class="internship-card-head"><div><div class="internship-org">{{ source.source_category }}</div><h3>{{ source.source_name }}</h3></div><span class="internship-status {{ 'status-open' if source.status=='OK' else 'status-closed' }}">{{ 'CHECKED' if source.status=='OK' else 'CHECK FAILED' }}</span></div>
-<dl class="internship-facts"><div class="internship-fact"><dt>Detected links</dt><dd>{{ source.leads_found or 0 }}</dd></div><div class="internship-fact"><dt>Last checked</dt><dd>{{ source.last_checked or 'Pending first scan' }}</dd></div></dl>
-<div class="internship-actions"><a href="{{ source.source_url }}" target="_blank" rel="noopener">Visit Portal</a></div>
-{% if source.last_error %}<div class="internship-source">Latest check issue: {{ source.last_error }}</div>{% endif %}
-</article>{% endfor %}
+<section aria-labelledby="internship-path-title">
+<div class="internship-section-head"><h2 id="internship-path-title">Explore internship areas</h2><p>Three learning pathways for building a stronger foundation in Civil Engineering.</p></div>
+<div class="internship-grid">
+<article class="internship-card">
+<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">📐</span><span class="internship-tag">Engineering focus</span></div>
+<h3>Civil Related</h3>
+<p>Internships focused on core Civil Engineering disciplines and the technical work involved in planning, design, construction and infrastructure projects.</p>
+<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
+</article>
+<article class="internship-card">
+<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🏭</span><span class="internship-tag">Workplace exposure</span></div>
+<h3>Industrial Exposure</h3>
+<p>Understand how engineering organizations, construction sites, laboratories and infrastructure facilities coordinate people, equipment, materials and quality.</p>
+<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
+</article>
+<article class="internship-card">
+<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🦺</span><span class="internship-tag">Hands-on learning</span></div>
+<h3>Practical Learning</h3>
+<p>Develop practical skills by observing demonstrations, working with tools under supervision and relating field measurements to engineering principles.</p>
+<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Levelling, total station and field surveys</li><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>AutoCAD, Revit and BIM fundamentals</li></ul></div>
+</article>
 </div>
 </section>
-<aside class="internship-disclaimer"><strong>Important:</strong> Details are taken from the linked official announcement or portal. Eligibility, stipend, dates and selection depend on the organization. Verify the latest notice before applying. Never pay unofficial agents. Admit-card or result buttons will be displayed only after an official link is published.</aside>
-</div></main>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
- const buttons=Array.from(document.querySelectorAll('[data-internship-filter]'));
- const listings=Array.from(document.querySelectorAll('.internship-card[data-internship-category]'));
- const note=document.getElementById('internship-filter-note');
- function applyFilter(category){
-  let visible=0;
-  listings.forEach(function(card){
-   const show=category==='all'||card.dataset.internshipCategory===category;
-   card.hidden=!show;
-   if(show) visible++;
-  });
-  buttons.forEach(function(button){const active=button.dataset.internshipFilter===category;button.classList.toggle('active',active);button.setAttribute('aria-pressed',active?'true':'false');});
-  if(note) note.textContent=category==='all'?'Showing all internship opportunities. Select a category to filter the listings.':('Showing '+visible+' matching opportunities. Select Civil Related to view all categories.');
- }
- buttons.forEach(function(button){button.addEventListener('click',function(){applyFilter(button.dataset.internshipFilter);});});
- ['civil-related','industrial-exposure','practical-learning'].forEach(function(category){
-  const count=listings.filter(function(card){return card.dataset.internshipCategory===category;}).length;
-  const target=document.querySelector('[data-category-count="'+category+'"]');if(target) target.textContent=count;
- });
- applyFilter('all');
-});
-</script>
+<aside class="internship-note" role="note"><span aria-hidden="true">ⓘ</span><p><strong>Important:</strong> These cards describe internship learning areas, not confirmed vacancies or guaranteed placements. Internship availability, eligibility, duration, stipend, fees and certificates depend on the organization. Verify the employer or institution directly, and do not pay unofficial agents for an internship offer.</p></aside>
+</div>
+</main>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
-</body></html>
+</body>
+</html>

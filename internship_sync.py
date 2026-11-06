@@ -123,20 +123,33 @@ def monitor_source(db, name, category, url, today):
         page_title = clean(soup.title.get_text(" ", strip=True)) if soup.title else name
         leads = 0
         seen = set()
+        blocked_titles = re.compile(
+            r"^(student login|institute / university|industry / employer|all logins|"
+            r"register free|hire interns|cpwd login|nhai login|cpwd officer|"
+            r"directorate general \(admin\)|about cpwd|at a glance|our works|"
+            r"highway domains|railways|rural body|indian army)$", re.I
+        )
+        notice_words = re.compile(r"\\b(internship|intern|trainee|apprentice|fellowship|training)\\b", re.I)
         for anchor in soup.find_all("a", href=True):
             title = clean(anchor.get_text(" ", strip=True))
             href = urljoin(url, anchor.get("href", ""))
-            if len(title) < 8 or href.startswith(("javascript:", "mailto:", "#")):
+            if len(title) < 12 or blocked_titles.match(title):
                 continue
-            if urlparse(href).scheme not in ("http", "https"):
+            if not notice_words.search(title) or href.startswith(("javascript:", "mailto:", "#")):
                 continue
-            context = clean(anchor.parent.get_text(" ", strip=True))[:1200]
+            parsed = urlparse(href)
+            if parsed.scheme not in ("http", "https") or href.rstrip("/") == url.rstrip("/"):
+                continue
+            # Use the nearest listing-like container only; never copy an entire
+            # navigation bar or dashboard menu into the opportunity description.
+            container = anchor.find_parent(["article", "li"])
+            context = clean(container.get_text(" ", strip=True)) if container else title
+            context = context[:500]
             if not is_civil_related(title + " " + context):
                 continue
-            # Avoid turning general category/search pages into notice cards.
-            if href.rstrip("/") == url.rstrip("/"):
-                continue
-            fingerprint = hashlib.sha256((name + "|" + href).encode()).hexdigest()
+            # Deduplicate the same opportunity URL across monitored portals.
+            canonical_url = parsed._replace(fragment="").geturl().rstrip("/")
+            fingerprint = hashlib.sha256(canonical_url.lower().encode()).hexdigest()
             if fingerprint in seen:
                 continue
             seen.add(fingerprint)
@@ -146,9 +159,11 @@ def monitor_source(db, name, category, url, today):
                      first_seen, last_seen, review_status)
                 VALUES (?,?,?,?,?,?,?,?, 'REVIEW')
                 ON CONFLICT (lead_key) DO UPDATE SET
+                    source_name=excluded.source_name,
+                    source_category=excluded.source_category,
                     title=excluded.title, context=excluded.context,
                     last_seen=excluded.last_seen
-            """, (fingerprint, name, category, title[:500], href, context, today, today))
+            """, (fingerprint, name, category, title[:300], canonical_url, context, today, today))
             leads += 1
         db.execute("""
             INSERT INTO internship_source_status

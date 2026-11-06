@@ -4,108 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resources | Civil Career</title>
-<meta name="description" content="Explore Civil Engineering products and subject-wise reference textbooks on Civil Career.">
+<meta name="description" content="Explore Civil Engineering products, e-books, downloadable notes, study materials and reference textbooks on Civil Career.">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 <style>
 .dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
-.cc-resources{width:100%;max-width:1280px;margin:0 auto;color:#172b4d}
+.cc-resources{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
 .cc-resources *{box-sizing:border-box}
 .cc-resources-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
 .cc-resources-head h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
 .cc-resources-head p{color:#64748b;line-height:1.6;margin:0}
-.cc-resources-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 15px;white-space:nowrap}
+.cc-resources-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
 .cc-resources-student .student-avatar{width:40px;height:40px}
 .cc-resources-student small{display:block;color:#64748b;margin-top:3px}
-.cc-resources-hero{padding:clamp(24px,4vw,38px);border:1px solid #dbe6f0;border-radius:12px;background:#f4f8fc;margin-bottom:30px}
+.cc-resources-hero{padding:clamp(24px,4vw,40px);border:1px solid #dbe6f0;border-radius:20px;background:linear-gradient(115deg,#eff6ff,#f8fafc 62%,#eef6f7);margin-bottom:28px}
 .cc-resources-kicker{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#2f6f9f;margin-bottom:11px}
-.cc-resources-hero h2{font-size:clamp(24px,3.2vw,34px);line-height:1.2;color:#102747;margin:0 0 10px}
-.cc-resources-hero p{max-width:850px;color:#52657a;line-height:1.7;margin:0;font-size:15px}
-.cc-section{margin:30px 0}
-.cc-section-head{margin:0 0 15px}
-.cc-section-head h2{font-size:clamp(20px,2.4vw,25px);color:#102747;margin:0 0 5px}
-.cc-section-head p{color:#64748b;line-height:1.6;margin:0;font-size:14px}
-.cc-product-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 24px;border:1px solid #d8e2eb;border-left:4px solid #2f6f9f;border-radius:10px;background:#fff}
-.cc-product-card h3{font-size:18px;color:#102747;margin:0 0 6px}
-.cc-product-card p{font-size:14px;color:#64748b;line-height:1.6;margin:0}
-.cc-action{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;min-height:42px;padding:10px 17px;border-radius:6px;background:#173b68;color:#fff;text-decoration:none;font-size:13px;font-weight:750}
-.cc-action:hover{background:#2f6f9f}
-.cc-empty{min-height:62px;padding:18px 20px;border:1px dashed #cbd5e1;border-radius:8px;background:#fafbfd;color:#8290a0;font-size:13px;display:flex;align-items:center}
-.cc-reference{margin-top:34px;padding:24px;border:1px solid #d7e0e8;border-top:4px solid #2f6f9f;border-radius:10px;background:#fff}
-.cc-reference h2{font-size:23px;color:#102747;margin:0 0 17px}
-.cc-table-wrap{width:100%;overflow-x:auto;border:1px solid #dce4ea;border-radius:6px}
-.cc-reference table{width:100%;min-width:720px;border-collapse:collapse;background:#fff}
-.cc-reference th{padding:13px 12px;background:#17324d;color:#fff;text-align:left;font-size:12px;letter-spacing:.04em;white-space:nowrap}
-.cc-reference td{padding:12px;border-bottom:1px solid #e7edf2;color:#334b60;font-size:13px;line-height:1.55;vertical-align:top}
-.cc-reference tbody tr:nth-child(even){background:#f7f9fb}
-.cc-reference tbody tr:last-child td{border-bottom:0}
-.cc-reference td:first-child{width:62px;color:#2f6f9f;font-weight:800;font-variant-numeric:tabular-nums}
-.cc-reference td:nth-child(2){min-width:185px;font-weight:700;color:#17324d}
-.cc-reference td:nth-child(3){min-width:115px;white-space:nowrap}
-@media(max-width:680px){.dashboard-main{padding:16px!important}.cc-resources-head{align-items:flex-start;flex-direction:column}.cc-resources-student{white-space:normal}.cc-product-card{align-items:flex-start;flex-direction:column;padding:19px}.cc-reference{padding:15px}.cc-reference h2{font-size:21px}}
+.cc-resources-hero h2{font-size:clamp(24px,3.2vw,36px);line-height:1.2;color:#102747;margin:0 0 12px}
+.cc-resources-hero p{max-width:850px;color:#52657a;line-height:1.75;margin:0;font-size:15px}
+.cc-resources-section{margin:30px 0 16px}
+.cc-resources-section h2{font-size:clamp(20px,2.4vw,25px);color:#102747;margin:0 0 6px}
+.cc-resources-section p{color:#64748b;line-height:1.65;margin:0}
+.cc-resources-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.cc-resource-card{display:flex;flex-direction:column;min-width:0;padding:24px;border:1px solid #dce5ee;border-radius:16px;background:#fff;box-shadow:0 4px 15px rgba(15,35,68,.045);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.cc-resource-card:hover{transform:translateY(-3px);border-color:#b8cadd;box-shadow:0 10px 24px rgba(15,35,68,.08)}
+.cc-resource-icon{display:grid;place-items:center;width:56px;height:56px;border-radius:15px;background:#eff6ff;font-size:27px;margin-bottom:18px}
+.cc-resource-card:nth-child(2) .cc-resource-icon{background:#f5f3ff}
+.cc-resource-card:nth-child(3) .cc-resource-icon{background:#ecfdf5}
+.cc-resource-card:nth-child(4) .cc-resource-icon{background:#fff7ed}
+.cc-resource-card:nth-child(5) .cc-resource-icon{background:#f1f5f9}
+.cc-resource-card h3{font-size:20px;line-height:1.35;color:#102747;margin:0 0 9px}
+.cc-resource-card p{font-size:14px;line-height:1.7;color:#64748b;margin:0 0 19px}
+.cc-resource-card a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;margin-top:auto;padding:10px 15px;border-radius:8px;background:#173b68;color:#fff;text-decoration:none;font-size:13px;font-weight:750}
+.cc-resource-card a:hover{background:#2f6f9f}
+.cc-resources-note{margin-top:26px;padding:17px 20px;border:1px solid #dbe5ee;border-left:4px solid #2f6f9f;border-radius:12px;background:#f8fafc;color:#52657a;font-size:13px;line-height:1.7}
+@media(max-width:1000px){.cc-resources-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.cc-resources-head{align-items:flex-start;flex-direction:column}.cc-resources-student{white-space:normal}.cc-resources-grid{grid-template-columns:1fr}.cc-resource-card{padding:21px}}
+@media(prefers-reduced-motion:reduce){.cc-resource-card{transition:none}}
 </style>
 </head>
 <body>
 <main class="dashboard-main"><div class="cc-resources">
 <header class="cc-resources-head">
-<div><h1>Learning Resources</h1><p>Products and reference textbooks for Civil Engineering students.</p></div>
+<div><h1>Learning Resources</h1><p>Books, notes and learning references for Civil Engineering students.</p></div>
 <div class="cc-resources-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
 </header>
 <section class="cc-resources-hero">
-<div class="cc-resources-kicker">CIVIL CAREER · LEARN &amp; PREPARE</div>
-<h2>Learning Resources</h2>
-<p>Find recommended products and subject-wise reference textbooks for Diploma, B.Tech, GATE and other Civil Engineering examinations.</p>
+<div class="cc-resources-kicker">CIVIL CAREER · LEARN & PREPARE</div>
+<h2>Choose the right resource for your learning</h2>
+<p>Explore product recommendations, e-books, downloadable notes, subject-wise study materials and reference textbooks. Use the relevant section to find learning support for Diploma, B.Tech, GATE and other Civil Engineering examinations.</p>
 </section>
-
-<section class="cc-section">
-<div class="cc-section-head"><h2>Products</h2><p>Affiliate product recommendations and Amazon links.</p></div>
-<article class="cc-product-card"><div><h3>Recommended Products &amp; Engineering Tools</h3><p>Books, calculators, drawing instruments, surveying equipment and site-safety products.</p></div><a class="cc-action" href="{{ url_for('recommended_resources') }}">Explore Products</a></article>
+<section class="cc-resources-section"><h2>Explore resource categories</h2><p>Select a category to continue to its available resources.</p></section>
+<section class="cc-resources-grid" aria-label="Resource categories">
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">🛒</div><h3>Products</h3><p>Recommended calculators, engineering tools, books and other useful products for Civil Engineering students.</p><a href="{{ url_for('recommended_resources') }}">Explore Products</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📘</div><h3>E-Books</h3><p>Explore digital learning references and book-related resources. Availability and access details are shown in the relevant resource section.</p><a href="{{ url_for('materials') }}">Explore E-Books</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📥</div><h3>Downloadable Notes</h3><p>Find subject-oriented notes and downloadable learning content as they become available for the selected syllabus.</p><a href="{{ url_for('materials') }}">Explore Notes</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📚</div><h3>Study Materials</h3><p>Browse Civil Engineering study support, syllabus-linked learning materials and preparation resources.</p><a href="{{ url_for('materials') }}">Explore Study Materials</a></article>
+<article class="cc-resource-card"><div class="cc-resource-icon" aria-hidden="true">📖</div><h3>Reference Materials / TextBooks</h3><p>Find recommended reference books and subject resources for core Civil Engineering and competitive examination preparation.</p><a href="{{ url_for('recommended_resources') }}">Explore References</a></article>
 </section>
-
-<section class="cc-section">
-<div class="cc-section-head"><h2>E-Books</h2></div>
-<div class="cc-empty">E-Book resources will be added here when content is provided.</div>
-</section>
-
-<section class="cc-section">
-<div class="cc-section-head"><h2>Downloadable Notes</h2></div>
-<div class="cc-empty">Downloadable notes will be added here when content is provided.</div>
-</section>
-
-<section class="cc-section">
-<div class="cc-section-head"><h2>Study Materials</h2></div>
-<div class="cc-empty">Study materials will be added here when content is provided.</div>
-</section>
-
-<section class="cc-reference" aria-labelledby="referenceBooksTitle">
-<h2 id="referenceBooksTitle">Reference Materials / TextBooks</h2>
-<div class="cc-table-wrap">
-<table>
-<thead><tr><th scope="col">S.NO</th><th scope="col">SUBJECT</th><th scope="col">VOLUME</th><th scope="col">REFERENCE &amp; AUTHORS</th></tr></thead>
-<tbody>
-<tr><td>01</td><td>Engineering Mathematics</td><td>—</td><td>Higher Engineering Mathematics — B. S. Grewal</td></tr>
-<tr><td>02</td><td>Engineering Mechanics</td><td>—</td><td>Engineering Mechanics — S. Timoshenko and D. H. Young</td></tr>
-<tr><td>03</td><td>Strength of Materials</td><td>—</td><td>A Textbook of Strength of Materials — R. K. Bansal</td></tr>
-<tr><td>04</td><td>Structural Analysis</td><td>—</td><td>Structural Analysis — S. S. Bhavikatti</td></tr>
-<tr><td>05</td><td>Reinforced Concrete Design</td><td>—</td><td>Design of Reinforced Concrete Structures — S. Ramamrutham</td></tr>
-<tr><td>06</td><td>Steel Structures</td><td>—</td><td>Limit State Design of Steel Structures — S. K. Duggal</td></tr>
-<tr><td>07</td><td>Building Materials &amp; Construction</td><td>—</td><td>Engineering Materials — S. C. Rangwala; Building Construction — B. C. Punmia</td></tr>
-<tr><td>08</td><td>Surveying</td><td>Vol. I, II &amp; III</td><td>Surveying — B. C. Punmia, Ashok Kumar Jain and Arun Kumar Jain</td></tr>
-<tr><td>09</td><td>Fluid Mechanics</td><td>—</td><td>A Textbook of Fluid Mechanics and Hydraulic Machines — R. K. Bansal</td></tr>
-<tr><td>10</td><td>Hydrology &amp; Water Resources</td><td>—</td><td>Engineering Hydrology — K. Subramanya</td></tr>
-<tr><td>11</td><td>Irrigation Engineering</td><td>—</td><td>Irrigation Engineering and Hydraulic Structures — S. K. Garg</td></tr>
-<tr><td>12</td><td>Geotechnical Engineering</td><td>—</td><td>Basic and Applied Soil Mechanics — Gopal Ranjan and A. S. R. Rao</td></tr>
-<tr><td>13</td><td>Foundation Engineering</td><td>—</td><td>Soil Mechanics and Foundation Engineering — B. C. Punmia, Ashok Kumar Jain and Arun Kumar Jain</td></tr>
-<tr><td>14</td><td>Concrete Technology</td><td>—</td><td>Concrete Technology — M. S. Shetty</td></tr>
-<tr><td>15</td><td>Transportation Engineering</td><td>Vol. I &amp; II</td><td>Highway Engineering — Khanna, Justo and Veeraragavan</td></tr>
-<tr><td>16</td><td>Railway &amp; Airport Engineering</td><td>—</td><td>Transportation Engineering — C. J. Khisty and B. K. Lall</td></tr>
-<tr><td>17</td><td>Environmental Engineering</td><td>Vol. I &amp; II</td><td>Environmental Engineering — S. K. Garg</td></tr>
-<tr><td>18</td><td>Estimation &amp; Costing</td><td>—</td><td>Estimating, Costing, Specification and Valuation in Civil Engineering — M. Chakraborti</td></tr>
-<tr><td>19</td><td>Construction Planning &amp; Management</td><td>—</td><td>Construction Planning and Management — B. C. Punmia, K. K. Khandelwal</td></tr>
-<tr><td>20</td><td>GATE / Competitive Exam Preparation</td><td>As per subject</td><td>GATE Civil Engineering Previous Years' Solved Papers — subject-wise editions from established exam-preparation publishers</td></tr>
-</tbody>
-</table>
-</div>
-</section>
+<aside class="cc-resources-note"><strong>Resource availability:</strong> Each category currently directs you to the existing Products or Materials section. New e-books, downloadable notes and subject materials should be published only after the actual files and content are available; this page does not imply that every category already has downloadable files.</aside>
 </div></main>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body></html>

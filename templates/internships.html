@@ -71,26 +71,17 @@
 .internship-tree-branches:after{content:"";position:absolute;top:-48px;left:50%;height:48px;width:1px;background:#9aafc6}
 .internship-tree-branch{position:relative;min-width:0}
 .internship-tree-branch:before{content:"";position:absolute;top:-48px;left:50%;height:48px;width:1px;background:#9aafc6}
-.internship-tree-card{height:100%;padding:22px 19px;border:1px solid #dce5ef;border-to<div class="internship-tree" aria-label="Internship learning pathways">
+.internship-tree-card{height:100%;padding:22px 19px;border:1px solid #dce5ef;border-to<section aria-labelledby="internship-path-title">
+<div class="internship-section-head"><h2 id="internship-path-title">Internship Pathways</h2><p>Explore three connected pathways for Civil Engineering internships, industry exposure and practical skill development.</p></div>
+<div class="internship-tree" aria-label="Internship learning pathways">
 <div class="internship-tree-root"><span>INTERNSHIP</span><small>Explore three pathways</small></div>
 <div class="internship-tree-branches">
-<article class="internship-tree-branch">
-<div class="internship-tree-card">
-<span class="internship-tree-index">01</span>
-<h3>Civil Related</h3>
+<article class="internship-tree-branch"><div class="internship-tree-card">
+<span class="internship-tree-index">01</span><h3>Civil Related</h3>
 <p class="internship-tree-intro">Core Civil Engineering internships focused on infrastructure, design, construction and public works.</p>
-<div class="internship-tree-group">
-<strong>Core Civil Engineering</strong>
-<ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul>
-</div>
-<div class="internship-tree-group">
-<strong>Organizations to explore</strong>
-<ul><li>NHAI – National Highways Authority of India</li><li>CPWD – Central Public Works Department</li><li>PWD – Public Works Department</li></ul>
-</div>
-<div class="internship-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 8px">
-<strong style="font-size:15px;color:#102747">Currently Open Civil Internships</strong>
-<span style="font-size:11px;color:#166534;font-weight:800;background:#dcfce7;padding:6px 9px;border-radius:20px">Verified listings</span>
-</div>
+<div class="internship-tree-group"><strong>Core Civil Engineering</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
+<div class="internship-tree-group"><strong>Organizations to explore</strong><ul><li>NHAI – National Highways Authority of India</li><li>CPWD – Central Public Works Department</li><li>PWD – Public Works Department</li></ul></div>
+<div class="internship-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 8px"><strong style="font-size:15px;color:#102747">Currently Open Civil Internships</strong><span style="font-size:11px;color:#166534;font-weight:800;background:#dcfce7;padding:6px 9px;border-radius:20px">Verified listings</span></div>
 <div class="internship-open-list">
 {% set open_civil_count = namespace(value=0) %}
 {% for notice in notices|default([]) %}
@@ -107,73 +98,27 @@
 <div class="internship-open-fact"><small>Discipline</small><strong>{{ notice.discipline or 'Civil Engineering' }}</strong></div>
 </div>
 <p class="internship-open-summary">{{ notice.summary }}</p>
-<div class="internship-open-actions">
-{% if notice.apply_url %}<a class="internship-apply" href="{{ notice.apply_url }}" target="_blank" rel="noopener noreferrer">Apply Now ↗</a>{% endif %}
-{% if notice.notification_url %}<a class="internship-official" href="{{ notice.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notice ↗</a>{% endif %}
-</div>
-</div>
-</article>
-<article class="internship-tree-branch">
-<div class="internship-tree-card">
-<span class="internship-tree-index">02</span>
-<h3>Industrial Exposure</h3>
-<p class="internship-tree-intro">Learn how engineering organizations, construction sites, plants and project teams work.</p>
-<div class="internship-tree-group">
-<strong>Organizations to explore</strong>
-<ul><li>L&amp;T – Larsen &amp; Toubro</li><li>Tata Projects</li><li>Shapoorji Pallonji</li><li>BHEL – Bharat Heavy Electricals Limited</li></ul>
-</div>
-<div class="internship-tree-group">
-<strong>Possible exposure</strong>
-<ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul>
-</div>
-</div>
-</article>
-<article class="internship-tree-branch">
-<div class="internship-tree-card">
-<span class="internship-tree-index">03</span>
-<h3>Practical Learning</h3>
-<p class="internship-tree-intro">Build job-ready skills through guided practice, field activities and technical workshops.</p>
-<div class="internship-tree-group">
-<strong>Practical skill areas</strong>
-<ul><li>Surveying – Levelling and Total Station</li><li>AutoCAD – Civil drafting and drawings</li><li>BIM – Revit and model fundamentals</li><li>Hands-on training and workshops</li></ul>
-</div>
-<div class="internship-tree-group">
-<strong>Additional practice</strong>
-<ul><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>Field measurements and site documentation</li></ul>
-</div>
-</div>
-</article>
-</div>
-<p class="internship-tree-disclaimer">Organization names are examples of places to explore for official internship announcements; they do not indicate currently available vacancies or guaranteed placements.</p>
-</div>>Location</small><strong>{{ notice.location or 'See official notice' }}</strong></div>
-<div class="internship-open-fact"><small>Duration</small><strong>{{ notice.duration or 'See official notice' }}</strong></div>
-<div class="internship-open-fact"><small>Stipend</small><strong>{{ notice.stipend or 'Not specified' }}</strong></div>
-<div class="internship-open-fact"><small>Last date</small><strong>{{ notice.last_date.strftime('%d %B %Y') if notice.last_date else 'Check official notice' }}</strong></div>
-<div class="internship-open-fact"><small>Discipline</small><strong>{{ notice.discipline or 'Civil Engineering' }}</strong></div>
-</div>
-<p class="internship-open-summary">{{ notice.summary }}</p>
-<div class="internship-open-actions">
-{% if notice.apply_url %}<a class="internship-apply" href="{{ notice.apply_url }}" target="_blank" rel="noopener noreferrer">Apply Now ↗</a>{% endif %}
-{% if notice.notification_url %}<a class="internship-official" href="{{ notice.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notice ↗</a>{% endif %}
-</div>
+<div class="internship-open-actions">{% if notice.apply_url %}<a class="internship-apply" href="{{ notice.apply_url }}" target="_blank" rel="noopener noreferrer">Apply Now ↗</a>{% endif %}{% if notice.notification_url %}<a class="internship-official" href="{{ notice.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notice ↗</a>{% endif %}</div>
 </article>
 {% endif %}
 {% endfor %}
 {% if open_civil_count.value == 0 %}<div class="internship-open-empty">No currently open Civil Engineering internship has been verified in the latest published records. Check back for new official notices.</div>{% endif %}
 </div>
-</article>
-<article class="internship-card">
-<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🏭</span><span class="internship-tag">Workplace exposure</span></div>
-<h3>Industrial Exposure</h3>
-<p>Understand how engineering organizations, construction sites, laboratories and infrastructure facilities coordinate people, equipment, materials and quality.</p>
-<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
-</article>
-<article class="internship-card">
-<div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🦺</span><span class="internship-tag">Hands-on learning</span></div>
-<h3>Practical Learning</h3>
-<p>Develop practical skills by observing demonstrations, working with tools under supervision and relating field measurements to engineering principles.</p>
-<div class="internship-points"><strong>Possible learning areas</strong><ul><li>Levelling, total station and field surveys</li><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>AutoCAD, Revit and BIM fundamentals</li></ul></div>
-</article>
+</div></article>
+<article class="internship-tree-branch"><div class="internship-tree-card">
+<span class="internship-tree-index">02</span><h3>Industrial Exposure</h3>
+<p class="internship-tree-intro">Learn how engineering organizations, construction sites, plants and project teams work.</p>
+<div class="internship-tree-group"><strong>Organizations to explore</strong><ul><li>L&amp;T – Larsen &amp; Toubro</li><li>Tata Projects</li><li>Shapoorji Pallonji</li><li>BHEL – Bharat Heavy Electricals Limited</li></ul></div>
+<div class="internship-tree-group"><strong>Possible exposure</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
+</div></article>
+<article class="internship-tree-branch"><div class="internship-tree-card">
+<span class="internship-tree-index">03</span><h3>Practical Learning</h3>
+<p class="internship-tree-intro">Build job-ready skills through guided practice, field activities and technical workshops.</p>
+<div class="internship-tree-group"><strong>Practical skill areas</strong><ul><li>Surveying – Levelling and Total Station</li><li>AutoCAD – Civil drafting and drawings</li><li>BIM – Revit and model fundamentals</li><li>Hands-on training and workshops</li></ul></div>
+<div class="internship-tree-group"><strong>Additional practice</strong><ul><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>Field measurements and site documentation</li></ul></div>
+</div></article>
+</div>
+<p class="internship-tree-disclaimer">Organization names are examples of places to explore for official internship announcements; they do not indicate currently available vacancies or guaranteed placements.</p>
 </div>
 </section>
 <aside class="internship-note" role="note"><span aria-hidden="true">ⓘ</span><p><strong>Important:</strong> These cards describe internship learning areas, not confirmed vacancies or guaranteed placements. Internship availability, eligibility, duration, stipend, fees and certificates depend on the organization. Verify the employer or institution directly, and do not pay unofficial agents for an internship offer.</p></aside>

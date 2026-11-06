@@ -7,106 +7,97 @@
 <meta name="description" content="Explore Civil Engineering internship pathways in civil-related work, industrial exposure and practical learning.">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v=20260928jobspro">
 <style>
-.dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
-.internship-page{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
-.internship-page *{box-sizing:border-box}
-.internship-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
-.internship-top h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
-.internship-top p{color:#64748b;line-height:1.6;margin:0}
-.internship-student{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 15px;white-space:nowrap}
-.internship-student .student-avatar{width:40px;height:40px}
-.internship-student small{display:block;color:#64748b;margin-top:3px}
-.internship-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(180px,.6fr);gap:24px;align-items:center;padding:clamp(24px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#101f43 0%,#173f7a 58%,#146b78 100%);color:#fff;box-shadow:0 14px 34px rgba(18,49,93,.14);margin-bottom:26px}
-.internship-kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a5f3fc;margin-bottom:13px}
-.internship-hero h2{font-size:clamp(26px,3.5vw,40px);line-height:1.16;letter-spacing:-.8px;margin:0 0 14px}
-.internship-hero p{font-size:16px;line-height:1.75;color:#dbeafe;margin:0;max-width:760px}
-.internship-art{justify-self:center;display:grid;place-items:center;width:clamp(120px,15vw,180px);aspect-ratio:1;border:1px solid rgba(255,255,255,.22);border-radius:30px;background:rgba(255,255,255,.1);font-size:clamp(58px,7vw,82px)}
-.internship-section-head{margin:30px 0 16px}
-.internship-section-head h2{font-size:clamp(20px,2.5vw,25px);color:#102747;margin:0 0 6px}
-.internship-section-head p{color:#64748b;line-height:1.6;margin:0}
-.internship-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.internship-card{display:flex;flex-direction:column;min-width:0;padding:25px;border:1px solid #e1e8f2;border-radius:20px;background:#fff;box-shadow:0 5px 18px rgba(15,35,68,.045)}
-.internship-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
-.internship-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;font-size:28px;background:#eff6ff}
-.internship-card:nth-child(2) .internship-icon{background:#f5f3ff}
-.internship-card:nth-child(3) .internship-icon{background:#ecfdf5}
-.internship-tag{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:7px 10px;border-radius:30px;background:#f1f5f9;color:#475569}
-.internship-card h3{font-size:21px;line-height:1.35;color:#102747;margin:0 0 10px}
-.internship-card>p{font-size:14px;line-height:1.75;color:#64748b;margin:0 0 18px}
-.internship-points{padding:14px 15px;border-radius:13px;background:#f8fafc;border:1px solid #eef2f7;margin-top:auto}
-.internship-points strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:7px}
-.internship-points ul{padding-left:18px;margin:0;color:#334155;font-size:13px;line-height:1.8}
-.internship-note{display:flex;align-items:flex-start;gap:13px;padding:18px 21px;border:1px solid #fed7aa;border-radius:16px;background:#fff7ed;color:#9a3412;line-height:1.7;margin-top:26px}
-.internship-note p{margin:0;font-size:14px}
-@media(max-width:1000px){.internship-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.internship-hero{grid-template-columns:minmax(0,1fr) 130px}}
-@media(max-width:680px){.dashboard-main{padding:16px!important}.internship-top{align-items:flex-start;flex-direction:column}.internship-student{white-space:normal}.internship-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.internship-art{display:none}.internship-grid{grid-template-columns:1fr}.internship-card{padding:21px}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 
-.internship-open-list{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-top:18px}
-.internship-open-card{border:1px solid #dbe3ee;border-radius:14px;background:#fff;padding:19px;box-shadow:0 4px 14px rgba(15,35,68,.04)}
-.internship-open-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding-bottom:13px;border-bottom:1px solid #e9eef5}
-.internship-open-head h4{font-size:17px;color:#102747;margin:0 0 5px}
-.internship-open-org{font-size:13px;color:#64748b;margin:0}
-.internship-open-status{flex:none;font-size:11px;font-weight:800;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;padding:6px 9px;border-radius:20px}
-.internship-open-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
-.internship-open-fact{background:#f8fafc;border:1px solid #eef2f7;border-radius:9px;padding:10px}
-.internship-open-fact small{display:block;color:#64748b;font-size:11px;margin-bottom:4px}
-.internship-open-fact strong{font-size:13px;color:#243b5a;line-height:1.45}
-.internship-open-summary{font-size:13px;line-height:1.65;color:#475569;margin:0 0 14px}
-.internship-open-actions{display:flex;flex-wrap:wrap;gap:10px}
-.internship-open-actions a{display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border-radius:8px;font-size:13px;font-weight:800;text-decoration:none}
+/* Jobs hub — full-width layout compatible with the app's global navigation drawer */
+.dashboard-main{margin:0!important;padding:clamp(16px,3vw,38px)!important;width:100%!important;max-width:none!important;min-width:0;overflow-x:hidden}
+.jobs-page{width:100%;max-width:1500px;margin:0 auto;color:#172b4d}
+.jobs-page *{box-sizing:border-box}
+.jobs-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:0 0 24px}
+.jobs-top h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:0 0 7px;color:#102747}
+.jobs-top p{color:#64748b;line-height:1.6;margin:0}
+.jobs-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,.7fr);gap:24px;align-items:center;padding:clamp(24px,4vw,42px);border-radius:24px;background:linear-gradient(120deg,#101f43 0%,#173f7a 58%,#146b78 100%);color:#fff;box-shadow:0 14px 34px rgba(18,49,93,.17);margin-bottom:26px}
+.jobs-hero:after{content:"";position:absolute;width:300px;height:300px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-90px;top:-140px;box-shadow:0 0 0 35px rgba(255,255,255,.035),0 0 0 75px rgba(255,255,255,.025);pointer-events:none}
+.jobs-kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#a5f3fc;margin-bottom:13px}
+.jobs-hero h2{font-size:clamp(26px,3.5vw,40px);line-height:1.16;letter-spacing:-.8px;margin:0 0 14px;max-width:740px}
+.jobs-hero p{font-size:16px;line-height:1.75;color:#dbeafe;margin:0;max-width:750px}
+.jobs-hero-art{position:relative;z-index:1;justify-self:center;display:grid;place-items:center;width:clamp(130px,16vw,190px);aspect-ratio:1;border:1px solid rgba(255,255,255,.22);border-radius:32px;background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.06));font-size:clamp(64px,8vw,94px);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 18px 38px rgba(0,0,0,.12);transform:rotate(3deg)}
+.jobs-section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:30px 0 16px}
+.jobs-section-head h2{font-size:clamp(20px,2.5vw,25px);color:#102747;margin:0 0 6px}
+.jobs-section-head p{color:#64748b;line-height:1.6;margin:0}
+.jobs-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.jobs-category{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;padding:25px;border:1px solid #e1e8f2;border-radius:20px;background:#fff;text-decoration:none;color:inherit;box-shadow:0 5px 18px rgba(15,35,68,.045);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.jobs-category:hover{transform:translateY(-5px);border-color:#93c5fd;box-shadow:0 15px 32px rgba(15,35,68,.1)}
+.jobs-category:focus-visible{outline:3px solid #60a5fa;outline-offset:3px}
+.jobs-category-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.jobs-category-icon{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;font-size:29px;background:#eff6ff}
+.jobs-category:nth-child(2) .jobs-category-icon{background:#f5f3ff}
+.jobs-category:nth-child(3) .jobs-category-icon{background:#ecfdf5}
+.jobs-pill{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:7px 10px;border-radius:30px;background:#f1f5f9;color:#475569}
+.jobs-category h3{font-size:21px;line-height:1.35;color:#102747;margin:0 0 10px}
+.jobs-category p{font-size:14px;line-height:1.75;color:#64748b;margin:0 0 20px;flex:1}
+.jobs-examples{padding:14px 15px;border-radius:13px;background:#f8fafc;border:1px solid #eef2f7;margin-bottom:20px}
+.jobs-examples strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:#64748b;margin-bottom:7px}
+.jobs-examples span{font-size:13px;line-height:1.7;color:#334155}
+.jobs-open{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:800;color:#1d4ed8;font-size:14px;margin-top:auto}
+.jobs-open b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#eff6ff;font-size:19px;transition:transform .2s}
+.jobs-category:hover .jobs-open b{transform:translateX(4px)}
+.jobs-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:28px 0}
+.jobs-guide-step{display:flex;align-items:flex-start;gap:14px;padding:20px;border-radius:16px;background:#fff;border:1px solid #e2e8f0}
+.jobs-step-number{flex:0 0 36px;display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:#eaf2ff;color:#1d4ed8;font-weight:900}
+.jobs-guide-step h3{font-size:15px;margin:2px 0 6px;color:#17365c}
+.jobs-guide-step p{font-size:13px;line-height:1.65;color:#64748b;margin:0}
+.jobs-caution{display:flex;align-items:flex-start;gap:14px;padding:19px 22px;border:1px solid #fed7aa;border-radius:16px;background:#fff7ed;color:#9a3412;line-height:1.7;margin-top:24px}
+.jobs-caution-icon{font-size:22px}
+.jobs-caution strong{display:block;margin-bottom:4px}
+.jobs-caution p{margin:0;font-size:14px}
+@media(max-width:1000px){.jobs-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.jobs-hero{grid-template-columns:minmax(0,1fr) 150px}.jobs-guide{grid-template-columns:1fr}}
+@media(max-width:680px){.dashboard-main{padding:16px!important}.jobs-top{align-items:flex-start;flex-direction:column}.jobs-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.jobs-hero-art{display:none}.jobs-category-grid{grid-template-columns:1fr}.jobs-category{padding:21px}.jobs-section-head{align-items:flex-start;flex-direction:column}.jobs-guide-step{padding:17px}.jobs-caution{padding:16px}}
+@media(prefers-reduced-motion:reduce){.jobs-category,.jobs-open b{transition:none}.jobs-category:hover{transform:none}}
+
+/* Internship opportunity card, aligned with the Jobs hub visual system */
+.internship-open-list{display:grid;gap:12px;margin-top:16px}
+.internship-open-card{border:1px solid #dbe3ee;border-radius:13px;background:#fff;padding:16px;box-shadow:0 4px 14px rgba(15,35,68,.04)}
+.internship-open-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:1px solid #e9eef5}
+.internship-open-head h4{font-size:16px;color:#102747;margin:0 0 5px}
+.internship-open-org{font-size:12px;color:#64748b;margin:0}
+.internship-open-status{flex:none;font-size:10px;font-weight:800;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;padding:6px 8px;border-radius:20px}
+.internship-open-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.internship-open-fact{background:#f8fafc;border:1px solid #eef2f7;border-radius:8px;padding:9px}
+.internship-open-fact small{display:block;color:#64748b;font-size:10px;margin-bottom:3px}
+.internship-open-fact strong{font-size:12px;color:#243b5a;line-height:1.4}
+.internship-open-summary{font-size:12px;line-height:1.6;color:#475569;margin:0 0 12px}
+.internship-open-actions{display:flex;flex-wrap:wrap;gap:8px}
+.internship-open-actions a{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none}
 .internship-apply{background:#174a82;color:#fff}
 .internship-official{background:#eff6ff;color:#174a82;border:1px solid #bfdbfe}
-.internship-open-empty{margin-top:16px;padding:14px;border:1px dashed #cbd5e1;border-radius:11px;background:#f8fafc;color:#64748b;font-size:13px;line-height:1.6}
-@media(max-width:600px){.internship-open-facts{grid-template-columns:1fr 1fr}.internship-open-head{flex-direction:column}}
-
-
-/* Hierarchical internship pathway tree */
-.internship-tree{position:relative;margin:22px 0 4px}
-.internship-tree-root{position:relative;z-index:1;width:min(300px,90%);margin:0 auto;padding:17px 22px;text-align:center;background:#12345b;color:#fff;border:1px solid #244f7a;border-radius:12px;box-shadow:0 5px 15px rgba(15,35,68,.1)}
-.internship-tree-root span{display:block;font-size:17px;font-weight:850;letter-spacing:1.2px}
-.internship-tree-root small{display:block;margin-top:4px;color:#dbeafe;font-size:12px}
-.internship-tree-branches{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-top:48px}
-.internship-tree-branches:before{content:"";position:absolute;top:0;left:16.66%;right:16.66%;height:1px;background:#9aafc6}
-.internship-tree-branches:after{content:"";position:absolute;top:-48px;left:50%;height:48px;width:1px;background:#9aafc6}
-.internship-tree-branch{position:relative;min-width:0}
-.internship-tree-branch:before{content:"";position:absolute;top:-48px;left:50%;height:48px;width:1px;background:#9aafc6}
-.internship-tree-card{height:100%;padding:22px 19px;border:1px solid #dce5ef;border-top:3px solid #1d5686;border-radius:13px;background:#fff;box-shadow:0 5px 16px rgba(15,35,68,.045)}
-.internship-tree-index{display:inline-block;margin-bottom:10px;color:#b66b17;font-size:11px;font-weight:850;letter-spacing:1px}
-.internship-tree-card h3{margin:0 0 8px;color:#102747;font-size:20px}
-.internship-tree-intro{margin:0 0 16px;color:#64748b;font-size:13px;line-height:1.65}
-.internship-tree-group{margin-top:13px;padding:13px 14px;background:#f7f9fc;border:1px solid #e8eef5;border-radius:9px}
-.internship-tree-group strong{display:block;margin-bottom:7px;color:#294663;font-size:12px}
-.internship-tree-group ul{margin:0;padding-left:18px;color:#475569;font-size:12px;line-height:1.8}
-.internship-tree-disclaimer{margin:17px 0 0;color:#64748b;font-size:12px;line-height:1.6;text-align:center}
-.internship-tree .internship-section-title{margin-top:18px!important}
-@media(max-width:900px){.internship-tree-branches{gap:12px}.internship-tree-card{padding:17px 14px}}
-@media(max-width:680px){.internship-tree-root{margin-left:0;width:100%;text-align:left}.internship-tree-branches{grid-template-columns:1fr;gap:14px;padding:18px 0 0 24px}.internship-tree-branches:before{top:0;bottom:20px;left:8px;right:auto;width:1px;height:auto}.internship-tree-branches:after{display:none}.internship-tree-branch:before{top:26px;left:-16px;width:16px;height:1px}.internship-tree-card{height:auto}.internship-tree-disclaimer{text-align:left;padding-left:24px}}
+.internship-open-empty{margin-top:14px;padding:13px;border:1px dashed #cbd5e1;border-radius:10px;background:#f8fafc;color:#64748b;font-size:12px;line-height:1.6}
+.jobs-category .internship-open-list{margin-top:18px}
+.jobs-category .jobs-examples{margin-bottom:0}
+.jobs-category .jobs-examples ul{padding-left:18px;margin:6px 0 0;color:#334155;font-size:13px;line-height:1.75}
+@media(max-width:600px){.internship-open-head{flex-direction:column}.internship-open-facts{grid-template-columns:1fr 1fr}}
 
 </style>
 </head>
 <body>
 <main class="dashboard-main">
-<div class="internship-page">
-<header class="internship-top">
-<div><h1>Civil Engineering Internships</h1><p>Explore learning opportunities that help connect classroom concepts with real engineering work.</p></div>
-<div class="internship-student"><div class="student-avatar">👤</div><div><strong>{{ student_name }}</strong><small>Civil Engineering</small></div></div>
+<div class="jobs-page">
+<header class="jobs-top">
+<div><h1>Civil Engineering Internships</h1><p>Explore learning opportunities that connect classroom concepts with real engineering work.</p></div>
 </header>
-<section class="internship-hero" aria-labelledby="internship-hero-title">
-<div><span class="internship-kicker">Career learning pathway</span><h2 id="internship-hero-title">Learn from projects. Build practical confidence.</h2><p>Internships can help Diploma and B.Tech Civil Engineering students understand site practices, engineering teams, construction methods, safety and professional responsibilities.</p></div>
-<div class="internship-art" aria-hidden="true">🏗️</div>
+<section class="jobs-hero" aria-labelledby="internship-hero-title">
+<div><span class="jobs-kicker">Career learning pathway</span><h2 id="internship-hero-title">Learn from projects. Build practical confidence.</h2><p>Explore civil engineering internships, industrial exposure and practical skill development for Diploma and B.Tech students. Choose a pathway and review verified opportunities before applying.</p></div>
+<div class="jobs-hero-art" aria-hidden="true">🏗️</div>
 </section>
 <section aria-labelledby="internship-path-title">
-<div class="internship-section-head"><h2 id="internship-path-title">Internship Pathways</h2><p>Explore three connected pathways for Civil Engineering internships, industry exposure and practical skill development.</p></div>
-<div class="internship-tree" aria-label="Internship learning pathways">
-<div class="internship-tree-root"><span>INTERNSHIP</span><small>Explore three pathways</small></div>
-<div class="internship-tree-branches">
-<article class="internship-tree-branch"><div class="internship-tree-card">
-<span class="internship-tree-index">01</span><h3>Civil Related</h3>
-<p class="internship-tree-intro">Core Civil Engineering internships focused on infrastructure, design, construction and public works.</p>
-<div class="internship-tree-group"><strong>Core Civil Engineering</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
-<div class="internship-tree-group"><strong>Organizations to explore</strong><ul><li>NHAI – National Highways Authority of India</li><li>CPWD – Central Public Works Department</li><li>PWD – Public Works Department</li></ul></div>
-<div class="internship-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 8px"><strong style="font-size:15px;color:#102747">Currently Open Civil Internships</strong><span style="font-size:11px;color:#166534;font-weight:800;background:#dcfce7;padding:6px 9px;border-radius:20px">Verified listings</span></div>
+<div class="jobs-section-head"><div><h2 id="internship-path-title">Choose your internship pathway</h2><p>Three learning directions to help you understand engineering work and build practical skills.</p></div></div>
+<div class="jobs-category-grid">
+<article class="jobs-category">
+<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏛️</span><span class="jobs-pill">Core civil</span></div>
+<h3>Civil Related</h3>
+<p>Core Civil Engineering internships focused on infrastructure, design, construction and public works.</p>
+<div class="jobs-examples"><strong>Core Civil Engineering</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
+<div class="jobs-examples"><strong>Organizations to explore</strong><span>NHAI · CPWD · PWD</span></div>
+<div class="internship-section-head" style="margin:18px 0 8px"><div><h2 style="font-size:16px;margin:0 0 4px">Currently Open Civil Internships</h2><p style="font-size:12px">Verified official opportunities</p></div></div>
 <div class="internship-open-list">
 {% set open_civil_count = namespace(value=0) %}
 {% for notice in notices|default([]) %}
@@ -129,24 +120,32 @@
 {% endfor %}
 {% if open_civil_count.value == 0 %}<div class="internship-open-empty">No currently open Civil Engineering internship has been verified in the latest published records. Check back for new official notices.</div>{% endif %}
 </div>
-</div></article>
-<article class="internship-tree-branch"><div class="internship-tree-card">
-<span class="internship-tree-index">02</span><h3>Industrial Exposure</h3>
-<p class="internship-tree-intro">Learn how engineering organizations, construction sites, plants and project teams work.</p>
-<div class="internship-tree-group"><strong>Organizations to explore</strong><ul><li>L&amp;T – Larsen &amp; Toubro</li><li>Tata Projects</li><li>Shapoorji Pallonji</li><li>BHEL – Bharat Heavy Electricals Limited</li></ul></div>
-<div class="internship-tree-group"><strong>Possible exposure</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
-</div></article>
-<article class="internship-tree-branch"><div class="internship-tree-card">
-<span class="internship-tree-index">03</span><h3>Practical Learning</h3>
-<p class="internship-tree-intro">Build job-ready skills through guided practice, field activities and technical workshops.</p>
-<div class="internship-tree-group"><strong>Practical skill areas</strong><ul><li>Surveying – Levelling and Total Station</li><li>AutoCAD – Civil drafting and drawings</li><li>BIM – Revit and model fundamentals</li><li>Hands-on training and workshops</li></ul></div>
-<div class="internship-tree-group"><strong>Additional practice</strong><ul><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>Field measurements and site documentation</li></ul></div>
-</div></article>
-</div>
-<p class="internship-tree-disclaimer">Organization names are examples of places to explore for official internship announcements; they do not indicate currently available vacancies or guaranteed placements.</p>
+</article>
+<article class="jobs-category">
+<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏢</span><span class="jobs-pill">Industry exposure</span></div>
+<h3>Industrial Exposure</h3>
+<p>Learn how engineering organizations, construction sites, plants and project teams work.</p>
+<div class="jobs-examples"><strong>Organizations to explore</strong><ul><li>L&amp;T – Larsen &amp; Toubro</li><li>Tata Projects</li><li>Shapoorji Pallonji</li><li>BHEL – Bharat Heavy Electricals Limited</li></ul></div>
+<div class="jobs-examples"><strong>Possible exposure</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
+</article>
+<article class="jobs-category">
+<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">📐</span><span class="jobs-pill">Skill development</span></div>
+<h3>Practical Learning</h3>
+<p>Build job-ready skills through guided practice, field activities and technical workshops.</p>
+<div class="jobs-examples"><strong>Practical skill areas</strong><ul><li>Surveying – Levelling and Total Station</li><li>AutoCAD – Civil drafting and drawings</li><li>BIM – Revit and model fundamentals</li><li>Hands-on training and workshops</li></ul></div>
+<div class="jobs-examples"><strong>Additional practice</strong><ul><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>Field measurements and site documentation</li></ul></div>
+</article>
 </div>
 </section>
-<aside class="internship-note" role="note"><span aria-hidden="true">ⓘ</span><p><strong>Important:</strong> These cards describe internship learning areas, not confirmed vacancies or guaranteed placements. Internship availability, eligibility, duration, stipend, fees and certificates depend on the organization. Verify the employer or institution directly, and do not pay unofficial agents for an internship offer.</p></aside>
+<section aria-labelledby="internship-how-title">
+<div class="jobs-section-head"><div><h2 id="internship-how-title">How to use this page</h2><p>Follow these steps before applying for an internship.</p></div></div>
+<div class="jobs-guide">
+<div class="jobs-guide-step"><span class="jobs-step-number">1</span><div><h3>Choose a learning pathway</h3><p>Identify whether you want core civil work, industrial exposure or practical technical skills.</p></div></div>
+<div class="jobs-guide-step"><span class="jobs-step-number">2</span><div><h3>Check eligibility and details</h3><p>Review the qualification, location, duration, stipend, application fee and last date in the official notice.</p></div></div>
+<div class="jobs-guide-step"><span class="jobs-step-number">3</span><div><h3>Apply through official sources</h3><p>Use the organization’s official application page and keep a copy of the submitted application.</p></div></div>
+</div>
+</section>
+<aside class="jobs-caution" role="note"><span class="jobs-caution-icon" aria-hidden="true">⚠️</span><div><strong>Important: Verify every internship</strong><p>Organization names are examples of places to explore, not confirmed vacancies or guaranteed placements. Availability, eligibility, duration, stipend, fees and certificates depend on the organization. Confirm details through the official notice and do not pay unofficial agents.</p></div></aside>
 </div>
 </main>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>

@@ -8249,35 +8249,48 @@ def internships():
     if "student_id" not in session:
         return redirect(url_for("login"))
     connection = get_db_connection()
+    notices, source_leads, source_status = [], [], []
     try:
-        notices = connection.execute("""
-            SELECT notice_key, organization, title, discipline, qualification,
-                   location, duration, stipend, last_date, notification_url,
-                   apply_url, admit_card_url, result_url, updates_url,
-                   source_name, source_url, summary, status, last_verified
-            FROM official_internships
-            ORDER BY CASE WHEN status='OPEN' THEN 0 WHEN status='UPCOMING' THEN 1 ELSE 2 END,
-                     last_date ASC NULLS LAST, organization ASC
-        """).fetchall()
-        source_leads = connection.execute("""
-            SELECT DISTINCT ON (LOWER(url))
-                   source_name, source_category, title, url, context, first_seen, last_seen
-            FROM internship_source_leads
-            WHERE review_status='REVIEW'
-              AND title ~* '(internship|intern|trainee|apprentice|fellowship|training)'
-              AND title !~* '(login|register|all logins|at a glance|about cpwd|our works|hire interns|officer|highway domains|^railways$|^rural body$|^indian army$)'
-              AND url ~* '^https?://'
-            ORDER BY LOWER(url), last_seen DESC
-            LIMIT 12
-        """).fetchall()
-        source_status = connection.execute("""
-            SELECT source_name, source_category, source_url, status, leads_found,
-                   last_checked, last_error
-            FROM internship_source_status
-            ORDER BY source_category, source_name
-        """).fetchall()
-    except Exception:
-        notices, source_leads, source_status = [], [], []
+        # Keep verified opportunity records independent from optional monitoring
+        # tables. A failure in source monitoring must never hide valid notices.
+        try:
+            notices = connection.execute("""
+                SELECT notice_key, organization, title, discipline, qualification,
+                       location, duration, stipend, last_date, notification_url,
+                       apply_url, admit_card_url, result_url, updates_url,
+                       source_name, source_url, summary, status, last_verified
+                FROM official_internships
+                ORDER BY CASE WHEN UPPER(TRIM(status))='OPEN' THEN 0
+                              WHEN UPPER(TRIM(status))='UPCOMING' THEN 1 ELSE 2 END,
+                         last_date ASC NULLS LAST, organization ASC
+            """).fetchall()
+        except Exception:
+            app.logger.exception("Internships page: failed to load official internship notices")
+
+        try:
+            source_leads = connection.execute("""
+                SELECT DISTINCT ON (LOWER(url))
+                       source_name, source_category, title, url, context, first_seen, last_seen
+                FROM internship_source_leads
+                WHERE review_status='REVIEW'
+                  AND title ~* '(internship|intern|trainee|apprentice|fellowship|training)'
+                  AND title !~* '(login|register|all logins|at a glance|about cpwd|our works|hire interns|officer|highway domains|^railways$|^rural body$|^indian army$)'
+                  AND url ~* '^https?://'
+                ORDER BY LOWER(url), last_seen DESC
+                LIMIT 12
+            """).fetchall()
+        except Exception:
+            app.logger.exception("Internships page: failed to load internship review leads")
+
+        try:
+            source_status = connection.execute("""
+                SELECT source_name, source_category, source_url, status, leads_found,
+                       last_checked, last_error
+                FROM internship_source_status
+                ORDER BY source_category, source_name
+            """).fetchall()
+        except Exception:
+            app.logger.exception("Internships page: failed to load internship source status")
     finally:
         connection.close()
     return render_template(
@@ -8288,7 +8301,6 @@ def internships():
         student_name=session.get("student_name", ""),
         student_education=session.get("student_education", "")
     )
-
 
 @app.route("/jobs")
 def jobs_hub():

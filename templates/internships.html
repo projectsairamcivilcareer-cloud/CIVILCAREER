@@ -76,6 +76,28 @@
 .jobs-category .jobs-examples ul{padding-left:18px;margin:6px 0 0;color:#334155;font-size:13px;line-height:1.75}
 @media(max-width:600px){.internship-open-head{flex-direction:column}.internship-open-facts{grid-template-columns:1fr 1fr}}
 
+
+/* Click-to-open internship pathways; detail content follows the Jobs page card language */
+.jobs-category{padding:0;display:block;cursor:pointer}
+.internship-card-summary{display:block;list-style:none;padding:25px;cursor:pointer;outline:none}
+.internship-card-summary::-webkit-details-marker{display:none}
+.internship-card-summary::marker{content:""}
+.internship-card-summary h3{font-size:21px;line-height:1.35;color:#102747;margin:0 0 10px}
+.internship-card-summary>p{font-size:14px;line-height:1.75;color:#64748b;margin:0 0 18px}
+.internship-expand-label{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:13px;border-top:1px solid #edf1f6;color:#1d4ed8;font-size:13px;font-weight:800}
+.internship-expand-label b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#eff6ff;font-size:20px;transition:transform .2s ease}
+.opened-label{display:none}
+.jobs-category[open] .closed-label{display:none}
+.jobs-category[open] .opened-label{display:inline}
+.jobs-category[open] .internship-expand-label b{transform:rotate(180deg)}
+.internship-card-details{padding:0 25px 25px;cursor:default}
+.internship-card-details .jobs-examples{margin-bottom:14px}
+.internship-card-details .internship-section-head{margin:18px 0 8px}
+.internship-card-details .internship-section-head h2{color:#102747}
+.internship-card-details .internship-open-card{box-shadow:0 5px 16px rgba(15,35,68,.06)}
+.jobs-category[open]{border-color:#93c5fd;box-shadow:0 12px 30px rgba(15,35,68,.09)}
+@media(max-width:680px){.internship-card-summary{padding:21px}.internship-card-details{padding:0 21px 21px}}
+
 </style>
 </head>
 <body>
@@ -91,10 +113,9 @@
 <section aria-labelledby="internship-path-title">
 <div class="jobs-section-head"><div><h2 id="internship-path-title">Choose your internship pathway</h2><p>Three learning directions to help you understand engineering work and build practical skills.</p></div></div>
 <div class="jobs-category-grid">
-<article class="jobs-category">
-<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏛️</span><span class="jobs-pill">Core civil</span></div>
-<h3>Civil Related</h3>
-<p>Core Civil Engineering internships focused on infrastructure, design, construction and public works.</p>
+<details class="jobs-category">
+<summary class="internship-card-summary"><div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏛️</span><span class="jobs-pill">Core civil</span></div><h3>Civil Related</h3><p>Core Civil Engineering internships focused on infrastructure, design, construction and public works.</p><span class="internship-expand-label"><span class="closed-label">Open pathway details</span><span class="opened-label">Hide pathway details</span><b aria-hidden="true">⌄</b></span></summary>
+<div class="internship-card-details">
 <div class="jobs-examples"><strong>Core Civil Engineering</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
 <div class="jobs-examples"><strong>Organizations to explore</strong><span>NHAI · CPWD · PWD</span></div>
 <div class="internship-section-head" style="margin:18px 0 8px"><div><h2 style="font-size:16px;margin:0 0 4px">Currently Open Civil Internships</h2><p style="font-size:12px">Verified official opportunities</p></div></div>
@@ -120,21 +141,22 @@
 {% endfor %}
 {% if open_civil_count.value == 0 %}<div class="internship-open-empty">No currently open Civil Engineering internship has been verified in the latest published records. Check back for new official notices.</div>{% endif %}
 </div>
-</article>
-<article class="jobs-category">
-<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏢</span><span class="jobs-pill">Industry exposure</span></div>
-<h3>Industrial Exposure</h3>
-<p>Learn how engineering organizations, construction sites, plants and project teams work.</p>
+</div>
+</details>
+<details class="jobs-category">
+<summary class="internship-card-summary"><div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">🏢</span><span class="jobs-pill">Industry exposure</span></div><h3>Industrial Exposure</h3><p>Learn how engineering organizations, construction sites, plants and project teams work.</p><span class="internship-expand-label"><span class="closed-label">Open pathway details</span><span class="opened-label">Hide pathway details</span><b aria-hidden="true">⌄</b></span></summary>
+<div class="internship-card-details">
 <div class="jobs-examples"><strong>Organizations to explore</strong><ul><li>L&amp;T – Larsen &amp; Toubro</li><li>Tata Projects</li><li>Shapoorji Pallonji</li><li>BHEL – Bharat Heavy Electricals Limited</li></ul></div>
 <div class="jobs-examples"><strong>Possible exposure</strong><ul><li>Construction site workflow and supervision</li><li>Ready-mix concrete and material plants</li><li>Quality assurance and quality control</li><li>Safety practices and project coordination</li></ul></div>
-</article>
-<article class="jobs-category">
-<div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">📐</span><span class="jobs-pill">Skill development</span></div>
-<h3>Practical Learning</h3>
-<p>Build job-ready skills through guided practice, field activities and technical workshops.</p>
+</div>
+</details>
+<details class="jobs-category">
+<summary class="internship-card-summary"><div class="jobs-category-top"><span class="jobs-category-icon" aria-hidden="true">📐</span><span class="jobs-pill">Skill development</span></div><h3>Practical Learning</h3><p>Build job-ready skills through guided practice, field activities and technical workshops.</p><span class="internship-expand-label"><span class="closed-label">Open pathway details</span><span class="opened-label">Hide pathway details</span><b aria-hidden="true">⌄</b></span></summary>
+<div class="internship-card-details">
 <div class="jobs-examples"><strong>Practical skill areas</strong><ul><li>Surveying – Levelling and Total Station</li><li>AutoCAD – Civil drafting and drawings</li><li>BIM – Revit and model fundamentals</li><li>Hands-on training and workshops</li></ul></div>
 <div class="jobs-examples"><strong>Additional practice</strong><ul><li>Slump, cube and basic material tests</li><li>Measurement books, BOQ and estimation</li><li>Field measurements and site documentation</li></ul></div>
-</article>
+</div>
+</details>
 </div>
 </section>
 <section aria-labelledby="internship-how-title">

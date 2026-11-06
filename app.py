@@ -8260,11 +8260,15 @@ def internships():
                      last_date ASC NULLS LAST, organization ASC
         """).fetchall()
         source_leads = connection.execute("""
-            SELECT source_name, source_category, title, url, context, first_seen, last_seen
+            SELECT DISTINCT ON (LOWER(url))
+                   source_name, source_category, title, url, context, first_seen, last_seen
             FROM internship_source_leads
             WHERE review_status='REVIEW'
-            ORDER BY last_seen DESC, source_name ASC
-            LIMIT 60
+              AND title ~* '(internship|intern|trainee|apprentice|fellowship|training)'
+              AND title !~* '(login|register|all logins|at a glance|about cpwd|our works|hire interns|officer|highway domains|^railways$|^rural body$|^indian army$)'
+              AND url ~* '^https?://'
+            ORDER BY LOWER(url), last_seen DESC
+            LIMIT 12
         """).fetchall()
         source_status = connection.execute("""
             SELECT source_name, source_category, source_url, status, leads_found,

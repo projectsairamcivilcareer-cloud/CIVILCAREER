@@ -49,6 +49,23 @@ MONITORED_SOURCES = [
 # Existing verified notices retained; no student or test data is touched.
 SEED_NOTICES = [
     {
+        "notice_key": "life-mission-civil-engineering-intern-2026",
+        "organization": "LIFE MISSION, Government of Kerala (published through ASAP Kerala)",
+        "title": "Engineering Interns – LIFE MISSION",
+        "discipline": "Civil Engineering",
+        "qualification": "B.Tech Civil Engineering",
+        "location": "Thiruvananthapuram, Kerala",
+        "duration": "1 year",
+        "stipend": "₹10,000",
+        "last_date": "2026-11-10",
+        "notification_url": "https://asapkerala.gov.in/job/internship-vacancy-notification-life-mission/",
+        "apply_url": "https://careerlink.asapkerala.gov.in/internships/list/IN26092300179",
+        "updates_url": "https://asapkerala.gov.in/job/internship-vacancy-notification-life-mission/",
+        "source_name": "ASAP Kerala official vacancy notice",
+        "source_url": "https://asapkerala.gov.in/job/internship-vacancy-notification-life-mission/",
+        "summary": "2 vacancies for B.Tech Civil Engineering graduates. The published notice specifies a non-refundable application fee of ₹500 and screening that may include a written test and interview. Apply through the official application link before 10 November 2026.",
+    },
+    {
         "notice_key": "moefcc-internship-2026",
         "organization": "Ministry of Environment, Forest and Climate Change (MoEF&CC)",
         "title": "MoEF&CC Internship Scheme 2026",

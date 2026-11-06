@@ -294,6 +294,23 @@ body.cc-menu-page .resources-page{
 .resource-action-status{min-height:14px;margin:5px 0 0;color:#52657a;font-size:10px}
 @media(max-width:650px){.resource-actions a,.resource-actions button{min-height:42px;font-size:13px}}
 
+
+.reference-books-section{max-width:1040px;margin:0 auto 34px;padding:24px;background:#fff;border:1px solid #dbe3ea;border-radius:9px}
+.reference-books-heading{margin-bottom:18px}
+.reference-books-heading h2{margin:0 0 8px;color:#17324d;font-size:24px;line-height:1.35}
+.reference-books-heading p{margin:0;color:#627487;font-size:14px;line-height:1.7}
+.reference-table-wrap{width:100%;overflow-x:auto;border:1px solid #dce4ea;border-radius:6px}
+.reference-books-table{width:100%;border-collapse:collapse;min-width:720px;background:#fff}
+.reference-books-table th{padding:13px 12px;background:#17324d;color:#fff;text-align:left;font-size:12px;letter-spacing:.04em;white-space:nowrap}
+.reference-books-table td{padding:12px;border-bottom:1px solid #e7edf2;color:#334b60;font-size:13px;line-height:1.55;vertical-align:top}
+.reference-books-table tbody tr:nth-child(even){background:#f7f9fb}
+.reference-books-table tbody tr:last-child td{border-bottom:0}
+.reference-books-table td:first-child{width:62px;color:#2f6f9f;font-weight:800;font-variant-numeric:tabular-nums}
+.reference-books-table td:nth-child(2){min-width:185px;font-weight:700;color:#17324d}
+.reference-books-table td:nth-child(3){min-width:115px;white-space:nowrap}
+.reference-books-note{margin:13px 0 0;color:#718096;font-size:12px;line-height:1.65}
+@media(max-width:650px){.reference-books-section{padding:16px;margin-bottom:26px}.reference-books-heading h2{font-size:21px}}
+
 </style>
 </head>
 <body>
@@ -302,6 +319,43 @@ body.cc-menu-page .resources-page{
     <img src="{{ url_for('static', filename='images/civil-career-icon.svg') }}" alt="Civil Career">
     <span class="resources-brand-name">CIVIL CAREER</span>
 </section><section class="resources-intro"><div class="resources-kicker">Civil Career · Recommended Resources</div><h1>Resources for Civil Engineering Preparation</h1><p>Selected books and study references for GATE, SSC JE and core Civil Engineering subjects. These resources are separate from mock tests so your exam practice stays focused.</p></section>
+
+<section class="reference-books-section" aria-labelledby="referenceBooksTitle">
+    <div class="reference-books-heading">
+        <div class="resources-kicker">Reference Materials / TextBooks</div>
+        <h2 id="referenceBooksTitle">Civil Engineering Reference Books</h2>
+        <p>Subject-wise reference books for Diploma, B.Tech, GATE and competitive examination preparation. Use the volume details shown where a book is commonly published in multiple volumes.</p>
+    </div>
+    <div class="reference-table-wrap">
+        <table class="reference-books-table">
+            <thead><tr><th scope="col">S.NO</th><th scope="col">SUBJECT</th><th scope="col">VOLUME</th><th scope="col">REFERENCE &amp; AUTHORS</th></tr></thead>
+            <tbody>
+                <tr><td>01</td><td>Engineering Mathematics</td><td>—</td><td>Higher Engineering Mathematics — B. S. Grewal</td></tr>
+                <tr><td>02</td><td>Engineering Mechanics</td><td>—</td><td>Engineering Mechanics — S. Timoshenko and D. H. Young</td></tr>
+                <tr><td>03</td><td>Strength of Materials</td><td>—</td><td>A Textbook of Strength of Materials — R. K. Bansal</td></tr>
+                <tr><td>04</td><td>Structural Analysis</td><td>—</td><td>Structural Analysis — S. S. Bhavikatti</td></tr>
+                <tr><td>05</td><td>Reinforced Concrete Design</td><td>—</td><td>Design of Reinforced Concrete Structures — S. Ramamrutham</td></tr>
+                <tr><td>06</td><td>Steel Structures</td><td>—</td><td>Limit State Design of Steel Structures — S. K. Duggal</td></tr>
+                <tr><td>07</td><td>Building Materials &amp; Construction</td><td>—</td><td>Engineering Materials — S. C. Rangwala; Building Construction — B. C. Punmia</td></tr>
+                <tr><td>08</td><td>Surveying</td><td>Vol. I, II &amp; III</td><td>Surveying — B. C. Punmia, Ashok Kumar Jain and Arun Kumar Jain</td></tr>
+                <tr><td>09</td><td>Fluid Mechanics</td><td>—</td><td>A Textbook of Fluid Mechanics and Hydraulic Machines — R. K. Bansal</td></tr>
+                <tr><td>10</td><td>Hydrology &amp; Water Resources</td><td>—</td><td>Engineering Hydrology — K. Subramanya</td></tr>
+                <tr><td>11</td><td>Irrigation Engineering</td><td>—</td><td>Irrigation Engineering and Hydraulic Structures — S. K. Garg</td></tr>
+                <tr><td>12</td><td>Geotechnical Engineering</td><td>—</td><td>Basic and Applied Soil Mechanics — Gopal Ranjan and A. S. R. Rao</td></tr>
+                <tr><td>13</td><td>Foundation Engineering</td><td>—</td><td>Soil Mechanics and Foundation Engineering — B. C. Punmia, Ashok Kumar Jain and Arun Kumar Jain</td></tr>
+                <tr><td>14</td><td>Concrete Technology</td><td>—</td><td>Concrete Technology — M. S. Shetty</td></tr>
+                <tr><td>15</td><td>Transportation Engineering</td><td>Vol. I &amp; II</td><td>Highway Engineering — Khanna, Justo and Veeraragavan</td></tr>
+                <tr><td>16</td><td>Railway &amp; Airport Engineering</td><td>—</td><td>Transportation Engineering — C. J. Khisty and B. K. Lall</td></tr>
+                <tr><td>17</td><td>Environmental Engineering</td><td>Vol. I &amp; II</td><td>Environmental Engineering — S. K. Garg</td></tr>
+                <tr><td>18</td><td>Estimation &amp; Costing</td><td>—</td><td>Estimating, Costing, Specification and Valuation in Civil Engineering — M. Chakraborti</td></tr>
+                <tr><td>19</td><td>Construction Planning &amp; Management</td><td>—</td><td>Construction Planning and Management — B. C. Punmia, K. K. Khandelwal</td></tr>
+                <tr><td>20</td><td>GATE / Competitive Exam Preparation</td><td>As per subject</td><td>GATE Civil Engineering Previous Years' Solved Papers — subject-wise editions from established exam-preparation publishers</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="reference-books-note">Note: This is a recommended reading list, not a prescribed or mandatory textbook list. Edition, volume division and title wording may differ between publishers and reprints. Follow your university syllabus, applicable codes and the latest official examination syllabus.</p>
+</section>
+
 <section class="resources-tools" aria-label="Resource search and category filters">
     <label>
         <span class="sr-only">Search resources</span>

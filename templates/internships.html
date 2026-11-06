@@ -41,6 +41,25 @@
 @media(max-width:1000px){.internship-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.internship-hero{grid-template-columns:minmax(0,1fr) 130px}}
 @media(max-width:680px){.dashboard-main{padding:16px!important}.internship-top{align-items:flex-start;flex-direction:column}.internship-student{white-space:normal}.internship-hero{grid-template-columns:1fr;padding:24px;border-radius:18px}.internship-art{display:none}.internship-grid{grid-template-columns:1fr}.internship-card{padding:21px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.internship-open-list{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-top:18px}
+.internship-open-card{border:1px solid #dbe3ee;border-radius:14px;background:#fff;padding:19px;box-shadow:0 4px 14px rgba(15,35,68,.04)}
+.internship-open-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding-bottom:13px;border-bottom:1px solid #e9eef5}
+.internship-open-head h4{font-size:17px;color:#102747;margin:0 0 5px}
+.internship-open-org{font-size:13px;color:#64748b;margin:0}
+.internship-open-status{flex:none;font-size:11px;font-weight:800;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;padding:6px 9px;border-radius:20px}
+.internship-open-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+.internship-open-fact{background:#f8fafc;border:1px solid #eef2f7;border-radius:9px;padding:10px}
+.internship-open-fact small{display:block;color:#64748b;font-size:11px;margin-bottom:4px}
+.internship-open-fact strong{font-size:13px;color:#243b5a;line-height:1.45}
+.internship-open-summary{font-size:13px;line-height:1.65;color:#475569;margin:0 0 14px}
+.internship-open-actions{display:flex;flex-wrap:wrap;gap:10px}
+.internship-open-actions a{display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border-radius:8px;font-size:13px;font-weight:800;text-decoration:none}
+.internship-apply{background:#174a82;color:#fff}
+.internship-official{background:#eff6ff;color:#174a82;border:1px solid #bfdbfe}
+.internship-open-empty{margin-top:16px;padding:14px;border:1px dashed #cbd5e1;border-radius:11px;background:#f8fafc;color:#64748b;font-size:13px;line-height:1.6}
+@media(max-width:600px){.internship-open-facts{grid-template-columns:1fr 1fr}.internship-open-head{flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -62,6 +81,35 @@
 <h3>Civil Related</h3>
 <p>Internships focused on core Civil Engineering disciplines and the technical work involved in planning, design, construction and infrastructure projects.</p>
 <div class="internship-points"><strong>Possible learning areas</strong><ul><li>Structural and architectural drawings</li><li>Surveying and quantity estimation</li><li>Concrete technology and materials testing</li><li>Highways, buildings and water resources</li></ul></div>
+<div class="internship-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 8px">
+<strong style="font-size:15px;color:#102747">Currently Open Civil Internships</strong>
+<span style="font-size:11px;color:#166534;font-weight:800;background:#dcfce7;padding:6px 9px;border-radius:20px">Verified listings</span>
+</div>
+<div class="internship-open-list">
+{% set open_civil_count = namespace(value=0) %}
+{% for notice in notices|default([]) %}
+{% if notice.status == 'OPEN' and ('civil' in ((notice.discipline or '') ~ ' ' ~ (notice.qualification or '') ~ ' ' ~ (notice.title or '') ~ ' ' ~ (notice.summary or '')).lower()) %}
+{% set open_civil_count.value = open_civil_count.value + 1 %}
+<article class="internship-open-card">
+<div class="internship-open-head"><div><h4>{{ notice.title }}</h4><p class="internship-open-org">{{ notice.organization }}</p></div><span class="internship-open-status">APPLICATIONS OPEN</span></div>
+<div class="internship-open-facts">
+<div class="internship-open-fact"><small>Eligibility</small><strong>{{ notice.qualification or 'See official notice' }}</strong></div>
+<div class="internship-open-fact"><small>Location</small><strong>{{ notice.location or 'See official notice' }}</strong></div>
+<div class="internship-open-fact"><small>Duration</small><strong>{{ notice.duration or 'See official notice' }}</strong></div>
+<div class="internship-open-fact"><small>Stipend</small><strong>{{ notice.stipend or 'Not specified' }}</strong></div>
+<div class="internship-open-fact"><small>Last date</small><strong>{{ notice.last_date.strftime('%d %B %Y') if notice.last_date else 'Check official notice' }}</strong></div>
+<div class="internship-open-fact"><small>Discipline</small><strong>{{ notice.discipline or 'Civil Engineering' }}</strong></div>
+</div>
+<p class="internship-open-summary">{{ notice.summary }}</p>
+<div class="internship-open-actions">
+{% if notice.apply_url %}<a class="internship-apply" href="{{ notice.apply_url }}" target="_blank" rel="noopener noreferrer">Apply Now ↗</a>{% endif %}
+{% if notice.notification_url %}<a class="internship-official" href="{{ notice.notification_url }}" target="_blank" rel="noopener noreferrer">Official Notice ↗</a>{% endif %}
+</div>
+</article>
+{% endif %}
+{% endfor %}
+{% if open_civil_count.value == 0 %}<div class="internship-open-empty">No currently open Civil Engineering internship has been verified in the latest published records. Check back for new official notices.</div>{% endif %}
+</div>
 </article>
 <article class="internship-card">
 <div class="internship-card-top"><span class="internship-icon" aria-hidden="true">🏭</span><span class="internship-tag">Workplace exposure</span></div>

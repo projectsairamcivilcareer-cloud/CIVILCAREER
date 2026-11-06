@@ -88,7 +88,7 @@
 <div class="internship-open-list">
 {% set open_civil_count = namespace(value=0) %}
 {% for notice in notices|default([]) %}
-{% if notice.status == 'OPEN' and ('civil' in ((notice.discipline or '') ~ ' ' ~ (notice.qualification or '') ~ ' ' ~ (notice.title or '') ~ ' ' ~ (notice.summary or '')).lower()) %}
+{% if (notice.status or '')|trim|upper == 'OPEN' and ('civil' in ((notice.discipline or '') ~ ' ' ~ (notice.qualification or '') ~ ' ' ~ (notice.title or '') ~ ' ' ~ (notice.organization or '') ~ ' ' ~ (notice.summary or '')).lower()) %}
 {% set open_civil_count.value = open_civil_count.value + 1 %}
 <article class="internship-open-card">
 <div class="internship-open-head"><div><h4>{{ notice.title }}</h4><p class="internship-open-org">{{ notice.organization }}</p></div><span class="internship-open-status">APPLICATIONS OPEN</span></div>

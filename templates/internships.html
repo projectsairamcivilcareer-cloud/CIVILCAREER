@@ -38,6 +38,17 @@
 .internship-disclaimer{margin-top:24px;padding:15px 17px;background:#fff8eb;border:1px solid #f0d7a8;border-radius:9px;color:#76521b;font-size:12px;line-height:1.65}
 @media(max-width:1100px){.internship-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.dashboard-main{padding:15px!important}.internship-head{align-items:flex-start;flex-direction:column}.internship-card{padding:18px}.internship-card-head{flex-direction:column;gap:10px}.internship-facts{grid-template-columns:1fr}.internship-fact{padding:13px 0}.internship-actions{display:grid;grid-template-columns:1fr}.internship-actions a{width:100%;box-sizing:border-box}}
+
+.internship-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 28px}
+.internship-category-card{appearance:none;text-align:left;width:100%;cursor:pointer;background:#fff;border:1px solid #dbe3ee;border-top:4px solid #245b91;border-radius:10px;padding:18px 19px;min-height:116px;transition:border-color .18s ease,box-shadow .18s ease}
+.internship-category-card:hover,.internship-category-card.active{border-color:#245b91;box-shadow:0 5px 16px rgba(15,35,68,.08)}
+.internship-category-card strong{display:block;color:#15365d;font-size:16px;margin-bottom:7px}
+.internship-category-card span{display:block;color:#64748b;font-size:12px;line-height:1.5}
+.internship-category-card em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#245b91;margin-top:10px}
+.internship-card[hidden]{display:none!important}
+.internship-filter-note{font-size:12px;color:#64748b;margin:-12px 0 14px}
+@media(max-width:700px){.internship-category-grid{grid-template-columns:1fr}.internship-category-card{min-height:0}}
+
 </style>
 </head>
 <body>
@@ -47,11 +58,22 @@
 {% set open_notices = notices|selectattr('status','equalto','OPEN')|list %}
 {% set upcoming_notices = notices|selectattr('status','equalto','UPCOMING')|list %}
 {% set closed_notices = notices|selectattr('status','equalto','CLOSED')|list %}
+{% macro internship_category(item) -%}
+{% set text = ((item.organization or '') ~ ' ' ~ (item.title or '') ~ ' ' ~ (item.summary or '') ~ ' ' ~ (item.discipline or '') ~ ' ' ~ (item.source_name or ''))|lower %}
+{% if 'internshala' in text or 'linkedin' in text or 'indeed' in text or 'naukri' in text or 'training' in text or 'workshop' in text or 'survey' in text or 'autocad' in text or 'bim' in text or 'field visit' in text or 'practical' in text %}
+practical-learning
+{% elif 'larsen' in text or 'toubro' in text or 'l&t' in text or 'tata project' in text or 'shapoorji' in text or 'bhel' in text or 'ntpc' in text or 'industrial' in text or 'plant' in text or 'factory' in text %}
+industrial-exposure
+{% else %}
+civil-related
+{% endif %}
+{%- endmacro %}
+
 <section>
 <div class="internship-section-title"><h2>Open internships</h2><span class="internship-count">{{ open_notices|length }} opportunities</span></div>
 {% if open_notices %}<div class="internship-list">
 {% for item in open_notices %}
-<article class="internship-card">
+<article class="internship-card" data-internship-category="{{ internship_category(item)|trim }}">
 <div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-open">OPEN</span></div>
 <p class="internship-summary">{{ item.summary }}</p>
 <dl class="internship-facts">
@@ -72,7 +94,7 @@
 </article>{% endfor %}</div>{% else %}<div class="internship-empty">No verified open internship notification is currently listed. Check again after the next official update.</div>{% endif %}
 </section>
 {% if upcoming_notices %}<section><div class="internship-section-title"><h2>Upcoming internships</h2><span class="internship-count">{{ upcoming_notices|length }} opportunities</span></div><div class="internship-list">
-{% for item in upcoming_notices %}<article class="internship-card"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-upcoming">UPCOMING</span></div><p class="internship-summary">{{ item.summary }}</p><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div></article>{% endfor %}</div></section>{% endif %}
+{% for item in upcoming_notices %}<article class="internship-card" data-internship-category="{{ internship_category(item)|trim }}"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-upcoming">UPCOMING</span></div><p class="internship-summary">{{ item.summary }}</p><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div></article>{% endfor %}</div></section>{% endif %}
 {% if closed_notices %}<section><div class="internship-section-title"><h2>Closed / Previous notifications</h2><span class="internship-count">{{ closed_notices|length }} notices</span></div><div class="internship-list">
 {% for item in closed_notices %}<article class="internship-card"><div class="internship-card-head"><div><div class="internship-org">{{ item.organization }}</div><h3>{{ item.title }}</h3></div><span class="internship-status status-closed">CLOSED</span></div><p class="internship-summary">{{ item.summary }}</p><dl class="internship-facts"><div class="internship-fact"><dt>Discipline</dt><dd>{{ item.discipline or 'See official notice' }}</dd></div><div class="internship-fact"><dt>Last date</dt><dd>{{ item.last_date|date_dmy if item.last_date else 'Not announced' }}</dd></div><div class="internship-fact"><dt>Duration</dt><dd>{{ item.duration or 'See official notice' }}</dd></div><div class="internship-fact"><dt>Stipend</dt><dd>{{ item.stipend or 'Not announced' }}</dd></div></dl><div class="internship-actions">{% if item.notification_url %}<a href="{{ item.notification_url }}" target="_blank" rel="noopener">Official Notification</a>{% endif %}{% if item.updates_url %}<a href="{{ item.updates_url }}" target="_blank" rel="noopener">Official Updates</a>{% endif %}</div><div class="internship-source">Source: <a href="{{ item.source_url }}" target="_blank" rel="noopener">{{ item.source_name or 'Official website' }}</a></div></article>{% endfor %}</div></section>{% endif %}
 <section>
@@ -99,5 +121,28 @@
 </section>
 <aside class="internship-disclaimer"><strong>Important:</strong> Details are taken from the linked official announcement or portal. Eligibility, stipend, dates and selection depend on the organization. Verify the latest notice before applying. Never pay unofficial agents. Admit-card or result buttons will be displayed only after an official link is published.</aside>
 </div></main>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+ const buttons=Array.from(document.querySelectorAll('[data-internship-filter]'));
+ const listings=Array.from(document.querySelectorAll('.internship-card[data-internship-category]'));
+ const note=document.getElementById('internship-filter-note');
+ function applyFilter(category){
+  let visible=0;
+  listings.forEach(function(card){
+   const show=category==='all'||card.dataset.internshipCategory===category;
+   card.hidden=!show;
+   if(show) visible++;
+  });
+  buttons.forEach(function(button){const active=button.dataset.internshipFilter===category;button.classList.toggle('active',active);button.setAttribute('aria-pressed',active?'true':'false');});
+  if(note) note.textContent=category==='all'?'Showing all internship opportunities. Select a category to filter the listings.':('Showing '+visible+' matching opportunities. Select Civil Related to view all categories.');
+ }
+ buttons.forEach(function(button){button.addEventListener('click',function(){applyFilter(button.dataset.internshipFilter);});});
+ ['civil-related','industrial-exposure','practical-learning'].forEach(function(category){
+  const count=listings.filter(function(card){return card.dataset.internshipCategory===category;}).length;
+  const target=document.querySelector('[data-category-count="'+category+'"]');if(target) target.textContent=count;
+ });
+ applyFilter('all');
+});
+</script>
 <script src="{{ url_for('static', filename='js/dedupe-actions.js') }}?v=20260929a" defer></script>
 </body></html>

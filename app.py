@@ -8267,30 +8267,10 @@ def internships():
         except Exception:
             app.logger.exception("Internships page: failed to load official internship notices")
 
-        try:
-            source_leads = connection.execute("""
-                SELECT DISTINCT ON (LOWER(url))
-                       source_name, source_category, title, url, context, first_seen, last_seen
-                FROM internship_source_leads
-                WHERE review_status='REVIEW'
-                  AND title ~* '(internship|intern|trainee|apprentice|fellowship|training)'
-                  AND title !~* '(login|register|all logins|at a glance|about cpwd|our works|hire interns|officer|highway domains|^railways$|^rural body$|^indian army$)'
-                  AND url ~* '^https?://'
-                ORDER BY LOWER(url), last_seen DESC
-                LIMIT 12
-            """).fetchall()
-        except Exception:
-            app.logger.exception("Internships page: failed to load internship review leads")
-
-        try:
-            source_status = connection.execute("""
-                SELECT source_name, source_category, source_url, status, leads_found,
-                       last_checked, last_error
-                FROM internship_source_status
-                ORDER BY source_category, source_name
-            """).fetchall()
-        except Exception:
-            app.logger.exception("Internships page: failed to load internship source status")
+        # Monitoring leads/status are not required by the public-facing page.
+        # Keep empty defaults so optional source tables cannot break page rendering.
+        source_leads = []
+        source_status = []
     finally:
         connection.close()
     return render_template(

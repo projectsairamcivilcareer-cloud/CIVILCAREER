@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Recommended Civil Engineering books and study resources from Civil Career.">
+    <meta name="description" content="Civil Career recommended Civil Engineering books, calculators, drawing tools and site-safety resources.">
     <title>Recommended Resources | Civil Career</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/civil-career-icon.svg') }}">
@@ -825,6 +825,9 @@ body{background:#f5f6f7}
 .resources-empty{max-width:1080px;margin:16px auto 0;border-radius:4px}
 @media(max-width:980px){.resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.resources-intro{padding:21px 18px}.resources-intro h1{font-size:27px}.resources-products-heading h2{font-size:19px}.resource-grid{grid-template-columns:1fr}.resource-card .resource-image{height:135px}}
+
+.resource-images-unavailable{display:flex;align-items:center;justify-content:center;min-height:110px;color:#7b8994;font-size:12px;text-align:center}
+.resource-images-unavailable img{display:none!important}
 </style>
 </head>
 <body>
@@ -845,21 +848,20 @@ body{background:#f5f6f7}
 <section class="resources-tools" aria-label="Resource search and category filters">
     <label>
         <span class="sr-only">Search resources</span>
-        <input id="resourceSearch" class="resources-search" type="search" placeholder="Search books, exams, subjects or calculators..." autocomplete="off">
+        <input id="resourceSearch" class="resources-search" type="search" placeholder="Search books, exams, tools or products..." autocomplete="off">
     </label>
     <label>
         <span class="sr-only">Filter by category</span>
         <select id="resourceCategory" class="resources-category">
             <option value="all">All categories</option>
             <option value="gate">GATE</option>
-            <option value="ssc-je">SSC JE</option>
             <option value="core-civil">Core Civil</option>
             <option value="calculator">Calculator</option>
         </select>
     </label>
 </section>
 <div id="resourceResult" class="resources-result" aria-live="polite"></div>
-<section class="resource-grid" aria-label="Recommended resources"><article class="resource-card" data-amazon-url="https://www.amazon.in/GATE-Civil-Engineering-2026-1996-2025/dp/B0F2YX2CKC?crid=19FNQ1T1BRMWI&dib=eyJ2IjoiMSJ9.F8Et-Z2Re0GadlTi9MhmsWFn9J489vF5G-L8tCBcpRt_OVntjALiNvUC6LnYQvHlYIUmMAfsvX1gwkw-uCVv9-mgRW1VqNxGn1YG5E1DYNyJpYFwP-jcy3PJgSpVzTg1-tszCSzAxtxApU56STZVcgkMyyT5X4IyLUpYjSZiL2DTxxzF5QLB4ewK0T0I06XiL1dttzLqGrMupfqlQS6oxSU0gjytVrYoiwp_ZXsPtaU.AFHSpLjb0HPLErrPhoVemUvI0lTAHeD-b62gECZwvy8&dib_tag=se&keywords=gate+2027+civil+engineering+book+english&qid=1790939856&sprefix=gate+2027+civil+engineering+book+english%2Caps%2C438&sr=8-2&linkCode=ll2&tag=civilcareer-21&linkId=1b3313639f4f1536c49915f512ce1626&ref_=as_li_ss_tl" data-category="gate" data-search="gate 2027 civil engineering 31 years previous year solved papers pyqs 1996 2026 ifas publications"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/51w6MWasYIL._SY445_SX342_FMwebp_.jpg" alt="GATE Civil Engineering solved previous-year question book cover" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/81O4MVX6-IL._SL1500_.jpg" alt="GATE Civil Engineering solved-paper book product view" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/81OawtIYhhL._SL1500_.jpg" alt="GATE Civil Engineering book additional product view" loading="lazy"></div><div class="resource-type">GATE · Civil Engineering</div><div class="resource-badge">Popular</div><h2>GATE 2027 Civil Engineering — 31 Years PYQs</h2><p>IFAS Publications’ GATE Civil Engineering previous-year solved-paper book. The current product identity lists 31 years of papers (1996–2026); confirm the printed edition and contents on Amazon before ordering.</p><div class="resource-meta"><span>GATE CE</span><span>1996–2026 PYQs</span><span>IFAS Publications</span></div>
+<section class="resource-grid" aria-label="Recommended resources"><article class="resource-card" data-amazon-url="https://www.amazon.in/GATE-Civil-Engineering-2026-1996-2025/dp/B0F2YX2CKC?crid=19FNQ1T1BRMWI&dib=eyJ2IjoiMSJ9.F8Et-Z2Re0GadlTi9MhmsWFn9J489vF5G-L8tCBcpRt_OVntjALiNvUC6LnYQvHlYIUmMAfsvX1gwkw-uCVv9-mgRW1VqNxGn1YG5E1DYNyJpYFwP-jcy3PJgSpVzTg1-tszCSzAxtxApU56STZVcgkMyyT5X4IyLUpYjSZiL2DTxxzF5QLB4ewK0T0I06XiL1dttzLqGrMupfqlQS6oxSU0gjytVrYoiwp_ZXsPtaU.AFHSpLjb0HPLErrPhoVemUvI0lTAHeD-b62gECZwvy8&dib_tag=se&keywords=gate+2027+civil+engineering+book+english&qid=1790939856&sprefix=gate+2027+civil+engineering+book+english%2Caps%2C438&sr=8-2&linkCode=ll2&tag=civilcareer-21&linkId=1b3313639f4f1536c49915f512ce1626&ref_=as_li_ss_tl" data-category="gate" data-search="gate 2027 civil engineering 31 years previous year solved papers pyqs 1996 2026 ifas publications"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/51w6MWasYIL._SY445_SX342_FMwebp_.jpg" alt="GATE 2027 Civil Engineering — 31 Years PYQs — product view 1" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/81O4MVX6-IL._SL1500_.jpg" alt="GATE 2027 Civil Engineering — 31 Years PYQs — product view 2" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/81OawtIYhhL._SL1500_.jpg" alt="GATE 2027 Civil Engineering — 31 Years PYQs — product view 3" loading="lazy"></div><div class="resource-type">GATE · Civil Engineering</div><div class="resource-badge">Popular</div><h2>GATE 2027 Civil Engineering — 31 Years PYQs</h2><p>IFAS Publications’ GATE Civil Engineering previous-year solved-paper book. The current product identity lists 31 years of papers (1996–2026); confirm the printed edition and contents on Amazon before ordering.</p><div class="resource-meta"><span>GATE CE</span><span>1996–2026 PYQs</span><span>IFAS Publications</span></div>
 <div class="resource-pricing" aria-label="Amazon price information">
     <div class="resource-price-row"><span>Actual selling price</span><strong class="price-muted" data-price-current>Check price on Amazon</strong></div>
     <div class="resource-price-row"><span>Original price / MRP</span><strong class="price-muted" data-price-original>Not available yet</strong></div>
@@ -873,7 +875,7 @@ body{background:#f5f6f7}
 </div>
 <p class="resource-action-status" aria-live="polite"></p>
 
-</article><article class="resource-card" data-amazon-url="https://www.amazon.in/Engineering-Architect-Instrument-Technical-Protective/dp/B0CQK5467L?crid=3MBFTWLQ2XBNN&dib=eyJ2IjoiMSJ9.4hiiLBSVlP25B49vBv532SVNsQvNVwc91JaW9mQeAjpjw-viaqogObRMePowBVMrTnnDVjmLx7LLFDoXurEHgrB7U1KwmsBr6LG0HGHdujdSP0xoyOO13jMLcqJic-OMJeGC6KGX2ku52MB5A9qppXYvO27JWJdcpP_oIR4bw-r-o6N4B-8U3XBzb-LsnCqJ1fbb1hnGyNXndVUXJAFJrBIR1atRfPtu38HPgRETCMGgFZgDtOo_gl1EV7ckixbeXws9l5wWSDSWvE1ebVA8DESDUC99bWAyguAqZduzrSo.zwzEIXpDD4lq7vmLF7SV3gN5DQxlCNsA4RYum8U6pOc&dib_tag=se&keywords=civil+engineering+products%2Fequipment%2Finstrument&qid=1790959888&refinements=p_n_condition-type%3A8609960031&rnid=8609959031&sprefix=civil+engineering+products%2Fequipment%2Binstrument%2Caps%2C799&sr=8-9&linkCode=ll2&tag=civilcareer-21&linkId=e45ce0483b62f7a51f877f3337b634f7&ref_=as_li_ss_tl" data-category="core-civil" data-search="engineering architect instrument technical protective civil engineering drawing architecture instrument kit"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/61TRyhB7SAL._SL1445_.jpg" alt="GATE Civil Engineering solved previous-year question book cover" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/41EMxIli7bL.jpg" alt="GATE Civil Engineering solved-paper book product view" loading="lazy"></div><div class="resource-type">Civil Engineering · Instruments</div><h2>Technical Drawing Instrument Set</h2><p>Marketplace listing for an engineering and architectural drawing kit. Check the included instruments, scale accuracy, material and case contents on the seller’s page before purchase.</p><div class="resource-meta"><span>Technical Drawing</span><span>Drafting Practice</span><span>Kit Contents to Confirm</span></div>
+</article><article class="resource-card" data-amazon-url="https://www.amazon.in/Engineering-Architect-Instrument-Technical-Protective/dp/B0CQK5467L?crid=3MBFTWLQ2XBNN&dib=eyJ2IjoiMSJ9.4hiiLBSVlP25B49vBv532SVNsQvNVwc91JaW9mQeAjpjw-viaqogObRMePowBVMrTnnDVjmLx7LLFDoXurEHgrB7U1KwmsBr6LG0HGHdujdSP0xoyOO13jMLcqJic-OMJeGC6KGX2ku52MB5A9qppXYvO27JWJdcpP_oIR4bw-r-o6N4B-8U3XBzb-LsnCqJ1fbb1hnGyNXndVUXJAFJrBIR1atRfPtu38HPgRETCMGgFZgDtOo_gl1EV7ckixbeXws9l5wWSDSWvE1ebVA8DESDUC99bWAyguAqZduzrSo.zwzEIXpDD4lq7vmLF7SV3gN5DQxlCNsA4RYum8U6pOc&dib_tag=se&keywords=civil+engineering+products%2Fequipment%2Finstrument&qid=1790959888&refinements=p_n_condition-type%3A8609960031&rnid=8609959031&sprefix=civil+engineering+products%2Fequipment%2Binstrument%2Caps%2C799&sr=8-9&linkCode=ll2&tag=civilcareer-21&linkId=e45ce0483b62f7a51f877f3337b634f7&ref_=as_li_ss_tl" data-category="core-civil" data-search="engineering architect instrument technical protective civil engineering drawing architecture instrument kit"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/61TRyhB7SAL._SL1445_.jpg" alt="Technical Drawing Instrument Set — product view 1" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/41EMxIli7bL.jpg" alt="Technical Drawing Instrument Set — product view 2" loading="lazy"></div><div class="resource-type">Civil Engineering · Instruments</div><h2>Technical Drawing Instrument Set</h2><p>Marketplace listing for an engineering and architectural drawing kit. Check the included instruments, scale accuracy, material and case contents on the seller’s page before purchase.</p><div class="resource-meta"><span>Technical Drawing</span><span>Drafting Practice</span><span>Kit Contents to Confirm</span></div>
 <div class="resource-pricing" aria-label="Amazon price information">
     <div class="resource-price-row"><span>Actual selling price</span><strong class="price-muted" data-price-current>Check price on Amazon</strong></div>
     <div class="resource-price-row"><span>Original price / MRP</span><strong class="price-muted" data-price-original>Not available yet</strong></div>
@@ -887,7 +889,7 @@ body{background:#f5f6f7}
 </div>
 <p class="resource-action-status" aria-live="polite"></p>
 
-</article><article class="resource-card" data-amazon-url="https://www.amazon.in/Casio-FX-991ES-Plus-2nd-Scientific-Calculator/dp/B0846D5CBP?crid=7MJNJBEKAIQ0&dib=eyJ2IjoiMSJ9.OC6QCpUbjW_1Vju0HNYt6LgwwJV68QqSKaiSmIDdAj1eHrTccFuYsvOVPD8qPdlpet5isIe2yAGe7wRstes15By7FN3En-H16CdHqDIHdORUUzHTqEEX6cRAaaPOUGV5rNtbJ2nZ0d1TXQCUSR9vAUlEiNafi6XNrV8XuV_kwMX6ZJMvpeuzfx8lQQjOnnqbfj-6rIK-ooOaG8sDMgrA-N0_InKEag_dxqQQRV4_5Zg.pkgUz_99yr1_q817Y1-c4PZbkXEHFo2rV90dD4IvKyc&dib_tag=se&keywords=casio+calculator+original+fx-991ms&qid=1790943881&sprefix=casio+calculator+original+%2Caps%2C388&sr=8-12&linkCode=ll2&tag=civilcareer-21&linkId=da012cbb73f8c9547b678298472a2f0f&ref_=as_li_ss_tl" data-category="calculator" data-search="casio fx 991es plus 2nd edition scientific calculator non programmable civil engineering exam numerical calculations"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/61IujYL0JTL._SL1500_.jpg" alt="GATE Civil Engineering solved previous-year question book cover" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/71v5oxTk7UL._SL1500_.jpg" alt="GATE Civil Engineering solved-paper book product view" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/71r9gGskA-L._SL1500_.jpg" alt="GATE Civil Engineering book additional product view" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/819RgdnOOhL._SL1500_.jpg" alt="Casio FX-991ES PLUS-2 scientific calculator product view" loading="lazy"></div><h2>Casio FX-991ES PLUS 2nd Edition Scientific Calculator</h2><p>Casio FX-991ES PLUS-2nd Edition non-programmable scientific calculator with Natural Textbook Display and 417 functions.</p><div class="resource-meta"><span>FX-991ES PLUS-2</span><span>417 Functions</span><span>Non-Programmable</span><span>3-Year Warranty</span></div>
+</article><article class="resource-card" data-amazon-url="https://www.amazon.in/Casio-FX-991ES-Plus-2nd-Scientific-Calculator/dp/B0846D5CBP?crid=7MJNJBEKAIQ0&dib=eyJ2IjoiMSJ9.OC6QCpUbjW_1Vju0HNYt6LgwwJV68QqSKaiSmIDdAj1eHrTccFuYsvOVPD8qPdlpet5isIe2yAGe7wRstes15By7FN3En-H16CdHqDIHdORUUzHTqEEX6cRAaaPOUGV5rNtbJ2nZ0d1TXQCUSR9vAUlEiNafi6XNrV8XuV_kwMX6ZJMvpeuzfx8lQQjOnnqbfj-6rIK-ooOaG8sDMgrA-N0_InKEag_dxqQQRV4_5Zg.pkgUz_99yr1_q817Y1-c4PZbkXEHFo2rV90dD4IvKyc&dib_tag=se&keywords=casio+calculator+original+fx-991ms&qid=1790943881&sprefix=casio+calculator+original+%2Caps%2C388&sr=8-12&linkCode=ll2&tag=civilcareer-21&linkId=da012cbb73f8c9547b678298472a2f0f&ref_=as_li_ss_tl" data-category="calculator" data-search="casio fx 991es plus 2nd edition scientific calculator non programmable civil engineering exam numerical calculations"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/61IujYL0JTL._SL1500_.jpg" alt="Casio FX-991ES PLUS 2nd Edition Scientific Calculator — product view 1" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/71v5oxTk7UL._SL1500_.jpg" alt="Casio FX-991ES PLUS 2nd Edition Scientific Calculator — product view 2" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/71r9gGskA-L._SL1500_.jpg" alt="Casio FX-991ES PLUS 2nd Edition Scientific Calculator — product view 3" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/819RgdnOOhL._SL1500_.jpg" alt="Casio FX-991ES PLUS 2nd Edition Scientific Calculator — product view 4" loading="lazy"></div><h2>Casio FX-991ES PLUS 2nd Edition Scientific Calculator</h2><p>Casio FX-991ES PLUS-2nd Edition non-programmable scientific calculator with Natural Textbook Display and 417 functions.</p><div class="resource-meta"><span>FX-991ES PLUS-2</span><span>417 Functions</span><span>Non-Programmable</span><span>3-Year Warranty</span></div>
 <div class="resource-pricing" aria-label="Amazon price information">
     <div class="resource-price-row"><span>Actual selling price</span><strong class="price-muted" data-price-current>Check price on Amazon</strong></div>
     <div class="resource-price-row"><span>Original price / MRP</span><strong class="price-muted" data-price-original>Not available yet</strong></div>
@@ -901,7 +903,7 @@ body{background:#f5f6f7}
 </div>
 <p class="resource-action-status" aria-live="polite"></p>
 
-</article><article class="resource-card" data-amazon-url="https://www.amazon.in/Casio-Non-Programmable-Scientific-Calculator-Functions/dp/B07TTGZWS1?crid=7MJNJBEKAIQ0&dib=eyJ2IjoiMSJ9.OC6QCpUbjW_1Vju0HNYt6LgwwJV68QqSKaiSmIDdAj1eHrTccFuYsvOVPD8qPdlpet5isIe2yAGe7wRstes15By7FN3En-H16CdHqDIHdORUUzHTqEEX6cRAaaPOUGV5rNtbJ2nZ0d1TXQCUSR9vAUlEiNafi6XNrV8XuV_kwMX6ZJMvpeuzfx8lQQjOnnqbfj-6rIK-ooOaG8sDMgrA-N0_InKEag_dxqQQRV4_5Zg.pkgUz_99yr1_q817Y1-c4PZbkXEHFo2rV90dD4IvKyc&dib_tag=se&keywords=casio%2Bcalculator%2Boriginal%2Bfx-991ms&qid=1790943881&sprefix=casio%2Bcalculator%2Boriginal%2B%2Caps%2C388&sr=8-10&th=1&linkCode=ll2&tag=civilcareer-21&linkId=0b29c4390bc4cbd364d700458fd8d1b9&ref_=as_li_ss_tl" data-category="calculator" data-search="casio fx 991ms 2nd generation fx-991ms-2 401 functions two line display non programmable calculator"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/61SzlNayopL._SL1100_.jpg" alt="GATE Civil Engineering solved previous-year question book cover" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/61oVkxpICRL._SL1200_.jpg" alt="GATE Civil Engineering solved-paper book product view" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/61HXfPgQcqL._SL1100_.jpg" alt="GATE Civil Engineering book additional product view" loading="lazy"></div><h2>Casio FX-991MS-2 Scientific Calculator</h2><p>Casio FX-991MS 2nd Generation non-programmable scientific calculator with 401 functions and a two-line display. Check your examination’s calculator rules before use.</p><div class="resource-meta"><span>FX-991MS-2</span><span>401 Functions</span><span>Non-Programmable</span><span>2-Line Display</span></div>
+</article><article class="resource-card" data-amazon-url="https://www.amazon.in/Casio-Non-Programmable-Scientific-Calculator-Functions/dp/B07TTGZWS1?crid=7MJNJBEKAIQ0&dib=eyJ2IjoiMSJ9.OC6QCpUbjW_1Vju0HNYt6LgwwJV68QqSKaiSmIDdAj1eHrTccFuYsvOVPD8qPdlpet5isIe2yAGe7wRstes15By7FN3En-H16CdHqDIHdORUUzHTqEEX6cRAaaPOUGV5rNtbJ2nZ0d1TXQCUSR9vAUlEiNafi6XNrV8XuV_kwMX6ZJMvpeuzfx8lQQjOnnqbfj-6rIK-ooOaG8sDMgrA-N0_InKEag_dxqQQRV4_5Zg.pkgUz_99yr1_q817Y1-c4PZbkXEHFo2rV90dD4IvKyc&dib_tag=se&keywords=casio%2Bcalculator%2Boriginal%2Bfx-991ms&qid=1790943881&sprefix=casio%2Bcalculator%2Boriginal%2B%2Caps%2C388&sr=8-10&th=1&linkCode=ll2&tag=civilcareer-21&linkId=0b29c4390bc4cbd364d700458fd8d1b9&ref_=as_li_ss_tl" data-category="calculator" data-search="casio fx 991ms 2nd generation fx-991ms-2 401 functions two line display non programmable calculator"><div class="resource-images"><img class="resource-image" src="https://m.media-amazon.com/images/I/61SzlNayopL._SL1100_.jpg" alt="Casio FX-991MS-2 Scientific Calculator — product view 1" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/61oVkxpICRL._SL1200_.jpg" alt="Casio FX-991MS-2 Scientific Calculator — product view 2" loading="lazy"><img class="resource-image" src="https://m.media-amazon.com/images/I/61HXfPgQcqL._SL1100_.jpg" alt="Casio FX-991MS-2 Scientific Calculator — product view 3" loading="lazy"></div><h2>Casio FX-991MS-2 Scientific Calculator</h2><p>Casio FX-991MS 2nd Generation non-programmable scientific calculator with 401 functions and a two-line display. Check your examination’s calculator rules before use.</p><div class="resource-meta"><span>FX-991MS-2</span><span>401 Functions</span><span>Non-Programmable</span><span>2-Line Display</span></div>
 <div class="resource-pricing" aria-label="Amazon price information">
     <div class="resource-price-row"><span>Actual selling price</span><strong class="price-muted" data-price-current>Check price on Amazon</strong></div>
     <div class="resource-price-row"><span>Original price / MRP</span><strong class="price-muted" data-price-original>Not available yet</strong></div>
@@ -918,11 +920,11 @@ body{background:#f5f6f7}
 </article>
 <article class="resource-card" data-amazon-url="https://www.amazon.in/Ladwa-Reflective-Strips-Jacket-Visibility/dp/B07TP7BDQD?crid=P00T466SYE2&dib=eyJ2IjoiMSJ9.JSWQZ1vIXu_XG4OyTfJSmit3ao-nAPzGIb5wLSjYUXz_cNGavDnakGJPGwxre_2vJemJOuS0S4yVzt5QJo_c5hMtNhW3ZtGaAvGZkNzIlyOZXOCHe7O9IApO_4FrIZG4vl5z_ZIuiurDsu9fFDa9ztnwV_NA43sbY3UBJffhv-ksrMTHIVDKNs2fnmhLROYYU_lH8Y3QKVpacB4t3FILNdgymIisvHqZHE3IaXN1Eh3Jhg-rVoIGtMwbGZuOqZhTLYwRJCdT_HCwc1mNzPfkJ-HcnIXmE1WuHlkDVuEZ4K0.p7e1X2KjEFuSEsMrf_xQHEy07BiAARwWcHuxyg55pAA&dib_tag=se&keywords=Construction%2Fsite+safety+products&qid=1790965950&sprefix=construction%2Fsite+safety+products%2Caps%2C1012&sr=8-5&linkCode=ll2&tag=civilcareer-21&linkId=775116b6a656445a3dbc5e763ae48869&ref_=as_li_ss_tl" data-category="core-civil" data-search="construction site safety products reflective safety jacket high visibility vest reflective strips road work construction site civil engineering personal protective equipment">
 <div class="resource-images">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/71rt3foYgHL._SL1254_.jpg" alt="Reflective safety jacket product image 1" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/71BsW2CKFIL._SL1254_.jpg" alt="Reflective safety jacket product image 2" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/717q4vIoeWL._SL1254_.jpg" alt="Reflective safety jacket product image 3" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/71z4lqUAVaL._SL1254_.jpg" alt="Reflective safety jacket product image 4" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/71LMbUGFaTL._SL1254_.jpg" alt="Reflective safety jacket product image 5" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/71rt3foYgHL._SL1254_.jpg" alt="Reflective Safety Jacket — High Visibility — product view 1" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/71BsW2CKFIL._SL1254_.jpg" alt="Reflective Safety Jacket — High Visibility — product view 2" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/717q4vIoeWL._SL1254_.jpg" alt="Reflective Safety Jacket — High Visibility — product view 3" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/71z4lqUAVaL._SL1254_.jpg" alt="Reflective Safety Jacket — High Visibility — product view 4" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/71LMbUGFaTL._SL1254_.jpg" alt="Reflective Safety Jacket — High Visibility — product view 5" loading="lazy">
 </div>
 <div class="resource-type">Construction · Site Safety</div>
 <h2>Reflective Safety Jacket — High Visibility</h2>
@@ -944,11 +946,11 @@ body{background:#f5f6f7}
 
 </article><article class="resource-card" data-amazon-url="https://www.amazon.in/dp/B0BS3JDQZN?tag=civilcareer-21" data-category="core-civil" data-search="construction site safety products safety helmet hard hat industrial protective equipment civil engineering site work">
 <div class="resource-images">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/51Bnqs+ipNL._SL1080_.jpg" alt="VENUS H-2000 safety helmet product image 1" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/61uFgR-SZ8L._SL1102_.jpg" alt="VENUS H-2000 safety helmet product image 2" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/61sjr37CRLL._SL1100_.jpg" alt="VENUS H-2000 safety helmet product image 3" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/61Ypr-xNc5L._SL1100_.jpg" alt="VENUS H-2000 safety helmet product image 4" loading="lazy">
-<img class="resource-image" src="https://m.media-amazon.com/images/I/71OPzkNoWDL._SL1500_.jpg" alt="VENUS H-2000 safety helmet product image 5" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/51Bnqs+ipNL._SL1080_.jpg" alt="VENUS H-2000 Safety Helmet — Construction — product view 1" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/61uFgR-SZ8L._SL1102_.jpg" alt="VENUS H-2000 Safety Helmet — Construction — product view 2" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/61sjr37CRLL._SL1100_.jpg" alt="VENUS H-2000 Safety Helmet — Construction — product view 3" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/61Ypr-xNc5L._SL1100_.jpg" alt="VENUS H-2000 Safety Helmet — Construction — product view 4" loading="lazy">
+<img class="resource-image" src="https://m.media-amazon.com/images/I/71OPzkNoWDL._SL1500_.jpg" alt="VENUS H-2000 Safety Helmet — Construction — product view 5" loading="lazy">
 </div>
 <div class="resource-type">Construction · Site Safety</div>
 <h2>VENUS H-2000 Safety Helmet — Construction</h2>
@@ -974,6 +976,24 @@ body{background:#f5f6f7}
 <a href="{{ url_for('home') }}">Home</a> · <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a> · <a href="{{ url_for('terms_and_conditions') }}">Terms &amp; Conditions</a> · <a href="{{ url_for('disclaimer') }}">Disclaimer</a> · <a href="{{ url_for('contact') }}">Contact Us</a>
 </div>
 </main>
+<script>
+(function () {
+    document.querySelectorAll('.resource-images').forEach(function (gallery) {
+        const images = Array.from(gallery.querySelectorAll('img'));
+        images.forEach(function (img) {
+            img.addEventListener('error', function () {
+                img.hidden = true;
+                if (!gallery.querySelector('img:not([hidden])')) {
+                    gallery.classList.add('resource-images-unavailable');
+                    gallery.textContent = 'Product image currently unavailable';
+                }
+            }, {once:true});
+            if (img.complete && img.naturalWidth === 0) img.dispatchEvent(new Event('error'));
+        });
+    });
+})();
+</script>
+
 <script>
 (function(){
     const search = document.getElementById('resourceSearch');

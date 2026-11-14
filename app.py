@@ -1201,6 +1201,14 @@ def recommended_resources():
     )
 
 
+@app.route("/reference-materials")
+def reference_materials():
+    # Reference textbooks are kept separate from affiliate product recommendations.
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    return render_template("reference_materials.html")
+
+
 # ==============================
 # PUBLIC / ADSENSE READINESS PAGES
 # ==============================

@@ -8,30 +8,281 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/civil-career-icon.svg') }}">
 <style>
-.reference-page{max-width:1180px;margin:0 auto;padding:42px 24px 72px;color:#17324d}
-.reference-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
-.reference-brand img{width:38px;height:38px;object-fit:contain}
-.reference-brand strong{font-size:16px;letter-spacing:.02em}
-.reference-intro{max-width:900px;margin:0 auto 28px;text-align:center}
-.reference-kicker{display:inline-block;margin-bottom:10px;color:#2f6f9f;font-size:12px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
-.reference-intro h1{margin:0 0 12px;color:#17324d;font-size:clamp(27px,4vw,38px);line-height:1.2}
-.reference-intro p{margin:0;color:#627487;font-size:15px;line-height:1.7}
-.reference-section{padding:26px;background:#fff;border:1px solid #d7e0e8;border-top:4px solid #2f6f9f;border-radius:8px;box-shadow:0 4px 16px rgba(23,50,77,.045)}
-.reference-section h2{margin:0 0 8px;color:#17324d;font-size:24px;line-height:1.35}
-.reference-section>p{margin:0 0 18px;color:#627487;font-size:14px;line-height:1.7}
-.reference-table-wrap{width:100%;overflow-x:auto;border:1px solid #dce4ea;border-radius:6px}
-.reference-table{width:100%;min-width:760px;border-collapse:collapse;background:#fff}
-.reference-table th{padding:13px 12px;background:#17324d;color:#fff;text-align:left;font-size:12px;letter-spacing:.04em;white-space:nowrap}
-.reference-table td{padding:12px;border-bottom:1px solid #e7edf2;color:#334b60;font-size:13px;line-height:1.55;vertical-align:top}
-.reference-table tbody tr:nth-child(even){background:#f7f9fb}
-.reference-table tbody tr:last-child td{border-bottom:0}
-.reference-table td:first-child{width:65px;color:#2f6f9f;font-weight:800;font-variant-numeric:tabular-nums}
-.reference-table td:nth-child(2){min-width:190px;font-weight:700;color:#17324d}
-.reference-table td:nth-child(3){min-width:120px;white-space:nowrap}
-.reference-note{margin:14px 0 0;color:#718096;font-size:12px;line-height:1.7}
-.reference-footer{margin-top:28px;text-align:center;color:#68798a;font-size:13px}
-.reference-footer a{color:#1f5f8b;text-decoration:none}
-@media(max-width:650px){.reference-page{padding:34px 16px 54px}.reference-section{padding:16px}.reference-section h2{font-size:21px}.reference-intro p{font-size:14px}}
+:root {
+  --ref-navy:#17324d;
+  --ref-blue:#2e6288;
+  --ref-gold:#b88950;
+  --ref-ink:#243746;
+  --ref-muted:#687987;
+  --ref-line:#dce4e9;
+  --ref-paper:#ffffff;
+  --ref-bg:#f3f5f6;
+}
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  background:var(--ref-bg);
+  color:var(--ref-ink);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.reference-page {
+  width:min(1160px,calc(100% - 48px));
+  margin:0 auto;
+  padding:34px 0 66px;
+}
+.reference-brand {
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  margin:0 0 22px;
+  padding:0 2px;
+}
+.reference-brand img { width:42px;height:42px;object-fit:contain; }
+.reference-brand strong {
+  color:var(--ref-navy);
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.15em;
+}
+.reference-intro {
+  position:relative;
+  overflow:hidden;
+  margin:0 0 30px;
+  padding:42px 46px 38px;
+  color:#fff;
+  background:var(--ref-navy);
+  border-top:4px solid var(--ref-gold);
+  border-radius:3px;
+  box-shadow:0 9px 25px rgba(23,50,77,.09);
+}
+.reference-intro:after {
+  content:"";
+  position:absolute;
+  right:-88px;
+  bottom:-175px;
+  width:360px;
+  height:360px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:50%;
+  box-shadow:0 0 0 28px rgba(255,255,255,.025),0 0 0 58px rgba(255,255,255,.02);
+  pointer-events:none;
+}
+.reference-kicker {
+  position:relative;
+  z-index:1;
+  display:block;
+  margin:0 0 13px;
+  color:#e4c18f;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+.reference-intro h1 {
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  margin:0 0 13px;
+  color:#fff;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(31px,4vw,44px);
+  font-weight:600;
+  letter-spacing:-.55px;
+  line-height:1.14;
+}
+.reference-intro p {
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  margin:0;
+  color:#d8e1e8;
+  font-size:14px;
+  line-height:1.8;
+}
+.reference-highlights {
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:24px;
+}
+.reference-highlights span {
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 11px;
+  color:#e9edf0;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:2px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.045em;
+}
+.reference-section {
+  padding:28px 30px 24px;
+  background:var(--ref-paper);
+  border:1px solid var(--ref-line);
+  border-radius:4px;
+  box-shadow:0 3px 13px rgba(23,50,77,.035);
+}
+.reference-section-heading {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin:0 0 9px;
+}
+.reference-section h2 {
+  margin:0;
+  color:var(--ref-navy);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:25px;
+  font-weight:600;
+  letter-spacing:-.2px;
+  line-height:1.3;
+}
+.reference-count {
+  flex:none;
+  color:#8a673f;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  white-space:nowrap;
+}
+.reference-section>p {
+  max-width:900px;
+  margin:0 0 21px;
+  color:var(--ref-muted);
+  font-size:13px;
+  line-height:1.75;
+}
+.reference-table-wrap {
+  width:100%;
+  overflow-x:auto;
+  border:1px solid var(--ref-line);
+  border-radius:3px;
+  scrollbar-color:#b7c3cc #f1f4f6;
+}
+.reference-table {
+  width:100%;
+  min-width:790px;
+  border-collapse:separate;
+  border-spacing:0;
+  background:#fff;
+}
+.reference-table th {
+  position:sticky;
+  top:0;
+  z-index:1;
+  padding:14px 13px;
+  color:#fff;
+  background:#24445f;
+  border-bottom:2px solid var(--ref-gold);
+  text-align:left;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  white-space:nowrap;
+}
+.reference-table td {
+  padding:13px;
+  color:#4d5f6d;
+  border-bottom:1px solid #e9eef1;
+  font-size:12.5px;
+  line-height:1.6;
+  vertical-align:top;
+}
+.reference-table tbody tr {
+  transition:background-color .15s ease;
+}
+.reference-table tbody tr:nth-child(even) { background:#f8fafb; }
+.reference-table tbody tr:hover { background:#f0f5f8; }
+.reference-table tbody tr:last-child td { border-bottom:0; }
+.reference-table td:first-child {
+  width:58px;
+  color:#9b713e;
+  font-size:11px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+.reference-table td:nth-child(2) {
+  min-width:190px;
+  color:var(--ref-navy);
+  font-weight:700;
+}
+.reference-table td:nth-child(3) {
+  min-width:116px;
+  color:#657786;
+  white-space:nowrap;
+}
+.reference-table td:nth-child(4) {
+  min-width:390px;
+  color:#435666;
+}
+.reference-note {
+  display:flex;
+  gap:11px;
+  margin:17px 0 0;
+  padding:14px 16px;
+  color:#657582;
+  background:#f7f8f8;
+  border-left:3px solid var(--ref-gold);
+  font-size:11.5px;
+  line-height:1.75;
+}
+.reference-note:before {
+  content:"NOTE";
+  flex:none;
+  padding-top:1px;
+  color:#8b673c;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+.reference-footer {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:9px 13px;
+  margin:27px 0 0;
+  color:#84919b;
+  font-size:11px;
+  line-height:1.8;
+}
+.reference-footer a {
+  color:#526c7e;
+  text-decoration:none;
+  transition:color .15s ease;
+}
+.reference-footer a:hover { color:#a1743f;text-decoration:underline; }
+@media(max-width:700px) {
+  .reference-page { width:calc(100% - 28px);padding:24px 0 48px; }
+  .reference-brand { margin-bottom:17px; }
+  .reference-brand img { width:38px;height:38px; }
+  .reference-intro { padding:30px 23px 27px;margin-bottom:19px; }
+  .reference-intro h1 { font-size:31px; }
+  .reference-intro p { font-size:13px; }
+  .reference-highlights { gap:7px;margin-top:18px; }
+  .reference-highlights span { font-size:9px;padding:0 9px; }
+  .reference-section { padding:20px 14px 17px; }
+  .reference-section-heading { display:block;margin-bottom:9px; }
+  .reference-section h2 { font-size:22px; }
+  .reference-count { display:inline-block;margin-top:8px; }
+  .reference-section>p { margin-bottom:15px;font-size:12px; }
+  .reference-table { min-width:740px; }
+  .reference-table th { padding:12px 10px;font-size:9px; }
+  .reference-table td { padding:11px 10px;font-size:12px; }
+  .reference-note { padding:12px;font-size:11px; }
+  .reference-footer { gap:7px 10px;font-size:10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .reference-table tbody tr,.reference-footer a { transition:none; }
+}
 </style>
 </head>
 <body>
@@ -44,9 +295,17 @@
 <div class="reference-kicker">Civil Career · Learning References</div>
 <h1>Reference Materials / TextBooks</h1>
 <p>Subject-wise recommended reference books for Civil Engineering Diploma, B.Tech, GATE and competitive examination preparation.</p>
+<div class="reference-highlights">
+<span>20 SUBJECT AREAS</span>
+<span>DIPLOMA &amp; B.TECH</span>
+<span>GATE &amp; COMPETITIVE EXAMS</span>
+</div>
 </header>
 <section class="reference-section" aria-labelledby="referenceBooksTitle">
+<div class="reference-section-heading">
 <h2 id="referenceBooksTitle">Civil Engineering Reference Books</h2>
+<span class="reference-count">SUBJECT-WISE READING LIST</span>
+</div>
 <p>Subject-wise reference books for Diploma, B.Tech, GATE and competitive examination preparation. Use the volume details shown where a book is commonly published in multiple volumes.</p>
 <div class="reference-table-wrap">
 <table class="reference-table">

@@ -157,6 +157,13 @@ app.secret_key = os.environ.get(
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+# Render serves production over HTTPS; require HTTPS for session cookies there.
+# Keep local development on HTTP usable while retaining Railway compatibility.
+app.config["SESSION_COOKIE_SECURE"] = (
+    os.environ.get("RENDER", "").lower() == "true"
+    or os.environ.get("FLASK_ENV", "").lower() == "production"
+    or bool(os.environ.get("RAILWAY_PUBLIC_DOMAIN"))
+)
 app.config["PERMANENT_SESSION_LIFETIME"] = 1800
 app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 

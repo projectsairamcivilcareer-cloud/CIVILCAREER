@@ -22,7 +22,7 @@ SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 # entry points; some authorities publish notices as PDFs or client-rendered pages,
 # so users must always confirm the latest details on the linked official portal.
 OFFICIAL_SOURCES = [
-    ("UPSC", "https://www.upsc.gov.in/recruitment/recruitment-advertisement", "https://upsconline.nic.in/"),
+    ("UPSC", "https://www.upsc.gov.in/advertisements/", "https://upsconline.nic.in/"),
     ("SSC", "https://ssc.gov.in/", "https://ssc.gov.in/"),
     ("APPSC", "https://portal-psc.ap.gov.in/", "https://portal-psc.ap.gov.in/"),
     ("TGPSC", "https://www.tgpsc.gov.in/", "https://www.tgpsc.gov.in/"),

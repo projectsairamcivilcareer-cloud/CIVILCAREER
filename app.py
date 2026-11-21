@@ -161,6 +161,7 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 # Keep local development on HTTP usable while retaining Railway compatibility.
 app.config["SESSION_COOKIE_SECURE"] = (
     os.environ.get("RENDER", "").lower() == "true"
+    or bool(os.environ.get("RENDER_EXTERNAL_URL"))
     or os.environ.get("FLASK_ENV", "").lower() == "production"
     or bool(os.environ.get("RAILWAY_PUBLIC_DOMAIN"))
 )

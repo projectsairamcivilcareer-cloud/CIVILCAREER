@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email | Civil Career</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <style>
+        .verify-card { max-width: 480px; margin: 36px auto; padding: 28px; background: #fff; border: 1px solid #dbe3ec; border-radius: 12px; }
+        .verify-card h2 { margin-top: 0; color: #12355b; }
+        .verify-code { width: 100%; box-sizing: border-box; padding: 12px; font-size: 1.15rem; letter-spacing: .2em; text-align: center; }
+        .verify-note { color: #526173; line-height: 1.6; }
+        .verify-alert { margin: 12px 0; padding: 12px; border-radius: 8px; line-height: 1.5; }
+        .verify-error { background: #fff1f1; color: #9b1c1c; border: 1px solid #f1b6b6; }
+        .verify-message { background: #eef8f1; color: #17653a; border: 1px solid #b6dfc2; }
+        .verify-actions { margin-top: 14px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="/" aria-label="Civil Career Home"><img src="/static/images/civil-career-brand.svg" alt="CIVIL CAREER — Learn, Practice, Build Your Career" style="display:block;width:260px;max-width:45vw;height:auto;"></a></div>
+        <div class="nav-links"><a href="/">Home</a><a href="/about">About</a><a href="/logout">Logout</a></div>
+    </nav>
+    <main class="login-page">
+        <section class="verify-card">
+            <h2>Verify your email</h2>
+            <p class="verify-note">We sent a 6-digit verification code to <strong>{{ email }}</strong>. Enter the code to finish setting up your CIVIL CAREER account. The code expires in 10 minutes.</p>
+            {% if error %}<div class="verify-alert verify-error" role="alert">{{ error }}</div>{% endif %}
+            {% if message %}<div class="verify-alert verify-message" role="status">{{ message }}</div>{% endif %}
+            <form method="POST" action="/verify-email">
+                <label for="code">Verification code</label>
+                <input class="verify-code" type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="000000">
+                <button type="submit" class="login-button verify-actions">VERIFY EMAIL</button>
+            </form>
+            <form method="POST" action="/verify-email" class="verify-actions">
+                <input type="hidden" name="action" value="resend">
+                <button type="submit" class="login-button">RESEND CODE</button>
+            </form>
+            <p class="verify-note">Codes can be requested once every 60 seconds. After five incorrect attempts, request a new code.</p>
+        </section>
+    </main>
+    <footer class="footer"><p>© 2026 CIVIL CAREER | Civil Engineering Career Platform</p></footer>
+</body>
+</html>

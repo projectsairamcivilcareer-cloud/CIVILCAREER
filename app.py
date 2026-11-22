@@ -617,6 +617,9 @@ def create_database():
         ("verification_expires_at", "TEXT"),
         ("password_reset_code", "TEXT"),
         ("password_reset_expires_at", "TEXT"),
+        ("verification_required", "INTEGER NOT NULL DEFAULT 0"),
+        ("email_verification_attempts", "INTEGER NOT NULL DEFAULT 0"),
+        ("email_verification_sent_at", "TEXT"),
     ]:
         if column_name not in student_columns:
             connection.execute(f"ALTER TABLE students ADD COLUMN {column_name} {column_type}")
@@ -8049,27 +8052,32 @@ def register():
 
         if not all([name, email, education, password, confirm_password, country_code, mobile]):
             return render_template("register.html", error="All fields including country and mobile number are required.")
+        if not re.match(r"^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", email):
+            return render_template("register.html", error="Enter a valid email address.")
+        if len(password) < 8:
+            return render_template("register.html", error="Password must be at least 8 characters.")
         if password != confirm_password:
             return render_template("register.html", error="Passwords do not match.")
         if len(mobile) < 7 or len(mobile) > 15:
             return render_template("register.html", error="Enter a valid mobile number.")
 
         connection = get_db_connection()
+        otp = str(secrets.randbelow(900000) + 100000
+        )
+        otp_hash = generate_password_hash(otp)
+        sent_at = datetime.utcnow().isoformat()
         try:
             connection.execute(
                 """INSERT INTO students
                 (name, email, education, password, user_id, mobile_country_code, mobile_number,
                  email_verified, mobile_verified, email_verification_code,
-                 mobile_verification_code, verification_expires_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, 1, 1, NULL, NULL, NULL)""",
+                 mobile_verification_code, verification_expires_at,
+                 verification_required, email_verification_attempts, email_verification_sent_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, ?, NULL, ?, 1, 0, ?)""",
                 (
-                    name,
-                    email,
-                    education,
-                    generate_password_hash(password),
-                    _generate_user_id(connection, name),
-                    country_code,
-                    mobile,
+                    name, email, education, generate_password_hash(password),
+                    _generate_user_id(connection, name), country_code, mobile,
+                    otp_hash, _verification_expiry(), sent_at,
                 )
             )
             connection.commit()
@@ -8079,11 +8087,9 @@ def register():
             return render_template("register.html", error="This email is already registered.")
 
         student = connection.execute(
-            "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1",
-            (email,)
+            "SELECT * FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)
         ).fetchone()
         connection.close()
-
         if not student:
             return render_template("register.html", error="Registration could not be completed. Please try again.")
 
@@ -8094,10 +8100,116 @@ def register():
         session["student_email"] = student["email"]
         session["student_education"] = student["education"]
 
-        return redirect(url_for("profile", required=1))
+        try:
+            sent = _send_verification_email(email, otp, subject="Civil Career - Verify Your Email", purpose="email verification")
+        except Exception as exc:
+            print("[REGISTRATION OTP ERROR]", type(exc).__name__, exc, flush=True)
+            sent = False
+        return redirect(url_for("verify_email", sent=1 if sent else 0))
 
     return render_template("register.html")
 
+
+
+
+
+# =========================================================
+# EMAIL VERIFICATION FOR NEW REGISTRATIONS
+# =========================================================
+
+@app.route("/verify-email", methods=["GET", "POST"])
+def verify_email():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+    student_id = session["student_id"]
+    connection = get_db_connection()
+    student = connection.execute(
+        "SELECT id, email, email_verified, email_verification_code, verification_expires_at, email_verification_attempts, email_verification_sent_at, verification_required FROM students WHERE id=?",
+        (student_id,)
+    ).fetchone()
+    if not student:
+        connection.close()
+        session.clear()
+        return redirect(url_for("login"))
+    if not int(student["verification_required"] or 0) or int(student["email_verified"] or 0):
+        connection.close()
+        return redirect(url_for("profile"))
+
+    message = None
+    error = None
+    if request.method == "POST":
+        action = str(request.form.get("action", "verify")).strip().lower()
+        if action == "resend":
+            last_sent = student["email_verification_sent_at"]
+            try:
+                cooldown = last_sent and (datetime.utcnow() - datetime.fromisoformat(str(last_sent))).total_seconds() < 60
+            except (ValueError, TypeError):
+                cooldown = False
+            if cooldown:
+                error = "Please wait 60 seconds between code requests."
+            else:
+                otp = str(secrets.randbelow(900000) + 100000)
+                otp_hash = generate_password_hash(otp)
+                connection.execute("UPDATE students SET email_verification_code=?, verification_expires_at=?, email_verification_attempts=0, email_verification_sent_at=? WHERE id=?", (otp_hash, _verification_expiry(), datetime.utcnow().isoformat(), student_id))
+                connection.commit()
+                try:
+                    sent = _send_verification_email(student["email"], otp, subject="Civil Career - Verify Your Email", purpose="email verification")
+                except Exception as exc:
+                    print("[EMAIL VERIFICATION RESEND ERROR]", type(exc).__name__, exc, flush=True)
+                    sent = False
+                message = "A new code was sent." if sent else "Email delivery failed. Please try again later."
+        else:
+            code = str(request.form.get("code", "")).strip()
+            attempts = int(student["email_verification_attempts"] or 0)
+            if attempts >= 5:
+                error = "Too many incorrect attempts. Request a new code to continue."
+            else:
+                expires = student["verification_expires_at"]
+                try:
+                    expired = not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow()
+                except (ValueError, TypeError):
+                    expired = True
+                stored = str(student["email_verification_code"] or "")
+                valid_code = False
+                if not expired and code and stored:
+                    try:
+                        valid_code = check_password_hash(stored, code)
+                    except (ValueError, TypeError):
+                        valid_code = False
+                if valid_code:
+                    connection.execute("UPDATE students SET email_verified=1, verification_required=0, email_verification_code=NULL, verification_expires_at=NULL, email_verification_attempts=0 WHERE id=?", (student_id,))
+                    connection.commit()
+                    connection.close()
+                    return redirect(url_for("profile", message="Email verified successfully.", required=1))
+                connection.execute("UPDATE students SET email_verification_attempts=email_verification_attempts+1 WHERE id=?", (student_id,))
+                connection.commit()
+                error = "Invalid or expired verification code. Please check it or request a new one."
+    connection.close()
+    return render_template("verify_email.html", email=student["email"], error=error, message=message)
+
+
+
+# =========================================================
+# VERIFICATION ACCESS GUARD
+# Existing accounts remain exempt; only explicitly flagged new signups are gated.
+# =========================================================
+
+@app.before_request
+def restrict_unverified_new_accounts():
+    student_id = session.get("student_id")
+    if not student_id or request.endpoint in {"verify_email", "login", "register", "profile", "logout", "auto_logout", "public_session_guard", "static"}:
+        return None
+    try:
+        connection = get_db_connection()
+        status = connection.execute("SELECT verification_required, email_verified FROM students WHERE id=?", (student_id,)).fetchone()
+        connection.close()
+        if status and int(status["verification_required"] or 0) and not int(status["email_verified"] or 0):
+            return redirect(url_for("verify_email"))
+    except Exception as exc:
+        print("[VERIFICATION GUARD ERROR]", type(exc).__name__, flush=True)
+        # Fail open for transient DB errors to avoid blocking existing sessions.
+        return None
+    return None
 
 
 # =========================================================

@@ -234,8 +234,9 @@ def enforce_session_idle_timeout():
         ).fetchone()
         connection.close()
     except Exception:
-        # Preserve sessions through temporary database failures.
-        account = None
+        # If the database is temporarily unavailable, keep the session intact
+        # and let the application handle the underlying database error.
+        return None
     if account is None:
         session.clear()
         return redirect(url_for("login", logged_out=1))

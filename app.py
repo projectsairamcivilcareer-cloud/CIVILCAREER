@@ -110,7 +110,7 @@ def add_site_date_formatter(response):
             tag = match.group(0)
             if 'name="csrf_token"' in tag or "name='csrf_token'" in tag:
                 return tag
-            return tag[:-1] + hidden_token + ">"
+            return tag + hidden_token
         html = re.sub(r"<form\b[^>]*>", inject_form_token, html, flags=re.IGNORECASE)
         csrf_fetch_script = '<script>(function(){var meta=document.querySelector("meta[name=csrf-token]");if(!meta)return;var token=meta.content;var nativeFetch=window.fetch;window.fetch=function(input,init){init=init||{};var method=(init.method||(input&&input.method)||"GET").toUpperCase();if(method==="POST"){var url=typeof input==="string"?input:(input&&input.url)||"";try{var target=new URL(url,window.location.href);if(target.origin===window.location.origin){var headers=new Headers(init.headers||(input&&input.headers)||{});if(!headers.has("X-CSRF-Token"))headers.set("X-CSRF-Token",token);init.headers=headers;}}catch(e){} }return nativeFetch.call(this,input,init);};})();</script>'
         if "</body>" in html:

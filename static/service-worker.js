@@ -1,10 +1,11 @@
 const CACHE_NAME = "civil-career-pwa-v2";
 const OFFLINE_URL = "/static/offline.html";
+const APP_ICON = "/static/icons/civil-career-pwa.svg";
 
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.add(OFFLINE_URL))
+      .then(cache => cache.addAll([OFFLINE_URL, APP_ICON]))
       .then(() => self.skipWaiting())
   );
 });

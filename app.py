@@ -617,6 +617,8 @@ def create_database():
         ("verification_expires_at", "TEXT"),
         ("password_reset_code", "TEXT"),
         ("password_reset_expires_at", "TEXT"),
+        ("password_reset_attempts", "INTEGER NOT NULL DEFAULT 0"),
+        ("password_reset_requested_at", "TEXT"),
     ]:
         if column_name not in student_columns:
             connection.execute(f"ALTER TABLE students ADD COLUMN {column_name} {column_type}")
@@ -7979,8 +7981,19 @@ def forgot_password():
             connection.close()
             return render_template("forgot_password.html", message="If this email is registered, a password reset code has been sent.")
 
+        # One-minute cooldown to reduce OTP email abuse.
+        requested_at = student["password_reset_requested_at"]
+        if requested_at:
+            try:
+                last_request = datetime.fromisoformat(str(requested_at))
+                if datetime.utcnow() - last_request < timedelta(seconds=60):
+                    connection.close()
+                    return render_template("forgot_password.html", message="If this email is registered, a password reset code has been sent.")
+            except (TypeError, ValueError):
+                pass
+
         code = str(secrets.randbelow(900000) + 100000)
-        connection.execute("UPDATE students SET password_reset_code=?, password_reset_expires_at=? WHERE id=?", (code, _verification_expiry(), student["id"]))
+        connection.execute("UPDATE students SET password_reset_code=?, password_reset_expires_at=?, password_reset_attempts=0, password_reset_requested_at=? WHERE id=?", (generate_password_hash(code), _verification_expiry(), datetime.utcnow().isoformat(), student["id"]))
         connection.commit()
         connection.close()
 
@@ -8011,7 +8024,7 @@ def reset_password():
             return render_template("reset_password.html", error="Passwords do not match.", email=email)
 
         connection = get_db_connection()
-        student = connection.execute("SELECT id, password_reset_code, password_reset_expires_at FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
+        student = connection.execute("SELECT id, password_reset_code, password_reset_expires_at, password_reset_attempts FROM students WHERE lower(trim(email))=? LIMIT 1", (email,)).fetchone()
         if not student:
             connection.close()
             return render_template("reset_password.html", error="Invalid or expired reset request.", email=email)
@@ -8019,13 +8032,36 @@ def reset_password():
         expires = student["password_reset_expires_at"]
         try:
             expired = not expires or datetime.fromisoformat(str(expires)) < datetime.utcnow()
-        except ValueError:
+        except (TypeError, ValueError):
             expired = True
-        if expired or code != str(student["password_reset_code"] or ""):
+
+        stored_code = str(student["password_reset_code"] or "")
+        valid_code = False
+        if stored_code:
+            try:
+                if stored_code.startswith(("scrypt:", "pbkdf2:")):
+                    valid_code = check_password_hash(stored_code, code)
+                else:
+                    # A pre-existing plaintext code can finish once; new codes are hashed.
+                    valid_code = secrets.compare_digest(code, stored_code)
+            except (ValueError, TypeError):
+                valid_code = False
+
+        if expired:
             connection.close()
             return render_template("reset_password.html", error="Invalid or expired reset code.", email=email)
 
-        connection.execute("UPDATE students SET password=?, password_reset_code=NULL, password_reset_expires_at=NULL WHERE id=?", (generate_password_hash(password), student["id"]))
+        if not valid_code:
+            attempts = int(student["password_reset_attempts"] or 0) + 1
+            if attempts >= 5:
+                connection.execute("UPDATE students SET password_reset_code=NULL, password_reset_expires_at=NULL, password_reset_attempts=5 WHERE id=?", (student["id"],))
+            else:
+                connection.execute("UPDATE students SET password_reset_attempts=? WHERE id=?", (attempts, student["id"]))
+            connection.commit()
+            connection.close()
+            return render_template("reset_password.html", error="Invalid or expired reset code.", email=email)
+
+        connection.execute("UPDATE students SET password=?, password_reset_code=NULL, password_reset_expires_at=NULL, password_reset_attempts=0, password_reset_requested_at=NULL WHERE id=?", (generate_password_hash(password), student["id"]))
         connection.commit()
         connection.close()
         return redirect(url_for("login"))

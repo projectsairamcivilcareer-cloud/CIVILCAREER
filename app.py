@@ -225,6 +225,26 @@ def enforce_session_idle_timeout():
     if "student_id" not in session:
         return None
 
+    # Password change/reset increments this database version to revoke old sessions.
+    try:
+        connection = get_db_connection()
+        account = connection.execute(
+            "SELECT session_version FROM students WHERE id=?",
+            (session["student_id"],)
+        ).fetchone()
+        connection.close()
+    except Exception:
+        # If the database is temporarily unavailable, keep the session intact
+        # and let the application handle the underlying database error.
+        return None
+    if account is None:
+        session.clear()
+        return redirect(url_for("login", logged_out=1))
+    stored_version = int(account["session_version"] or 0)
+    if int(session.get("session_version", -1)) != stored_version:
+        session.clear()
+        return redirect(url_for("login", logged_out=1))
+
     # Leaving the authenticated application for a public page logs the user out.
     if request.endpoint in PUBLIC_SESSION_EXIT_ENDPOINTS:
         session.clear()
@@ -617,6 +637,7 @@ def create_database():
         ("verification_expires_at", "TEXT"),
         ("password_reset_code", "TEXT"),
         ("password_reset_expires_at", "TEXT"),
+        ("session_version", "INTEGER NOT NULL DEFAULT 0"),
     ]:
         if column_name not in student_columns:
             connection.execute(f"ALTER TABLE students ADD COLUMN {column_name} {column_type}")
@@ -1725,6 +1746,7 @@ def login():
             session["student_name"] = student["name"]
             session["student_email"] = student["email"]
             session["student_education"] = student["education"]
+            session["session_version"] = int(student["session_version"] or 0)
 
             if not student["user_id"]:
                 generated_id = _generate_user_id(connection, student["name"])
@@ -8025,7 +8047,7 @@ def reset_password():
             connection.close()
             return render_template("reset_password.html", error="Invalid or expired reset code.", email=email)
 
-        connection.execute("UPDATE students SET password=?, password_reset_code=NULL, password_reset_expires_at=NULL WHERE id=?", (generate_password_hash(password), student["id"]))
+        connection.execute("UPDATE students SET password=?, password_reset_code=NULL, password_reset_expires_at=NULL, session_version=session_version+1 WHERE id=?", (generate_password_hash(password), student["id"]))
         connection.commit()
         connection.close()
         return redirect(url_for("login"))
@@ -8093,6 +8115,7 @@ def register():
         session["student_name"] = student["name"]
         session["student_email"] = student["email"]
         session["student_education"] = student["education"]
+        session["session_version"] = int(student["session_version"] or 0)
 
         return redirect(url_for("profile", required=1))
 
@@ -8113,7 +8136,7 @@ def profile_change_password():
     confirm = str(request.form.get("confirm_password", ""))
 
     connection = get_db_connection()
-    student = connection.execute("SELECT password FROM students WHERE id=?", (session["student_id"],)).fetchone()
+    student = connection.execute("SELECT password, session_version FROM students WHERE id=?", (session["student_id"],)).fetchone()
 
     valid = False
     try:
@@ -8130,10 +8153,11 @@ def profile_change_password():
         return redirect(url_for("profile", error="New passwords must match and contain at least 6 characters"))
 
     connection.execute(
-        "UPDATE students SET password=? WHERE id=?",
+        "UPDATE students SET password=?, session_version=session_version+1 WHERE id=?",
         (generate_password_hash(new_password), session["student_id"])
     )
     connection.commit()
+    session["session_version"] = int(student["session_version"] or 0) + 1
     connection.close()
     return redirect(url_for("profile", message="Password changed successfully"))
 

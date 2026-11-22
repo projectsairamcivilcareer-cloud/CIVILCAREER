@@ -1734,6 +1734,10 @@ def login():
                 connection.execute("UPDATE students SET user_id=? WHERE id=?", (generated_id, student["id"]))
                 connection.commit()
 
+            if int(student.get("verification_required") or 0) and not int(student.get("email_verified") or 0):
+                connection.close()
+                return redirect(url_for("verify_email"))
+
             if _profile_incomplete(student):
                 connection.close()
                 return redirect(url_for("profile", required=1))
@@ -8052,7 +8056,7 @@ def register():
 
         if not all([name, email, education, password, confirm_password, country_code, mobile]):
             return render_template("register.html", error="All fields including country and mobile number are required.")
-        if not re.match(r"^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", email):
+        if not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", email):
             return render_template("register.html", error="Enter a valid email address.")
         if len(password) < 8:
             return render_template("register.html", error="Password must be at least 8 characters.")

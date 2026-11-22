@@ -74,6 +74,21 @@ from gate_mock_engine import GATE_SYLLABI, GATE_SYLLABUS, LATEST_GATE_SYLLABUS_Y
 
 app = Flask(__name__)
 
+# CSRF protection for all browser-originated POST requests.
+# Tokens are session-bound and injected into every HTML form and same-origin fetch.
+CSRF_SESSION_KEY = "_civilcareer_csrf_token"
+
+@app.before_request
+def protect_post_requests_with_csrf():
+    if request.method != "POST":
+        if not session.get(CSRF_SESSION_KEY):
+            session[CSRF_SESSION_KEY] = secrets.token_urlsafe(32)
+        return None
+    expected = session.get(CSRF_SESSION_KEY, "")
+    supplied = request.form.get("csrf_token", "") or request.headers.get("X-CSRF-Token", "")
+    if not expected or not supplied or not secrets.compare_digest(str(expected), str(supplied)):
+        return "CSRF validation failed. Refresh the page and try again.", 400
+
 @app.after_request
 def add_site_date_formatter(response):
     """Load the date display formatter on all HTML pages without changing stored/input dates."""
@@ -85,8 +100,24 @@ def add_site_date_formatter(response):
         html = html.replace("http://civilcareer.com", WEBSITE_URL)
 
         script_tag = '<script src="/static/js/date-format.js?v=20260927a" defer></script>'
-        if "</body>" in html and "date-format.js" not in html:
-            html = html.replace("</body>", script_tag + "</body>")
+        csrf_token = str(session.get(CSRF_SESSION_KEY, ""))
+        csrf_meta = '<meta name="csrf-token" content="' + csrf_token + '">'
+        if "</head>" in html and 'name="csrf-token"' not in html:
+            html = html.replace("</head>", csrf_meta + "</head>", 1)
+        hidden_token = '<input type="hidden" name="csrf_token" value="' + csrf_token + '">'
+        import re
+        def inject_form_token(match):
+            tag = match.group(0)
+            if 'name="csrf_token"' in tag or "name='csrf_token'" in tag:
+                return tag
+            return tag[:-1] + hidden_token + ">"
+        html = re.sub(r"<form\b[^>]*>", inject_form_token, html, flags=re.IGNORECASE)
+        csrf_fetch_script = '<script>(function(){var meta=document.querySelector("meta[name=csrf-token]");if(!meta)return;var token=meta.content;var nativeFetch=window.fetch;window.fetch=function(input,init){init=init||{};var method=(init.method||(input&&input.method)||"GET").toUpperCase();if(method==="POST"){var url=typeof input==="string"?input:(input&&input.url)||"";try{var target=new URL(url,window.location.href);if(target.origin===window.location.origin){var headers=new Headers(init.headers||(input&&input.headers)||{});if(!headers.has("X-CSRF-Token"))headers.set("X-CSRF-Token",token);init.headers=headers;}}catch(e){} }return nativeFetch.call(this,input,init);};})();</script>'
+        if "</body>" in html:
+            if 'name="csrf-token"' in html and "nativeFetch=window.fetch" not in html:
+                html = html.replace("</body>", csrf_fetch_script + "</body>", 1)
+            if "date-format.js" not in html:
+                html = html.replace("</body>", script_tag + "</body>", 1)
         response.set_data(html)
     return response
 

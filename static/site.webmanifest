@@ -1,14 +1,18 @@
 {
+  "id": "/",
   "name": "CIVIL CAREER",
   "short_name": "Civil Career",
+  "description": "Civil Engineering learning, syllabus, practice and career preparation.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
-  "theme_color": "#0B1F3A",
+  "theme_color": "#062957",
+  "categories": ["education", "productivity"],
   "icons": [
     {
-      "src": "/static/images/civil-career-icon.svg",
+      "src": "/static/icons/civil-career-pwa.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

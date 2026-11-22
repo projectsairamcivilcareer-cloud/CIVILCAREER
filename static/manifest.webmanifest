@@ -1,16 +1,21 @@
 {
   "id": "/",
-  "name": "Civil Career",
-  "short_name": "CivilCareer",
-  "description": "Civil Engineering exams, jobs, syllabus, study materials and mock tests.",
+  "name": "CIVIL CAREER",
+  "short_name": "Civil Career",
+  "description": "Civil Engineering learning, syllabus, practice and career preparation.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#f4f7fb",
-  "theme_color": "#123b65",
+  "background_color": "#ffffff",
+  "theme_color": "#062957",
   "categories": ["education", "productivity"],
   "icons": [
-    {"src": "/static/icons/civilcareer-app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}
+    {
+      "src": "/static/icons/civil-career-pwa.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
   ]
 }

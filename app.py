@@ -181,10 +181,17 @@ os.makedirs(
     exist_ok=True
 )
 
-app.secret_key = os.environ.get(
-    "SECRET_KEY",
-    "civil-career-development-key"
+# Production must never run with a predictable development secret.
+_secret_key = os.environ.get("SECRET_KEY", "").strip()
+_is_production = (
+    os.environ.get("RENDER", "").lower() == "true"
+    or bool(os.environ.get("RENDER_EXTERNAL_URL"))
+    or os.environ.get("FLASK_ENV", "").lower() == "production"
+    or bool(os.environ.get("RAILWAY_PUBLIC_DOMAIN"))
 )
+if _is_production and not _secret_key:
+    raise RuntimeError("SECRET_KEY must be configured in the production environment.")
+app.secret_key = _secret_key or "civil-career-development-key"
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
@@ -1716,7 +1723,13 @@ def login():
                 connection.commit()
 
             # LOGIN SUCCESS
-            
+            # Clear any pre-authentication session state and rotate the server-side
+            # session identifier to reduce session-fixation risk.
+            session.clear()
+            session_interface = app.session_interface
+            regenerate_session = getattr(session_interface, "regenerate", None)
+            if callable(regenerate_session):
+                regenerate_session(session)
 
             # Store student information in session
             session["student_id"] = student["id"]

@@ -8139,7 +8139,7 @@ def verify_email():
         connection.close()
         return redirect(url_for("profile"))
 
-    message = None
+    message = "Verification email sent. Please check your inbox." if request.args.get("sent") == "1" else "Email delivery failed. You can try sending the code again." if request.args.get("sent") == "0" else None
     error = None
     if request.method == "POST":
         action = str(request.form.get("action", "verify")).strip().lower()

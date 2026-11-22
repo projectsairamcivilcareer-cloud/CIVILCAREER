@@ -1151,6 +1151,12 @@ def health():
 # HOME PAGE
 # ==============================
 
+@app.route("/favicon.ico")
+def favicon():
+    # Keep legacy browser favicon requests pointed at the current Civil Career icon.
+    return redirect(url_for("static", filename="images/civil-career-icon.svg"))
+
+
 @app.route("/")
 def home():
     # Home is a public landing page. It must never clear or replace an

@@ -24,13 +24,13 @@ SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 OFFICIAL_SOURCES = [
     ("UPSC", "https://www.upsc.gov.in/advertisements/", "https://upsconline.nic.in/"),
     ("SSC", "https://ssc.gov.in/", "https://ssc.gov.in/"),
-    ("APPSC", "https://portal-psc.ap.gov.in/", "https://portal-psc.ap.gov.in/"),
+    ("APPSC", "https://portal-psc.ap.gov.in/HomePages/RecruitmentNotifications", "https://portal-psc.ap.gov.in/"),
     ("TGPSC", "https://www.tgpsc.gov.in/", "https://www.tgpsc.gov.in/"),
-    ("RRB", "https://rrbsecunderabad.gov.in/employment-notice/", "https://www.rrbapply.gov.in/"),
+    ("RRB", "https://rrb.gov.in/", "https://www.rrbapply.gov.in/"),
     ("IBPS", "https://www.ibps.in/", "https://www.ibps.in/"),
     ("NHAI", "https://nhai.gov.in/nhai/taxonomy/term/248", "https://nhai.gov.in/"),
     ("Employment News", "https://employmentnews.gov.in/newemp/AllJobs.aspx?k=All", "https://employmentnews.gov.in/"),
-    ("UPSC Recruitment", "https://www.upsc.gov.in/recruitment/criteria-adopted", "https://upsconline.nic.in/"),
+    ("UPSC Recruitment", "https://upsc.gov.in/", "https://upsconline.nic.in/"),
 ]
 
 CIVIL_KEYWORDS = (

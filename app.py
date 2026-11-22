@@ -1322,7 +1322,8 @@ def privacy_policy():
         meta_description="Civil Career Privacy Policy covering account information, cookies, advertising and website data practices.",
         updated_text=_LEGAL_UPDATED_TEXT,
         sections=sections,
-        note="This page is provided for transparency about Civil Career's website and advertising-related data practices. It is not legal advice."
+        note="This page is provided for transparency about Civil Career's website and advertising-related data practices. It is not legal advice.",
+        canonical_url=f"{WEBSITE_URL}/privacy-policy"
     )
 
 
@@ -1393,7 +1394,8 @@ def terms_and_conditions():
         meta_description="Civil Career Terms and Conditions for using the website, accounts, educational resources and preparation features.",
         updated_text=_LEGAL_UPDATED_TEXT,
         sections=sections,
-        note="By continuing to use Civil Career, you acknowledge these terms and agree to use the service responsibly."
+        note="By continuing to use Civil Career, you acknowledge these terms and agree to use the service responsibly.",
+        canonical_url=f"{WEBSITE_URL}/terms-and-conditions"
     )
 
 
@@ -1449,7 +1451,8 @@ def disclaimer():
         meta_description="Civil Career Disclaimer covering educational content, official-source verification and external links.",
         updated_text=_LEGAL_UPDATED_TEXT,
         sections=sections,
-        note="For examination, recruitment and academic decisions, the applicable official notification, syllabus or authority should be treated as the final source."
+        note="For examination, recruitment and academic decisions, the applicable official notification, syllabus or authority should be treated as the final source.",
+        canonical_url=f"{WEBSITE_URL}/disclaimer"
     )
 
 
